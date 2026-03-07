@@ -11,6 +11,9 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QRController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DeveloperController;
+use App\Http\Controllers\SupportController;
+use App\Http\Controllers\SliderController;
+use App\Http\Controllers\EventController;
 
 // Demo menü — potansiyel müşterilerin test sayfasını görmesi için (Fake RESTORANT seeder gerekir)
 Route::get('/demo', function () {
@@ -82,6 +85,30 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::post('/products/{id}/inline-update', [ProductController::class, 'inlineUpdate'])->name('products.inline-update');
     Route::post('/products/reorder', [ProductController::class, 'reorder'])->name('products.reorder');
 
+    // Support (all roles)
+    Route::get('/support', [SupportController::class, 'index'])->name('support.index');
+    Route::get('/support/create', [SupportController::class, 'create'])->name('support.create');
+    Route::post('/support', [SupportController::class, 'store'])->name('support.store');
+    Route::get('/support/{id}', [SupportController::class, 'show'])->name('support.show');
+
+    // Premium gate page
+    Route::get('/premium', fn () => view('premium-gate'))->name('premium.gate');
+
+    // Premium features
+    Route::middleware('premium')->group(function () {
+        Route::get('/sliders', [SliderController::class, 'index'])->name('sliders.index');
+        Route::post('/sliders', [SliderController::class, 'store'])->name('sliders.store');
+        Route::delete('/sliders/{id}', [SliderController::class, 'destroy'])->name('sliders.destroy');
+        Route::post('/sliders/reorder', [SliderController::class, 'reorder'])->name('sliders.reorder');
+
+        Route::get('/events', [EventController::class, 'index'])->name('events.index');
+        Route::get('/events/create', [EventController::class, 'create'])->name('events.create');
+        Route::post('/events', [EventController::class, 'store'])->name('events.store');
+        Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit');
+        Route::put('/events/{id}', [EventController::class, 'update'])->name('events.update');
+        Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy');
+    });
+
     // QR kod (auth)
     Route::get('/menu/qr', [QRController::class, 'menuQr'])->name('menu.qr');
     Route::get('/products/{id}/qr', [QRController::class, 'show'])->name('products.qr');
@@ -97,6 +124,10 @@ Route::middleware(['auth', 'role:developer'])->prefix('developer')->name('develo
     Route::post('/tenant/{id}/impersonate', [DeveloperController::class, 'impersonate'])->name('tenant.impersonate');
     Route::get('/users',                    [DeveloperController::class, 'users'])->name('users');
     Route::delete('/users/{id}',            [DeveloperController::class, 'destroyUser'])->name('users.destroy');
+    Route::post('/tenant/{id}/package',     [DeveloperController::class, 'togglePackage'])->name('tenant.package');
+    Route::get('/tickets',                  [DeveloperController::class, 'tickets'])->name('tickets');
+    Route::get('/tickets/{id}',             [DeveloperController::class, 'ticketShow'])->name('tickets.show');
+    Route::post('/tickets/{id}/reply',      [DeveloperController::class, 'ticketReply'])->name('tickets.reply');
     Route::get('/settings',                 [DeveloperController::class, 'settings'])->name('settings');
     Route::post('/settings',                [DeveloperController::class, 'updateSettings'])->name('settings.update');
 });

@@ -504,6 +504,38 @@
         </div>
     </header>
 
+    {{-- Slider Carousel (premium tenants) --}}
+    @if(isset($sliders) && $sliders->isNotEmpty())
+    <div id="menuSlider" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+        <div class="carousel-indicators">
+            @foreach($sliders as $i => $sl)
+            <button type="button" data-bs-target="#menuSlider" data-bs-slide-to="{{ $i }}" {!! $i === 0 ? 'class="active"' : '' !!}></button>
+            @endforeach
+        </div>
+        <div class="carousel-inner">
+            @foreach($sliders as $i => $sl)
+            <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
+                <img src="{{ asset('storage/' . $sl->image) }}" alt="{{ $sl->title }}" class="d-block w-100" style="height:200px;object-fit:cover;">
+                @if($sl->title || $sl->description)
+                <div class="carousel-caption d-block" style="background:linear-gradient(transparent,rgba(0,0,0,.6));bottom:0;left:0;right:0;padding:.75rem 1rem;">
+                    @if($sl->title)<div style="font-size:.88rem;font-weight:700">{{ $sl->title }}</div>@endif
+                    @if($sl->description)<div style="font-size:.72rem;opacity:.85;margin-top:.15rem">{{ Str::limit($sl->description, 80) }}</div>@endif
+                </div>
+                @endif
+            </div>
+            @endforeach
+        </div>
+        @if($sliders->count() > 1)
+        <button class="carousel-control-prev" type="button" data-bs-target="#menuSlider" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#menuSlider" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+        @endif
+    </div>
+    @endif
+
     <div class="toolbar">
         <div class="toolbar-inner">
             <button type="button" class="tb-cat-btn d-md-none" data-bs-toggle="offcanvas" data-bs-target="#catOffcanvas" aria-label="Kategoriler">
@@ -612,7 +644,7 @@
                         <span class="cat-header-count cat-count" data-cat-id="{{ $cat->id }}">{{ $totalInCat }} ürün</span>
                         <i class="bi bi-chevron-down cat-chevron"></i>
                     </button>
-                    <div class="collapse {{ $loop->first ? 'show' : '' }}" id="collapse-{{ $cat->id }}">
+                    <div class="collapse {{ $loop->first ? 'show' : '' }}" id="collapse-{{ $cat->id }}" data-bs-parent="#menuAccordion">
                     <div class="pt-2 pb-3">
                     @foreach($catProducts as $product)
                     <div class="prod" data-cat-id="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
@@ -892,5 +924,43 @@
         });
     }
     </script>
+
+    {{-- Event Modal (premium tenants) --}}
+    @if(isset($activeEvent) && $activeEvent)
+    <div class="modal fade" id="eventModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" style="max-width:380px">
+            <div class="modal-content" style="border-radius:16px;overflow:hidden;border:none;box-shadow:0 20px 60px rgba(0,0,0,.25)">
+                @if($activeEvent->image)
+                <img src="{{ asset('storage/' . $activeEvent->image) }}" alt="{{ $activeEvent->title }}" style="width:100%;height:180px;object-fit:cover;">
+                @endif
+                <div style="padding:1.25rem 1.1rem;text-align:center">
+                    <div style="font-size:1.1rem;font-weight:800;color:#1f2937;margin-bottom:.35rem">{{ $activeEvent->title }}</div>
+                    <div style="font-size:.72rem;color:#9ca3af;font-weight:600;margin-bottom:.6rem">
+                        <i class="bi bi-calendar3"></i>
+                        {{ \Carbon\Carbon::parse($activeEvent->start_date)->format('d.m.Y') }}
+                        @if($activeEvent->end_date) — {{ \Carbon\Carbon::parse($activeEvent->end_date)->format('d.m.Y') }} @endif
+                    </div>
+                    @if($activeEvent->description)
+                    <div style="font-size:.84rem;color:#4b5563;line-height:1.65">{!! nl2br(e($activeEvent->description)) !!}</div>
+                    @endif
+                    <button type="button" class="btn w-100 mt-3" data-bs-dismiss="modal"
+                            style="background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;font-size:.85rem;border-radius:12px;padding:.6rem">
+                        Tamam
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    (function(){
+        var key = 'eventSeen_{{ $activeEvent->id }}';
+        if (!sessionStorage.getItem(key)) {
+            var m = new bootstrap.Modal(document.getElementById('eventModal'));
+            m.show();
+            sessionStorage.setItem(key, '1');
+        }
+    })();
+    </script>
+    @endif
 </body>
 </html>

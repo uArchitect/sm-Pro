@@ -227,6 +227,9 @@ class DeveloperController extends Controller
             Storage::disk('public')->delete($tenant->logo);
         }
 
+        DB::table('support_tickets')->where('tenant_id', $id)->delete();
+        DB::table('sliders')->where('tenant_id', $id)->delete();
+        DB::table('events')->where('tenant_id', $id)->delete();
         DB::table('reviews')->where('tenant_id', $id)->delete();
         DB::table('qr_visits')->where('tenant_id', $id)->delete();
         DB::table('products')->where('tenant_id', $id)->delete();
@@ -266,6 +269,73 @@ class DeveloperController extends Controller
         DB::table('users')->where('id', Auth::id())->update($data);
 
         return back()->with('success', 'Ayarlar güncellendi.');
+    }
+
+    public function togglePackage(int $id)
+    {
+        $this->authDev();
+
+        $tenant = DB::table('tenants')->find($id);
+        if (!$tenant) abort(404);
+
+        $newPackage = ($tenant->package ?? 'basic') === 'premium' ? 'basic' : 'premium';
+        DB::table('tenants')->where('id', $id)->update([
+            'package'    => $newPackage,
+            'updated_at' => now(),
+        ]);
+
+        return back()->with('success', "{$tenant->restoran_adi} paketi '{$newPackage}' olarak güncellendi.");
+    }
+
+    public function tickets()
+    {
+        $this->authDev();
+
+        $tickets = DB::table('support_tickets')
+            ->join('tenants', 'support_tickets.tenant_id', '=', 'tenants.id')
+            ->join('users', 'support_tickets.user_id', '=', 'users.id')
+            ->select('support_tickets.*', 'tenants.restoran_adi', 'users.name as user_name')
+            ->orderByDesc('support_tickets.created_at')
+            ->get();
+
+        return view('developer.tickets', compact('tickets'));
+    }
+
+    public function ticketShow(int $id)
+    {
+        $this->authDev();
+
+        $ticket = DB::table('support_tickets')
+            ->join('tenants', 'support_tickets.tenant_id', '=', 'tenants.id')
+            ->join('users', 'support_tickets.user_id', '=', 'users.id')
+            ->select('support_tickets.*', 'tenants.restoran_adi', 'users.name as user_name', 'users.email as user_email')
+            ->where('support_tickets.id', $id)
+            ->first();
+
+        if (!$ticket) abort(404);
+
+        return view('developer.ticket-show', compact('ticket'));
+    }
+
+    public function ticketReply(Request $request, int $id)
+    {
+        $this->authDev();
+
+        $request->validate([
+            'admin_reply' => 'required|string|max:5000',
+        ]);
+
+        $ticket = DB::table('support_tickets')->find($id);
+        if (!$ticket) abort(404);
+
+        DB::table('support_tickets')->where('id', $id)->update([
+            'admin_reply' => $request->admin_reply,
+            'status'      => 'answered',
+            'replied_at'  => now(),
+            'updated_at'  => now(),
+        ]);
+
+        return back()->with('success', __('support.reply_sent'));
     }
 
     private function authDev(): void

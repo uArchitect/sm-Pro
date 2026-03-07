@@ -142,6 +142,9 @@
         <a href="{{ route('developer.users') }}" class="nav-item-link {{ request()->routeIs('developer.users') ? 'active' : '' }}">
             <i class="bi bi-people"></i> Tüm Kullanıcılar
         </a>
+        <a href="{{ route('developer.tickets') }}" class="nav-item-link {{ request()->routeIs('developer.tickets*') ? 'active' : '' }}">
+            <i class="bi bi-headset"></i> Destek Mesajları
+        </a>
 
         <div class="sidebar-section">Hesap</div>
         <a href="{{ route('developer.settings') }}" class="nav-item-link {{ request()->routeIs('developer.settings') ? 'active' : '' }}">

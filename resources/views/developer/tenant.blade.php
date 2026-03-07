@@ -33,6 +33,15 @@
         </button>
     </form>
 
+    <form method="POST" action="{{ route('developer.tenant.package', $tenant->id) }}" class="d-inline">
+        @csrf
+        @php $pkg = $tenant->package ?? 'basic'; @endphp
+        <button type="submit" class="toggle-btn {{ $pkg === 'premium' ? 'toggle-active' : 'toggle-passive' }}" style="{{ $pkg === 'premium' ? 'background:#fef3c7;color:#92400e;' : '' }}">
+            <i class="bi {{ $pkg === 'premium' ? 'bi-gem' : 'bi-box' }} me-1"></i>
+            {{ $pkg === 'premium' ? 'Premium' : 'Basic' }}
+        </button>
+    </form>
+
     @php $owner = $users->where('role', 'owner')->first(); @endphp
     @if($owner)
     <form method="POST" action="{{ route('developer.tenant.impersonate', $tenant->id) }}" class="d-inline">

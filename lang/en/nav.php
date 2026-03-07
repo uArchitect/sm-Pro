@@ -12,6 +12,12 @@ return [
         'products'      => 'Products',
         'qr_link'       => 'QR & Link',
         'menu_qr'       => 'My Menu QR Code',
+        'support'       => 'Support',
+        'premium'       => 'Premium',
+        'sliders'       => 'Slider',
+        'events'        => 'Events',
+        'ordering'      => 'Order Management',
+        'premium_badge' => 'Premium',
     ],
     'roles' => [
         'developer' => 'developer',

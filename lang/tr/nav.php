@@ -12,6 +12,12 @@ return [
         'products'      => 'Ürünler',
         'qr_link'       => 'QR & Bağlantı',
         'menu_qr'       => 'Menü QR Kodum',
+        'support'       => 'Destek',
+        'premium'       => 'Premium',
+        'sliders'       => 'Slider',
+        'events'        => 'Etkinlikler',
+        'ordering'      => 'Sipariş Yönetimi',
+        'premium_badge' => 'Premium',
     ],
     'roles' => [
         'developer' => 'geliştirici',

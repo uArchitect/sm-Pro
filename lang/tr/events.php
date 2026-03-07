@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'title'           => 'Etkinlikler',
+    'add'             => 'Etkinlik Ekle',
+    'edit'            => 'Etkinliği Düzenle',
+    'event_title'     => 'Etkinlik Adı',
+    'description'     => 'Açıklama',
+    'image'           => 'Görsel (opsiyonel)',
+    'start_date'      => 'Başlangıç Tarihi',
+    'end_date'        => 'Bitiş Tarihi (opsiyonel)',
+    'no_events'       => 'Henüz etkinlik yok.',
+    'add_first'       => 'İlk Etkinliği Ekle',
+    'delete_confirm'  => '":name" etkinliği silinsin mi?',
+    'saved'           => 'Etkinlik kaydedildi.',
+    'updated'         => 'Etkinlik güncellendi.',
+    'deleted'         => 'Etkinlik silindi.',
+    'active'          => 'Aktif',
+    'inactive'        => 'Pasif',
+    'premium_only'    => 'Etkinlik özelliği Premium pakete özeldir.',
+    'total'           => 'Toplam :count etkinlik',
+    'update'          => 'Güncelle',
+    'title_placeholder' => 'Örn: Canlı Müzik Gecesi',
+    'desc_placeholder'  => 'Etkinlik hakkında detay...',
+];

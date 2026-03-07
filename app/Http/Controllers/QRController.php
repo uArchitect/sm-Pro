@@ -118,8 +118,31 @@ class QRController extends Controller
             ->selectRaw('COUNT(*) as total, COALESCE(AVG(rating), 0) as avg_rating')
             ->first();
 
+        $sliders = collect();
+        $activeEvent = null;
+
+        if (($tenant->package ?? 'basic') === 'premium') {
+            $sliders = DB::table('sliders')
+                ->where('tenant_id', $tenantId)
+                ->where('is_active', true)
+                ->orderBy('sort_order')
+                ->get();
+
+            $activeEvent = DB::table('events')
+                ->where('tenant_id', $tenantId)
+                ->where('is_active', true)
+                ->where('start_date', '<=', today())
+                ->where(function ($q) {
+                    $q->whereNull('end_date')
+                      ->orWhere('end_date', '>=', today());
+                })
+                ->orderByDesc('created_at')
+                ->first();
+        }
+
         return view('public.menu', compact(
-            'tenant', 'categories', 'subCategories', 'products', 'reviews', 'reviewStats'
+            'tenant', 'categories', 'subCategories', 'products', 'reviews', 'reviewStats',
+            'sliders', 'activeEvent'
         ));
     }
 

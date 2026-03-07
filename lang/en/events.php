@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'title'           => 'Events',
+    'add'             => 'Add Event',
+    'edit'            => 'Edit Event',
+    'event_title'     => 'Event Name',
+    'description'     => 'Description',
+    'image'           => 'Image (optional)',
+    'start_date'      => 'Start Date',
+    'end_date'        => 'End Date (optional)',
+    'no_events'       => 'No events yet.',
+    'add_first'       => 'Add First Event',
+    'delete_confirm'  => 'Delete ":name" event?',
+    'saved'           => 'Event saved.',
+    'updated'         => 'Event updated.',
+    'deleted'         => 'Event deleted.',
+    'active'          => 'Active',
+    'inactive'        => 'Inactive',
+    'premium_only'    => 'Events feature is available in the Premium package.',
+    'total'           => 'Total :count event(s)',
+    'update'          => 'Update',
+    'title_placeholder' => 'e.g. Live Music Night',
+    'desc_placeholder'  => 'Event details...',
+];

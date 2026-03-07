@@ -465,12 +465,31 @@
         </a>
         @endif
 
+        <a href="{{ route('support.index') }}" class="sb-link {{ request()->routeIs('support.*') ? 'active' : '' }}">
+            <i class="bi bi-headset"></i> {{ __('nav.nav.support') }}
+        </a>
+
         <div class="sb-section">{{ __('nav.nav.digital_menu') }}</div>
         <a href="{{ route('categories.index') }}" class="sb-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
             <i class="bi bi-grid-3x3-gap"></i> {{ __('nav.nav.categories') }}
         </a>
         <a href="{{ route('products.index') }}" class="sb-link {{ request()->routeIs('products.*') ? 'active' : '' }}">
             <i class="bi bi-box-seam"></i> {{ __('nav.nav.products') }}
+        </a>
+
+        @php $isPremium = ($tenant->package ?? 'basic') === 'premium'; @endphp
+        <div class="sb-section">{{ __('nav.nav.premium') }}</div>
+        <a href="{{ $isPremium ? route('sliders.index') : route('premium.gate') }}" class="sb-link {{ request()->routeIs('sliders.*') ? 'active' : '' }}">
+            <i class="bi bi-images"></i> {{ __('nav.nav.sliders') }}
+            @if(!$isPremium)<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif
+        </a>
+        <a href="{{ $isPremium ? route('events.index') : route('premium.gate') }}" class="sb-link {{ request()->routeIs('events.*') ? 'active' : '' }}">
+            <i class="bi bi-calendar-event"></i> {{ __('nav.nav.events') }}
+            @if(!$isPremium)<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif
+        </a>
+        <a href="{{ $isPremium ? '#' : route('premium.gate') }}" class="sb-link">
+            <i class="bi bi-cart-check"></i> {{ __('nav.nav.ordering') }}
+            @if(!$isPremium)<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif
         </a>
 
         <div class="sb-section">{{ __('nav.nav.qr_link') }}</div>
