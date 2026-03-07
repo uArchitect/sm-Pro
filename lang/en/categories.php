@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'title'         => 'Categories',
+    'add'           => 'Add Category',
+    'total'         => 'Total :count category(ies)',
+    'name'          => 'Category Name',
+    'no_categories' => 'No categories yet.',
+    'add_first'     => 'Add First Category',
+    'parent_count'  => 'parent categories',
+    'sub_count'     => 'sub categories',
+    'sub_category'  => 'Subcategory',
+    'edit_category' => 'Edit Category',
+    'delete_confirm'=> 'Delete ":name"?',
+    'delete_confirm_subs' => 'Delete ":name"? Subcategories will also be removed.',
+    'sub'           => 'sub',
+    'new_category'  => 'New Category',
+    'photo_optional'=> 'Category Photo (optional)',
+    'name_required' => 'Category name is required.',
+    'parent_category'=> 'Parent Category (optional)',
+    'parent_none'   => '— Main category (no parent) —',
+    'parent_hint'   => 'If selected, this becomes a subcategory of the chosen category.',
+    'add_btn'       => 'Add Category',
+    'update'        => 'Update',
+    'name_placeholder' => 'e.g. Drinks, Desserts…',
+];

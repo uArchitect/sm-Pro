@@ -1,0 +1,24 @@
+<?php
+
+return [
+    'title'       => 'Products',
+    'add'         => 'Add Product',
+    'total'       => 'Total :count product(s)',
+    'name'        => 'Product Name',
+    'category'    => 'Category',
+    'price'       => 'Price',
+    'no_products' => 'No products yet.',
+    'add_first'   => 'Add First Product',
+    'edit_product'=> 'Edit Product',
+    'name_placeholder' => 'Product name',
+    'price_tl'     => 'Price (₺)',
+    'name_price_required' => 'Product name and price are required.',
+    'delete_confirm' => 'Delete ":name"?',
+    'new_product' => 'New Product',
+    'photo_optional' => 'Product Photo (optional)',
+    'select_category' => '— Select category —',
+    'add_category_first' => 'You need to <a href=":link">add a category</a> first.',
+    'description' => 'Description',
+    'description_placeholder' => 'Brief description of the product...',
+    'update'      => 'Update',
+];

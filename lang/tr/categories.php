@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'title'         => 'Kategoriler',
+    'add'           => 'Kategori Ekle',
+    'total'         => 'Toplam :count kategori',
+    'name'          => 'Kategori Adı',
+    'no_categories' => 'Henüz kategori yok.',
+    'add_first'     => 'İlk Kategoriyi Ekle',
+    'parent_count'  => 'ana kategori',
+    'sub_count'     => 'alt kategori',
+    'sub_category'  => 'Alt Kategori',
+    'edit_category' => 'Kategoriyi Düzenle',
+    'delete_confirm'=> '":name" silinsin mi?',
+    'delete_confirm_subs' => '":name" silinsin mi? Alt kategoriler de silinir.',
+    'sub'           => 'alt',
+    'new_category'  => 'Yeni Kategori',
+    'photo_optional'=> 'Kategori Fotoğrafı (opsiyonel)',
+    'name_required' => 'Kategori adı boş olamaz.',
+    'parent_category'=> 'Üst Kategori (opsiyonel)',
+    'parent_none'   => '— Ana kategori (üst yok) —',
+    'parent_hint'   => 'Seçerseniz bu, seçilen kategorinin alt kategorisi olur.',
+    'add_btn'       => 'Kategori Ekle',
+    'update'        => 'Güncelle',
+    'name_placeholder' => 'Örn: İçecekler, Tatlılar…',
+];

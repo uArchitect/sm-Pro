@@ -1,0 +1,24 @@
+<?php
+
+return [
+    'app_name'       => 'Order at Your Table',
+    'panel'          => 'Panel',
+    'management'     => 'Management Panel',
+    'logout'         => 'Log out',
+    'save'           => 'Save',
+    'cancel'         => 'Cancel',
+    'edit'           => 'Edit',
+    'delete'         => 'Delete',
+    'actions'        => 'Actions',
+    'active'         => 'Active',
+    'back'           => 'Back',
+    'confirm'        => 'Confirm',
+    'loading'        => 'Loading...',
+    'saved'          => 'Saved',
+    'photo'          => 'Photo',
+    'remove_photo'   => 'Remove photo',
+    'click_or_drop'  => 'Click or drag and drop',
+    'max_file_size'  => 'JPG, PNG, WEBP — max 2MB',
+    'language'       => 'Language',
+    'optional'       => '(optional)',
+];

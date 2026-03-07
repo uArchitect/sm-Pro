@@ -1,0 +1,24 @@
+<?php
+
+return [
+    'title'       => 'Ürünler',
+    'add'         => 'Ürün Ekle',
+    'total'       => 'Toplam :count ürün',
+    'name'        => 'Ürün Adı',
+    'category'    => 'Kategori',
+    'price'       => 'Fiyat',
+    'no_products' => 'Henüz ürün yok.',
+    'add_first'   => 'İlk Ürünü Ekle',
+    'edit_product'=> 'Ürünü Düzenle',
+    'name_placeholder' => 'Ürün adı',
+    'price_tl'     => 'Fiyat (₺)',
+    'name_price_required' => 'Ürün adı ve fiyat zorunludur.',
+    'delete_confirm' => '":name" silinsin mi?',
+    'new_product' => 'Yeni Ürün',
+    'photo_optional' => 'Ürün Fotoğrafı (opsiyonel)',
+    'select_category' => '— Kategori seçin —',
+    'add_category_first' => 'Önce <a href=":link">kategori eklemeniz</a> gerekiyor.',
+    'description' => 'Açıklama',
+    'description_placeholder' => 'Ürün hakkında kısa açıklama...',
+    'update'      => 'Güncelle',
+];
