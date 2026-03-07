@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\TenantController;
@@ -11,14 +12,27 @@ use App\Http\Controllers\QRController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DeveloperController;
 
+// Demo menü — potansiyel müşterilerin test sayfasını görmesi için (Fake RESTORANT seeder gerekir)
+Route::get('/demo', function () {
+    $tenant = DB::table('tenants')
+        ->where('restoran_adi', 'Fake RESTORANT')
+        ->where('is_active', true)
+        ->first();
+    if (!$tenant) {
+        return redirect()->route('home')->with('demo_unavailable', true);
+    }
+    return redirect()->route('public.menu', ['tenantId' => $tenant->id]);
+})->name('demo');
+
 Route::get('/', fn () => view('landing'))->name('home');
 
 // Locale switcher (session-based, no auth required)
 Route::post('/locale', function (\Illuminate\Http\Request $request) {
     $request->validate(['locale' => 'required|string|in:en,tr']);
     session(['locale' => $request->locale]);
-    if ($request->has('redirect')) {
-        return redirect()->to($request->redirect);
+    $redirect = $request->input('redirect', '');
+    if ($redirect && str_starts_with($redirect, '/')) {
+        return redirect()->to($redirect);
     }
     return redirect()->back();
 })->name('locale.switch');
@@ -70,17 +84,29 @@ Route::middleware(['auth', 'tenant'])->group(function () {
 
     // QR kod (auth)
     Route::get('/menu/qr', [QRController::class, 'menuQr'])->name('menu.qr');
+    Route::get('/products/{id}/qr', [QRController::class, 'show'])->name('products.qr');
 });
 
-// Developer panel (auth gerekli, developer rolü)
-Route::middleware('auth')->prefix('developer')->name('developer.')->group(function () {
+// Developer panel (auth + developer rolü zorunlu)
+Route::middleware(['auth', 'role:developer'])->prefix('developer')->name('developer.')->group(function () {
     Route::get('/',                         [DeveloperController::class, 'index'])->name('index');
     Route::get('/tenant/{id}',              [DeveloperController::class, 'tenant'])->name('tenant');
+    Route::put('/tenant/{id}',              [DeveloperController::class, 'updateTenant'])->name('tenant.update');
     Route::delete('/tenant/{id}',           [DeveloperController::class, 'destroyTenant'])->name('tenant.destroy');
+    Route::post('/tenant/{id}/toggle',      [DeveloperController::class, 'toggleTenant'])->name('tenant.toggle');
+    Route::post('/tenant/{id}/impersonate', [DeveloperController::class, 'impersonate'])->name('tenant.impersonate');
+    Route::get('/users',                    [DeveloperController::class, 'users'])->name('users');
+    Route::delete('/users/{id}',            [DeveloperController::class, 'destroyUser'])->name('users.destroy');
     Route::get('/settings',                 [DeveloperController::class, 'settings'])->name('settings');
     Route::post('/settings',                [DeveloperController::class, 'updateSettings'])->name('settings.update');
 });
 
+// Impersonate exit (accessible while impersonating)
+Route::get('/developer/stop-impersonate', [DeveloperController::class, 'stopImpersonate'])
+    ->name('developer.stop-impersonate')
+    ->middleware('auth');
+
 // Public sayfalar (auth yok — kalıcı URL'ler, QR baskısına uygundur)
 Route::get('/menu/{tenantId}', [QRController::class, 'publicMenu'])->name('public.menu');
+Route::get('/menu/{tenantId}/product/{productId}', [QRController::class, 'publicProduct'])->name('public.product');
 Route::post('/menu/{tenantId}/review', [QRController::class, 'submitReview'])->name('public.review');

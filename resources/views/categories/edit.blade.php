@@ -56,7 +56,7 @@
                         @error('parent_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
 
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2 form-actions-wrap">
                         <button type="submit" class="btn btn-accent">
                             <i class="bi bi-check-lg me-1"></i>{{ __('categories.update') }}
                         </button>

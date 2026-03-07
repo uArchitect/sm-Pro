@@ -23,4 +23,5 @@ return [
     'update'      => 'Update',
     'search'      => 'Search products...',
     'add_desc'    => 'Add description...',
+    'reorder_hint' => 'Drag to reorder. Order is reflected on the QR menu.',
 ];

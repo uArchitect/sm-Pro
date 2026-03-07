@@ -139,6 +139,9 @@
         <a href="{{ route('developer.index') }}" class="nav-item-link {{ request()->routeIs('developer.index') ? 'active' : '' }}">
             <i class="bi bi-speedometer2"></i> Genel Bakış
         </a>
+        <a href="{{ route('developer.users') }}" class="nav-item-link {{ request()->routeIs('developer.users') ? 'active' : '' }}">
+            <i class="bi bi-people"></i> Tüm Kullanıcılar
+        </a>
 
         <div class="sidebar-section">Hesap</div>
         <a href="{{ route('developer.settings') }}" class="nav-item-link {{ request()->routeIs('developer.settings') ? 'active' : '' }}">
@@ -148,7 +151,7 @@
 
     <div class="sidebar-footer">
         <div class="user-card">
-            <div class="user-avatar">{{ strtoupper(substr($devUser->name, 0, 1)) }}</div>
+            <div class="user-avatar">{{ mb_strtoupper(mb_substr($devUser->name ?? 'D', 0, 1, 'UTF-8'), 'UTF-8') }}</div>
             <div class="flex-grow-1 overflow-hidden">
                 <div class="user-name text-truncate">{{ $devUser->name }}</div>
                 <span class="role-badge">developer</span>

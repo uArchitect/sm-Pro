@@ -47,13 +47,23 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        $tenantId  = session('tenant_id');
+
         $request->validate([
             'name'      => 'required|string|max:255',
-            'parent_id' => 'nullable|integer|exists:categories,id',
+            'parent_id' => 'nullable|integer',
             'image'     => 'nullable|image|max:2048',
         ]);
 
-        $tenantId  = session('tenant_id');
+        if ($request->parent_id) {
+            $parentExists = DB::table('categories')
+                ->where('id', $request->parent_id)
+                ->where('tenant_id', $tenantId)
+                ->exists();
+            if (!$parentExists) {
+                return back()->withErrors(['parent_id' => 'Geçersiz üst kategori.'])->withInput();
+            }
+        }
         $imagePath = null;
 
         if ($request->hasFile('image')) {
@@ -103,13 +113,14 @@ class CategoryController extends Controller
 
     public function update(Request $request, int $id)
     {
+        $tenantId = session('tenant_id');
+
         $request->validate([
             'name'      => 'required|string|max:255',
-            'parent_id' => 'nullable|integer|exists:categories,id',
+            'parent_id' => 'nullable|integer',
             'image'     => 'nullable|image|max:2048',
         ]);
 
-        $tenantId = session('tenant_id');
         $category = DB::table('categories')
             ->where('id', $id)
             ->where('tenant_id', $tenantId)
@@ -119,9 +130,23 @@ class CategoryController extends Controller
             abort(404);
         }
 
+        $parentId = $request->parent_id ?: null;
+        if ($parentId) {
+            if ((int)$parentId === $id) {
+                return back()->withErrors(['parent_id' => 'Kategori kendisine üst kategori olamaz.'])->withInput();
+            }
+            $parentExists = DB::table('categories')
+                ->where('id', $parentId)
+                ->where('tenant_id', $tenantId)
+                ->exists();
+            if (!$parentExists) {
+                return back()->withErrors(['parent_id' => 'Geçersiz üst kategori.'])->withInput();
+            }
+        }
+
         $data = [
             'name'       => $request->name,
-            'parent_id'  => $request->parent_id ?: null,
+            'parent_id'  => $parentId,
             'updated_at' => now(),
         ];
 

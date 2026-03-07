@@ -186,12 +186,13 @@
         .topbar-page {
             font-size: 1rem; font-weight: 700; color: var(--text-primary);
             letter-spacing: -.015em; line-height: 1.2;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .topbar-bc {
             font-size: .73rem; color: var(--text-muted); margin-top: .05rem;
         }
 
-        .topbar-right { display: flex; align-items: center; gap: .65rem; }
+        .topbar-right { display: flex; align-items: center; gap: .65rem; flex-wrap: wrap; }
         .topbar-chip {
             display: flex; align-items: center; gap: .45rem;
             font-size: .75rem; color: var(--text-secondary); font-weight: 500;
@@ -225,9 +226,12 @@
         }
 
         /* ═══════════════════════════════════════
-           CONTENT
+           CONTENT AREA (responsive padding)
         ═══════════════════════════════════════ */
         .content-area { padding: 1.75rem; flex: 1; }
+        @@media (max-width: 576px) {
+            .content-area { padding: 1rem; }
+        }
 
         /* ═══════════════════════════════════════
            CARDS
@@ -372,26 +376,64 @@
         /* ═══════════════════════════════════════
            RESPONSIVE
         ═══════════════════════════════════════ */
-        @media (max-width: 768px) {
+        @@media (max-width: 768px) {
             .sidebar { transform: translateX(-100%); transition: transform .25s cubic-bezier(.4,0,.2,1); z-index: 1050; }
             .sidebar.open { transform: translateX(0); }
             .main-wrap { margin-left: 0; }
-            .topbar-mob { display: block; }
+            .topbar { padding: 0 1rem; gap: .5rem; }
+            .topbar-mob { display: flex !important; align-items: center; justify-content: center; }
             .sb-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 1049; backdrop-filter: blur(2px); }
             .sb-backdrop.show { display: block; }
-            .topbar-chip { display: none; }
+            .topbar-date { display: none !important; }
+            .topbar-user span { display: none; }
+            .topbar-user { padding: .28rem .35rem; }
         }
-        @media (min-width: 769px) {
+        @@media (min-width: 769px) {
             .sb-backdrop { display: none !important; }
+            .topbar-mob { display: none !important; }
+            .topbar-date { display: flex !important; }
+            .topbar-user span { display: inline !important; }
+        }
+
+        /* ═══════════════════════════════════════
+           ADMIN PAGES RESPONSIVE (toolbars, tables, forms)
+        ═══════════════════════════════════════ */
+        @@media (max-width: 768px) {
+            .content-area .d-flex.justify-content-between.align-items-center.mb-3 {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.75rem;
+            }
+            .content-area .search-wrap { flex: 1; min-width: 0; }
+            .content-area .sm-search { width: 100%; max-width: 100%; }
+            .content-area .table-responsive { margin-left: -0.5rem; margin-right: -0.5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            .content-area .sm-table { font-size: .8rem; }
+            .content-area .sm-table th, .content-area .sm-table td { padding: .6rem .5rem; }
+            .stat-card { padding: 1rem 1.1rem; }
+            .stat-value { font-size: 1.5rem; }
+            .content-area .input-group-text { font-size: .75rem; }
+            .content-area .input-group .form-control { min-width: 0; }
+        }
+        @@media (max-width: 576px) {
+            .content-area .d-flex.gap-2.align-items-center { flex-wrap: wrap; }
+            .content-area .search-wrap { width: 100%; }
+            .content-area .btn-accent.btn-sm { flex: 1; min-width: 120px; }
+            .content-area .sm-card-body { padding: 1rem; }
+            .content-area .sm-card-header { padding: .85rem 1rem; font-size: .8125rem; }
+            .content-area .form-actions-wrap { flex-direction: column; }
+            .content-area .form-actions-wrap .btn { width: 100%; }
+            .content-area .dataTables_wrapper .d-flex.justify-content-between { flex-wrap: wrap; gap: 0.5rem; }
         }
     </style>
 </head>
 <body>
 
 @php
-    $tenant  = DB::table('tenants')->find(session('tenant_id'));
-    $user    = auth()->user();
-    $initials = strtoupper(substr($user->name ?? 'U', 0, 2));
+    $tenant   = session('tenant_id') ? DB::table('tenants')->find(session('tenant_id')) : null;
+    $user     = auth()->user();
+    $userName = $user->name ?? 'U';
+    $initials = mb_strtoupper(mb_substr($userName, 0, 2, 'UTF-8'), 'UTF-8');
+    $firstName = trim(explode(' ', $userName)[0] ?? '') ?: $userName;
 @endphp
 
 {{-- ══ SIDEBAR ══ --}}
@@ -401,7 +443,7 @@
         <div class="sb-logo"><i class="bi bi-qr-code-scan"></i></div>
         <div class="sb-brand-text">
             <div class="sb-name">{{ __('common.app_name') }}</div>
-            <div class="sb-tenant">{{ $tenant->restoran_adi ?? __('common.management') }}</div>
+            <div class="sb-tenant">{{ $tenant?->restoran_adi ?? __('common.management') }}</div>
         </div>
     </div>
 
@@ -482,16 +524,26 @@
                     </select>
                 </label>
             </form>
-            <div class="topbar-chip">
+            <div class="topbar-chip topbar-date">
                 <i class="bi bi-calendar3"></i>
                 {{ now()->locale(app()->getLocale())->isoFormat('D MMM YYYY') }}
             </div>
             <div class="topbar-user">
                 <div class="topbar-avatar">{{ $initials }}</div>
-                <span>{{ explode(' ', $user->name)[0] }}</span>
+                <span>{{ $firstName }}</span>
             </div>
         </div>
     </header>
+
+    @if(session('impersonating_from'))
+    <div style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:.55rem 1.75rem;display:flex;align-items:center;gap:.75rem;font-size:.84rem;font-weight:600">
+        <i class="bi bi-shield-fill-check"></i>
+        <span>Developer olarak <strong>{{ $tenant?->restoran_adi ?? '' }}</strong> hesabını yönetiyorsunuz</span>
+        <a href="{{ route('developer.stop-impersonate') }}" style="margin-left:auto;color:#fff;background:rgba(255,255,255,.2);padding:.3rem .85rem;border-radius:7px;text-decoration:none;font-size:.78rem;font-weight:700;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.35)'" onmouseout="this.style.background='rgba(255,255,255,.2)'">
+            <i class="bi bi-arrow-return-left me-1"></i>Developer Paneline Dön
+        </a>
+    </div>
+    @endif
 
     <main class="content-area">
 

@@ -23,4 +23,5 @@ return [
     'add_btn'       => 'Add Category',
     'update'        => 'Update',
     'name_placeholder' => 'e.g. Drinks, Desserts…',
+    'reorder_hint' => 'Drag to reorder. Order is reflected on the QR menu.',
 ];

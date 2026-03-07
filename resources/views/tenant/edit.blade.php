@@ -15,7 +15,7 @@
                     <i class="bi bi-image" style="color:#FF6B35"></i>{{ __('tenant.logo_section') }}
                 </div>
                 <div class="sm-card-body">
-                    <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex flex-column flex-sm-row align-items-center gap-3">
                         <div id="logoPreviewWrap" style="width:72px;height:72px;border-radius:14px;border:2px dashed #e5e7eb;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;flex-shrink:0;background:#fafafa" onclick="document.getElementById('logoInput').click()">
                             @if($tenant->logo)
                                 <img id="logoPreview" src="{{ asset('storage/'.$tenant->logo) }}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">
@@ -27,7 +27,7 @@
                         <div class="flex-grow-1">
                             <div class="fw-semibold small">{{ __('tenant.logo_label') }}</div>
                             <div class="text-muted" style="font-size:.75rem">{{ __('tenant.logo_hint') }}</div>
-                            <input type="file" id="logoInput" name="logo" accept="image/*" class="d-none">
+                            <input type="file" id="logoInput" name="logo" accept=".png,.svg,image/png,image/svg+xml" class="d-none">
                             @if($tenant->logo)
                             <label class="form-check mt-2 mb-0">
                                 <input type="checkbox" name="remove_logo" value="1" class="form-check-input" style="width:1rem;height:1rem">
@@ -150,7 +150,7 @@
                 </div>
             </div>
 
-            <div class="d-flex gap-2">
+            <div class="d-flex gap-2 form-actions-wrap flex-wrap">
                 <button type="submit" class="btn btn-accent">
                     <i class="bi bi-check-lg me-1"></i>{{ __('common.save') }}
                 </button>

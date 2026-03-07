@@ -12,5 +12,8 @@ return [
     'tenant_updated'  => 'Firma bilgileri başarıyla güncellendi.',
     'tenant_deleted'  => 'Tenant ve tüm veriler silindi.',
     'settings_updated'=> 'Ayarlar güncellendi.',
-    'no_tenant'       => 'Hesabınız bir tenant ile ilişkilendirilmemiş.',
+    'no_tenant'        => 'Hesabınız bir restoran ile ilişkilendirilmemiş.',
+    'tenant_inactive'  => 'Hesabınız şu anda pasif durumda. Lütfen yöneticiyle iletişime geçin.',
+    'tenant_not_available' => 'Bu restoran şu anda hizmet vermiyor.',
+    'unauthorized'     => 'Bu işlem için yetkiniz yok.',
 ];

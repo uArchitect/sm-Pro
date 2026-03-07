@@ -22,14 +22,14 @@
 
     <script type="application/ld+json">
     {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
+        "@@context": "https://schema.org",
+        "@@type": "SoftwareApplication",
         "name": "Sipariş Masanda",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
         "description": "Restoranlar için dijital QR menü oluşturma ve yönetim platformu.",
         "offers": {
-            "@type": "Offer",
+            "@@type": "Offer",
             "price": "0",
             "priceCurrency": "TRY"
         }
@@ -65,7 +65,7 @@
         .hero{min-height:100vh;display:flex;align-items:center;padding-top:5rem}
         .hero-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:999px;background:rgba(255,107,53,.1);border:1px solid rgba(255,107,53,.2);font-size:.75rem;font-weight:600;color:#FF8C42;margin-bottom:1.5rem}
         .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+        @@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
         .hero h1{font-size:clamp(2.2rem,5vw,3.8rem);font-weight:900;line-height:1.08;letter-spacing:-.03em;margin-bottom:1.25rem}
         .hero h1 .accent{background:linear-gradient(90deg,#FF6B35,#FFB347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
         .hero-sub{font-size:1.05rem;color:rgba(255,255,255,.5);line-height:1.7;max-width:520px;margin-bottom:2.5rem}
@@ -103,7 +103,7 @@
         .how{padding:6rem 0}
         .step-num{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;margin:0 auto 1rem;position:relative}
         .step-num::after{content:'';position:absolute;inset:-3px;border-radius:18px;border:2px dashed rgba(255,107,53,.2);animation:spin 20s linear infinite}
-        @keyframes spin{to{transform:rotate(360deg)}}
+        @@keyframes spin{to{transform:rotate(360deg)}}
         .step-card{text-align:center;padding:1.5rem}
         .step-card h3{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.35rem}
         .step-card p{font-size:.82rem;color:rgba(255,255,255,.4);line-height:1.6}
@@ -121,9 +121,46 @@
         .lp-footer p{font-size:.78rem;color:rgba(255,255,255,.3);margin:0}
         .lp-footer a{color:#FF8C42;text-decoration:none}
 
-        @media(max-width:768px){
+        @@media(max-width:768px){
             .hero-visual{margin-top:3rem}
             .step-arrow{transform:rotate(90deg);padding-top:0}
+            .hero{min-height:auto;padding-top:6rem;padding-bottom:3rem}
+            .features{padding:4rem 0}
+            .how{padding:4rem 0}
+            .cta-section{padding:3rem 0 4rem}
+            .cta-box{padding:2.5rem 1.5rem}
+            .lp-nav .container{padding-left:1rem;padding-right:1rem}
+            .lp-nav .logo-text{font-size:.85rem}
+            .nav-btn{padding:.4rem .9rem;font-size:.78rem}
+        }
+        @@media(max-width:576px){
+            .hero{padding-top:5rem;padding-bottom:2rem}
+            .hero h1{font-size:1.75rem}
+            .hero-sub{font-size:.9rem;margin-bottom:1.75rem}
+            .hero-btns{flex-direction:column;gap:.5rem}
+            .hero-btn-primary,.hero-btn-outline{width:100%;justify-content:center;padding:.75rem 1.25rem;font-size:.88rem}
+            .hero-mockup{padding:1rem;border-radius:18px}
+            .mock-item{padding:.5rem .6rem}
+            .mock-name{font-size:.72rem}
+            .mock-price{font-size:.75rem}
+            .features{padding:3rem 0}
+            .section-title{font-size:1.5rem}
+            .section-sub{font-size:.88rem}
+            .feat-card{padding:1.25rem}
+            .feat-card h3{font-size:.9rem}
+            .feat-card p{font-size:.8rem}
+            .how{padding:3rem 0}
+            .step-card{padding:1rem .5rem}
+            .step-card:not(:last-child){margin-bottom:1.5rem}
+            .step-num{width:48px;height:48px;font-size:1.25rem}
+            .cta-section{padding:2.5rem 0 3rem}
+            .cta-box{padding:2rem 1rem;border-radius:18px}
+            .cta-box h2{font-size:1.35rem}
+            .cta-box p{font-size:.88rem;margin-bottom:1.5rem}
+            .lp-footer{padding:1.5rem 0}
+            .lp-footer p{font-size:.75rem}
+            .lp-nav .logo-text{font-size:.8rem}
+            .nav-btn{padding:.35rem .75rem;font-size:.75rem}
         }
     </style>
 </head>
@@ -149,6 +186,11 @@
     <!-- Hero -->
     <section class="hero">
         <div class="container">
+            @if(session('demo_unavailable'))
+                <div class="alert mb-3" role="alert" style="background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.3);color:#fbbf24;border-radius:12px">
+                    Demo menü henüz yüklenmemiş. Yönetici <code>php artisan db:seed --class=DemoRestaurantSeeder</code> komutunu çalıştırabilir.
+                </div>
+            @endif
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <div class="hero-badge"><span class="dot"></span> Dijital Menü Platformu</div>
@@ -160,6 +202,9 @@
                     <div class="hero-btns">
                         <a href="{{ route('register') }}" class="hero-btn-primary">
                             <i class="bi bi-rocket-takeoff"></i> Ücretsiz Başla
+                        </a>
+                        <a href="{{ route('demo') }}" class="hero-btn-outline">
+                            <i class="bi bi-eye"></i> Test Sayfasına Bak
                         </a>
                         <a href="{{ route('login') }}" class="hero-btn-outline">
                             <i class="bi bi-box-arrow-in-right"></i> Giriş Yap
@@ -211,42 +256,42 @@
                 <p class="section-sub mx-auto">Basit arayüz, güçlü özellikler. Teknik bilgi gerektirmeden profesyonel dijital menünüzü yönetin.</p>
             </div>
             <div class="row g-4">
-                <div class="col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
                         <div class="feat-icon" style="background:rgba(255,107,53,.12);color:#FF6B35"><i class="bi bi-qr-code"></i></div>
                         <h3>QR Kod Menü</h3>
                         <p>Baskıya hazır QR kod oluşturun. Müşterileriniz telefonlarıyla tarayıp menünüzü anında görsün.</p>
                     </article>
                 </div>
-                <div class="col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
                         <div class="feat-icon" style="background:rgba(16,185,129,.12);color:#10b981"><i class="bi bi-grid-3x3-gap"></i></div>
                         <h3>Kategori & Ürün Yönetimi</h3>
                         <p>Sınırsız kategori ve ürün. Fotoğraf, açıklama, fiyat — sürükle-bırak sıralama ile düzenleyin.</p>
                     </article>
                 </div>
-                <div class="col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
                         <div class="feat-icon" style="background:rgba(251,191,36,.12);color:#FBBF24"><i class="bi bi-star"></i></div>
                         <h3>Müşteri Değerlendirmeleri</h3>
                         <p>Müşterileriniz QR menü üzerinden restoran değerlendirmesi bıraksın. Puanlarınızı takip edin.</p>
                     </article>
                 </div>
-                <div class="col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
                         <div class="feat-icon" style="background:rgba(99,102,241,.12);color:#6366f1"><i class="bi bi-people"></i></div>
                         <h3>Çoklu Kullanıcı</h3>
                         <p>Ekibinizi davet edin. Owner, admin ve personel rolleriyle yetkilendirme yapın.</p>
                     </article>
                 </div>
-                <div class="col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
                         <div class="feat-icon" style="background:rgba(236,72,153,.12);color:#EC4899"><i class="bi bi-instagram"></i></div>
                         <h3>Sosyal Medya Entegrasyonu</h3>
                         <p>Instagram, Facebook, WhatsApp hesaplarınızı ekleyin. Menü sayfanızda otomatik gösterilsin.</p>
                     </article>
                 </div>
-                <div class="col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
                         <div class="feat-icon" style="background:rgba(168,85,247,.12);color:#A855F7"><i class="bi bi-phone"></i></div>
                         <h3>Mobil Uyumlu</h3>
@@ -268,23 +313,23 @@
                 <p class="section-sub mx-auto">Dakikalar içinde dijital menünüz hazır.</p>
             </div>
             <div class="row align-items-start">
-                <div class="col-md-4">
+                <div class="col-12 col-md-4">
                     <div class="step-card">
                         <div class="step-num" style="background:rgba(255,107,53,.12);color:#FF6B35">1</div>
                         <h3>Kayıt Olun</h3>
                         <p>Firma ve restoran bilgilerinizi girin. Hesabınız anında oluşturulur.</p>
                     </div>
                 </div>
-                <div class="col-md-1 d-none d-md-flex step-arrow"><i class="bi bi-arrow-right"></i></div>
-                <div class="col-md-3">
+                <div class="col-12 col-md-1 d-none d-md-flex step-arrow"><i class="bi bi-arrow-right"></i></div>
+                <div class="col-12 col-md-3">
                     <div class="step-card">
                         <div class="step-num" style="background:rgba(16,185,129,.12);color:#10b981">2</div>
                         <h3>Menünüzü Oluşturun</h3>
                         <p>Kategorileri ve ürünleri ekleyin. Fotoğraf yükleyin, fiyatları belirleyin.</p>
                     </div>
                 </div>
-                <div class="col-md-1 d-none d-md-flex step-arrow"><i class="bi bi-arrow-right"></i></div>
-                <div class="col-md-3">
+                <div class="col-12 col-md-1 d-none d-md-flex step-arrow"><i class="bi bi-arrow-right"></i></div>
+                <div class="col-12 col-md-3">
                     <div class="step-card">
                         <div class="step-num" style="background:rgba(251,191,36,.12);color:#FBBF24">3</div>
                         <h3>QR Kodu Paylaşın</h3>
@@ -301,9 +346,14 @@
             <div class="cta-box">
                 <h2>Restoranınızı Dijitale Taşımaya<br>Hazır mısınız?</h2>
                 <p>Hemen ücretsiz hesap oluşturun ve dijital menünüzü dakikalar içinde yayına alın.</p>
-                <a href="{{ route('register') }}" class="hero-btn-primary" style="position:relative">
-                    <i class="bi bi-rocket-takeoff"></i> Ücretsiz Hesap Oluştur
-                </a>
+                <div class="d-flex flex-wrap gap-2 justify-content-center">
+                    <a href="{{ route('register') }}" class="hero-btn-primary" style="position:relative">
+                        <i class="bi bi-rocket-takeoff"></i> Ücretsiz Hesap Oluştur
+                    </a>
+                    <a href="{{ route('demo') }}" class="hero-btn-outline" style="position:relative">
+                        <i class="bi bi-eye"></i> Test Sayfasına Bak
+                    </a>
+                </div>
             </div>
         </div>
     </section>

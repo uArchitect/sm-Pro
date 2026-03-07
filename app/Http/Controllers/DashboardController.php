@@ -13,6 +13,9 @@ class DashboardController extends Controller
         $tenantId = session('tenant_id');
 
         $tenant = DB::table('tenants')->find($tenantId);
+        if (!$tenant) {
+            abort(404);
+        }
 
         $stats = [
             'users'      => DB::table('users')->where('tenant_id', $tenantId)->count(),

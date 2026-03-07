@@ -20,21 +20,21 @@
 ">
     <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%);pointer-events:none;"></div>
 
-    <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3">
+    <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3 flex-wrap">
         <div style="width:50px;height:50px;border-radius:13px;background:rgba(255,107,53,.15);border:1px solid rgba(255,107,53,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#FF6B35;flex-shrink:0;">
             <i class="bi bi-qr-code"></i>
         </div>
-        <div class="flex-grow-1">
+        <div class="flex-grow-1" style="min-width:0">
             <div style="font-weight:700;font-size:.92rem;color:#fff;margin-bottom:.3rem;">
                 {{ __('dashboard.menu_live') }}
                 <span style="display:inline-flex;align-items:center;gap:.25rem;font-size:.65rem;font-weight:700;background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.25);padding:.1rem .45rem;border-radius:999px;margin-left:.4rem;vertical-align:middle;">
                     <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;"></span> {{ __('common.active') }}
                 </span>
             </div>
-            <code style="color:#FF8C42;font-size:.76rem;word-break:break-all;">{{ $menuUrl }}</code>
+            <code style="color:#FF8C42;font-size:.76rem;word-break:break-all;display:block;">{{ $menuUrl }}</code>
         </div>
-        <div class="d-flex gap-2 flex-shrink-0">
-            <a href="{{ route('menu.qr') }}" class="btn btn-accent btn-sm">
+        <div class="d-flex gap-2 flex-shrink-0 flex-wrap">
+            <a href="{{ route('menu.qr') }}" class="btn btn-accent btn-sm flex-grow-1 flex-sm-grow-0">
                 <i class="bi bi-qr-code me-1"></i>{{ __('dashboard.qr_link') }}
             </a>
             <a href="{{ $menuUrl }}" target="_blank" class="btn btn-sm"

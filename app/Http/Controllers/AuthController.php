@@ -34,30 +34,31 @@ class AuthController extends Controller
             'password.confirmed'    => __('validation.required.password.confirmed'),
         ]);
 
-        $tenantId = DB::table('tenants')->insertGetId([
-            'firma_adi'    => $request->restoran_adi,
-            'restoran_adi' => $request->restoran_adi,
-            'created_at'   => now(),
-            'updated_at'   => now(),
-        ]);
+        $result = DB::transaction(function () use ($request) {
+            $tenantId = DB::table('tenants')->insertGetId([
+                'firma_adi'    => $request->restoran_adi,
+                'restoran_adi' => $request->restoran_adi,
+                'created_at'   => now(),
+                'updated_at'   => now(),
+            ]);
 
-        $userId = DB::table('users')->insertGetId([
-            'tenant_id'  => $tenantId,
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'password'   => Hash::make($request->password),
-            'role'       => 'owner',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+            $userId = DB::table('users')->insertGetId([
+                'tenant_id'  => $tenantId,
+                'name'       => $request->name,
+                'email'      => $request->email,
+                'password'   => Hash::make($request->password),
+                'role'       => 'owner',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
 
-        $user = \App\Models\User::find($userId);
+            return ['tenant_id' => $tenantId, 'user_id' => $userId];
+        });
+
+        $user = \App\Models\User::find($result['user_id']);
         Auth::login($user);
 
-        Log::info('Yeni tenant ve owner kaydı oluşturuldu.', [
-            'tenant_id' => $tenantId,
-            'user_id'   => $userId,
-        ]);
+        Log::info('Yeni tenant ve owner kaydı oluşturuldu.', $result);
 
         return redirect()->route('dashboard');
     }

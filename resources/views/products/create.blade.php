@@ -76,7 +76,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex gap-2">
+                    <div class="d-flex gap-2 form-actions-wrap">
                         <button type="submit" class="btn btn-accent" {{ $categories->isEmpty() ? 'disabled' : '' }}>
                             <i class="bi bi-check-lg me-1"></i>{{ __('common.save') }}
                         </button>

@@ -3,8 +3,8 @@
 return [
     'nav' => [
         'dashboard'     => 'Dashboard',
-        'company'       => 'Firma',
-        'company_info'  => 'Firma Bilgileri',
+        'company'       => 'Restoran',
+        'company_info'  => 'Restoran Bilgileri',
         'staff'         => 'Personel',
         'reviews'       => 'Değerlendirmeler',
         'digital_menu'  => 'Dijital Menü',
@@ -14,8 +14,9 @@ return [
         'menu_qr'       => 'Menü QR Kodum',
     ],
     'roles' => [
-        'owner'    => 'owner',
-        'admin'    => 'admin',
-        'personel' => 'personel',
+        'developer' => 'geliştirici',
+        'owner'     => 'sahip',
+        'admin'     => 'yönetici',
+        'personel'  => 'personel',
     ],
 ];

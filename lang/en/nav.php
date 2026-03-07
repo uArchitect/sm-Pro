@@ -14,8 +14,9 @@ return [
         'menu_qr'       => 'My Menu QR Code',
     ],
     'roles' => [
-        'owner'    => 'owner',
-        'admin'    => 'admin',
-        'personel' => 'personel',
+        'developer' => 'developer',
+        'owner'     => 'owner',
+        'admin'     => 'admin',
+        'personel'  => 'personel',
     ],
 ];

@@ -31,6 +31,10 @@ class QRController extends Controller
         $tenantId = session('tenant_id');
         $tenant   = DB::table('tenants')->find($tenantId);
 
+        if (!$tenant) {
+            abort(404);
+        }
+
         $menuUrl = route('public.menu', ['tenantId' => $tenantId]);
         $qrCode  = QrCode::format('svg')->size(300)->margin(1)->generate($menuUrl);
 
@@ -39,6 +43,15 @@ class QRController extends Controller
 
     public function publicProduct(int $tenantId, int $productId)
     {
+        $tenant = DB::table('tenants')->find($tenantId);
+        if (!$tenant) {
+            abort(404);
+        }
+
+        if (!$tenant->is_active) {
+            abort(503, __('messages.tenant_not_available'));
+        }
+
         $product = DB::table('products')
             ->join('categories', 'products.category_id', '=', 'categories.id')
             ->where('products.id', $productId)
@@ -50,8 +63,6 @@ class QRController extends Controller
             abort(404);
         }
 
-        $tenant = DB::table('tenants')->find($tenantId);
-
         return view('public.product', compact('product', 'tenant'));
     }
 
@@ -61,6 +72,10 @@ class QRController extends Controller
 
         if (!$tenant) {
             abort(404);
+        }
+
+        if (!$tenant->is_active) {
+            abort(503, __('messages.tenant_not_available'));
         }
 
         $this->trackVisit($tenantId);
@@ -111,7 +126,7 @@ class QRController extends Controller
     public function submitReview(Request $request, int $tenantId)
     {
         $tenant = DB::table('tenants')->find($tenantId);
-        if (!$tenant) {
+        if (!$tenant || !$tenant->is_active) {
             abort(404);
         }
 
@@ -130,8 +145,7 @@ class QRController extends Controller
 
         if ($alreadyReviewed) {
             return redirect()->route('public.menu', $tenantId)
-                ->with('review_error', 'already_reviewed')
-                ->withFragment('reviews');
+                ->with('review_error', 'already_reviewed');
         }
 
         DB::table('reviews')->insert([
@@ -144,8 +158,7 @@ class QRController extends Controller
         ]);
 
         return redirect()->route('public.menu', $tenantId)
-            ->with('review_success', true)
-            ->withFragment('reviews');
+            ->with('review_success', true);
     }
 
     private function trackVisit(int $tenantId): void

@@ -32,7 +32,7 @@
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-    <span class="text-muted small">{{ __('products.total', ['count' => $products->count()]) }}</span>
+    <span class="text-muted small">{{ __('products.total', ['count' => $products->count()]) }} <span class="ms-2 opacity-75">· {{ __('products.reorder_hint') }}</span></span>
     <div class="d-flex gap-2 align-items-center">
         <div class="search-wrap">
             <i class="bi bi-search"></i>
@@ -167,7 +167,7 @@ Sortable.create(document.getElementById('sortableProds'), {
             method: 'POST',
             headers: {'Content-Type':'application/json','X-CSRF-TOKEN': CSRF},
             body: JSON.stringify({order})
-        });
+        }).then(r => r.json()).then(data => { if (data.success) afterEdit(); });
     }
 });
 

@@ -131,7 +131,7 @@ function printQR() {
     const win = window.open('', '_blank');
     win.document.write(`<!DOCTYPE html><html><head><title>QR — {{ $tenant->restoran_adi }}</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        @@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
         *{font-family:'Inter',sans-serif}
         body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;background:#fff;margin:0;padding:2rem}
         .logo img{width:60px;height:60px;border-radius:14px;object-fit:cover;margin-bottom:12px}

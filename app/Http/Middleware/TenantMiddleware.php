@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class TenantMiddleware
@@ -17,7 +18,6 @@ class TenantMiddleware
 
         $user = Auth::user();
 
-        // Developer role has no tenant — route to their own panel
         if ($user->role === 'developer') {
             return redirect()->route('developer.index');
         }
@@ -25,6 +25,20 @@ class TenantMiddleware
         if (!$user->tenant_id) {
             Auth::logout();
             return redirect()->route('login')->withErrors(['email' => __('messages.no_tenant')]);
+        }
+
+        $tenant = DB::table('tenants')->find($user->tenant_id);
+
+        if (!$tenant) {
+            Auth::logout();
+            return redirect()->route('login')->withErrors(['email' => __('messages.no_tenant')]);
+        }
+
+        if (!$tenant->is_active && !session('impersonating_from')) {
+            Auth::logout();
+            return redirect()->route('login')->withErrors([
+                'email' => __('messages.tenant_inactive'),
+            ]);
         }
 
         session(['tenant_id' => $user->tenant_id]);

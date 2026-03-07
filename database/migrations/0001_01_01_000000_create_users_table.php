@@ -11,6 +11,7 @@ return new class extends Migration
         // 1. Tenants
         Schema::create('tenants', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_active')->default(true);
             $table->string('firma_adi');
             $table->string('restoran_adi');
             $table->string('restoran_adresi')->nullable();

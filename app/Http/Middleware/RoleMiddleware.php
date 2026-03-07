@@ -18,7 +18,7 @@ class RoleMiddleware
         $user = Auth::user();
 
         if (!in_array($user->role, $roles)) {
-            abort(403, 'Bu işlem için yetkiniz yok.');
+            abort(403, __('messages.unauthorized'));
         }
 
         return $next($request);

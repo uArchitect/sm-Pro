@@ -23,4 +23,5 @@ return [
     'update'      => 'Güncelle',
     'search'      => 'Ürün ara...',
     'add_desc'    => 'Açıklama ekle...',
+    'reorder_hint' => 'Sürükleyerek sıralayın. Sıra QR menüde aynen görünür.',
 ];

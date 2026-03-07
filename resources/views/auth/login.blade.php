@@ -176,12 +176,12 @@
         .form-footer a:hover { text-decoration: underline; }
 
         /* ══ RESPONSIVE ══ */
-        @media (max-width: 900px) {
+        @@media (max-width: 900px) {
             .panel-dark { display: none; }
             .panel-white { width: 100%; box-shadow: none; }
             .slide-pane { padding: 2.5rem 2rem; }
         }
-        @media (max-width: 480px) {
+        @@media (max-width: 480px) {
             .slide-pane { padding: 2rem 1.5rem; }
         }
     </style>
@@ -376,7 +376,8 @@ function togglePw(inputId, iconId) {
 }
 
 // Give password field in register pane a proper id
-document.querySelector('.reg-pane input[name="password"]').id = 'reg-password';
+const regPwInput = document.querySelector('.reg-pane input[name="password"]');
+if (regPwInput) regPwInput.id = 'reg-password';
 
 // Intercept anchor clicks to avoid navigation for slide
 document.querySelectorAll('a[onclick]').forEach(a => {

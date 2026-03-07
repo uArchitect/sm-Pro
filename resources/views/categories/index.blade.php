@@ -34,6 +34,7 @@
     <span class="text-muted small">
         <strong>{{ $parents->count() }}</strong> {{ __('categories.parent_count') }}
         @if($children->flatten()->count()) · <strong>{{ $children->flatten()->count() }}</strong> {{ __('categories.sub_count') }} @endif
+        <span class="ms-2 opacity-75">· {{ __('categories.reorder_hint') }}</span>
     </span>
     <div class="d-flex gap-2 align-items-center">
         <div class="search-wrap">
@@ -209,7 +210,7 @@ Sortable.create(document.getElementById('sortableCats'), {
             method: 'POST',
             headers: {'Content-Type':'application/json','X-CSRF-TOKEN': CSRF},
             body: JSON.stringify({order})
-        });
+        }).then(r => r.json()).then(data => { if (data.success) showToast(); });
     }
 });
 

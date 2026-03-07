@@ -36,7 +36,7 @@
 @push('scripts')
 <script>
 function printQR() {
-    const svg = document.querySelector('.card-body svg');
+    const svg = document.querySelector('.sm-card-body svg');
     const win = window.open('', '_blank');
     win.document.write(`<!DOCTYPE html><html><head><title>QR - {{ $product->name }}</title>
     <style>body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif;}

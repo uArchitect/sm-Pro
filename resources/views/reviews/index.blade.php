@@ -72,7 +72,7 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($reviews as $review)
+                @foreach($reviews as $review)
                 <tr>
                     <td class="text-muted small">{{ \Carbon\Carbon::parse($review->created_at)->format('d.m.Y H:i') }}</td>
                     <td class="fw-semibold">{{ $review->customer_name ?: __('reviews.anonymous') }}</td>
@@ -92,14 +92,7 @@
                         </form>
                     </td>
                 </tr>
-                @empty
-                <tr>
-                    <td colspan="5" class="text-center text-muted py-5">
-                        <i class="bi bi-star fs-1 d-block mb-2 opacity-25"></i>
-                        {{ __('reviews.no_reviews') }}
-                    </td>
-                </tr>
-                @endforelse
+                @endforeach
             </tbody>
         </table>
     </div>
@@ -117,6 +110,7 @@ $(function() {
             info: '_START_–_END_ / _TOTAL_',
             infoEmpty: '',
             infoFiltered: '',
+            emptyTable: '<div class="text-center py-4 text-muted"><i class="bi bi-star fs-3 d-block mb-2 opacity-25"></i>{{ __("reviews.no_reviews") }}</div>',
             zeroRecords: '<div class="text-center py-4 text-muted"><i class="bi bi-search fs-3 d-block mb-2 opacity-25"></i>{{ __("reviews.no_reviews") }}</div>',
             paginate: { previous: '‹', next: '›' }
         },

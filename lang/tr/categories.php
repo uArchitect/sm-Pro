@@ -23,4 +23,5 @@ return [
     'add_btn'       => 'Kategori Ekle',
     'update'        => 'Güncelle',
     'name_placeholder' => 'Örn: İçecekler, Tatlılar…',
+    'reorder_hint' => 'Sürükleyerek sıralayın. Sıra QR menüde aynen görünür.',
 ];
