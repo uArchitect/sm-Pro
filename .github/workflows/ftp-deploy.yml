@@ -64,11 +64,11 @@ jobs:
           lftp -c "
             set ftp:ssl-allow no
             set ftp:passive-mode true
+            set mirror:no-permissions true
             set net:limit-total-max 8
             set net:connection-limit 8
             set mirror:parallel-transfer-count 8
             open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER
-            mkdir -p $FTP_REMOTE_DIR
-            mirror -R -v --delete --no-permissions --exclude .env --exclude .git --exclude .github --exclude node_modules --exclude tests --exclude storage/logs --exclude storage/framework/cache/data --exclude storage/framework/sessions --exclude storage/framework/views . $FTP_REMOTE_DIR
+            mirror -R -v --delete --exclude .env --exclude .git --exclude .github --exclude node_modules --exclude tests --exclude storage/logs --exclude storage/framework/cache/data --exclude storage/framework/sessions --exclude storage/framework/views . $FTP_REMOTE_DIR
             quit
           "
