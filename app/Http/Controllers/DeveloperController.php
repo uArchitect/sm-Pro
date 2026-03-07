@@ -340,7 +340,8 @@ class DeveloperController extends Controller
 
     private function authDev(): void
     {
-        if (!Auth::check() || Auth::user()->role !== 'developer') {
+        if (!Auth::check() || Auth::user()->role !== 'developer') 
+        {
             abort(403);
         }
     }
