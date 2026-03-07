@@ -21,4 +21,6 @@ return [
     'description' => 'Açıklama',
     'description_placeholder' => 'Ürün hakkında kısa açıklama...',
     'update'      => 'Güncelle',
+    'search'      => 'Ürün ara...',
+    'add_desc'    => 'Açıklama ekle...',
 ];

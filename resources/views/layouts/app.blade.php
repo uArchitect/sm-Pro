@@ -9,6 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    @stack('styles')
     <style>
         :root {
             --accent:        #FF6B35;
@@ -341,6 +343,26 @@
         }
 
         /* ═══════════════════════════════════════
+           DATATABLES OVERRIDE
+        ═══════════════════════════════════════ */
+        .dataTables_wrapper .dataTables_info { font-size:.78rem; color:var(--text-muted); padding-top:.75rem; }
+        .dataTables_wrapper .dataTables_paginate { padding-top:.5rem; }
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            font-size:.8rem !important; border-radius:6px !important; padding:.3rem .65rem !important;
+            border:1px solid var(--border) !important; margin:0 2px;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            background:var(--accent) !important; color:#fff !important; border-color:var(--accent) !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover:not(.current):not(.disabled) {
+            background:rgba(255,107,53,.08) !important; color:var(--accent) !important; border-color:rgba(255,107,53,.2) !important;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+            color:var(--text-muted) !important; opacity:.4; cursor:default;
+        }
+        table.dataTable { border-collapse:collapse !important; }
+
+        /* ═══════════════════════════════════════
            SCROLLBAR
         ═══════════════════════════════════════ */
         ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -500,7 +522,10 @@
     </main>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 <script>
 function toggleSb() {
     document.getElementById('sidebar').classList.toggle('open');

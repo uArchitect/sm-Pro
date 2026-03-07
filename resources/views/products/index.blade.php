@@ -1,30 +1,52 @@
 @extends('layouts.app')
 
-@section('title', 'Ürünler')
-@section('page-title', 'Ürünler')
+@section('title', __('products.title'))
+@section('page-title', __('products.title'))
 
 @section('content')
 <style>
 .drag-handle { cursor:grab; color:#d1d5db; font-size:1rem; padding:0 6px; }
 .drag-handle:hover { color:#FF6B35; }
 .sortable-ghost { opacity:.4; background:#fff8f5; }
-.prod-thumb { width:44px; height:44px; border-radius:10px; object-fit:cover; }
-.prod-thumb-empty { width:44px; height:44px; border-radius:10px; background:#f3f4f6; display:flex; align-items:center; justify-content:center; color:#d1d5db; font-size:1.1rem; }
-.cat-chip { font-size:.72rem; background:rgba(99,102,241,.08); color:#6366f1; border-radius:6px; padding:.2rem .55rem; font-weight:600; border:1px solid rgba(99,102,241,.15); }
-.price-tag { font-weight:700; font-size:.9rem; color:#FF6B35; }
+.prod-thumb { width:44px; height:44px; border-radius:10px; object-fit:cover; cursor:pointer; transition:all .15s; }
+.prod-thumb:hover { opacity:.7; box-shadow:0 0 0 2px rgba(255,107,53,.4); }
+.prod-thumb-empty { width:44px; height:44px; border-radius:10px; background:#f3f4f6; display:flex; align-items:center; justify-content:center; color:#d1d5db; font-size:1.1rem; cursor:pointer; transition:all .15s; }
+.prod-thumb-empty:hover { background:#fff0eb; color:#FF6B35; border:1px dashed rgba(255,107,53,.4); }
+.cat-chip { font-size:.72rem; background:rgba(99,102,241,.08); color:#6366f1; border-radius:6px; padding:.2rem .55rem; font-weight:600; border:1px solid rgba(99,102,241,.15); cursor:pointer; transition:all .15s; display:inline-block; }
+.cat-chip:hover { background:rgba(99,102,241,.16); border-color:rgba(99,102,241,.3); }
+.price-tag { font-weight:700; font-size:.9rem; color:#FF6B35; cursor:pointer; border-radius:4px; padding:2px 6px; margin:-2px -6px; transition:background .15s; display:inline-block; }
+.price-tag:hover { background:rgba(255,107,53,.08); }
 .inline-save-toast { position:fixed; bottom:1.5rem; right:1.5rem; z-index:9999; }
+.ie-name { cursor:pointer; border-radius:4px; padding:2px 6px; margin:-2px -6px; transition:background .15s; }
+.ie-name:hover { background:rgba(255,107,53,.06); }
+.ie-desc { color:#98a2b3; font-size:.78rem; margin-top:.15rem; cursor:pointer; border-radius:4px; padding:1px 6px; margin-left:-6px; transition:background .15s; }
+.ie-desc:hover { background:rgba(0,0,0,.03); }
+.ie-desc-empty { color:#d1d5db; font-style:italic; }
+.ie-input { border:1.5px solid var(--accent); border-radius:6px; padding:4px 8px; font-size:inherit; font-family:inherit; font-weight:inherit; width:100%; outline:none; background:#fff; box-shadow:0 0 0 3px rgba(255,107,53,.12); }
+.ie-select { border:1.5px solid var(--accent); border-radius:6px; padding:3px 6px; font-size:.78rem; font-weight:600; outline:none; background:#fff; box-shadow:0 0 0 3px rgba(255,107,53,.12); max-width:180px; cursor:pointer; }
+.img-loading { opacity:.3; pointer-events:none; }
+.sm-search { border:1.5px solid #e5e7eb; border-radius:9px; padding:.4rem .75rem .4rem 2rem; font-size:.82rem; font-family:'Inter',sans-serif; transition:border-color .15s,box-shadow .15s; width:200px; background:#fff; }
+.sm-search:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,107,53,.12); outline:none; }
+.search-wrap { position:relative; }
+.search-wrap i { position:absolute; left:.7rem; top:50%; transform:translateY(-50%); color:#98a2b3; font-size:.8rem; pointer-events:none; }
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <span class="text-muted small">{{ __('products.total', ['count' => $products->count()]) }}</span>
-    <a href="{{ route('products.create') }}" class="btn btn-accent btn-sm">
-        <i class="bi bi-plus-circle me-1"></i>{{ __('products.add') }}
-    </a>
+    <div class="d-flex gap-2 align-items-center">
+        <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input type="text" id="prodSearch" class="sm-search" placeholder="{{ __('products.search') }}">
+        </div>
+        <a href="{{ route('products.create') }}" class="btn btn-accent btn-sm">
+            <i class="bi bi-plus-circle me-1"></i>{{ __('products.add') }}
+        </a>
+    </div>
 </div>
 
 <div class="sm-card">
     <div class="table-responsive">
-        <table class="table sm-table align-middle mb-0">
+        <table class="table sm-table align-middle mb-0" id="productsTable">
             <thead>
                 <tr>
                     <th style="width:36px"></th>
@@ -32,7 +54,7 @@
                     <th>{{ __('products.name') }}</th>
                     <th style="width:150px">{{ __('products.category') }}</th>
                     <th style="width:110px">{{ __('products.price') }}</th>
-                    <th class="text-end pe-4" style="width:140px">{{ __('common.actions') }}</th>
+                    <th class="text-end pe-4" style="width:80px"></th>
                 </tr>
             </thead>
             <tbody id="sortableProds">
@@ -41,32 +63,44 @@
                     <td class="ps-3"><i class="bi bi-grip-vertical drag-handle"></i></td>
                     <td>
                         @if($product->image)
-                            <img src="{{ asset('storage/'.$product->image) }}" class="prod-thumb" data-img="{{ $product->id }}">
+                            <img src="{{ asset('storage/'.$product->image) }}" class="prod-thumb"
+                                 data-img="{{ $product->id }}" onclick="triggerImgUpload({{ $product->id }})"
+                                 title="{{ __('common.photo') }}">
                         @else
-                            <div class="prod-thumb-empty" data-img="{{ $product->id }}"><i class="bi bi-box-seam"></i></div>
+                            <div class="prod-thumb-empty" data-img="{{ $product->id }}"
+                                 onclick="triggerImgUpload({{ $product->id }})" title="{{ __('common.photo') }}">
+                                <i class="bi bi-camera"></i>
+                            </div>
                         @endif
                     </td>
                     <td>
-                        <span class="fw-600 prod-name" data-name="{{ $product->id }}" style="font-weight:600">{{ $product->name }}</span>
-                        @if($product->description)
-                        <div class="text-muted" style="font-size:.78rem;margin-top:.15rem">{{ Str::limit($product->description, 50) }}</div>
-                        @endif
-                    </td>
-                    <td><span class="cat-chip prod-cat" data-cat="{{ $product->id }}">{{ $product->category_name }}</span></td>
-                    <td><span class="price-tag prod-price" data-price="{{ $product->id }}">{{ number_format($product->price, 2, ',', '.') }} ₺</span></td>
-                    <td class="text-end pe-4">
-                        <div class="d-flex gap-1 justify-content-end">
-                            <button class="btn btn-sm btn-outline-secondary"
-                                onclick="openEditModal({{ $product->id }}, '{{ addslashes($product->name) }}', {{ $product->price }}, {{ $product->category_id }}, {{ $product->image ? "'".asset('storage/'.$product->image)."'" : 'null' }})"
-                                title="{{ __('common.edit') }}">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <form method="POST" action="{{ route('products.destroy', $product->id) }}"
-                                  onsubmit="return confirm({{ json_encode(__('products.delete_confirm', ['name' => $product->name])) }})">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                            </form>
+                        <div class="ie-name" onclick="startEdit(this)" data-field="name"
+                             data-id="{{ $product->id }}" data-value="{{ e($product->name) }}">
+                            <span style="font-weight:600">{{ $product->name }}</span>
                         </div>
+                        <div class="ie-desc {{ $product->description ? '' : 'ie-desc-empty' }}"
+                             onclick="startEdit(this)" data-field="description" data-id="{{ $product->id }}">
+                            {{ $product->description ? Str::limit($product->description, 60) : __('products.add_desc') }}
+                        </div>
+                    </td>
+                    <td>
+                        <span class="cat-chip" onclick="startCatEdit(this)" data-field="category_id"
+                              data-id="{{ $product->id }}" data-value="{{ $product->category_id }}">
+                            {{ $product->category_name }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="price-tag" onclick="startEdit(this)" data-field="price"
+                              data-id="{{ $product->id }}" data-value="{{ $product->price }}">
+                            {{ number_format($product->price, 2, ',', '.') }} ₺
+                        </span>
+                    </td>
+                    <td class="text-end pe-4">
+                        <form method="POST" action="{{ route('products.destroy', $product->id) }}"
+                              onsubmit="return confirm({{ json_encode(__('products.delete_confirm', ['name' => $product->name])) }})">
+                            @csrf @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                        </form>
                     </td>
                 </tr>
                 @empty
@@ -83,74 +117,10 @@
     </div>
 </div>
 
-{{-- Inline Edit Modal --}}
-<div class="modal fade" id="editModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered" style="max-width:460px">
-        <div class="modal-content" style="border:none;border-radius:16px;overflow:hidden">
-            <div class="modal-header" style="background:#0f1923;border:none;padding:1.1rem 1.4rem">
-                <h6 class="modal-title text-white mb-0" style="font-weight:700">
-                    <i class="bi bi-pencil-square me-2" style="color:#FF6B35"></i>{{ __('products.edit_product') }}
-                </h6>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body p-4">
-                <div id="editAlert" class="alert alert-danger d-none py-2 small mb-3"></div>
+<input type="file" id="imgUploadInput" accept="image/*" class="d-none">
 
-                {{-- Image upload --}}
-                <div class="mb-3">
-                    <label class="form-label">{{ __('common.photo') }}</label>
-                    <div class="img-upload-zone" id="prodImgZone" onclick="document.getElementById('prodImgInput').click()">
-                        <img id="prodImgPreview" src="" class="img-preview d-none">
-                        <div id="prodImgPlaceholder">
-                            <i class="bi bi-cloud-upload" style="font-size:1.6rem;color:#d1d5db"></i>
-                            <div class="mt-1" style="font-size:.78rem;color:#9ca3af">{{ __('common.click_or_drop') }}</div>
-                            <div style="font-size:.72rem;color:#d1d5db">{{ __('common.max_file_size') }}</div>
-                        </div>
-                    </div>
-                    <input type="file" id="prodImgInput" accept="image/*" class="d-none">
-                    <button type="button" class="btn btn-link btn-sm text-danger p-0 mt-1 d-none" id="prodRemoveImgBtn" onclick="prodRemoveImg()">
-                        <i class="bi bi-x-circle me-1"></i>{{ __('common.remove_photo') }}
-                    </button>
-                </div>
-
-                {{-- Name --}}
-                <div class="mb-3">
-                    <label class="form-label">{{ __('products.name') }}</label>
-                    <input type="text" id="editProdName" class="form-control" placeholder="{{ __('products.name_placeholder') }}" maxlength="255">
-                </div>
-
-                {{-- Price --}}
-                <div class="mb-3">
-                    <label class="form-label">{{ __('products.price_tl') }}</label>
-                    <div class="input-group">
-                        <span class="input-group-text">₺</span>
-                        <input type="number" id="editProdPrice" class="form-control" step="0.01" min="0" placeholder="0.00">
-                    </div>
-                </div>
-
-                {{-- Category --}}
-                <div class="mb-3">
-                    <label class="form-label">{{ __('products.category') }}</label>
-                    <select id="editProdCat" class="form-select">
-                        @foreach($categories as $cat)
-                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="modal-footer" style="border:none;padding:.75rem 1.4rem 1.2rem">
-                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">{{ __('common.cancel') }}</button>
-                <button type="button" class="btn btn-accent btn-sm" id="saveProdBtn" onclick="saveEdit()">
-                    <i class="bi bi-check-lg me-1"></i>{{ __('common.save') }}
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-{{-- Toast --}}
 <div class="inline-save-toast">
-    <div id="saveToast" class="toast align-items-center text-bg-success border-0" role="alert" data-bs-autohide="true" data-bs-delay="2500">
+    <div id="saveToast" class="toast align-items-center text-bg-success border-0" role="alert" data-bs-autohide="true" data-bs-delay="2000">
         <div class="d-flex">
             <div class="toast-body"><i class="bi bi-check-circle me-2"></i>{{ __('common.saved') }}</div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
@@ -162,17 +132,37 @@
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.3/Sortable.min.js"></script>
 <script>
 const CSRF = '{{ csrf_token() }}';
-let editingId  = null;
-let removingImg = false;
+const categories = @json($categories);
+const fullDescs = @json($products->pluck('description', 'id'));
+let uploadingForId = null;
+let dtInstance = null;
 
-// Drag-drop sort
+$(function() {
+    dtInstance = $('#productsTable').DataTable({
+        ordering: false,
+        paging: true,
+        pageLength: 25,
+        dom: 't<"d-flex justify-content-between align-items-center mt-3"ip>',
+        language: {
+            info: '_START_–_END_ / _TOTAL_',
+            infoEmpty: '',
+            infoFiltered: '',
+            zeroRecords: '<div class="text-center py-4 text-muted"><i class="bi bi-search fs-3 d-block mb-2 opacity-25"></i>{{ __("products.no_products") }}</div>',
+            paginate: { previous: '‹', next: '›' }
+        },
+        columnDefs: [
+            { targets: [0, 1, 5], searchable: false, orderable: false }
+        ]
+    });
+    $('#prodSearch').on('keyup', function() { dtInstance.search(this.value).draw(); });
+});
+
 Sortable.create(document.getElementById('sortableProds'), {
     handle: '.drag-handle',
     animation: 150,
     ghostClass: 'sortable-ghost',
     onEnd() {
-        const order = [...document.querySelectorAll('#sortableProds tr[data-id]')]
-            .map(r => r.dataset.id);
+        const order = [...document.querySelectorAll('#sortableProds tr[data-id]')].map(r => r.dataset.id);
         fetch('{{ route("products.reorder") }}', {
             method: 'POST',
             headers: {'Content-Type':'application/json','X-CSRF-TOKEN': CSRF},
@@ -181,134 +171,160 @@ Sortable.create(document.getElementById('sortableProds'), {
     }
 });
 
-// Open modal
-function openEditModal(id, name, price, catId, imgUrl) {
-    editingId   = id;
-    removingImg = false;
-    document.getElementById('editProdName').value  = name;
-    document.getElementById('editProdPrice').value = price;
-    document.getElementById('editProdCat').value   = catId;
-    document.getElementById('prodImgInput').value  = '';
-    document.getElementById('editAlert').classList.add('d-none');
-
-    const preview     = document.getElementById('prodImgPreview');
-    const placeholder = document.getElementById('prodImgPlaceholder');
-    const removeBtn   = document.getElementById('prodRemoveImgBtn');
-
-    if (imgUrl) {
-        preview.src = imgUrl; preview.classList.remove('d-none');
-        placeholder.classList.add('d-none');
-        removeBtn.classList.remove('d-none');
+function startEdit(el) {
+    if (el.querySelector('input,textarea,select')) return;
+    const field = el.dataset.field;
+    const id    = el.dataset.id;
+    const origHTML = el.innerHTML;
+    let rawVal;
+    if (field === 'description') {
+        rawVal = fullDescs[id] || '';
     } else {
-        preview.classList.add('d-none');
-        placeholder.classList.remove('d-none');
-        removeBtn.classList.add('d-none');
+        rawVal = el.dataset.value || '';
     }
-    new bootstrap.Modal(document.getElementById('editModal')).show();
-}
 
-// Image preview
-document.getElementById('prodImgInput').addEventListener('change', function() {
-    if (!this.files[0]) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-        document.getElementById('prodImgPreview').src = e.target.result;
-        document.getElementById('prodImgPreview').classList.remove('d-none');
-        document.getElementById('prodImgPlaceholder').classList.add('d-none');
-        document.getElementById('prodRemoveImgBtn').classList.remove('d-none');
+    const input = document.createElement('input');
+    input.className = 'ie-input';
+    if (field === 'price') {
+        input.type = 'number'; input.step = '0.01'; input.min = '0'; input.style.width = '100px';
+    } else {
+        input.type = 'text';
+    }
+    input.value = rawVal;
+    if (field === 'description') {
+        input.placeholder = '{{ __("products.add_desc") }}';
+        input.style.fontSize = '.78rem';
+    }
+
+    el.innerHTML = '';
+    el.appendChild(input);
+    input.focus();
+    input.select();
+
+    let done = false;
+    const finish = async (save) => {
+        if (done) return;
+        done = true;
+        const nv = input.value.trim();
+        if (!save || (field !== 'description' && !nv) || nv === rawVal) {
+            el.innerHTML = origHTML;
+            return;
+        }
+        el.innerHTML = '<span class="spinner-border spinner-border-sm text-muted"></span>';
+        const fd = new FormData();
+        fd.append('_token', CSRF);
+        fd.append(field, nv);
+        try {
+            const res = await fetch(`/products/${id}/inline-update`, {method:'POST', body:fd});
+            const data = await res.json();
+            if (data.success) {
+                if (field === 'name') {
+                    el.dataset.value = data.name;
+                    el.innerHTML = '<span style="font-weight:600">' + esc(data.name) + '</span>';
+                } else if (field === 'price') {
+                    el.dataset.value = data.raw_price;
+                    el.textContent = data.price + ' ₺';
+                } else if (field === 'description') {
+                    fullDescs[id] = data.description || '';
+                    el.className = 'ie-desc ' + (data.description ? '' : 'ie-desc-empty');
+                    el.textContent = data.description_short || '{{ __("products.add_desc") }}';
+                }
+                afterEdit();
+            } else { el.innerHTML = origHTML; }
+        } catch(e) { el.innerHTML = origHTML; }
     };
-    reader.readAsDataURL(this.files[0]);
-});
 
-// Drag-drop zone
-const zone = document.getElementById('prodImgZone');
-zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor='#FF6B35'; });
-zone.addEventListener('dragleave', () => zone.style.borderColor='');
-zone.addEventListener('drop', e => {
-    e.preventDefault(); zone.style.borderColor='';
-    const dt = new DataTransfer();
-    dt.items.add(e.dataTransfer.files[0]);
-    document.getElementById('prodImgInput').files = dt.files;
-    document.getElementById('prodImgInput').dispatchEvent(new Event('change'));
-});
-
-function prodRemoveImg() {
-    removingImg = true;
-    document.getElementById('prodImgPreview').classList.add('d-none');
-    document.getElementById('prodImgPlaceholder').classList.remove('d-none');
-    document.getElementById('prodRemoveImgBtn').classList.add('d-none');
-    document.getElementById('prodImgInput').value = '';
+    input.addEventListener('blur', () => finish(true));
+    input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+        if (e.key === 'Escape') { e.preventDefault(); finish(false); }
+    });
 }
 
-async function saveEdit() {
-    const name  = document.getElementById('editProdName').value.trim();
-    const price = document.getElementById('editProdPrice').value;
-    if (!name || price === '') {
-        const al = document.getElementById('editAlert');
-        al.textContent = '{{ __('products.name_price_required') }}';
-        al.classList.remove('d-none');
-        return;
-    }
+function startCatEdit(el) {
+    if (el.querySelector('select')) return;
+    const id = el.dataset.id;
+    const curVal = el.dataset.value;
+    const origHTML = el.innerHTML;
 
-    const btn = document.getElementById('saveProdBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>{{ __('common.loading') }}';
+    const sel = document.createElement('select');
+    sel.className = 'ie-select';
+    categories.forEach(c => {
+        const o = document.createElement('option');
+        o.value = c.id; o.textContent = c.name;
+        if (c.id == curVal) o.selected = true;
+        sel.appendChild(o);
+    });
+
+    el.innerHTML = '';
+    el.appendChild(sel);
+    sel.focus();
+
+    let done = false;
+    const finish = async (save) => {
+        if (done) return;
+        done = true;
+        if (!save || sel.value == curVal) { el.innerHTML = origHTML; return; }
+        el.innerHTML = '<span class="spinner-border spinner-border-sm text-muted"></span>';
+        const fd = new FormData();
+        fd.append('_token', CSRF);
+        fd.append('category_id', sel.value);
+        try {
+            const res = await fetch(`/products/${id}/inline-update`, {method:'POST', body:fd});
+            const data = await res.json();
+            if (data.success) {
+                el.dataset.value = sel.value;
+                el.textContent = data.category_name;
+                afterEdit();
+            } else { el.innerHTML = origHTML; }
+        } catch(e) { el.innerHTML = origHTML; }
+    };
+    sel.addEventListener('change', () => finish(true));
+    sel.addEventListener('blur', () => { if(!done){done=true; el.innerHTML=origHTML;} });
+}
+
+function triggerImgUpload(pid) {
+    uploadingForId = pid;
+    const inp = document.getElementById('imgUploadInput');
+    inp.value = '';
+    inp.click();
+}
+
+document.getElementById('imgUploadInput').addEventListener('change', async function() {
+    if (!this.files[0] || !uploadingForId) return;
+    const id = uploadingForId;
+    const imgEl = document.querySelector(`[data-img="${id}"]`);
+    imgEl.classList.add('img-loading');
 
     const fd = new FormData();
     fd.append('_token', CSRF);
-    fd.append('name', name);
-    fd.append('price', price);
-    fd.append('category_id', document.getElementById('editProdCat').value);
-    if (removingImg) fd.append('remove_image', '1');
-    const file = document.getElementById('prodImgInput').files[0];
-    if (file) fd.append('image', file);
-
+    fd.append('image', this.files[0]);
     try {
-        const res  = await fetch(`/products/${editingId}/inline-update`, {method:'POST', body:fd});
+        const res = await fetch(`/products/${id}/inline-update`, {method:'POST', body:fd});
         const data = await res.json();
-
-        if (data.success) {
-            document.querySelector(`[data-name="${editingId}"]`).textContent = data.name;
-            document.querySelector(`[data-price="${editingId}"]`).textContent = data.price + ' ₺';
-            document.querySelector(`[data-cat="${editingId}"]`).textContent = data.category_name;
-
-            const imgEl = document.querySelector(`[data-img="${editingId}"]`);
-            if (data.image_url) {
-                if (imgEl.tagName === 'IMG') {
-                    imgEl.src = data.image_url + '?t=' + Date.now();
-                } else {
-                    const img = document.createElement('img');
-                    img.src = data.image_url;
-                    img.className = 'prod-thumb';
-                    img.dataset.img = editingId;
-                    imgEl.replaceWith(img);
-                }
-            } else if (removingImg) {
-                const div = document.createElement('div');
-                div.className = 'prod-thumb-empty';
-                div.dataset.img = editingId;
-                div.innerHTML = '<i class="bi bi-box-seam"></i>';
-                imgEl.replaceWith(div);
+        if (data.success && data.image_url) {
+            if (imgEl.tagName === 'IMG') {
+                imgEl.src = data.image_url + '?t=' + Date.now();
+            } else {
+                const img = document.createElement('img');
+                img.src = data.image_url;
+                img.className = 'prod-thumb';
+                img.dataset.img = id;
+                img.onclick = () => triggerImgUpload(id);
+                img.title = '{{ __("common.photo") }}';
+                imgEl.replaceWith(img);
             }
-
-            bootstrap.Modal.getInstance(document.getElementById('editModal')).hide();
-            bootstrap.Toast.getOrCreateInstance(document.getElementById('saveToast')).show();
+            afterEdit();
         }
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="bi bi-check-lg me-1"></i>{{ __('common.save') }}';
-    }
+    } finally { imgEl.classList.remove('img-loading'); }
+});
+
+function afterEdit() {
+    bootstrap.Toast.getOrCreateInstance(document.getElementById('saveToast')).show();
+    if (dtInstance) dtInstance.rows().invalidate().draw(false);
 }
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 </script>
 @endpush
-
-<style>
-.img-upload-zone {
-    border:2px dashed #e5e7eb; border-radius:12px; padding:1.5rem;
-    text-align:center; cursor:pointer; transition:border-color .15s,background .15s;
-    min-height:110px; display:flex; align-items:center; justify-content:center;
-}
-.img-upload-zone:hover { border-color:#FF6B35; background:#fff8f5; }
-.img-preview { max-width:100%; max-height:160px; border-radius:8px; object-fit:contain; }
-</style>
 @endsection

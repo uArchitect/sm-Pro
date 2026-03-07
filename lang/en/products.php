@@ -21,4 +21,6 @@ return [
     'description' => 'Description',
     'description_placeholder' => 'Brief description of the product...',
     'update'      => 'Update',
+    'search'      => 'Search products...',
+    'add_desc'    => 'Add description...',
 ];

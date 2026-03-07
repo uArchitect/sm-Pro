@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -167,7 +168,7 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', __('messages.product_deleted'));
     }
 
-    /** AJAX: inline update (name, price, image, category) */
+    /** AJAX: inline update (name, description, price, image, category) */
     public function inlineUpdate(Request $request, int $id)
     {
         $tenantId = session('tenant_id');
@@ -181,6 +182,11 @@ class ProductController extends Controller
 
         if ($request->filled('name')) {
             $data['name'] = substr(strip_tags($request->name), 0, 255);
+        }
+        if ($request->has('description')) {
+            $data['description'] = $request->description
+                ? substr(strip_tags($request->description), 0, 1000)
+                : null;
         }
         if ($request->filled('price')) {
             $data['price'] = max(0, (float) $request->price);
@@ -203,17 +209,25 @@ class ProductController extends Controller
             $data['image'] = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
         }
 
+        if ($request->boolean('remove_image') && $product->image) {
+            Storage::disk('public')->delete($product->image);
+            $data['image'] = null;
+        }
+
         DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->update($data);
 
         $updated  = DB::table('products')->find($id);
         $category = DB::table('categories')->find($updated->category_id);
 
         return response()->json([
-            'success'       => true,
-            'name'          => $updated->name,
-            'price'         => number_format($updated->price, 2, ',', '.'),
-            'image_url'     => $updated->image ? asset('storage/' . $updated->image) : null,
-            'category_name' => $category->name ?? '',
+            'success'           => true,
+            'name'              => $updated->name,
+            'description'       => $updated->description,
+            'description_short' => $updated->description ? Str::limit($updated->description, 60) : null,
+            'price'             => number_format($updated->price, 2, ',', '.'),
+            'raw_price'         => $updated->price,
+            'image_url'         => $updated->image ? asset('storage/' . $updated->image) : null,
+            'category_name'     => $category->name ?? '',
         ]);
     }
 

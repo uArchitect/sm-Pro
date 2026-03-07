@@ -1,6 +1,4 @@
-# Laravel FTP Deploy - lftp ile paralel transfer (hızlı)
-# Gerekli GitHub Secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_REMOTE_DIR (opsiyonel)
-# FTP_SERVER mutlaka ftp:// ile başlamalı (örn: ftp://ftp.site.com veya ftp://site.com) — http:// DEĞİL
+# Laravel FTP Deploy - lftp ile paralel transfer
 name: Deploy to FTP
 
 on:
@@ -9,10 +7,10 @@ on:
   workflow_dispatch:
 
 env:
-  FTP_SERVER: ${{ secrets.FTP_SERVER }}
-  FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-  FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
-  FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR || '/' }}
+  FTP_SERVER: siparismasanda.com
+  FTP_USERNAME: developer2@siparismasanda.com
+  FTP_PASSWORD: uqurcan0302
+  FTP_REMOTE_DIR: /
 
 jobs:
   deploy:
