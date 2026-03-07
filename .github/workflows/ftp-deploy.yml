@@ -1,6 +1,6 @@
 # Laravel FTP Deploy - lftp ile paralel transfer (hızlı)
 # Gerekli GitHub Secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_REMOTE_DIR (opsiyonel)
-# FTP_SERVER örnek: ftp.site.com veya ftp://ftp.site.com
+# FTP_SERVER mutlaka ftp:// ile başlamalı (örn: ftp://ftp.site.com veya ftp://site.com) — http:// DEĞİL
 name: Deploy to FTP
 
 on:
@@ -9,10 +9,10 @@ on:
   workflow_dispatch:
 
 env:
-  FTP_SERVER: http://siparismasanda.com/
-  FTP_USERNAME: developer2@siparismasanda.com
-  FTP_PASSWORD: uqurcan0302
-  FTP_REMOTE_DIR: /
+  FTP_SERVER: ${{ secrets.FTP_SERVER }}
+  FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+  FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+  FTP_REMOTE_DIR: ${{ secrets.FTP_REMOTE_DIR || '/' }}
 
 jobs:
   deploy:
@@ -65,11 +65,12 @@ jobs:
           sudo apt-get update -qq && sudo apt-get install -y lftp
           lftp -c "
             set ftp:ssl-allow no
+            set ftp:passive-mode true
             set net:limit-total-max 8
             set net:connection-limit 8
             set mirror:parallel-transfer-count 8
-            set mirror:parallel-directories 4
             open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER
-            mirror -R -v --delete --exclude .env --exclude .git --exclude .github --exclude node_modules --exclude tests --exclude storage/logs --exclude storage/framework/cache/data --exclude storage/framework/sessions --exclude storage/framework/views . $FTP_REMOTE_DIR
+            mkdir -p $FTP_REMOTE_DIR
+            mirror -R -v --delete --no-permissions --exclude .env --exclude .git --exclude .github --exclude node_modules --exclude tests --exclude storage/logs --exclude storage/framework/cache/data --exclude storage/framework/sessions --exclude storage/framework/views . $FTP_REMOTE_DIR
             quit
           "
