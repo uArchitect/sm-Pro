@@ -53,14 +53,7 @@
         <form method="POST" action="{{ route('register') }}" novalidate>
             @csrf
 
-            <div class="section-divider">Firma Bilgileri</div>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold small">Firma Adı</label>
-                <input type="text" name="firma_adi" class="form-control @error('firma_adi') is-invalid @enderror"
-                       value="{{ old('firma_adi') }}" placeholder="Örn: ABC Gıda Ltd." required>
-                @error('firma_adi')<div class="invalid-feedback">{{ $message }}</div>@enderror
-            </div>
+            <div class="section-divider">Restoran Bilgileri</div>
 
             <div class="mb-3">
                 <label class="form-label fw-semibold small">Restoran Adı</label>

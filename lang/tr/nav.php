@@ -6,6 +6,7 @@ return [
         'company'       => 'Firma',
         'company_info'  => 'Firma Bilgileri',
         'staff'         => 'Personel',
+        'reviews'       => 'Değerlendirmeler',
         'digital_menu'  => 'Dijital Menü',
         'categories'    => 'Kategoriler',
         'products'      => 'Ürünler',

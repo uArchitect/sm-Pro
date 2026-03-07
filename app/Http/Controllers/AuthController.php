@@ -19,13 +19,11 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'firma_adi'    => 'required|string|max:255',
             'restoran_adi' => 'required|string|max:255',
             'name'         => 'required|string|max:255',
             'email'        => 'required|email|unique:users,email',
             'password'     => 'required|string|min:8|confirmed',
         ], [
-            'firma_adi.required'    => __('validation.required.firma_adi'),
             'restoran_adi.required' => __('validation.required.restoran_adi'),
             'name.required'         => __('validation.required.name'),
             'email.required'        => __('validation.required.email'),
@@ -37,7 +35,7 @@ class AuthController extends Controller
         ]);
 
         $tenantId = DB::table('tenants')->insertGetId([
-            'firma_adi'    => $request->firma_adi,
+            'firma_adi'    => $request->restoran_adi,
             'restoran_adi' => $request->restoran_adi,
             'created_at'   => now(),
             'updated_at'   => now(),

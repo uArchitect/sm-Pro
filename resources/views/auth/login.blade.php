@@ -215,7 +215,7 @@
     </div>
 
     {{-- ═══ RIGHT: Sliding form panel ═══ --}}
-    <div class="panel-white {{ ($showRegister ?? false) || $errors->has('firma_adi') || $errors->has('restoran_adi') ? 'show-reg' : '' }}" id="panelRight">
+    <div class="panel-white {{ ($showRegister ?? false) || $errors->has('restoran_adi') ? 'show-reg' : '' }}" id="panelRight">
         <div class="slide-wrap" id="slideWrap">
 
             {{-- ─── LOGIN PANE ─── --}}
@@ -277,7 +277,7 @@
                 <div class="form-title">{{ __('auth.register_title') }}</div>
                 <div class="form-sub">{{ __('auth.register_sub') }}</div>
 
-                @if($errors->has('firma_adi') || $errors->has('restoran_adi') || $errors->has('name') || ($errors->has('email') && ($showRegister ?? false)))
+                @if($errors->has('restoran_adi') || $errors->has('name') || ($errors->has('email') && ($showRegister ?? false)))
                 <div class="err-box">
                     @foreach($errors->all() as $e)<p><i class="bi bi-exclamation-circle me-1"></i>{{ $e }}</p>@endforeach
                 </div>
@@ -287,16 +287,6 @@
                     @csrf
 
                     <div class="sec-div">{{ __('auth.company_info') }}</div>
-                    <div class="f-group">
-                        <label class="f-label">{{ __('auth.company_name') }}</label>
-                        <div class="f-field">
-                            <i class="bi bi-building f-icon"></i>
-                            <input type="text" name="firma_adi"
-                                   class="f-input {{ $errors->has('firma_adi') ? 'is-invalid' : '' }}"
-                                   value="{{ old('firma_adi') }}" placeholder="{{ __('auth.company_placeholder') }}" required>
-                        </div>
-                        @error('firma_adi')<div class="f-err">{{ $message }}</div>@enderror
-                    </div>
                     <div class="f-group">
                         <label class="f-label">{{ __('auth.restaurant_name') }}</label>
                         <div class="f-field">

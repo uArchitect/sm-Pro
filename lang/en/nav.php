@@ -6,6 +6,7 @@ return [
         'company'       => 'Company',
         'company_info'  => 'Company Info',
         'staff'         => 'Staff',
+        'reviews'       => 'Reviews',
         'digital_menu'  => 'Digital Menu',
         'categories'    => 'Categories',
         'products'      => 'Products',

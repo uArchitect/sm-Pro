@@ -27,7 +27,6 @@
                 <dl class="row mb-0 small">
                     <dt class="col-5 text-muted fw-semibold">ID</dt>        <dd class="col-7"><code>#{{ $tenant->id }}</code></dd>
                     <dt class="col-5 text-muted fw-semibold">Restoran</dt>  <dd class="col-7 fw-600" style="font-weight:600">{{ $tenant->restoran_adi }}</dd>
-                    <dt class="col-5 text-muted fw-semibold">Firma</dt>     <dd class="col-7">{{ $tenant->firma_adi }}</dd>
                     <dt class="col-5 text-muted fw-semibold">Kayıt</dt>     <dd class="col-7">{{ \Carbon\Carbon::parse($tenant->created_at)->format('d.m.Y H:i') }}</dd>
                     <dt class="col-5 text-muted fw-semibold">Kullanıcı</dt> <dd class="col-7">{{ $users->count() }}</dd>
                     <dt class="col-5 text-muted fw-semibold">Kategori</dt>  <dd class="col-7">{{ $categories->count() }}</dd>

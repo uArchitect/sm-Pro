@@ -16,6 +16,11 @@ return new class extends Migration
             $table->string('restoran_adresi')->nullable();
             $table->string('restoran_telefonu')->nullable();
             $table->string('logo')->nullable();
+            $table->boolean('ordering_enabled')->default(false);
+            $table->string('instagram')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('whatsapp')->nullable();
             $table->timestamps();
         });
 
@@ -73,10 +78,32 @@ return new class extends Migration
             $table->unsignedInteger('sort_order')->default(0);
             $table->timestamps();
         });
+
+        // 7. Reviews
+        Schema::create('reviews', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('tenant_id')->constrained('tenants')->cascadeOnDelete();
+            $table->string('customer_name', 100)->nullable();
+            $table->unsignedTinyInteger('rating');
+            $table->text('comment')->nullable();
+            $table->string('ip_address', 45)->nullable();
+            $table->timestamp('created_at')->useCurrent();
+        });
+
+        // 8. QR Visits
+        Schema::create('qr_visits', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('tenant_id')->constrained('tenants')->cascadeOnDelete();
+            $table->string('ip_address', 45)->nullable();
+            $table->timestamp('visited_at')->useCurrent();
+            $table->index(['tenant_id', 'visited_at']);
+        });
     }
 
     public function down(): void
     {
+        Schema::dropIfExists('qr_visits');
+        Schema::dropIfExists('reviews');
         Schema::dropIfExists('products');
         Schema::dropIfExists('categories');
         Schema::dropIfExists('sessions');

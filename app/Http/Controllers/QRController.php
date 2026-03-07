@@ -8,9 +8,6 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class QRController extends Controller
 {
-    /**
-     * Ürüne özel QR kodu göster (dashboard içi, auth gerekli)
-     */
     public function show(int $id)
     {
         $tenantId = session('tenant_id');
@@ -29,10 +26,6 @@ class QRController extends Controller
         return view('products.qr', compact('product', 'qrCode', 'url'));
     }
 
-    /**
-     * Tenant'ın kalıcı menü QR sayfası (dashboard içi, auth gerekli)
-     * URL: /menu/{tenantId}  →  baskıya hazır, değişmez.
-     */
     public function menuQr()
     {
         $tenantId = session('tenant_id');
@@ -44,9 +37,6 @@ class QRController extends Controller
         return view('qr.menu', compact('tenant', 'qrCode', 'menuUrl'));
     }
 
-    /**
-     * Public ürün detay sayfası (QR tarama sonrası, auth yok)
-     */
     public function publicProduct(int $tenantId, int $productId)
     {
         $product = DB::table('products')
@@ -65,10 +55,6 @@ class QRController extends Controller
         return view('public.product', compact('product', 'tenant'));
     }
 
-    /**
-     * Public tam menü sayfası (QR tarama sonrası, auth yok)
-     * URL: /menu/{tenantId}  →  kalıcı, değişmez
-     */
     public function publicMenu(int $tenantId)
     {
         $tenant = DB::table('tenants')->find($tenantId);
@@ -77,6 +63,8 @@ class QRController extends Controller
             abort(404);
         }
 
+        $this->trackVisit($tenantId);
+
         $categories = DB::table('categories')
             ->where('tenant_id', $tenantId)
             ->whereNull('parent_id')
@@ -84,13 +72,98 @@ class QRController extends Controller
             ->orderBy('name')
             ->get();
 
+        $subCategories = DB::table('categories')
+            ->where('tenant_id', $tenantId)
+            ->whereNotNull('parent_id')
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get()
+            ->groupBy('parent_id');
+
+        $allCategoryIds = DB::table('categories')
+            ->where('tenant_id', $tenantId)
+            ->pluck('id');
+
         $products = DB::table('products')
             ->where('tenant_id', $tenantId)
+            ->whereIn('category_id', $allCategoryIds)
             ->orderBy('sort_order')
             ->orderBy('name')
             ->get()
             ->groupBy('category_id');
 
-        return view('public.menu', compact('tenant', 'categories', 'products'));
+        $reviews = DB::table('reviews')
+            ->where('tenant_id', $tenantId)
+            ->orderByDesc('created_at')
+            ->limit(20)
+            ->get();
+
+        $reviewStats = DB::table('reviews')
+            ->where('tenant_id', $tenantId)
+            ->selectRaw('COUNT(*) as total, COALESCE(AVG(rating), 0) as avg_rating')
+            ->first();
+
+        return view('public.menu', compact(
+            'tenant', 'categories', 'subCategories', 'products', 'reviews', 'reviewStats'
+        ));
+    }
+
+    public function submitReview(Request $request, int $tenantId)
+    {
+        $tenant = DB::table('tenants')->find($tenantId);
+        if (!$tenant) {
+            abort(404);
+        }
+
+        $request->validate([
+            'customer_name' => 'nullable|string|max:100',
+            'rating'        => 'required|integer|min:1|max:5',
+            'comment'       => 'nullable|string|max:1000',
+        ]);
+
+        $ip = $request->ip();
+        $alreadyReviewed = DB::table('reviews')
+            ->where('tenant_id', $tenantId)
+            ->where('ip_address', $ip)
+            ->whereDate('created_at', today())
+            ->exists();
+
+        if ($alreadyReviewed) {
+            return redirect()->route('public.menu', $tenantId)
+                ->with('review_error', 'already_reviewed')
+                ->withFragment('reviews');
+        }
+
+        DB::table('reviews')->insert([
+            'tenant_id'     => $tenantId,
+            'customer_name' => $request->customer_name ?: null,
+            'rating'        => $request->rating,
+            'comment'       => $request->comment ?: null,
+            'ip_address'    => $ip,
+            'created_at'    => now(),
+        ]);
+
+        return redirect()->route('public.menu', $tenantId)
+            ->with('review_success', true)
+            ->withFragment('reviews');
+    }
+
+    private function trackVisit(int $tenantId): void
+    {
+        $ip = request()->ip();
+
+        $alreadyVisited = DB::table('qr_visits')
+            ->where('tenant_id', $tenantId)
+            ->where('ip_address', $ip)
+            ->whereDate('visited_at', today())
+            ->exists();
+
+        if (!$alreadyVisited) {
+            DB::table('qr_visits')->insert([
+                'tenant_id'  => $tenantId,
+                'ip_address' => $ip,
+                'visited_at' => now(),
+            ]);
+        }
     }
 }

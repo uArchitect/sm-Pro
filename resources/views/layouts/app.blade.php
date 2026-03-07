@@ -418,6 +418,9 @@
         <a href="{{ route('users.index') }}" class="sb-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
             <i class="bi bi-people"></i> {{ __('nav.nav.staff') }}
         </a>
+        <a href="{{ route('reviews.index') }}" class="sb-link {{ request()->routeIs('reviews.*') ? 'active' : '' }}">
+            <i class="bi bi-star"></i> {{ __('nav.nav.reviews') }}
+        </a>
         @endif
 
         <div class="sb-section">{{ __('nav.nav.digital_menu') }}</div>

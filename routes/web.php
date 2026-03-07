@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QRController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\DeveloperController;
 
 Route::get('/', fn () => view('landing'))->name('home');
@@ -43,6 +44,8 @@ Route::middleware(['auth', 'tenant'])->group(function () {
         Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
         Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+        Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+        Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
     });
 
     // Categories — owner, admin, personel
@@ -80,3 +83,4 @@ Route::middleware('auth')->prefix('developer')->name('developer.')->group(functi
 
 // Public sayfalar (auth yok — kalıcı URL'ler, QR baskısına uygundur)
 Route::get('/menu/{tenantId}', [QRController::class, 'publicMenu'])->name('public.menu');
+Route::post('/menu/{tenantId}/review', [QRController::class, 'submitReview'])->name('public.review');

@@ -10,8 +10,7 @@ return [
     'categories'      => 'Kategoriler',
     'product'         => 'Ürün',
     'products'        => 'Ürünler',
-    'company_info'    => 'Firma Bilgileri',
-    'company_name'    => 'Firma Adı',
+    'company_info'    => 'Restoran Bilgileri',
     'restaurant_name' => 'Restoran Adı',
     'menu_id'         => 'Menü ID',
     'edit_info'       => 'Bilgileri Düzenle',
@@ -20,4 +19,8 @@ return [
     'add_product'     => 'Yeni Ürün Ekle',
     'add_staff'       => 'Personel Ekle',
     'view_menu_qr'    => 'Menü QR Kodumu Gör',
+    'qr_visits'       => 'QR Ziyaret',
+    'today'           => 'Bugün',
+    'reviews'         => 'Değerlendirme',
+    'total_reviews'   => ':count değerlendirme',
 ];

@@ -10,8 +10,7 @@ return [
     'categories'      => 'Categories',
     'product'         => 'Product',
     'products'        => 'Products',
-    'company_info'    => 'Company Info',
-    'company_name'    => 'Company Name',
+    'company_info'    => 'Restaurant Info',
     'restaurant_name' => 'Restaurant Name',
     'menu_id'         => 'Menu ID',
     'edit_info'       => 'Edit Info',
@@ -20,4 +19,8 @@ return [
     'add_product'     => 'Add New Product',
     'add_staff'       => 'Add Staff',
     'view_menu_qr'    => 'View My Menu QR',
+    'qr_visits'       => 'QR Visits',
+    'today'           => 'Today',
+    'reviews'         => 'Reviews',
+    'total_reviews'   => ':count review(s)',
 ];

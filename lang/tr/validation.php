@@ -2,7 +2,6 @@
 
 return [
     'attributes' => [
-        'firma_adi'         => 'firma adı',
         'restoran_adi'      => 'restoran adı',
         'restoran_adresi'   => 'restoran adresi',
         'restoran_telefonu' => 'restoran telefonu',
@@ -11,7 +10,6 @@ return [
         'password'          => 'şifre',
     ],
     'required' => [
-        'firma_adi'    => 'Firma adı zorunludur.',
         'restoran_adi' => 'Restoran adı zorunludur.',
         'restoran_adresi' => 'Restoran adresi zorunludur.',
         'restoran_telefonu' => 'Restoran telefonu zorunludur.',

@@ -82,7 +82,6 @@
                     <td class="ps-4 text-muted small">{{ $tenant->id }}</td>
                     <td>
                         <div class="fw-600" style="font-weight:600">{{ $tenant->restoran_adi }}</div>
-                        <div class="text-muted" style="font-size:.78rem">{{ $tenant->firma_adi }}</div>
                     </td>
                     <td class="text-center">
                         <span class="badge" style="background:rgba(99,102,241,.08);color:#6366f1;border-radius:6px;padding:.25rem .5rem;font-size:.75rem">

@@ -18,7 +18,7 @@ class SeedTestData extends Command
 
         // ── 1. Tenant ──────────────────────────────────────────────────────────
         $tenantId = DB::table('tenants')->insertGetId([
-            'firma_adi'    => 'Test Restoran Anonim Şirketi',
+            'firma_adi'    => 'Test Bistro',
             'restoran_adi' => 'Test Bistro',
             'created_at'   => now(),
             'updated_at'   => now(),

@@ -2,7 +2,6 @@
 
 return [
     'attributes' => [
-        'firma_adi'         => 'company name',
         'restoran_adi'      => 'restaurant name',
         'restoran_adresi'   => 'restaurant address',
         'restoran_telefonu' => 'restaurant phone',
@@ -11,7 +10,6 @@ return [
         'password'          => 'password',
     ],
     'required' => [
-        'firma_adi'    => 'Company name is required.',
         'restoran_adi' => 'Restaurant name is required.',
         'restoran_adresi' => 'Restaurant address is required.',
         'restoran_telefonu' => 'Restaurant phone is required.',

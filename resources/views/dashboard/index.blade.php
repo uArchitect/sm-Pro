@@ -10,7 +10,7 @@
     $user    = auth()->user();
 @endphp
 
-{{-- ── QR Banner ── --}}
+{{-- QR Banner --}}
 <div class="mb-4" style="
     background: linear-gradient(135deg, #0d1117 0%, #1a2332 60%, #0f1923 100%);
     border: 1px solid rgba(255,107,53,.2);
@@ -18,7 +18,6 @@
     padding: 1.4rem 1.6rem;
     position: relative; overflow: hidden;
 ">
-    {{-- Decorative glow --}}
     <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%);pointer-events:none;"></div>
 
     <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3">
@@ -46,20 +45,37 @@
     </div>
 </div>
 
-{{-- ── Stat Cards ── --}}
+{{-- Stat Cards --}}
 <div class="row g-3 mb-4">
-    <div class="col-sm-4">
+    <div class="col-6 col-lg-3">
         <div class="stat-card">
-            <div class="stat-icon" style="background:rgba(99,102,241,.1);">
-                <i class="bi bi-people" style="color:#6366f1;"></i>
+            <div class="stat-icon" style="background:rgba(168,85,247,.1);">
+                <i class="bi bi-eye" style="color:#A855F7;"></i>
             </div>
             <div>
-                <div class="stat-label">{{ __('dashboard.staff') }}</div>
-                <div class="stat-value">{{ $stats['users'] }}</div>
+                <div class="stat-label">{{ __('dashboard.qr_visits') }}</div>
+                <div class="stat-value">{{ $stats['qr_total'] }}</div>
+                <div style="font-size:.68rem;color:#98a2b3;margin-top:.15rem;">
+                    {{ __('dashboard.today') }}: <strong style="color:#A855F7">{{ $stats['qr_today'] }}</strong>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:rgba(251,191,36,.1);">
+                <i class="bi bi-star-fill" style="color:#FBBF24;"></i>
+            </div>
+            <div>
+                <div class="stat-label">{{ __('dashboard.reviews') }}</div>
+                <div class="stat-value">{{ $stats['reviews_avg'] }}<span style="font-size:.8rem;color:#FBBF24">/5</span></div>
+                <div style="font-size:.68rem;color:#98a2b3;margin-top:.15rem;">
+                    {{ __('dashboard.total_reviews', ['count' => $stats['reviews_count']]) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-3">
         <div class="stat-card">
             <div class="stat-icon" style="background:rgba(16,185,129,.1);">
                 <i class="bi bi-grid-3x3-gap" style="color:#10b981;"></i>
@@ -70,7 +86,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-6 col-lg-3">
         <div class="stat-card">
             <div class="stat-icon" style="background:rgba(255,107,53,.1);">
                 <i class="bi bi-box-seam" style="color:#FF6B35;"></i>
@@ -83,10 +99,8 @@
     </div>
 </div>
 
-{{-- ── Bottom Cards ── --}}
+{{-- Bottom Cards --}}
 <div class="row g-3">
-
-    {{-- Firma Bilgisi --}}
     <div class="col-md-6">
         <div class="sm-card h-100">
             <div class="sm-card-header">
@@ -95,7 +109,7 @@
             </div>
             <div class="sm-card-body">
                 <div class="d-flex flex-column gap-2 mb-3">
-                    @foreach([['dashboard.company_name', $tenant->firma_adi], ['dashboard.restaurant_name', $tenant->restoran_adi], ['dashboard.menu_id', '#'.$tenant->id]] as [$lbl, $val])
+                    @foreach([['dashboard.restaurant_name', $tenant->restoran_adi], ['dashboard.menu_id', '#'.$tenant->id]] as [$lbl, $val])
                     <div style="display:flex;align-items:center;justify-content:space-between;padding:.55rem .75rem;background:#f7f8fa;border-radius:9px;border:1px solid #eaecf0;">
                         <span style="font-size:.75rem;font-weight:600;color:#98a2b3;text-transform:uppercase;letter-spacing:.04em;">{{ __($lbl) }}</span>
                         <span style="font-size:.855rem;font-weight:600;color:#101828;">{{ $val }}</span>
@@ -111,7 +125,6 @@
         </div>
     </div>
 
-    {{-- Hızlı İşlemler --}}
     <div class="col-md-6">
         <div class="sm-card h-100">
             <div class="sm-card-header">
@@ -146,6 +159,5 @@
             </div>
         </div>
     </div>
-
 </div>
 @endsection

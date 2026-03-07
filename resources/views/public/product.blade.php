@@ -43,7 +43,7 @@
         <div class="card-footer bg-light text-center py-3 border-0">
             <p class="text-muted small mb-0">
                 <i class="bi bi-qr-code me-1"></i>
-                {{ $tenant->firma_adi }} — MenuPanel
+                {{ $tenant->restoran_adi }} — Sipariş Masanda
             </p>
         </div>
     </div>
