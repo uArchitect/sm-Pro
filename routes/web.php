@@ -24,15 +24,27 @@ Route::get('/demo', function () {
     if (!$tenant) {
         return redirect()->route('home')->with('demo_unavailable', true);
     }
-    return redirect()->route('public.menu', ['tenantId' => $tenant->id]);
+    return redirect()->route('public.menu', ['tenantId' => $tenant->id, 'preview' => 1]);
 })->name('demo');
 
 Route::get('/', fn () => view('landing'))->name('home');
+
+Route::get('/sitemap.xml', function () {
+    $pages = collect([
+        ['loc' => url('/'), 'lastmod' => now()->toDateString(), 'priority' => '1.0'],
+        ['loc' => route('demo'), 'lastmod' => now()->toDateString(), 'priority' => '0.8'],
+    ]);
+
+    return response()
+        ->view('sitemap.xml', compact('pages'))
+        ->header('Content-Type', 'application/xml; charset=UTF-8');
+})->name('sitemap');
 
 // Locale switcher (session-based, no auth required)
 Route::post('/locale', function (\Illuminate\Http\Request $request) {
     $request->validate(['locale' => 'required|string|in:en,tr']);
     session(['locale' => $request->locale]);
+    cookie()->queue('locale', $request->locale, 60 * 24 * 30);
     $redirect = $request->input('redirect', '');
     if ($redirect && str_starts_with($redirect, '/')) {
         return redirect()->to($redirect);
@@ -133,7 +145,7 @@ Route::middleware(['auth', 'role:developer'])->prefix('developer')->name('develo
 });
 
 // Impersonate exit (accessible while impersonating)
-Route::get('/developer/stop-impersonate', [DeveloperController::class, 'stopImpersonate'])
+Route::post('/developer/stop-impersonate', [DeveloperController::class, 'stopImpersonate'])
     ->name('developer.stop-impersonate')
     ->middleware('auth');
 

@@ -55,34 +55,40 @@ class CategoryController extends Controller
             'image'     => 'nullable|image|max:2048',
         ]);
 
-        if ($request->parent_id) {
-            $parentExists = DB::table('categories')
-                ->where('id', $request->parent_id)
-                ->where('tenant_id', $tenantId)
-                ->exists();
-            if (!$parentExists) {
-                return back()->withErrors(['parent_id' => 'Geçersiz üst kategori.'])->withInput();
-            }
+        $parentError = $this->validateParentCategory($tenantId, $request->parent_id ? (int) $request->parent_id : null);
+        if ($parentError) {
+            return back()->withErrors(['parent_id' => $parentError])->withInput();
         }
+
         $imagePath = null;
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'public');
+        try {
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'public');
+            }
+
+            DB::transaction(function () use ($tenantId, $request, $imagePath) {
+                $maxOrder = DB::table('categories')
+                    ->where('tenant_id', $tenantId)
+                    ->max('sort_order') ?? 0;
+
+                DB::table('categories')->insert([
+                    'tenant_id'  => $tenantId,
+                    'parent_id'  => $request->parent_id ?: null,
+                    'name'       => $request->name,
+                    'image'      => $imagePath,
+                    'sort_order' => $maxOrder + 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            });
+        } catch (\Throwable $e) {
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath);
+            }
+
+            throw $e;
         }
-
-        $maxOrder = DB::table('categories')
-            ->where('tenant_id', $tenantId)
-            ->max('sort_order') ?? 0;
-
-        DB::table('categories')->insert([
-            'tenant_id'  => $tenantId,
-            'parent_id'  => $request->parent_id ?: null,
-            'name'       => $request->name,
-            'image'      => $imagePath,
-            'sort_order' => $maxOrder + 1,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
 
         Log::info('Yeni kategori oluşturuldu.', ['tenant_id' => $tenantId, 'name' => $request->name]);
 
@@ -131,17 +137,9 @@ class CategoryController extends Controller
         }
 
         $parentId = $request->parent_id ?: null;
-        if ($parentId) {
-            if ((int)$parentId === $id) {
-                return back()->withErrors(['parent_id' => 'Kategori kendisine üst kategori olamaz.'])->withInput();
-            }
-            $parentExists = DB::table('categories')
-                ->where('id', $parentId)
-                ->where('tenant_id', $tenantId)
-                ->exists();
-            if (!$parentExists) {
-                return back()->withErrors(['parent_id' => 'Geçersiz üst kategori.'])->withInput();
-            }
+        $parentError = $this->validateParentCategory($tenantId, $parentId ? (int) $parentId : null, $id);
+        if ($parentError) {
+            return back()->withErrors(['parent_id' => $parentError])->withInput();
         }
 
         $data = [
@@ -150,19 +148,33 @@ class CategoryController extends Controller
             'updated_at' => now(),
         ];
 
-        if ($request->hasFile('image')) {
-            if ($category->image) {
-                Storage::disk('public')->delete($category->image);
+        $newImagePath = null;
+        $oldImageToDelete = null;
+
+        try {
+            if ($request->hasFile('image')) {
+                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'public');
+                $data['image'] = $newImagePath;
+                $oldImageToDelete = $category->image ?: null;
+            } elseif ($request->boolean('remove_image') && $category->image) {
+                $data['image'] = null;
+                $oldImageToDelete = $category->image;
             }
-            $data['image'] = $request->file('image')->store("tenants/{$tenantId}/categories", 'public');
-        }
 
-        if ($request->boolean('remove_image') && $category->image) {
-            Storage::disk('public')->delete($category->image);
-            $data['image'] = null;
-        }
+            DB::transaction(function () use ($tenantId, $id, $data) {
+                DB::table('categories')->where('id', $id)->where('tenant_id', $tenantId)->update($data);
+            });
 
-        DB::table('categories')->where('id', $id)->where('tenant_id', $tenantId)->update($data);
+            if ($oldImageToDelete) {
+                Storage::disk('public')->delete($oldImageToDelete);
+            }
+        } catch (\Throwable $e) {
+            if ($newImagePath) {
+                Storage::disk('public')->delete($newImagePath);
+            }
+
+            throw $e;
+        }
 
         Log::info('Kategori güncellendi.', ['tenant_id' => $tenantId, 'category_id' => $id]);
 
@@ -181,11 +193,43 @@ class CategoryController extends Controller
             abort(404);
         }
 
-        if ($category->image) {
-            Storage::disk('public')->delete($category->image);
-        }
+        $categoryIds = DB::table('categories')
+            ->where('tenant_id', $tenantId)
+            ->where(function ($query) use ($id) {
+                $query->where('id', $id)->orWhere('parent_id', $id);
+            })
+            ->pluck('id');
 
-        DB::table('categories')->where('id', $id)->where('tenant_id', $tenantId)->delete();
+        $categoryImages = DB::table('categories')
+            ->whereIn('id', $categoryIds)
+            ->whereNotNull('image')
+            ->pluck('image')
+            ->filter()
+            ->all();
+
+        $productImages = DB::table('products')
+            ->where('tenant_id', $tenantId)
+            ->whereIn('category_id', $categoryIds)
+            ->whereNotNull('image')
+            ->pluck('image')
+            ->filter()
+            ->all();
+
+        DB::transaction(function () use ($tenantId, $categoryIds) {
+            DB::table('products')
+                ->where('tenant_id', $tenantId)
+                ->whereIn('category_id', $categoryIds)
+                ->delete();
+
+            DB::table('categories')
+                ->whereIn('id', $categoryIds)
+                ->where('tenant_id', $tenantId)
+                ->delete();
+        });
+
+        foreach (array_merge($categoryImages, $productImages) as $path) {
+            Storage::disk('public')->delete($path);
+        }
 
         Log::info('Kategori silindi.', ['tenant_id' => $tenantId, 'category_id' => $id]);
 
@@ -211,15 +255,31 @@ class CategoryController extends Controller
             $data['name'] = substr(strip_tags($request->name), 0, 255);
         }
 
-        if ($request->hasFile('image')) {
-            $request->validate(['image' => 'image|max:2048']);
-            if ($category->image) {
-                Storage::disk('public')->delete($category->image);
-            }
-            $data['image'] = $request->file('image')->store("tenants/{$tenantId}/categories", 'public');
-        }
+        $newImagePath = null;
+        $oldImageToDelete = null;
 
-        DB::table('categories')->where('id', $id)->where('tenant_id', $tenantId)->update($data);
+        try {
+            if ($request->hasFile('image')) {
+                $request->validate(['image' => 'image|max:2048']);
+                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'public');
+                $data['image'] = $newImagePath;
+                $oldImageToDelete = $category->image ?: null;
+            }
+
+            DB::transaction(function () use ($tenantId, $id, $data) {
+                DB::table('categories')->where('id', $id)->where('tenant_id', $tenantId)->update($data);
+            });
+
+            if ($oldImageToDelete) {
+                Storage::disk('public')->delete($oldImageToDelete);
+            }
+        } catch (\Throwable $e) {
+            if ($newImagePath) {
+                Storage::disk('public')->delete($newImagePath);
+            }
+
+            throw $e;
+        }
 
         $updated = DB::table('categories')->find($id);
 
@@ -244,5 +304,35 @@ class CategoryController extends Controller
         }
 
         return response()->json(['success' => true]);
+    }
+
+    private function validateParentCategory(int $tenantId, ?int $parentId, ?int $currentId = null): ?string
+    {
+        if (!$parentId) {
+            return null;
+        }
+
+        if ($currentId && $parentId === $currentId) {
+            return 'Kategori kendisine üst kategori olamaz.';
+        }
+
+        $parent = DB::table('categories')
+            ->where('id', $parentId)
+            ->where('tenant_id', $tenantId)
+            ->first();
+
+        if (!$parent) {
+            return 'Geçersiz üst kategori.';
+        }
+
+        if ($parent->parent_id !== null) {
+            return 'Sadece ana kategoriler üst kategori olabilir.';
+        }
+
+        if ($currentId && DB::table('categories')->where('tenant_id', $tenantId)->where('parent_id', $currentId)->exists()) {
+            return 'Alt kategorisi olan bir kategori başka bir kategorinin altına taşınamaz.';
+        }
+
+        return null;
     }
 }

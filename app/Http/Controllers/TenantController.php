@@ -50,19 +50,33 @@ class TenantController extends Controller
 
         $tenant = DB::table('tenants')->find($tenantId);
 
-        if ($request->hasFile('logo')) {
-            if ($tenant && $tenant->logo) {
-                Storage::disk('public')->delete($tenant->logo);
-            }
-            $data['logo'] = $request->file('logo')->store('logos', 'public');
-        } elseif ($request->boolean('remove_logo')) {
-            if ($tenant && $tenant->logo) {
-                Storage::disk('public')->delete($tenant->logo);
-            }
-            $data['logo'] = null;
-        }
+        $newLogoPath = null;
+        $oldLogoToDelete = null;
 
-        DB::table('tenants')->where('id', $tenantId)->update($data);
+        try {
+            if ($request->hasFile('logo')) {
+                $newLogoPath = $request->file('logo')->store('logos', 'public');
+                $data['logo'] = $newLogoPath;
+                $oldLogoToDelete = $tenant && $tenant->logo ? $tenant->logo : null;
+            } elseif ($request->boolean('remove_logo') && !$request->hasFile('logo')) {
+                $data['logo'] = null;
+                $oldLogoToDelete = $tenant && $tenant->logo ? $tenant->logo : null;
+            }
+
+            DB::transaction(function () use ($tenantId, $data) {
+                DB::table('tenants')->where('id', $tenantId)->update($data);
+            });
+
+            if ($oldLogoToDelete) {
+                Storage::disk('public')->delete($oldLogoToDelete);
+            }
+        } catch (\Throwable $e) {
+            if ($newLogoPath) {
+                Storage::disk('public')->delete($newLogoPath);
+            }
+
+            throw $e;
+        }
 
         Log::info('Tenant bilgileri güncellendi.', ['tenant_id' => $tenantId]);
 

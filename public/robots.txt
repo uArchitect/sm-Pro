@@ -1,2 +1,3 @@
 User-agent: *
 Disallow:
+Sitemap: https://siparismasanda.com/sitemap.xml

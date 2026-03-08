@@ -34,6 +34,8 @@ class DeveloperController extends Controller
         $stats = [
             'total_tenants'    => $tenants->count(),
             'active_tenants'   => $tenants->where('is_active', true)->count(),
+            'premium_tenants'  => $tenants->where('package', 'premium')->count(),
+            'basic_tenants'    => $tenants->where('package', '!=', 'premium')->count(),
             'total_users'      => DB::table('users')->where('role', '!=', 'developer')->count(),
             'total_categories' => DB::table('categories')->count(),
             'total_products'   => DB::table('products')->count(),
@@ -184,7 +186,7 @@ class DeveloperController extends Controller
         $this->authDev();
 
         $user = DB::table('users')->find($id);
-        if (!$user || $user->role === 'developer') {
+        if (!$user || in_array($user->role, ['developer', 'owner'], true)) {
             return back()->with('error', 'Bu kullanıcı silinemez.');
         }
 
@@ -205,6 +207,7 @@ class DeveloperController extends Controller
             'restoran_adi'      => 'required|string|max:255',
             'restoran_adresi'   => 'nullable|string|max:500',
             'restoran_telefonu' => 'nullable|string|max:30',
+            'package'           => 'nullable|in:basic,premium',
         ]);
 
         DB::table('tenants')->where('id', $id)->update([
@@ -212,6 +215,7 @@ class DeveloperController extends Controller
             'restoran_adi'      => $request->restoran_adi,
             'restoran_adresi'   => $request->restoran_adresi,
             'restoran_telefonu' => $request->restoran_telefonu,
+            'package'           => $request->input('package', $tenant->package ?? 'basic'),
             'updated_at'        => now(),
         ]);
 
@@ -223,19 +227,33 @@ class DeveloperController extends Controller
         $this->authDev();
 
         $tenant = DB::table('tenants')->find($id);
-        if ($tenant && $tenant->logo) {
-            Storage::disk('public')->delete($tenant->logo);
+        if (!$tenant) {
+            abort(404);
         }
 
-        DB::table('support_tickets')->where('tenant_id', $id)->delete();
-        DB::table('sliders')->where('tenant_id', $id)->delete();
-        DB::table('events')->where('tenant_id', $id)->delete();
-        DB::table('reviews')->where('tenant_id', $id)->delete();
-        DB::table('qr_visits')->where('tenant_id', $id)->delete();
-        DB::table('products')->where('tenant_id', $id)->delete();
-        DB::table('categories')->where('tenant_id', $id)->delete();
-        DB::table('users')->where('tenant_id', $id)->delete();
-        DB::table('tenants')->where('id', $id)->delete();
+        $mediaPaths = array_filter(array_merge(
+            [$tenant->logo],
+            DB::table('sliders')->where('tenant_id', $id)->whereNotNull('image')->pluck('image')->all(),
+            DB::table('events')->where('tenant_id', $id)->whereNotNull('image')->pluck('image')->all(),
+            DB::table('categories')->where('tenant_id', $id)->whereNotNull('image')->pluck('image')->all(),
+            DB::table('products')->where('tenant_id', $id)->whereNotNull('image')->pluck('image')->all(),
+        ));
+
+        DB::transaction(function () use ($id) {
+            DB::table('support_tickets')->where('tenant_id', $id)->delete();
+            DB::table('sliders')->where('tenant_id', $id)->delete();
+            DB::table('events')->where('tenant_id', $id)->delete();
+            DB::table('reviews')->where('tenant_id', $id)->delete();
+            DB::table('qr_visits')->where('tenant_id', $id)->delete();
+            DB::table('products')->where('tenant_id', $id)->delete();
+            DB::table('categories')->where('tenant_id', $id)->delete();
+            DB::table('users')->where('tenant_id', $id)->delete();
+            DB::table('tenants')->where('id', $id)->delete();
+        });
+
+        foreach ($mediaPaths as $path) {
+            Storage::disk('public')->delete($path);
+        }
 
         return redirect()->route('developer.index')->with('success', 'Restoran ve tüm verileri silindi.');
     }

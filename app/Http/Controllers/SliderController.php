@@ -31,18 +31,30 @@ class SliderController extends Controller
         $tenantId = session('tenant_id');
         $maxOrder = DB::table('sliders')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
 
-        $path = $request->file('image')->store("tenants/{$tenantId}/sliders", 'public');
+        $path = null;
 
-        DB::table('sliders')->insert([
-            'tenant_id'   => $tenantId,
-            'image'       => $path,
-            'title'       => $request->title,
-            'description' => $request->description,
-            'sort_order'  => $maxOrder + 1,
-            'is_active'   => true,
-            'created_at'  => now(),
-            'updated_at'  => now(),
-        ]);
+        try {
+            $path = $request->file('image')->store("tenants/{$tenantId}/sliders", 'public');
+
+            DB::transaction(function () use ($tenantId, $request, $path, $maxOrder) {
+                DB::table('sliders')->insert([
+                    'tenant_id'   => $tenantId,
+                    'image'       => $path,
+                    'title'       => $request->title,
+                    'description' => $request->description,
+                    'sort_order'  => $maxOrder + 1,
+                    'is_active'   => true,
+                    'created_at'  => now(),
+                    'updated_at'  => now(),
+                ]);
+            });
+        } catch (\Throwable $e) {
+            if ($path) {
+                Storage::disk('public')->delete($path);
+            }
+
+            throw $e;
+        }
 
         return back()->with('success', __('sliders.saved'));
     }
@@ -60,8 +72,11 @@ class SliderController extends Controller
             abort(404);
         }
 
+        DB::transaction(function () use ($id, $tenantId) {
+            DB::table('sliders')->where('id', $id)->where('tenant_id', $tenantId)->delete();
+        });
+
         Storage::disk('public')->delete($slider->image);
-        DB::table('sliders')->where('id', $id)->delete();
 
         return back()->with('success', __('sliders.deleted'));
     }

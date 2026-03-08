@@ -1,12 +1,34 @@
+@php
+    $locale = app()->getLocale();
+    $menuTitle = $tenant->restoran_adi . ' — ' . __('public.menu_suffix');
+    $menuDescription = __('public.menu_description', ['restaurant' => $tenant->restoran_adi]);
+    $menuCanonical = request()->fullUrlWithoutQuery(['lang', 'preview']);
+    $menuCurrentUrl = $menuCanonical . ($locale === config('app.fallback_locale', 'tr') ? '' : '?lang=' . $locale);
+    $menuShareImage = $tenant->logo ? asset('storage/' . $tenant->logo) : asset('og-cover.svg');
+    $allowDesktopPreview = request()->boolean('preview');
+@endphp
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="{{ str_replace('_', '-', $locale) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>{{ $tenant->restoran_adi }} — Dijital Menü</title>
-    <meta name="description" content="{{ $tenant->restoran_adi }} dijital menüsü.">
-    <meta name="robots" content="noindex, nofollow">
+    <title>{{ $menuTitle }}</title>
+    <meta name="description" content="{{ $menuDescription }}">
+    <meta name="robots" content="noindex, follow, max-image-preview:large">
+    <link rel="canonical" href="{{ $menuCurrentUrl }}">
+    <link rel="alternate" hreflang="tr" href="{{ $menuCanonical }}?lang=tr">
+    <link rel="alternate" hreflang="en" href="{{ $menuCanonical }}?lang=en">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ $menuTitle }}">
+    <meta property="og:description" content="{{ $menuDescription }}">
+    <meta property="og:url" content="{{ $menuCurrentUrl }}">
+    <meta property="og:image" content="{{ $menuShareImage }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $menuTitle }}">
+    <meta name="twitter:description" content="{{ $menuDescription }}">
+    <meta name="twitter:image" content="{{ $menuShareImage }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
@@ -293,6 +315,10 @@
             transition: box-shadow .2s, transform .2s, border-color .2s;
             box-shadow: var(--shadow);
         }
+        a.prod {
+            text-decoration: none;
+            color: inherit;
+        }
         .prod:hover {
             box-shadow: var(--shadow-md);
             transform: translateY(-2px);
@@ -401,6 +427,7 @@
             display: none;
         }
         @@media (min-width: 769px) {
+            @if(!$allowDesktopPreview)
             .desktop-only-screen {
                 display: flex;
                 position: fixed;
@@ -414,6 +441,7 @@
             .menu-app {
                 display: none !important;
             }
+            @endif
         }
         .desktop-only-screen .dm-box {
             max-width: 440px;
@@ -450,15 +478,19 @@
 </head>
 <body>
 
+    @unless($allowDesktopPreview)
     <div class="desktop-only-screen" aria-live="polite">
         <div class="dm-box">
             <div class="dm-icon" aria-hidden="true"><i class="bi bi-phone"></i></div>
-            <h2 class="dm-title">Sipariş Masanda QR Menüsü</h2>
+            <h2 class="dm-title">{{ $locale === 'tr' ? 'Sipariş Masanda QR Menüsü' : 'Siparis Masanda QR Menu' }}</h2>
             <p class="dm-text">
-                Bu sayfa yalnızca mobil cihazlar için tasarlanmıştır. Menüyü en iyi şekilde görüntülemek için lütfen cep telefonu veya tabletinizden erişiniz. QR kodu cihazınızla tarayarak menüye ulaşabilirsiniz.
+                {{ $locale === 'tr'
+                    ? 'Bu sayfa yalnızca mobil cihazlar için tasarlanmıştır. Menüyü en iyi şekilde görüntülemek için lütfen cep telefonu veya tabletinizden erişiniz. QR kodu cihazınızla tarayarak menüye ulaşabilirsiniz.'
+                    : 'This page is designed for mobile devices only. For the best experience, please open the menu from your phone or tablet and access it by scanning the QR code.' }}
             </p>
         </div>
     </div>
+    @endunless
 
     <div class="menu-app">
     <header class="hdr">
@@ -469,7 +501,7 @@
                 <div class="hdr-logo-fallback"><i class="bi bi-shop"></i></div>
             @endif
             <h1 class="hdr-name">{{ $tenant->restoran_adi }}</h1>
-            <div class="hdr-sub">Dijital Menü</div>
+            <div class="hdr-sub">{{ __('public.menu_suffix') }}</div>
             @if(($tenant->restoran_adresi ?? null) || ($tenant->restoran_telefonu ?? null))
             <div class="hdr-meta">
                 @if($tenant->restoran_adresi)
@@ -497,7 +529,7 @@
                     @if($reviewStats->total > 0)
                         {{ number_format($reviewStats->avg_rating, 1) }} ({{ $reviewStats->total }})
                     @else
-                        Değerlendir
+                        {{ __('public.rate_now') }}
                     @endif
                 </button>
             </div>
@@ -541,13 +573,13 @@
             <button type="button" class="tb-cat-btn d-md-none" data-bs-toggle="offcanvas" data-bs-target="#catOffcanvas" aria-label="Kategoriler">
                 <i class="bi bi-grid-3x3-gap-fill"></i>
             </button>
-            <input type="text" class="tb-search form-control" id="menuSearch" placeholder="Menüde ara..." autocomplete="off">
+            <input type="text" class="tb-search form-control" id="menuSearch" placeholder="{{ __('public.search_placeholder') }}" autocomplete="off">
         </div>
     </div>
 
     @if($categories->isNotEmpty())
     <div class="cat-pills">
-        <button type="button" class="cat-pill active" data-cat-id=""> <span class="cat-pill-icon"><i class="bi bi-grid-3x3-gap"></i></span> Tümü </button>
+        <button type="button" class="cat-pill active" data-cat-id=""> <span class="cat-pill-icon"><i class="bi bi-grid-3x3-gap"></i></span> {{ __('public.all') }} </button>
         @foreach($categories as $cat)
         <button type="button" class="cat-pill" data-cat-id="{{ $cat->id }}">
             @if($cat->image)
@@ -571,7 +603,7 @@
                 <div class="di-icon"><i class="bi bi-grid-3x3-gap"></i></div>
                 <div>
                     <div class="di-name">Tüm Menü</div>
-                    <div class="di-count" id="totalProductCount">{{ $products->sum(fn($c) => $c->count()) }} ürün</div>
+                <div class="di-count" id="totalProductCount">{{ __('public.products_count', ['count' => $products->sum(fn($c) => $c->count())]) }}</div>
                 </div>
             </button>
             @foreach($categories as $cat)
@@ -589,7 +621,7 @@
                     @endif
                     <div>
                         <div class="di-name">{{ $cat->name }}</div>
-                        <div class="di-count">{{ $totalInCat }} ürün</div>
+                        <div class="di-count">{{ __('public.products_count', ['count' => $totalInCat]) }}</div>
                     </div>
                 </button>
                 @if($subs->isNotEmpty())
@@ -605,7 +637,7 @@
                             @endif
                             <div>
                                 <div class="di-name">{{ $sub->name }}</div>
-                                <div class="di-count">{{ $subProdCount }} ürün</div>
+                                <div class="di-count">{{ __('public.products_count', ['count' => $subProdCount]) }}</div>
                             </div>
                         </button>
                         @endif
@@ -620,7 +652,7 @@
         @if($categories->isEmpty())
             <div class="no-results">
                 <i class="bi bi-journal-text"></i>
-                <div class="fw-bold">Menü henüz hazırlanmadı.</div>
+                <div class="fw-bold">{{ __('public.menu_not_ready') }}</div>
             </div>
         @else
             <div id="menuAccordion">
@@ -641,13 +673,13 @@
                             <div class="cat-header-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
                         @endif
                         <span class="cat-header-name">{{ $cat->name }}</span>
-                        <span class="cat-header-count cat-count" data-cat-id="{{ $cat->id }}">{{ $totalInCat }} ürün</span>
+                        <span class="cat-header-count cat-count" data-cat-id="{{ $cat->id }}">{{ __('public.products_count', ['count' => $totalInCat]) }}</span>
                         <i class="bi bi-chevron-down cat-chevron"></i>
                     </button>
                     <div class="collapse {{ $loop->first ? 'show' : '' }}" id="collapse-{{ $cat->id }}" data-bs-parent="#menuAccordion">
                     <div class="pt-2 pb-3">
                     @foreach($catProducts as $product)
-                    <div class="prod" data-cat-id="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
+                    <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
                         @if($product->image)
                             <img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img">
                         @else
@@ -660,7 +692,7 @@
                             @endif
                         </div>
                         <div class="prod-price">{{ number_format($product->price, 2, ',', '.') }} ₺</div>
-                    </div>
+                    </a>
                     @endforeach
                     @foreach($subs as $sub)
                         @php $subProducts = $products->get($sub->id, collect()); @endphp
@@ -674,7 +706,7 @@
                             {{ $sub->name }}
                         </div>
                         @foreach($subProducts as $product)
-                        <div class="prod" data-cat-id="{{ $sub->id }}" data-parent-cat="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
+                        <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $sub->id }}" data-parent-cat="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
                             @if($product->image)
                                 <img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img">
                             @else
@@ -687,7 +719,7 @@
                                 @endif
                             </div>
                             <div class="prod-price">{{ number_format($product->price, 2, ',', '.') }} ₺</div>
-                        </div>
+                        </a>
                         @endforeach
                         @endif
                     @endforeach
@@ -707,7 +739,7 @@
     <footer class="ftr">
         <div class="ftr-inner">
             <span class="ftr-logo"><i class="bi bi-qr-code"></i></span>
-            <span>Dijital menü <a href="{{ route('home') }}">Sipariş Masanda</a> ile oluşturuldu.</span>
+            <span><a href="{{ route('home', ['lang' => app()->getLocale()]) }}">Sipariş <span style="color:var(--accent)">Masanda</span></a></span>
         </div>
     </footer>
 
@@ -715,7 +747,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title"><i class="bi bi-star-fill text-warning me-1"></i> Değerlendirmeler</h5>
+                    <h5 class="modal-title"><i class="bi bi-star-fill text-warning me-1"></i> {{ __('public.reviews') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body pt-0">
@@ -727,13 +759,13 @@
                             <i class="bi bi-star{{ $i <= round($reviewStats->avg_rating) ? '-fill' : '' }}"></i>
                             @endfor
                         </div>
-                        <div class="small text-secondary">{{ $reviewStats->total }} değerlendirme</div>
+                        <div class="small text-secondary">{{ $locale === 'tr' ? $reviewStats->total . ' değerlendirme' : $reviewStats->total . ' reviews' }}</div>
                     </div>
                     @endif
                     @foreach($reviews as $review)
                     <div class="rv-item">
                         <div class="d-flex justify-content-between align-items-center mb-1">
-                            <span class="rv-item-name"><i class="bi bi-person-circle text-secondary me-1"></i>{{ $review->customer_name ?: 'Anonim' }}</span>
+                            <span class="rv-item-name"><i class="bi bi-person-circle text-secondary me-1"></i>{{ $review->customer_name ?: ($locale === 'tr' ? 'Anonim' : 'Anonymous') }}</span>
                             <span class="small text-secondary">{{ \Carbon\Carbon::parse($review->created_at)->diffForHumans() }}</span>
                         </div>
                         <div class="rv-item-stars">
@@ -748,30 +780,30 @@
                     @endforeach
                     <hr>
                     <div class="rv-form-wrap">
-                        <h4><i class="bi bi-chat-heart text-warning me-1"></i> Deneyiminizi paylaşın</h4>
+                        <h4><i class="bi bi-chat-heart text-warning me-1"></i> {{ $locale === 'tr' ? 'Deneyiminizi paylaşın' : 'Share your experience' }}</h4>
                         @if(session('review_success'))
-                        <div class="rv-msg rv-msg-ok"><i class="bi bi-check-circle-fill me-1"></i> Değerlendirmeniz kaydedildi. Teşekkürler!</div>
+                        <div class="rv-msg rv-msg-ok"><i class="bi bi-check-circle-fill me-1"></i> {{ __('public.review_saved') }}</div>
                         @endif
                         @if(session('review_error') === 'already_reviewed')
-                        <div class="rv-msg rv-msg-warn"><i class="bi bi-info-circle-fill me-1"></i> Bugün zaten bir değerlendirme yaptınız.</div>
+                        <div class="rv-msg rv-msg-warn"><i class="bi bi-info-circle-fill me-1"></i> {{ $locale === 'tr' ? 'Bugün zaten bir değerlendirme yaptınız.' : 'You have already submitted a review today.' }}</div>
                         @endif
                         <form method="POST" action="{{ route('public.review', $tenant->id) }}">
                             @csrf
-                            <label class="rv-label">Adınız <span class="opacity-50">(opsiyonel)</span></label>
-                            <input type="text" name="customer_name" class="rv-input form-control" maxlength="100" placeholder="Adınız...">
-                            <label class="rv-label">Puanınız</label>
+                            <label class="rv-label">{{ $locale === 'tr' ? 'Adınız' : 'Your name' }} <span class="opacity-50">({{ $locale === 'tr' ? 'opsiyonel' : 'optional' }})</span></label>
+                            <input type="text" name="customer_name" class="rv-input form-control" maxlength="100" placeholder="{{ $locale === 'tr' ? 'Adınız...' : 'Your name...' }}">
+                            <label class="rv-label">{{ $locale === 'tr' ? 'Puanınız' : 'Your rating' }}</label>
                             <div class="star-picker">
                                 @for($s = 1; $s <= 5; $s++)
-                                <button type="button" class="btn-star lit" data-rating="{{ $s }}" aria-label="{{ $s }} yıldız">
+                                <button type="button" class="btn-star lit" data-rating="{{ $s }}" aria-label="{{ $s }} {{ $locale === 'tr' ? 'yıldız' : 'stars' }}">
                                     <i class="bi bi-star-fill"></i>
                                 </button>
                                 @endfor
                                 <input type="hidden" name="rating" id="ratingInput" value="5">
                             </div>
-                            <label class="rv-label">Yorumunuz <span class="opacity-50">(opsiyonel)</span></label>
-                            <textarea name="comment" class="rv-input form-control" rows="3" maxlength="1000" placeholder="Deneyiminizi anlatın..."></textarea>
+                            <label class="rv-label">{{ $locale === 'tr' ? 'Yorumunuz' : 'Your comment' }} <span class="opacity-50">({{ $locale === 'tr' ? 'opsiyonel' : 'optional' }})</span></label>
+                            <textarea name="comment" class="rv-input form-control" rows="3" maxlength="1000" placeholder="{{ $locale === 'tr' ? 'Deneyiminizi anlatın...' : 'Tell us about your experience...' }}"></textarea>
                             <button type="submit" class="rv-submit btn w-100">
-                                <i class="bi bi-send me-1"></i> Değerlendirmeyi Gönder
+                                <i class="bi bi-send me-1"></i> {{ __('public.review_send') }}
                             </button>
                         </form>
                     </div>
@@ -791,6 +823,7 @@
     @endphp
     <script>
     (function() {
+        var productCountSuffix = @json(app()->getLocale() === 'tr' ? 'ürün' : 'products');
         var allProducts = document.querySelectorAll('.prod');
         var sections = document.querySelectorAll('.cat-section');
         var collapses = document.querySelectorAll('#menuAccordion .collapse');
@@ -838,7 +871,7 @@
             }
 
             if (noResultsEl) noResultsEl.classList.toggle('d-none', total > 0);
-            if (totalCountEl) totalCountEl.textContent = total + ' ürün';
+            if (totalCountEl) totalCountEl.textContent = total + ' ' + productCountSuffix;
         }
 
         function setCategory(catId) {

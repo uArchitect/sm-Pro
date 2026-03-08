@@ -1,24 +1,48 @@
+@php
+    $locale = app()->getLocale();
+    $isTr = $locale === 'tr';
+    $title = $isTr
+        ? 'Sipariş Masanda — Restoranınız İçin Dijital QR Menü Sistemi'
+        : 'Siparis Masanda — Digital QR Menu Platform For Restaurants';
+    $description = $isTr
+        ? 'Sipariş Masanda ile restoranınızın dijital menüsünü dakikalar içinde oluşturun. QR kod ile masaya taşıyın, müşteri değerlendirmeleri alın ve işletmenizi dijitale taşıyın.'
+        : 'Create your restaurant digital menu in minutes with Siparis Masanda. Publish with QR codes, collect guest reviews, and manage your menu online.';
+    $keywords = $isTr
+        ? 'dijital menü, QR menü, restoran menü, sipariş sistemi, QR kod menü, restoran yönetimi, dijital menü oluştur'
+        : 'digital menu, qr menu, restaurant menu, qr code menu, restaurant management, menu software';
+    $canonical = url('/') . ($locale === config('app.fallback_locale', 'en') ? '' : '?lang=' . $locale);
+    $shareImage = asset('og-cover.svg');
+@endphp
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="{{ str_replace('_', '-', $locale) }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sipariş Masanda — Restoranınız İçin Dijital QR Menü Sistemi</title>
-    <meta name="description" content="Sipariş Masanda ile restoranınızın dijital menüsünü dakikalar içinde oluşturun. QR kod ile masaya taşıyın, müşteri değerlendirmeleri alın. Ücretsiz başlayın.">
-    <meta name="keywords" content="dijital menü, QR menü, restoran menü, sipariş sistemi, QR kod menü, restoran yönetimi, dijital menü oluştur">
+    <title>{{ $title }}</title>
+    <meta name="description" content="{{ $description }}">
+    <meta name="keywords" content="{{ $keywords }}">
     <meta name="author" content="Sipariş Masanda">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ url('/') }}">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#0a0f1e">
+    <link rel="canonical" href="{{ $canonical }}">
+    <link rel="alternate" hreflang="tr" href="{{ url('/') }}?lang=tr">
+    <link rel="alternate" hreflang="en" href="{{ url('/') }}?lang=en">
+    <link rel="alternate" hreflang="x-default" href="{{ url('/') }}">
 
     <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:title" content="Sipariş Masanda — Dijital QR Menü Sistemi">
-    <meta property="og:description" content="Restoranınızın dijital menüsünü dakikalar içinde oluşturun. QR kod ile masaya taşıyın.">
+    <meta property="og:url" content="{{ $canonical }}">
+    <meta property="og:title" content="{{ $title }}">
+    <meta property="og:description" content="{{ $description }}">
     <meta property="og:site_name" content="Sipariş Masanda">
+    <meta property="og:locale" content="{{ $isTr ? 'tr_TR' : 'en_US' }}">
+    <meta property="og:image" content="{{ $shareImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Sipariş Masanda — Dijital QR Menü Sistemi">
-    <meta name="twitter:description" content="Restoranınızın dijital menüsünü dakikalar içinde oluşturun.">
+    <meta name="twitter:title" content="{{ $title }}">
+    <meta name="twitter:description" content="{{ $description }}">
+    <meta name="twitter:image" content="{{ $shareImage }}">
 
     <script type="application/ld+json">
     {
@@ -27,16 +51,24 @@
         "name": "Sipariş Masanda",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web",
-        "description": "Restoranlar için dijital QR menü oluşturma ve yönetim platformu.",
+        "url": "{{ url('/') }}",
+        "image": "{{ $shareImage }}",
+        "description": "{{ $description }}",
         "offers": {
             "@@type": "Offer",
             "price": "0",
             "priceCurrency": "TRY"
+        },
+        "publisher": {
+            "@@type": "Organization",
+            "name": "Sipariş Masanda",
+            "url": "{{ url('/') }}"
         }
     }
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">

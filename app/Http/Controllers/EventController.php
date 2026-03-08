@@ -38,21 +38,31 @@ class EventController extends Controller
         $tenantId = session('tenant_id');
         $path = null;
 
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store("tenants/{$tenantId}/events", 'public');
-        }
+        try {
+            if ($request->hasFile('image')) {
+                $path = $request->file('image')->store("tenants/{$tenantId}/events", 'public');
+            }
 
-        DB::table('events')->insert([
-            'tenant_id'   => $tenantId,
-            'title'       => $request->title,
-            'description' => $request->description,
-            'image'       => $path,
-            'start_date'  => $request->start_date,
-            'end_date'    => $request->end_date,
-            'is_active'   => true,
-            'created_at'  => now(),
-            'updated_at'  => now(),
-        ]);
+            DB::transaction(function () use ($tenantId, $request, $path) {
+                DB::table('events')->insert([
+                    'tenant_id'   => $tenantId,
+                    'title'       => $request->title,
+                    'description' => $request->description,
+                    'image'       => $path,
+                    'start_date'  => $request->start_date,
+                    'end_date'    => $request->end_date,
+                    'is_active'   => true,
+                    'created_at'  => now(),
+                    'updated_at'  => now(),
+                ]);
+            });
+        } catch (\Throwable $e) {
+            if ($path) {
+                Storage::disk('public')->delete($path);
+            }
+
+            throw $e;
+        }
 
         return redirect()->route('events.index')->with('success', __('events.saved'));
     }
@@ -104,14 +114,30 @@ class EventController extends Controller
             'updated_at'  => now(),
         ];
 
-        if ($request->hasFile('image')) {
-            if ($event->image) {
-                Storage::disk('public')->delete($event->image);
-            }
-            $data['image'] = $request->file('image')->store("tenants/{$tenantId}/events", 'public');
-        }
+        $newImagePath = null;
+        $oldImageToDelete = null;
 
-        DB::table('events')->where('id', $id)->update($data);
+        try {
+            if ($request->hasFile('image')) {
+                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/events", 'public');
+                $data['image'] = $newImagePath;
+                $oldImageToDelete = $event->image ?: null;
+            }
+
+            DB::transaction(function () use ($id, $tenantId, $data) {
+                DB::table('events')->where('id', $id)->where('tenant_id', $tenantId)->update($data);
+            });
+
+            if ($oldImageToDelete) {
+                Storage::disk('public')->delete($oldImageToDelete);
+            }
+        } catch (\Throwable $e) {
+            if ($newImagePath) {
+                Storage::disk('public')->delete($newImagePath);
+            }
+
+            throw $e;
+        }
 
         return redirect()->route('events.index')->with('success', __('events.updated'));
     }
@@ -129,11 +155,13 @@ class EventController extends Controller
             abort(404);
         }
 
+        DB::transaction(function () use ($id, $tenantId) {
+            DB::table('events')->where('id', $id)->where('tenant_id', $tenantId)->delete();
+        });
+
         if ($event->image) {
             Storage::disk('public')->delete($event->image);
         }
-
-        DB::table('events')->where('id', $id)->delete();
 
         return redirect()->route('events.index')->with('success', __('events.deleted'));
     }

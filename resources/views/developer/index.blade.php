@@ -18,6 +18,9 @@
 .toggle-passive:hover { background:#fecaca; }
 .imp-btn { background:rgba(99,102,241,.08); color:#6366f1; border:1px solid rgba(99,102,241,.15); padding:.35rem .6rem; border-radius:7px; font-size:.75rem; font-weight:600; cursor:pointer; transition:all .15s; text-decoration:none; display:inline-flex; align-items:center; gap:.3rem; }
 .imp-btn:hover { background:rgba(99,102,241,.15); color:#4f46e5; }
+.pkg-chip { display:inline-flex; align-items:center; gap:.3rem; padding:.18rem .5rem; border-radius:999px; font-size:.68rem; font-weight:800; }
+.pkg-basic { background:#eef2f7; color:#475569; }
+.pkg-premium { background:#fef3c7; color:#92400e; }
 .mini-stat { text-align:center; }
 .mini-stat .ms-num { font-size:1.2rem; font-weight:800; color:#111; }
 .mini-stat .ms-lbl { font-size:.65rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.06em; font-weight:600; }
@@ -98,6 +101,19 @@
     <div class="col-md-4">
         <div class="sm-card">
             <div class="sm-card-body d-flex align-items-center gap-3">
+                <div style="width:40px;height:40px;border-radius:10px;background:rgba(245,158,11,.12);color:#d97706;display:flex;align-items:center;justify-content:center;font-size:1.1rem">
+                    <i class="bi bi-gem"></i>
+                </div>
+                <div>
+                    <div style="font-size:1.3rem;font-weight:800;color:#d97706">{{ $stats['premium_tenants'] }}</div>
+                    <div style="font-size:.72rem;color:#9ca3af;font-weight:600">Premium Restoran</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="sm-card">
+            <div class="sm-card-body d-flex align-items-center gap-3">
                 <div style="width:40px;height:40px;border-radius:10px;background:rgba(16,185,129,.08);color:#10b981;display:flex;align-items:center;justify-content:center;font-size:1.1rem">
                     <i class="bi bi-graph-up-arrow"></i>
                 </div>
@@ -153,6 +169,7 @@
                             <th class="ps-3" style="width:40px">#</th>
                             <th>Restoran</th>
                             <th style="width:65px" class="text-center">Durum</th>
+                            <th style="width:90px" class="text-center">Paket</th>
                             <th style="width:55px" class="text-center"><i class="bi bi-people" title="Kullanıcı"></i></th>
                             <th style="width:55px" class="text-center"><i class="bi bi-box-seam" title="Ürün"></i></th>
                             <th style="width:55px" class="text-center"><i class="bi bi-star" title="Değerlendirme"></i></th>
@@ -178,6 +195,16 @@
                                     </button>
                                 </form>
                             </td>
+                            <td class="text-center">
+                                @php $pkg = $tenant->package ?? 'basic'; @endphp
+                                <form method="POST" action="{{ route('developer.tenant.package', $tenant->id) }}" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="pkg-chip {{ $pkg === 'premium' ? 'pkg-premium' : 'pkg-basic' }}" style="border:none">
+                                        <i class="bi {{ $pkg === 'premium' ? 'bi-gem' : 'bi-box-seam' }}"></i>
+                                        {{ strtoupper($pkg) }}
+                                    </button>
+                                </form>
+                            </td>
                             <td class="text-center small fw-semibold">{{ $tenant->user_count }}</td>
                             <td class="text-center small fw-semibold">{{ $tenant->product_count }}</td>
                             <td class="text-center small fw-semibold">{{ $tenant->review_count }}</td>
@@ -194,7 +221,7 @@
                                     @if($tenant->owner)
                                     <form method="POST" action="{{ route('developer.tenant.impersonate', $tenant->id) }}" class="d-inline">
                                         @csrf
-                                        <button type="submit" class="imp-btn" title="Hesaba Giriş Yap">
+                                        <button type="submit" class="imp-btn" title="Hesaba Giriş Yap" style="border:none">
                                             <i class="bi bi-box-arrow-in-right"></i> Giriş
                                         </button>
                                     </form>
@@ -215,7 +242,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="9" class="text-center text-muted py-5">
+                            <td colspan="10" class="text-center text-muted py-5">
                                 <i class="bi bi-building fs-1 d-block mb-2 opacity-25"></i>
                                 Henüz kayıtlı restoran yok.
                             </td>

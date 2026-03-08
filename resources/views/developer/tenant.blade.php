@@ -17,6 +17,18 @@
 .mini-stat { text-align:center; padding:.75rem .5rem; }
 .mini-stat .ms-num { font-size:1.5rem; font-weight:800; line-height:1; }
 .mini-stat .ms-lbl { font-size:.65rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.06em; font-weight:600; margin-top:.25rem; }
+.pkg-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 1rem;
+    background: linear-gradient(180deg, #fff 0%, #fafafa 100%);
+}
+.pkg-badge {
+    display:inline-flex; align-items:center; gap:.4rem;
+    padding:.32rem .75rem; border-radius:999px; font-size:.74rem; font-weight:800;
+}
+.pkg-basic { background:#eef2f7; color:#475569; }
+.pkg-premium { background:#fef3c7; color:#92400e; }
 </style>
 
 {{-- Top actions bar --}}
@@ -33,9 +45,9 @@
         </button>
     </form>
 
+    @php $pkg = $tenant->package ?? 'basic'; @endphp
     <form method="POST" action="{{ route('developer.tenant.package', $tenant->id) }}" class="d-inline">
         @csrf
-        @php $pkg = $tenant->package ?? 'basic'; @endphp
         <button type="submit" class="toggle-btn {{ $pkg === 'premium' ? 'toggle-active' : 'toggle-passive' }}" style="{{ $pkg === 'premium' ? 'background:#fef3c7;color:#92400e;' : '' }}">
             <i class="bi {{ $pkg === 'premium' ? 'bi-gem' : 'bi-box' }} me-1"></i>
             {{ $pkg === 'premium' ? 'Premium' : 'Basic' }}
@@ -105,6 +117,31 @@
         <div class="sm-card h-100">
             <div class="sm-card-header"><i class="bi bi-building me-1" style="color:#FF6B35"></i>Restoran Bilgileri</div>
             <div class="sm-card-body">
+                <div class="pkg-card mb-3">
+                    <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap">
+                        <div>
+                            <div class="info-label">Paket Durumu</div>
+                            <div class="info-val">Bu restoran şu anda {{ $pkg === 'premium' ? 'Premium' : 'Basic' }} pakette.</div>
+                        </div>
+                        <span class="pkg-badge {{ $pkg === 'premium' ? 'pkg-premium' : 'pkg-basic' }}">
+                            <i class="bi {{ $pkg === 'premium' ? 'bi-gem' : 'bi-box-seam' }}"></i>
+                            {{ strtoupper($pkg) }}
+                        </span>
+                    </div>
+                    <div class="mt-3 d-flex gap-2 flex-wrap">
+                        <form method="POST" action="{{ route('developer.tenant.package', $tenant->id) }}" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-sm {{ $pkg === 'premium' ? 'btn-outline-secondary' : 'btn-warning' }}">
+                                <i class="bi {{ $pkg === 'premium' ? 'bi-arrow-down-circle' : 'bi-gem' }} me-1"></i>
+                                {{ $pkg === 'premium' ? 'Basic Pakete Düşür' : 'Premium Pakete Yükselt' }}
+                            </button>
+                        </form>
+                        <small class="text-muted align-self-center">
+                            Premium: Slider, Etkinlikler ve Sipariş Yönetimi
+                        </small>
+                    </div>
+                </div>
+
                 <form method="POST" action="{{ route('developer.tenant.update', $tenant->id) }}">
                     @csrf @method('PUT')
 
@@ -123,6 +160,14 @@
                         <label class="form-label">Telefon</label>
                         <input type="text" name="restoran_telefonu" class="form-control"
                                value="{{ old('restoran_telefonu', $tenant->restoran_telefonu) }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Paket</label>
+                        <select name="package" class="form-select">
+                            <option value="basic" {{ old('package', $tenant->package ?? 'basic') === 'basic' ? 'selected' : '' }}>Basic</option>
+                            <option value="premium" {{ old('package', $tenant->package ?? 'basic') === 'premium' ? 'selected' : '' }}>Premium</option>
+                        </select>
+                        <div class="form-text">Premium pakette Slider, Etkinlikler ve Sipariş Yönetimi açılır.</div>
                     </div>
 
                     <div class="row g-2 text-muted small mb-3" style="font-size:.75rem">

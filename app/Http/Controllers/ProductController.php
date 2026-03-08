@@ -59,23 +59,35 @@ class ProductController extends Controller
         }
 
         $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
+        $productId = null;
+
+        try {
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
+            }
+
+            DB::transaction(function () use ($tenantId, $request, $imagePath, &$productId) {
+                $maxOrder = DB::table('products')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
+
+                $productId = DB::table('products')->insertGetId([
+                    'tenant_id'   => $tenantId,
+                    'category_id' => $request->category_id,
+                    'name'        => $request->name,
+                    'description' => $request->description,
+                    'price'       => $request->price,
+                    'image'       => $imagePath,
+                    'sort_order'  => $maxOrder + 1,
+                    'created_at'  => now(),
+                    'updated_at'  => now(),
+                ]);
+            });
+        } catch (\Throwable $e) {
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath);
+            }
+
+            throw $e;
         }
-
-        $maxOrder = DB::table('products')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
-
-        $productId = DB::table('products')->insertGetId([
-            'tenant_id'   => $tenantId,
-            'category_id' => $request->category_id,
-            'name'        => $request->name,
-            'description' => $request->description,
-            'price'       => $request->price,
-            'image'       => $imagePath,
-            'sort_order'  => $maxOrder + 1,
-            'created_at'  => now(),
-            'updated_at'  => now(),
-        ]);
 
         Log::info('Yeni ürün eklendi.', ['tenant_id' => $tenantId, 'product_id' => $productId]);
 
@@ -129,19 +141,33 @@ class ProductController extends Controller
             'updated_at'  => now(),
         ];
 
-        if ($request->hasFile('image')) {
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
+        $newImagePath = null;
+        $oldImageToDelete = null;
+
+        try {
+            if ($request->hasFile('image')) {
+                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
+                $data['image'] = $newImagePath;
+                $oldImageToDelete = $product->image ?: null;
+            } elseif ($request->boolean('remove_image') && $product->image) {
+                $data['image'] = null;
+                $oldImageToDelete = $product->image;
             }
-            $data['image'] = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
-        }
 
-        if ($request->boolean('remove_image') && $product->image) {
-            Storage::disk('public')->delete($product->image);
-            $data['image'] = null;
-        }
+            DB::transaction(function () use ($tenantId, $id, $data) {
+                DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->update($data);
+            });
 
-        DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->update($data);
+            if ($oldImageToDelete) {
+                Storage::disk('public')->delete($oldImageToDelete);
+            }
+        } catch (\Throwable $e) {
+            if ($newImagePath) {
+                Storage::disk('public')->delete($newImagePath);
+            }
+
+            throw $e;
+        }
 
         Log::info('Ürün güncellendi.', ['tenant_id' => $tenantId, 'product_id' => $id]);
 
@@ -157,11 +183,13 @@ class ProductController extends Controller
             abort(404);
         }
 
+        DB::transaction(function () use ($tenantId, $id) {
+            DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->delete();
+        });
+
         if ($product->image) {
             Storage::disk('public')->delete($product->image);
         }
-
-        DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->delete();
 
         Log::info('Ürün silindi.', ['tenant_id' => $tenantId, 'product_id' => $id]);
 
@@ -201,20 +229,34 @@ class ProductController extends Controller
             }
         }
 
-        if ($request->hasFile('image')) {
-            $request->validate(['image' => 'image|max:2048']);
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
+        $newImagePath = null;
+        $oldImageToDelete = null;
+
+        try {
+            if ($request->hasFile('image')) {
+                $request->validate(['image' => 'image|max:2048']);
+                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
+                $data['image'] = $newImagePath;
+                $oldImageToDelete = $product->image ?: null;
+            } elseif ($request->boolean('remove_image') && $product->image) {
+                $data['image'] = null;
+                $oldImageToDelete = $product->image;
             }
-            $data['image'] = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
-        }
 
-        if ($request->boolean('remove_image') && $product->image) {
-            Storage::disk('public')->delete($product->image);
-            $data['image'] = null;
-        }
+            DB::transaction(function () use ($tenantId, $id, $data) {
+                DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->update($data);
+            });
 
-        DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->update($data);
+            if ($oldImageToDelete) {
+                Storage::disk('public')->delete($oldImageToDelete);
+            }
+        } catch (\Throwable $e) {
+            if ($newImagePath) {
+                Storage::disk('public')->delete($newImagePath);
+            }
+
+            throw $e;
+        }
 
         $updated  = DB::table('products')->find($id);
         $category = DB::table('categories')->find($updated->category_id);
