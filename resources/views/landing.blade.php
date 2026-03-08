@@ -153,6 +153,41 @@
         .lp-footer p{font-size:.78rem;color:rgba(255,255,255,.3);margin:0}
         .lp-footer a{color:#FF8C42;text-decoration:none}
 
+        /* Fixed WhatsApp - sol taraf, özel ikon */
+        .wa-float{
+            position:fixed;left:0;top:50%;transform:translateY(-50%);
+            z-index:99;display:flex;align-items:center;
+            background:linear-gradient(135deg,#0a0f1e 0%,#151b2d 100%);
+            border:1px solid rgba(255,107,53,.25);
+            border-left:none;
+            border-radius:0 14px 14px 0;
+            padding:.5rem .6rem .5rem .5rem;
+            box-shadow:0 4px 24px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.04);
+            transition:all .25s ease;
+            text-decoration:none;
+            color:#fff;
+            font-size:.8rem;font-weight:600;
+            gap:.5rem;
+        }
+        .wa-float:hover{color:#fff;padding-left:.85rem;border-color:rgba(255,107,53,.45);box-shadow:0 6px 32px rgba(255,107,53,.15)}
+        .wa-float-icon{
+            width:42px;height:42px;
+            border-radius:12px;
+            background:linear-gradient(145deg,#FF6B35,#FF8C42);
+            display:flex;align-items:center;justify-content:center;
+            flex-shrink:0;
+            box-shadow:0 4px 14px rgba(255,107,53,.4);
+        }
+        .wa-float-icon svg{width:22px;height:22px;display:block}
+        .wa-float-text{white-space:nowrap}
+        @@media(max-width:768px){
+            .wa-float{padding:.4rem .5rem .4rem .4rem;font-size:.75rem}
+            .wa-float-icon{width:36px;height:36px;border-radius:10px}
+            .wa-float-icon svg{width:18px;height:18px}
+            .wa-float-text{display:none}
+            .wa-float:hover .wa-float-text{display:inline}
+        }
+
         @@media(max-width:768px){
             .hero-visual{margin-top:3rem}
             .step-arrow{transform:rotate(90deg);padding-top:0}
@@ -200,6 +235,17 @@
     <div class="blob blob-1"></div>
     <div class="blob blob-2"></div>
     <div class="blob blob-3"></div>
+
+    <!-- Sabit WhatsApp - İletişime Geç -->
+    <a href="https://wa.me/905078928490" target="_blank" rel="noopener noreferrer" class="wa-float" aria-label="WhatsApp ile iletişime geç">
+        <span class="wa-float-icon">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M21 11.5a8.5 8.5 0 0 1-11.4 8.1L3 20.5l.9-5.7A8.5 8.5 0 1 1 21 11.5z" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                <path d="M8 12h8M8 9h5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+        </span>
+        <span class="wa-float-text">İletişime Geç</span>
+    </a>
 
     <!-- Navbar -->
     <nav class="lp-nav" id="lpNav">
