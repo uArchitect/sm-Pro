@@ -332,7 +332,9 @@ class DeveloperController extends Controller
 
         if (!$ticket) abort(404);
 
-        return view('developer.ticket-show', compact('ticket'));
+        $messages = $this->buildTicketConversation($ticket);
+
+        return view('developer.ticket-show', compact('ticket', 'messages'));
     }
 
     public function ticketReply(Request $request, int $id)
@@ -340,14 +342,23 @@ class DeveloperController extends Controller
         $this->authDev();
 
         $request->validate([
-            'admin_reply' => 'required|string|max:5000',
+            'message' => 'required|string|max:5000',
         ]);
 
         $ticket = DB::table('support_tickets')->find($id);
         if (!$ticket) abort(404);
 
+        $thread = $this->decodeSupportThread((string) ($ticket->admin_reply ?? ''));
+        $thread[] = [
+            'sender'   => 'developer',
+            'user_id'  => Auth::id(),
+            'name'     => Auth::user()?->name ?? 'Developer',
+            'message'  => trim((string) $request->message),
+            'datetime' => now()->toIso8601String(),
+        ];
+
         DB::table('support_tickets')->where('id', $id)->update([
-            'admin_reply' => $request->admin_reply,
+            'admin_reply' => json_encode($thread, JSON_UNESCAPED_UNICODE),
             'status'      => 'answered',
             'replied_at'  => now(),
             'updated_at'  => now(),
@@ -362,5 +373,52 @@ class DeveloperController extends Controller
         {
             abort(403);
         }
+    }
+
+    private function buildTicketConversation(object $ticket): array
+    {
+        $messages = [[
+            'sender'   => 'user',
+            'name'     => $ticket->user_name ?: 'User',
+            'message'  => (string) $ticket->message,
+            'datetime' => $ticket->created_at,
+        ]];
+
+        $thread = $this->decodeSupportThread((string) ($ticket->admin_reply ?? ''));
+        foreach ($thread as $item) {
+            if (!is_array($item) || empty($item['message'])) {
+                continue;
+            }
+            $isUser = ($item['sender'] ?? '') === 'user';
+            $messages[] = [
+                'sender'   => $isUser ? 'user' : 'developer',
+                'name'     => $item['name'] ?? ($isUser ? ($ticket->user_name ?: 'User') : 'Developer'),
+                'message'  => (string) $item['message'],
+                'datetime' => $item['datetime'] ?? $ticket->updated_at,
+            ];
+        }
+
+        // Backward compatibility for old single reply data
+        if (empty($thread) && !empty($ticket->admin_reply)) {
+            $messages[] = [
+                'sender'   => 'developer',
+                'name'     => 'Developer',
+                'message'  => (string) $ticket->admin_reply,
+                'datetime' => $ticket->replied_at ?? $ticket->updated_at,
+            ];
+        }
+
+        return $messages;
+    }
+
+    private function decodeSupportThread(string $raw): array
+    {
+        if ($raw === '') {
+            return [];
+        }
+
+        $decoded = json_decode($raw, true);
+
+        return is_array($decoded) ? $decoded : [];
     }
 }

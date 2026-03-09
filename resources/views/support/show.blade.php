@@ -20,6 +20,7 @@
     background:linear-gradient(135deg,#eff6ff,#dbeafe); border:1px solid #bfdbfe;
     border-radius:12px; padding:1rem 1.2rem; font-size:.88rem; line-height:1.7; color:#1e3a5f;
 }
+.chat-meta { font-size:.75rem; color:#98a2b3; }
 </style>
 
 <div class="row justify-content-center">
@@ -34,34 +35,40 @@
                 <span class="ticket-status st-{{ $ticket->status }}">{{ __('support.' . $ticket->status) }}</span>
             </div>
             <div class="sm-card-body">
-                <div class="d-flex justify-content-between mb-2">
+                <div class="d-flex justify-content-between align-items-center mb-3">
                     <small class="text-muted">{{ $user->name ?? '-' }}</small>
                     <small class="text-muted">{{ \Carbon\Carbon::parse($ticket->created_at)->format('d.m.Y H:i') }}</small>
                 </div>
-                <div class="msg-bubble">{!! nl2br(e($ticket->message)) !!}</div>
+                @foreach($messages as $m)
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <small class="chat-meta">{{ $m['name'] }}</small>
+                            <small class="chat-meta">{{ \Carbon\Carbon::parse($m['datetime'])->format('d.m.Y H:i') }}</small>
+                        </div>
+                        <div class="{{ $m['sender'] === 'developer' ? 'reply-bubble' : 'msg-bubble' }}">{!! nl2br(e($m['message'])) !!}</div>
+                    </div>
+                @endforeach
             </div>
         </div>
 
-        @if($ticket->admin_reply)
         <div class="sm-card">
             <div class="sm-card-header">
-                <i class="bi bi-reply me-1" style="color:#2563eb"></i>{{ __('support.admin_reply') }}
+                <i class="bi bi-pencil-square me-1" style="color:var(--accent)"></i>{{ __('support.reply') }}
             </div>
             <div class="sm-card-body">
-                <div class="d-flex justify-content-between mb-2">
-                    <small class="text-muted">Developer</small>
-                    @if($ticket->replied_at)
-                    <small class="text-muted">{{ \Carbon\Carbon::parse($ticket->replied_at)->format('d.m.Y H:i') }}</small>
-                    @endif
-                </div>
-                <div class="reply-bubble">{!! nl2br(e($ticket->admin_reply)) !!}</div>
+                <form action="{{ route('support.reply', $ticket->id) }}" method="POST">
+                    @csrf
+                    <textarea name="message" rows="4" class="form-control @error('message') is-invalid @enderror"
+                              placeholder="{{ __('support.reply_placeholder') }}" required>{{ old('message') }}</textarea>
+                    @error('message')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <div class="mt-3">
+                        <button type="submit" class="btn btn-accent btn-sm">
+                            <i class="bi bi-send me-1"></i>{{ __('support.send') }}
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
-        @else
-        <div class="text-center py-4 text-muted" style="font-size:.85rem">
-            <i class="bi bi-hourglass-split me-1"></i>{{ __('support.no_reply_yet') }}
-        </div>
-        @endif
     </div>
 </div>
 @endsection

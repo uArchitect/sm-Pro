@@ -20,6 +20,7 @@
     background:linear-gradient(135deg,#eff6ff,#dbeafe); border:1px solid #bfdbfe;
     border-radius:12px; padding:1rem 1.2rem; font-size:.88rem; line-height:1.7; color:#1e3a5f;
 }
+.chat-meta { font-size:.75rem; color:#98a2b3; }
 </style>
 
 <a href="{{ route('developer.tickets') }}" class="btn btn-sm btn-outline-secondary mb-3">
@@ -55,32 +56,34 @@
             </div>
         </div>
 
-        {{-- Existing Reply --}}
-        @if($ticket->admin_reply)
         <div class="sm-card mb-3">
             <div class="sm-card-header">
-                <i class="bi bi-reply me-1" style="color:#2563eb"></i>Yanıtınız
+                <i class="bi bi-chat-left-text me-1" style="color:#2563eb"></i>Mesaj Geçmişi
             </div>
             <div class="sm-card-body">
-                @if($ticket->replied_at)
-                <small class="text-muted d-block mb-2">{{ \Carbon\Carbon::parse($ticket->replied_at)->format('d.m.Y H:i') }}</small>
-                @endif
-                <div class="reply-bubble">{!! nl2br(e($ticket->admin_reply)) !!}</div>
+                @foreach($messages as $m)
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <small class="chat-meta">{{ $m['name'] }}</small>
+                            <small class="chat-meta">{{ \Carbon\Carbon::parse($m['datetime'])->format('d.m.Y H:i') }}</small>
+                        </div>
+                        <div class="{{ $m['sender'] === 'developer' ? 'reply-bubble' : 'msg-bubble' }}">{!! nl2br(e($m['message'])) !!}</div>
+                    </div>
+                @endforeach
             </div>
         </div>
-        @endif
 
         {{-- Reply Form --}}
         <div class="sm-card">
             <div class="sm-card-header">
-                <i class="bi bi-pencil-square me-1" style="color:var(--accent)"></i>{{ $ticket->admin_reply ? 'Yanıtı Güncelle' : 'Yanıtla' }}
+                <i class="bi bi-pencil-square me-1" style="color:var(--accent)"></i>Yanıtla
             </div>
             <div class="sm-card-body">
                 <form action="{{ route('developer.tickets.reply', $ticket->id) }}" method="POST">
                     @csrf
-                    <textarea name="admin_reply" rows="5" class="form-control @error('admin_reply') is-invalid @enderror"
-                              placeholder="Yanıtınızı yazın..." required>{{ old('admin_reply', $ticket->admin_reply) }}</textarea>
-                    @error('admin_reply')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    <textarea name="message" rows="5" class="form-control @error('message') is-invalid @enderror"
+                              placeholder="Yanıtınızı yazın..." required>{{ old('message') }}</textarea>
+                    @error('message')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     <div class="mt-3">
                         <button type="submit" class="btn btn-accent btn-sm">
                             <i class="bi bi-send me-1"></i>Yanıtla

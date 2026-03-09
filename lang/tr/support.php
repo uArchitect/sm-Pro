@@ -23,6 +23,7 @@ return [
     'reply'           => 'Yanıtla',
     'reply_placeholder' => 'Yanıtınızı yazın...',
     'reply_sent'      => 'Yanıt gönderildi.',
+    'message_sent'    => 'Mesajınız gönderildi.',
     'all_tickets'     => 'Tüm Destek Mesajları',
     'restaurant'      => 'Restoran',
     'user'            => 'Kullanıcı',

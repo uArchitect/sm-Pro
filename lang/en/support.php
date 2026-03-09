@@ -23,6 +23,7 @@ return [
     'reply'           => 'Reply',
     'reply_placeholder' => 'Write your reply...',
     'reply_sent'      => 'Reply sent.',
+    'message_sent'    => 'Your message has been sent.',
     'all_tickets'     => 'All Support Tickets',
     'restaurant'      => 'Restaurant',
     'user'            => 'User',

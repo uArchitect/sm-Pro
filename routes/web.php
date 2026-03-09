@@ -116,6 +116,7 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::get('/support/create', [SupportController::class, 'create'])->name('support.create');
     Route::post('/support', [SupportController::class, 'store'])->name('support.store');
     Route::get('/support/{id}', [SupportController::class, 'show'])->name('support.show');
+    Route::post('/support/{id}/reply', [SupportController::class, 'reply'])->name('support.reply');
 
     // Premium gate page
     Route::get('/premium', fn () => view('premium-gate'))->name('premium.gate');
