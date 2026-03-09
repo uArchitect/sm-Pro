@@ -104,18 +104,19 @@
                     </td>
                 </tr>
                 @empty
-                <tr>
-                    <td colspan="6" class="text-center text-muted py-5">
-                        <i class="bi bi-box-seam fs-1 d-block mb-2 opacity-25"></i>
-                        {{ __('products.no_products') }}
-                        <br><a href="{{ route('products.create') }}" class="btn btn-accent btn-sm mt-2">{{ __('products.add_first') }}</a>
-                    </td>
-                </tr>
                 @endforelse
             </tbody>
         </table>
     </div>
 </div>
+
+@if($products->isEmpty())
+<div class="text-center text-muted py-5">
+    <i class="bi bi-box-seam fs-1 d-block mb-2 opacity-25"></i>
+    {{ __('products.no_products') }}
+    <br><a href="{{ route('products.create') }}" class="btn btn-accent btn-sm mt-2">{{ __('products.add_first') }}</a>
+</div>
+@endif
 
 <input type="file" id="imgUploadInput" accept="image/*" class="d-none">
 
@@ -138,6 +139,7 @@ let uploadingForId = null;
 let dtInstance = null;
 
 $(function() {
+    if (!$('#productsTable tbody tr[data-id]').length) return;
     dtInstance = $('#productsTable').DataTable({
         ordering: false,
         paging: true,
