@@ -4,7 +4,7 @@
     $locale = app()->getLocale();
     $isTr = $locale === 'tr';
     $tenantCount = \Illuminate\Support\Facades\DB::table('tenants')->where('is_active', true)->count();
-    $tenantLabel = $tenantCount < 10 ? ($isTr ? 'Restoranlar' : 'Restaurants') : $tenantCount . '+ ' . ($isTr ? 'restoran' : 'restaurants');
+    $tenantLabel = max($tenantCount, 10) . '+';
 @endphp
 
 @section('title', $isTr
@@ -121,8 +121,8 @@
         /* Social proof */
         .proof-bar{padding:3rem 0}
         .proof-stat{text-align:center}
-        .proof-stat .num{font-size:2rem;font-weight:900;color:#fff}
-        .proof-stat .lbl{font-size:.78rem;color:rgba(255,255,255,.4);margin-top:.15rem}
+        .proof-stat .num{font-size:clamp(1.3rem,5vw,2rem);font-weight:900;color:#fff;line-height:1.1;letter-spacing:-.02em}
+        .proof-stat .lbl{font-size:.78rem;color:rgba(255,255,255,.4);margin-top:.2rem;line-height:1.35}
 
         /* Features */
         .features{padding:6rem 0}
@@ -179,6 +179,11 @@
             .step-card:not(:last-child){margin-bottom:1.5rem}
             .step-num{width:48px;height:48px;font-size:1.25rem}
             .faq-section{padding:3rem 0}
+            .proof-bar .row > [class*="col-"]{flex:0 0 100%;max-width:100%}
+            .proof-stat{padding:.85rem 1rem;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.02)}
+            .proof-stat .lbl{font-size:.74rem}
+            /* Right-side floating widgets can cover content on narrow screens */
+            .proof-bar .container,.lp-footer .container{padding-right:3.1rem}
         }
 @endsection
 
@@ -246,19 +251,19 @@
     <section class="proof-bar">
         <div class="container">
             <div class="row g-4 justify-content-center">
-                <div class="col-4 col-md-3">
+                <div class="col-12 col-sm-4 col-md-3">
                     <div class="proof-stat">
                         <div class="num">{{ $tenantLabel }}</div>
-                        <div class="lbl">{{ $isTr ? 'dijital menü kullanıyor' : 'using digital menu' }}</div>
+                        <div class="lbl">{{ $isTr ? 'restoran dijital menü kullanıyor' : 'restaurants use digital menu' }}</div>
                     </div>
                 </div>
-                <div class="col-4 col-md-3">
+                <div class="col-12 col-sm-4 col-md-3">
                     <div class="proof-stat">
                         <div class="num">%100</div>
                         <div class="lbl">{{ $isTr ? 'ücretsiz başlangıç' : 'free to start' }}</div>
                     </div>
                 </div>
-                <div class="col-4 col-md-3">
+                <div class="col-12 col-sm-4 col-md-3">
                     <div class="proof-stat">
                         <div class="num">3 {{ $isTr ? 'dk' : 'min' }}</div>
                         <div class="lbl">{{ $isTr ? 'kurulum süresi' : 'setup time' }}</div>
