@@ -29,9 +29,23 @@ Route::get('/demo', function () {
 
 Route::get('/', fn () => view('landing'))->name('home');
 
+// Public static pages
+Route::get('/fiyatlar', fn () => view('pages.fiyatlar'))->name('pricing');
+Route::get('/ozellikler', fn () => view('pages.ozellikler'))->name('features');
+Route::get('/hakkimizda', fn () => view('pages.hakkimizda'))->name('about');
+Route::get('/iletisim', fn () => view('pages.iletisim'))->name('contact');
+Route::get('/gizlilik-politikasi', fn () => view('pages.gizlilik-politikasi'))->name('privacy');
+Route::get('/kullanim-kosullari', fn () => view('pages.kullanim-kosullari'))->name('terms');
+
 Route::get('/sitemap.xml', function () {
     $pages = collect([
         ['loc' => url('/'), 'lastmod' => now()->toDateString(), 'priority' => '1.0'],
+        ['loc' => route('pricing'), 'lastmod' => now()->toDateString(), 'priority' => '0.9'],
+        ['loc' => route('features'), 'lastmod' => now()->toDateString(), 'priority' => '0.8'],
+        ['loc' => route('about'), 'lastmod' => now()->toDateString(), 'priority' => '0.6'],
+        ['loc' => route('contact'), 'lastmod' => now()->toDateString(), 'priority' => '0.6'],
+        ['loc' => route('privacy'), 'lastmod' => now()->toDateString(), 'priority' => '0.3'],
+        ['loc' => route('terms'), 'lastmod' => now()->toDateString(), 'priority' => '0.3'],
         ['loc' => route('demo'), 'lastmod' => now()->toDateString(), 'priority' => '0.8'],
     ]);
 
