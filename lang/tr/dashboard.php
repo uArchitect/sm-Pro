@@ -23,4 +23,12 @@ return [
     'today'           => 'Bugün',
     'reviews'         => 'Değerlendirme',
     'total_reviews'   => ':count değerlendirme',
+    'setup_title'     => 'Kurulum Rehberi',
+    'setup_sub'       => ':total adımdan :done tamamlandı',
+    'setup_done'      => 'Kurulum tamam',
+    'setup_pending'   => 'Kurulum gerekli',
+    'setup_step_category' => 'En az 1 kategori ekleyin',
+    'setup_step_product'  => 'Bir kategoriye en az 1 ürün ekleyin',
+    'setup_go_category'   => 'Kategori Ekle',
+    'setup_go_product'    => 'Ürün Ekle',
 ];

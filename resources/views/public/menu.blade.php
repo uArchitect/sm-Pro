@@ -353,7 +353,14 @@
 
         /* ========== Review modal ========== */
         #reviewModal .modal-dialog { max-width: 480px; }
-        #reviewModal .modal-content { border-radius: 20px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,.15); }
+        #reviewModal .modal-content { background: transparent; border: none; box-shadow: none; }
+        #reviewModal .modal-body { padding-top: 0; }
+        .rv-modal-panel {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.15);
+            overflow: hidden;
+        }
         .rv-summary { text-align: center; padding: 1.25rem; margin-bottom: 1rem; background: #fefce8; border: 1px solid #fef3c7; border-radius: var(--radius); }
         .rv-big { font-size: 2.8rem; font-weight: 900; color: var(--text); line-height: 1; }
         .rv-stars { color: var(--star); font-size: 1.1rem; margin: .25rem 0; }
@@ -746,11 +753,12 @@
     <div class="modal fade" id="reviewModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
+                <div class="rv-modal-panel">
                 <div class="modal-header border-0 pb-0">
                     <h5 class="modal-title"><i class="bi bi-star-fill text-warning me-1"></i> {{ __('public.reviews') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
-                <div class="modal-body pt-0">
+                <div class="modal-body">
                     @if($reviewStats->total > 0)
                     <div class="rv-summary">
                         <div class="rv-big">{{ number_format($reviewStats->avg_rating, 1) }}</div>
@@ -807,6 +815,7 @@
                             </button>
                         </form>
                     </div>
+                </div>
                 </div>
             </div>
         </div>

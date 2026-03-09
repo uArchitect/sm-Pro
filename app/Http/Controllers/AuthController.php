@@ -60,7 +60,7 @@ class AuthController extends Controller
 
         Log::info('Yeni tenant ve owner kaydı oluşturuldu.', $result);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('just_registered', true);
     }
 
     public function showLogin()

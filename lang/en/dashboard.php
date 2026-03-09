@@ -23,4 +23,12 @@ return [
     'today'           => 'Today',
     'reviews'         => 'Reviews',
     'total_reviews'   => ':count review(s)',
+    'setup_title'     => 'Setup Guide',
+    'setup_sub'       => ':done of :total steps completed',
+    'setup_done'      => 'Setup complete',
+    'setup_pending'   => 'Setup required',
+    'setup_step_category' => 'Add at least 1 category',
+    'setup_step_product'  => 'Add at least 1 product to a category',
+    'setup_go_category'   => 'Add Category',
+    'setup_go_product'    => 'Add Product',
 ];

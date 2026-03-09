@@ -99,6 +99,56 @@
     </div>
 </div>
 
+{{-- Setup Guide --}}
+@if(session('just_registered') || !$setup['completed'])
+<div class="mb-4" style="
+    background:#fff;
+    border:1px solid #eaecf0;
+    border-radius:16px;
+    padding:1rem 1.1rem;
+    box-shadow:0 1px 4px rgba(16,24,40,.06);
+">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+        <div class="d-flex align-items-center gap-2">
+            <span style="width:32px;height:32px;border-radius:10px;background:rgba(99,102,241,.1);display:flex;align-items:center;justify-content:center;color:#6366f1;">
+                <i class="bi bi-flag"></i>
+            </span>
+            <div>
+                <div style="font-size:.9rem;font-weight:700;color:#111827;">{{ __('dashboard.setup_title') }}</div>
+                <div style="font-size:.76rem;color:#6b7280;">{{ __('dashboard.setup_sub', ['done' => $setup['progress'], 'total' => 2]) }}</div>
+            </div>
+        </div>
+        @if($setup['completed'])
+            <span class="badge text-bg-success">{{ __('dashboard.setup_done') }}</span>
+        @else
+            <span class="badge text-bg-warning">{{ __('dashboard.setup_pending') }}</span>
+        @endif
+    </div>
+
+    <div class="d-flex flex-column gap-2">
+        <div class="d-flex align-items-center justify-content-between p-2 rounded" style="background:#f8fafc;border:1px solid #eef2f7;">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi {{ $setup['has_category'] ? 'bi-check-circle-fill text-success' : 'bi-circle text-secondary' }}"></i>
+                <span style="font-size:.84rem;color:#1f2937;">{{ __('dashboard.setup_step_category') }}</span>
+            </div>
+            @if(!$setup['has_category'])
+                <a href="{{ route('categories.create') }}" class="btn btn-sm btn-outline-secondary">{{ __('dashboard.setup_go_category') }}</a>
+            @endif
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between p-2 rounded" style="background:#f8fafc;border:1px solid #eef2f7;">
+            <div class="d-flex align-items-center gap-2">
+                <i class="bi {{ $setup['has_product'] ? 'bi-check-circle-fill text-success' : 'bi-circle text-secondary' }}"></i>
+                <span style="font-size:.84rem;color:#1f2937;">{{ __('dashboard.setup_step_product') }}</span>
+            </div>
+            @if(!$setup['has_product'])
+                <a href="{{ route('products.create') }}" class="btn btn-sm btn-outline-secondary">{{ __('dashboard.setup_go_product') }}</a>
+            @endif
+        </div>
+    </div>
+</div>
+@endif
+
 {{-- Bottom Cards --}}
 <div class="row g-3">
     <div class="col-md-6">

@@ -40,6 +40,13 @@ class DashboardController extends Controller
         $stats['reviews_count'] = $reviewStats->total;
         $stats['reviews_avg']   = round($reviewStats->avg_rating, 1);
 
-        return view('dashboard.index', compact('tenant', 'stats'));
+        $setup = [
+            'has_category' => $stats['categories'] > 0,
+            'has_product' => $stats['products'] > 0,
+        ];
+        $setup['completed'] = $setup['has_category'] && $setup['has_product'];
+        $setup['progress'] = ($setup['has_category'] ? 1 : 0) + ($setup['has_product'] ? 1 : 0);
+
+        return view('dashboard.index', compact('tenant', 'stats', 'setup'));
     }
 }

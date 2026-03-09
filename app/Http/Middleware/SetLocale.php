@@ -23,9 +23,7 @@ class SetLocale
         }
 
         $requestedLocale = $request->query('lang');
-        $locale = $request->session()->get('locale')
-            ?? $request->cookie('locale')
-            ?? config('app.locale');
+        $locale = $this->guessLocaleByCountry($request);
 
         if (is_string($requestedLocale) && in_array($requestedLocale, $allowed, true)) {
             $locale = $requestedLocale;
@@ -40,5 +38,30 @@ class SetLocale
         App::setLocale($locale);
 
         return $next($request);
+    }
+
+    /**
+     * Turkey => Turkish, otherwise English.
+     */
+    protected function guessLocaleByCountry(Request $request): string
+    {
+        $country = strtoupper((string) (
+            $request->header('CF-IPCountry')
+            ?? $request->header('CloudFront-Viewer-Country')
+            ?? $request->header('X-Country-Code')
+            ?? ''
+        ));
+
+        if ($country === 'TR') {
+            return 'tr';
+        }
+
+        if ($country !== '') {
+            return 'en';
+        }
+
+        $preferred = $request->getPreferredLanguage(['tr', 'en']);
+
+        return $preferred === 'tr' ? 'tr' : 'en';
     }
 }

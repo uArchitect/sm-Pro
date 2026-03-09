@@ -185,7 +185,7 @@
             .wa-float-icon{width:36px;height:36px;border-radius:10px}
             .wa-float-icon svg{width:18px;height:18px}
             .wa-float-text{display:none}
-            .wa-float:hover .wa-float-text{display:inline}
+            .wa-float.is-text-visible .wa-float-text{display:inline}
         }
 
         @@media(max-width:768px){
@@ -447,6 +447,30 @@
     window.addEventListener('scroll',function(){
         document.getElementById('lpNav').classList.toggle('scrolled',window.scrollY>40);
     });
+
+    (function () {
+        var waFloat = document.querySelector('.wa-float');
+        if (!waFloat) return;
+
+        function isMobile() {
+            return window.matchMedia('(max-width: 768px)').matches;
+        }
+
+        function toggleFloatText() {
+            if (!isMobile()) {
+                waFloat.classList.remove('is-text-visible');
+                return;
+            }
+
+            waFloat.classList.add('is-text-visible');
+            window.setTimeout(function () {
+                waFloat.classList.remove('is-text-visible');
+            }, 2200);
+        }
+
+        toggleFloatText();
+        window.setInterval(toggleFloatText, 5200);
+    })();
     </script>
 </body>
 </html>
