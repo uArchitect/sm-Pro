@@ -12,6 +12,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLW9XB0WC9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PLW9XB0WC9');
+    </script>
     <title>{{ $menuTitle }}</title>
     <meta name="description" content="{{ $menuDescription }}">
     <meta name="robots" content="noindex, follow, max-image-preview:large">

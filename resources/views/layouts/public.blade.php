@@ -9,6 +9,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLW9XB0WC9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PLW9XB0WC9');
+    </script>
     <title>@yield('title')</title>
     <meta name="description" content="@yield('meta_description')">
     <meta name="keywords" content="@yield('meta_keywords')">
