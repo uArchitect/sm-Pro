@@ -16,6 +16,6 @@ return [
     'social_placeholder' => 'username',
     'logo_section'       => 'Restaurant Logo',
     'logo_label'         => 'Upload logo',
-    'logo_hint'          => 'Upload in PNG or SVG format (max 2MB). Logos with transparent or white background look best on the QR menu.',
+    'logo_hint'          => 'Upload in PNG, SVG, JPG or WEBP format (max 2MB). Logos with transparent or white background look best on the QR menu.',
     'logo_remove'        => 'Remove logo',
 ];

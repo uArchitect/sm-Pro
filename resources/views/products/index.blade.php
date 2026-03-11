@@ -118,12 +118,18 @@
 </div>
 @endif
 
-<input type="file" id="imgUploadInput" accept="image/*" class="d-none">
+<input type="file" id="imgUploadInput" accept=".jpg,.jpeg,.png,.gif,.webp,.svg,image/jpeg,image/png,image/gif,image/webp,image/svg+xml" class="d-none">
 
 <div class="inline-save-toast">
     <div id="saveToast" class="toast align-items-center text-bg-success border-0" role="alert" data-bs-autohide="true" data-bs-delay="2000">
         <div class="d-flex">
             <div class="toast-body"><i class="bi bi-check-circle me-2"></i>{{ __('common.saved') }}</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+    <div id="prodErrorToast" class="toast align-items-center text-bg-danger border-0 mt-2" role="alert" data-bs-autohide="true" data-bs-delay="4000">
+        <div class="d-flex">
+            <div class="toast-body" id="prodErrorToastBody"><i class="bi bi-exclamation-circle me-2"></i></div>
             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
         </div>
     </div>
@@ -302,9 +308,9 @@ document.getElementById('imgUploadInput').addEventListener('change', async funct
     fd.append('_token', CSRF);
     fd.append('image', this.files[0]);
     try {
-        const res = await fetch(`/products/${id}/inline-update`, {method:'POST', body:fd});
+        const res = await fetch(`/products/${id}/inline-update`, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } });
         const data = await res.json();
-        if (data.success && data.image_url) {
+        if (res.ok && data.success && data.image_url) {
             if (imgEl.tagName === 'IMG') {
                 imgEl.src = data.image_url + '?t=' + Date.now();
             } else {
@@ -317,13 +323,23 @@ document.getElementById('imgUploadInput').addEventListener('change', async funct
                 imgEl.replaceWith(img);
             }
             afterEdit();
+        } else {
+            const msg = (data.errors && data.errors.image) ? data.errors.image[0] : (data.message || '{{ __("common.error") }}');
+            showProdErrorToast(msg);
         }
+    } catch(e) {
+        showProdErrorToast('{{ __("common.error") }}');
     } finally { imgEl.classList.remove('img-loading'); }
+    this.value = '';
 });
 
 function afterEdit() {
     bootstrap.Toast.getOrCreateInstance(document.getElementById('saveToast')).show();
     if (dtInstance) dtInstance.rows().invalidate().draw(false);
+}
+function showProdErrorToast(msg) {
+    document.getElementById('prodErrorToastBody').innerHTML = '<i class="bi bi-exclamation-circle me-2"></i>' + (msg || '{{ __("common.error") }}');
+    bootstrap.Toast.getOrCreateInstance(document.getElementById('prodErrorToast')).show();
 }
 
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }

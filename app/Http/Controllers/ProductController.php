@@ -49,7 +49,7 @@ class ProductController extends Controller
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
-            'image'       => 'nullable|image|max:2048',
+            'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
         ]);
 
         $tenantId = session('tenant_id');
@@ -119,7 +119,7 @@ class ProductController extends Controller
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
-            'image'       => 'nullable|image|max:2048',
+            'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
         ]);
 
         $tenantId = session('tenant_id');
@@ -234,7 +234,9 @@ class ProductController extends Controller
 
         try {
             if ($request->hasFile('image')) {
-                $request->validate(['image' => 'image|max:2048']);
+                $request->validate([
+                    'image' => 'file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
+                ]);
                 $newImagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
                 $data['image'] = $newImagePath;
                 $oldImageToDelete = $product->image ?: null;

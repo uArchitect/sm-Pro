@@ -16,6 +16,6 @@ return [
     'social_placeholder' => 'kullanıcı adı',
     'logo_section'       => 'Restoran Logosu',
     'logo_label'         => 'Logo yükleyin',
-    'logo_hint'          => 'PNG veya SVG formatında yükleyin (maks. 2MB). Arka planı şeffaf veya beyaz olan logolar QR menüde en düzgün görünür.',
+    'logo_hint'          => 'PNG, SVG, JPG veya WEBP formatında yükleyin (maks. 2MB). Arka planı şeffaf veya beyaz olan logolar QR menüde en düzgün görünür.',
     'logo_remove'        => 'Logoyu kaldır',
 ];

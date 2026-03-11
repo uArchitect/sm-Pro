@@ -51,7 +51,7 @@
                     @csrf
                     <div class="mb-3">
                         <label class="form-label">{{ __('sliders.image') }} *</label>
-                        <input type="file" name="image" accept="image/*" class="form-control @error('image') is-invalid @enderror" required>
+                        <input type="file" name="image" accept=".jpg,.jpeg,.png,.gif,.webp,.svg,image/jpeg,image/png,image/gif,image/webp,image/svg+xml" class="form-control @error('image') is-invalid @enderror" required>
                         @error('image')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     <div class="mb-3">

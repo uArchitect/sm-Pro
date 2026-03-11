@@ -25,7 +25,7 @@
                                 <div style="font-size:.72rem;color:#d1d5db">{{ __('common.max_file_size') }}</div>
                             </div>
                         </div>
-                        <input type="file" id="imgInput" name="image" accept="image/*" class="d-none">
+                        <input type="file" id="imgInput" name="image" accept=".jpg,.jpeg,.png,.gif,.webp,.svg,image/jpeg,image/png,image/gif,image/webp,image/svg+xml" class="d-none">
                         @error('image')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                         <input type="hidden" name="remove_image" id="removeImageField" value="0">
                         <button type="button" class="btn btn-link btn-sm text-danger p-0 mt-1 {{ $product->image ? '' : 'd-none' }}" id="removeBtn" onclick="removeImg()">
