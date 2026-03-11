@@ -23,12 +23,15 @@ class SetLocale
         }
 
         $requestedLocale = $request->query('lang');
-        $locale = $this->guessLocaleByCountry($request);
 
         if (is_string($requestedLocale) && in_array($requestedLocale, $allowed, true)) {
             $locale = $requestedLocale;
             $request->session()->put('locale', $locale);
             Cookie::queue('locale', $locale, 60 * 24 * 30);
+        } else {
+            $locale = $request->session()->get('locale')
+                ?? $request->cookie('locale')
+                ?? $this->guessLocaleByCountry($request);
         }
 
         if (!in_array($locale, $allowed, true)) {

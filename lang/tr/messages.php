@@ -16,4 +16,5 @@ return [
     'tenant_inactive'  => 'Hesabınız şu anda pasif durumda. Lütfen yöneticiyle iletişime geçin.',
     'tenant_not_available' => 'Bu restoran şu anda hizmet vermiyor.',
     'unauthorized'     => 'Bu işlem için yetkiniz yok.',
+    'upload_failed'    => 'Dosya yüklenemedi. Lütfen tekrar deneyin.',
 ];

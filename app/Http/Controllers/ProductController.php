@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
@@ -49,7 +50,7 @@ class ProductController extends Controller
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
-            'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
+            'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
         ]);
 
         $tenantId = session('tenant_id');
@@ -64,6 +65,9 @@ class ProductController extends Controller
         try {
             if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
+                if ($imagePath === false) {
+                    return back()->withErrors(['image' => __('messages.upload_failed')])->withInput();
+                }
             }
 
             DB::transaction(function () use ($tenantId, $request, $imagePath, &$productId) {
@@ -119,7 +123,7 @@ class ProductController extends Controller
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
-            'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
+            'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
         ]);
 
         $tenantId = session('tenant_id');
@@ -147,6 +151,9 @@ class ProductController extends Controller
         try {
             if ($request->hasFile('image')) {
                 $newImagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
+                if ($newImagePath === false) {
+                    return back()->withErrors(['image' => __('messages.upload_failed')])->withInput();
+                }
                 $data['image'] = $newImagePath;
                 $oldImageToDelete = $product->image ?: null;
             } elseif ($request->boolean('remove_image') && $product->image) {
@@ -235,9 +242,16 @@ class ProductController extends Controller
         try {
             if ($request->hasFile('image')) {
                 $request->validate([
-                    'image' => 'file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
+                    'image' => 'file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
                 ]);
                 $newImagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
+                if ($newImagePath === false) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => __('messages.upload_failed'),
+                        'errors'  => ['image' => [__('messages.upload_failed')]],
+                    ], 422);
+                }
                 $data['image'] = $newImagePath;
                 $oldImageToDelete = $product->image ?: null;
             } elseif ($request->boolean('remove_image') && $product->image) {
@@ -252,6 +266,15 @@ class ProductController extends Controller
             if ($oldImageToDelete) {
                 Storage::disk('public')->delete($oldImageToDelete);
             }
+        } catch (ValidationException $e) {
+            if ($newImagePath ?? null) {
+                Storage::disk('public')->delete($newImagePath);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'errors'  => $e->errors(),
+            ], 422);
         } catch (\Throwable $e) {
             if ($newImagePath) {
                 Storage::disk('public')->delete($newImagePath);

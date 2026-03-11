@@ -53,7 +53,7 @@ class CategoryController extends Controller
         $request->validate([
             'name'      => 'required|string|max:255',
             'parent_id' => 'nullable|integer',
-            'image'     => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
+            'image'     => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
         ]);
 
         $parentError = $this->validateParentCategory($tenantId, $request->parent_id ? (int) $request->parent_id : null);
@@ -66,6 +66,9 @@ class CategoryController extends Controller
         try {
             if ($request->hasFile('image')) {
                 $imagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'public');
+                if ($imagePath === false) {
+                    return back()->withErrors(['image' => __('messages.upload_failed')])->withInput();
+                }
             }
 
             DB::transaction(function () use ($tenantId, $request, $imagePath) {
@@ -125,7 +128,7 @@ class CategoryController extends Controller
         $request->validate([
             'name'      => 'required|string|max:255',
             'parent_id' => 'nullable|integer',
-            'image'     => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
+            'image'     => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
         ]);
 
         $category = DB::table('categories')
@@ -155,6 +158,9 @@ class CategoryController extends Controller
         try {
             if ($request->hasFile('image')) {
                 $newImagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'public');
+                if ($newImagePath === false) {
+                    return back()->withErrors(['image' => __('messages.upload_failed')])->withInput();
+                }
                 $data['image'] = $newImagePath;
                 $oldImageToDelete = $category->image ?: null;
             } elseif ($request->boolean('remove_image') && $category->image) {
@@ -262,9 +268,16 @@ class CategoryController extends Controller
         try {
             if ($request->hasFile('image')) {
                 $request->validate([
-                    'image' => 'file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
+                    'image' => 'file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
                 ]);
                 $newImagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'public');
+                if ($newImagePath === false) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => __('messages.upload_failed'),
+                        'errors'  => ['image' => [__('messages.upload_failed')]],
+                    ], 422);
+                }
                 $data['image'] = $newImagePath;
                 $oldImageToDelete = $category->image ?: null;
             }

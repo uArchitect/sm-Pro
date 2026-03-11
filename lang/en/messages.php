@@ -16,4 +16,5 @@ return [
     'tenant_inactive'  => 'Your account is currently inactive. Please contact the administrator.',
     'tenant_not_available' => 'This restaurant is currently unavailable.',
     'unauthorized'     => 'You do not have permission for this action.',
+    'upload_failed'    => 'File upload failed. Please try again.',
 ];

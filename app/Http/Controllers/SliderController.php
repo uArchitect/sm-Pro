@@ -23,7 +23,7 @@ class SliderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'image'       => 'required|file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:4096',
+            'image'       => 'required|file|mimes:jpg,jpeg,png,gif,webp,svg|max:4096',
             'title'       => 'nullable|string|max:255',
             'description' => 'nullable|string|max:1000',
         ]);
@@ -35,6 +35,9 @@ class SliderController extends Controller
 
         try {
             $path = $request->file('image')->store("tenants/{$tenantId}/sliders", 'public');
+            if ($path === false) {
+                return back()->withErrors(['image' => __('messages.upload_failed')]);
+            }
 
             DB::transaction(function () use ($tenantId, $request, $path, $maxOrder) {
                 DB::table('sliders')->insert([

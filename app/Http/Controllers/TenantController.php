@@ -24,7 +24,7 @@ class TenantController extends Controller
             'restoran_adi'      => 'required|string|max:255',
             'restoran_adresi'   => 'nullable|string|max:500',
             'restoran_telefonu' => 'nullable|string|max:30',
-            'logo'              => 'nullable|file|mimes:jpg,jpeg,png,svg,webp|mimetypes:image/jpeg,image/png,image/svg+xml,image/webp|max:2048',
+            'logo'              => 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp|max:2048',
             'instagram'         => 'nullable|string|max:255',
             'facebook'          => 'nullable|string|max:255',
             'twitter'           => 'nullable|string|max:255',
@@ -56,6 +56,9 @@ class TenantController extends Controller
         try {
             if ($request->hasFile('logo')) {
                 $newLogoPath = $request->file('logo')->store('logos', 'public');
+                if ($newLogoPath === false) {
+                    return back()->withErrors(['logo' => __('messages.upload_failed')])->withInput();
+                }
                 $data['logo'] = $newLogoPath;
                 $oldLogoToDelete = $tenant && $tenant->logo ? $tenant->logo : null;
             } elseif ($request->boolean('remove_logo') && !$request->hasFile('logo')) {
