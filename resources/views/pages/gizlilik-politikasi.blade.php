@@ -13,6 +13,10 @@
     ? 'Sipariş Masanda gizlilik politikası ve KVKK aydınlatma metni. Kişisel verilerinizin nasıl işlendiğini öğrenin.'
     : 'Siparis Masanda privacy policy and GDPR information. Learn how your personal data is processed.')
 
+@section('meta_keywords', $isTr
+    ? 'gizlilik politikası, KVKK, kişisel verilerin korunması, sipariş masanda gizlilik, veri güvenliği, çerez politikası'
+    : 'privacy policy, GDPR, personal data protection, siparis masanda privacy, data security, cookie policy')
+
 @section('schema')
 <script type="application/ld+json">
 {

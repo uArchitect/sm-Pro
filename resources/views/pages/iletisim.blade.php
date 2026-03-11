@@ -31,10 +31,22 @@
 <script type="application/ld+json">
 {
     "@@context": "https://schema.org",
-    "@@type": "ContactPoint",
-    "contactType": "customer service",
-    "email": "destek@siparismasanda.com",
-    "availableLanguage": ["Turkish", "English"]
+    "@@type": "Organization",
+    "name": "Sipariş Masanda",
+    "url": "https://siparismasanda.com/",
+    "logo": "{{ asset('og-cover.svg') }}",
+    "contactPoint": {
+        "@@type": "ContactPoint",
+        "contactType": "customer service",
+        "email": "destek@siparismasanda.com",
+        "telephone": "+90-507-892-84-90",
+        "availableLanguage": ["Turkish", "English"],
+        "contactOption": "TollFree",
+        "areaServed": "TR"
+    },
+    "sameAs": [
+        "https://wa.me/905078928490"
+    ]
 }
 </script>
 @endsection

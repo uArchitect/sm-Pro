@@ -4,6 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+
+    <title>Giriş Yap — Sipariş Masanda | Restoran Yönetim Paneli</title>
+    <meta name="description" content="Sipariş Masanda restoran yönetim paneline giriş yapın. Dijital QR menünüzü yönetin, ürünlerinizi güncelleyin ve restoranınızı tek panelden kontrol edin.">
+    <meta name="keywords" content="sipariş masanda giriş, restoran yönetim paneli, dijital menü giriş, qr menü yönetimi, restoran panel girişi">
+    <meta name="author" content="Sipariş Masanda">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0a0f1e">
+
+    <link rel="canonical" href="https://siparismasanda.com/login">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://siparismasanda.com/login">
+    <meta property="og:title" content="Giriş Yap — Sipariş Masanda | Restoran Yönetim Paneli">
+    <meta property="og:description" content="Restoran yönetim paneline giriş yapın. Dijital QR menünüzü yönetin, ürünlerinizi güncelleyin, müşteri yorumlarını takip edin.">
+    <meta property="og:site_name" content="Sipariş Masanda">
+    <meta property="og:image" content="{{ asset('og-cover.svg') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Giriş Yap — Sipariş Masanda | Restoran Yönetim Paneli">
+    <meta name="twitter:description" content="Sipariş Masanda restoran yönetim paneline giriş yapın. QR menü, ürün yönetimi ve müşteri değerlendirmelerini tek yerden yönetin.">
+    <meta name="twitter:image" content="{{ asset('og-cover.svg') }}">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Giriş Yap — Sipariş Masanda",
+            "description": "Sipariş Masanda restoran yönetim paneline giriş sayfası",
+            "url": "https://siparismasanda.com/login",
+            "isPartOf": {
+                "@type": "WebSite",
+                "name": "Sipariş Masanda",
+                "url": "https://siparismasanda.com/"
+            },
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://siparismasanda.com/"},
+                    {"@type": "ListItem", "position": 2, "name": "Giriş Yap", "item": "https://siparismasanda.com/login"}
+                ]
+            }
+        }
+    </script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLW9XB0WC9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -11,7 +57,6 @@
         gtag('js', new Date());
         gtag('config', 'G-PLW9XB0WC9');
     </script>
-    <title>{{ __('auth.title') }} — {{ __('common.app_name') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">

@@ -28,6 +28,58 @@
     ]
 }
 </script>
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "SoftwareApplication",
+    "name": "Sipariş Masanda",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "url": "{{ url('/') }}",
+    "image": "{{ asset('og-cover.svg') }}",
+    "description": "{{ $isTr ? 'Restoran ve kafeler için dijital QR menü sistemi' : 'Digital QR menu system for restaurants and cafes' }}",
+    "offers": [
+        {
+            "@@type": "Offer",
+            "name": "Basic",
+            "price": "0",
+            "priceCurrency": "TRY",
+            "description": "{{ $isTr ? 'Sınırsız kategori ve ürün, QR kod, fotoğraflı menü, müşteri değerlendirmeleri' : 'Unlimited categories & products, QR code, photo menu, customer reviews' }}"
+        },
+        {
+            "@@type": "Offer",
+            "name": "Premium",
+            "price": "",
+            "priceCurrency": "TRY",
+            "description": "{{ $isTr ? 'Basic planın tüm özellikleri + slider, etkinlik yönetimi, öncelikli destek' : 'All Basic features + sliders, event management, priority support' }}"
+        }
+    ],
+    "publisher": {
+        "@@type": "Organization",
+        "name": "Sipariş Masanda",
+        "url": "{{ url('/') }}"
+    }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "FAQPage",
+    "mainEntity": [
+        @if($isTr)
+        {"@@type": "Question", "name": "Ücretsiz plan gerçekten ücretsiz mi?", "acceptedAnswer": {"@@type": "Answer", "text": "Evet, Basic plan tamamen ücretsizdir. Kredi kartı bilgisi istemiyoruz. Sınırsız kategori ve ürün ekleyebilir, dijital menü ücreti ödemeden QR menünüzü oluşturabilirsiniz."}},
+        {"@@type": "Question", "name": "Ücretli plana ne zaman geçmeliyim?", "acceptedAnswer": {"@@type": "Answer", "text": "Basic plan çoğu restoran için yeterlidir. Slider görselleri, etkinlik duyuruları ve öncelikli destek gibi ek özellikler istiyorsanız Premium plana geçebilirsiniz."}},
+        {"@@type": "Question", "name": "Aylık ücret dışında gizli maliyet var mı?", "acceptedAnswer": {"@@type": "Answer", "text": "Hayır, restoran menü sistemi fiyatlarımız şeffaftır. Paket karşılaştırma tablosunda gördüğünüz özellikler tam olarak aldığınız hizmettir."}},
+        {"@@type": "Question", "name": "Dilediğim zaman iptal edebilir miyim?", "acceptedAnswer": {"@@type": "Answer", "text": "Evet, herhangi bir taahhüt yoktur. İstediğiniz zaman ücretsiz plana geri dönebilirsiniz."}}
+        @else
+        {"@@type": "Question", "name": "Is the free plan really free?", "acceptedAnswer": {"@@type": "Answer", "text": "Yes, the Basic plan is completely free. We don't ask for credit card information. You can add unlimited categories and products and create your QR menu without any cost."}},
+        {"@@type": "Question", "name": "When should I upgrade to a paid plan?", "acceptedAnswer": {"@@type": "Answer", "text": "The Basic plan is sufficient for most restaurants. You can upgrade to Premium if you want additional features like slider images, event announcements, and priority support."}},
+        {"@@type": "Question", "name": "Are there any hidden costs?", "acceptedAnswer": {"@@type": "Answer", "text": "No, our pricing is transparent. The features you see in the plan comparison table are exactly what you get."}},
+        {"@@type": "Question", "name": "Can I cancel at any time?", "acceptedAnswer": {"@@type": "Answer", "text": "Yes, there is no commitment. You can switch back to the free plan at any time."}}
+        @endif
+    ]
+}
+</script>
 @endsection
 
 @section('styles')

@@ -13,6 +13,10 @@
     ? 'Sipariş Masanda kullanım koşulları. Platform kullanım şartları ve sorumluluklar hakkında bilgi edinin.'
     : 'Siparis Masanda terms of use. Learn about platform usage terms and responsibilities.')
 
+@section('meta_keywords', $isTr
+    ? 'kullanım koşulları, kullanım şartları, sipariş masanda şartlar, platform kuralları, hizmet koşulları'
+    : 'terms of use, terms of service, siparis masanda terms, platform rules, service conditions')
+
 @section('schema')
 <script type="application/ld+json">
 {

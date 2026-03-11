@@ -47,6 +47,8 @@ Route::get('/sitemap.xml', function () {
         ['loc' => route('privacy'), 'lastmod' => now()->toDateString(), 'priority' => '0.3'],
         ['loc' => route('terms'), 'lastmod' => now()->toDateString(), 'priority' => '0.3'],
         ['loc' => route('demo'), 'lastmod' => now()->toDateString(), 'priority' => '0.8'],
+        ['loc' => route('login'), 'lastmod' => now()->toDateString(), 'priority' => '0.6'],
+        ['loc' => route('register'), 'lastmod' => now()->toDateString(), 'priority' => '0.7'],
     ]);
 
     return response()

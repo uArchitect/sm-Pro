@@ -28,6 +28,24 @@
     ]
 }
 </script>
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "ItemList",
+    "name": "{{ $isTr ? 'Sipariş Masanda QR Menü Özellikleri' : 'Siparis Masanda QR Menu Features' }}",
+    "description": "{{ $isTr ? 'Restoran ve kafeler için dijital QR menü sistemi özellikleri' : 'Digital QR menu system features for restaurants and cafes' }}",
+    "numberOfItems": 7,
+    "itemListElement": [
+        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'QR Kod Oluşturma ve Baskı' : 'QR Code Generation & Print' }}"},
+        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Sınırsız Kategori ve Ürün Yönetimi' : 'Unlimited Category & Product Management' }}"},
+        {"@@type": "ListItem", "position": 3, "name": "{{ $isTr ? 'Fotoğraflı Dijital Menü' : 'Digital Menu with Photos' }}"},
+        {"@@type": "ListItem", "position": 4, "name": "{{ $isTr ? 'Müşteri Değerlendirme Sistemi' : 'Customer Review System' }}"},
+        {"@@type": "ListItem", "position": 5, "name": "{{ $isTr ? 'Çoklu Kullanıcı ve Rol Yönetimi' : 'Multi-User & Role Management' }}"},
+        {"@@type": "ListItem", "position": 6, "name": "{{ $isTr ? 'Sosyal Medya Entegrasyonu' : 'Social Media Integration' }}"},
+        {"@@type": "ListItem", "position": 7, "name": "{{ $isTr ? 'Mobil Uyumlu Menü Tasarımı' : 'Mobile Friendly Menu Design' }}"}
+    ]
+}
+</script>
 @endsection
 
 @section('styles')
