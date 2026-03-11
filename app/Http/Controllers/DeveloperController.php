@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class DeveloperController extends Controller
@@ -303,6 +304,24 @@ class DeveloperController extends Controller
         ]);
 
         return back()->with('success', "{$tenant->restoran_adi} paketi '{$newPackage}' olarak güncellendi.");
+    }
+
+    /**
+     * Run storage:link from a secure developer route.
+     */
+    public function runStorageLink()
+    {
+        $this->authDev();
+
+        // Sadece production veya staging'de çalıştırmak istiyorsan buraya env kontrolü ekleyebilirsin.
+        try {
+            Artisan::call('storage:link');
+            $output = Artisan::output();
+        } catch (\Throwable $e) {
+            return back()->with('error', 'storage:link komutu çalıştırılamadı: ' . $e->getMessage());
+        }
+
+        return back()->with('success', 'storage:link komutu çalıştı. Çıktı: ' . trim($output));
     }
 
     public function tickets()

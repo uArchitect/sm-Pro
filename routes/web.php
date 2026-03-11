@@ -159,6 +159,7 @@ Route::middleware(['auth', 'role:developer'])->prefix('developer')->name('develo
     Route::post('/tickets/{id}/reply',      [DeveloperController::class, 'ticketReply'])->name('tickets.reply');
     Route::get('/settings',                 [DeveloperController::class, 'settings'])->name('settings');
     Route::post('/settings',                [DeveloperController::class, 'updateSettings'])->name('settings.update');
+    Route::post('/storage-link',            [DeveloperController::class, 'runStorageLink'])->name('storage-link');
 });
 
 // Impersonate exit (accessible while impersonating)
