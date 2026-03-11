@@ -4,6 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+
+    {{-- SEO meta tags --}}
+    <title>Kayıt — Sipariş Masanda</title>
+    <meta name="description" content="Sipariş Masanda ile restoranınızı dakikalar içinde dijitale taşıyın. QR menü oluşturmak, ürünlerinizi yönetmek ve misafirlerinize modern bir sipariş deneyimi sunmak için şimdi tamamen ücretsiz kayıt olun.">
+    <meta name="keywords" content="sipariş masanda, qr menü kayıt, restoran kayıt, dijital menü oluşturma, restoran yönetim sistemi, online menü, masa sipariş sistemi">
+    <meta name="author" content="Sipariş Masanda">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#0a0f1e">
+
+    {{-- Canonical & language alternates --}}
+    <link rel="canonical" href="https://siparismasanda.com/register">
+
+    {{-- Open Graph / Facebook --}}
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://siparismasanda.com/register">
+    <meta property="og:title" content="Kayıt — Sipariş Masanda">
+    <meta property="og:description" content="Restoranınız için QR menü ve modern sipariş deneyimi. Sipariş Masanda ile birkaç dakika içinde dijital menünüzü oluşturun ve platformu denemek için hemen ücretsiz kayıt olun.">
+    <meta property="og:site_name" content="Sipariş Masanda">
+    <meta property="og:image" content="{{ asset('og-cover.svg') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    {{-- Twitter Card --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kayıt — Sipariş Masanda">
+    <meta name="twitter:description" content="Sipariş Masanda ile restoranınızı dijitale taşıyın. QR menü, ürün yönetimi ve modern masa sipariş deneyimi için şimdi tamamen ücretsiz kayıt olun.">
+    <meta name="twitter:image" content="{{ asset('og-cover.svg') }}">
+
+    {{-- Structured data --}}
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "Sipariş Masanda",
+            "url": "https://siparismasanda.com",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web",
+            "description": "Restoranlar için QR menü, ürün yönetimi ve masa sipariş sistemi sunan dijital restoran yönetim platformu.",
+            "inLanguage": "tr-TR"
+        }
+    </script>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLW9XB0WC9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -11,7 +53,6 @@
         gtag('js', new Date());
         gtag('config', 'G-PLW9XB0WC9');
     </script>
-    <title>Kayıt — Sipariş Masanda</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
