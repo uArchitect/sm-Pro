@@ -36,13 +36,23 @@
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
-            "@type": "WebApplication",
+            "@type": "SoftwareApplication",
             "name": "Sipariş Masanda",
-            "url": "https://siparismasanda.com",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
-            "description": "Restoranlar için QR menü, ürün yönetimi ve masa sipariş sistemi sunan dijital restoran yönetim platformu.",
-            "inLanguage": "tr-TR"
+            "url": "https://siparismasanda.com/",
+            "image": "https://siparismasanda.com/og-cover.svg",
+            "description": "Restoran ve kafeler için dijital QR menü sistemi",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "TRY"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Sipariş Masanda",
+                "url": "https://siparismasanda.com/"
+            }
         }
     </script>
 
