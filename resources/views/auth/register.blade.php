@@ -35,8 +35,8 @@
     {{-- Structured data --}}
     <script type="application/ld+json">
         {
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
+            "@@context": "https://schema.org",
+            "@@type": "SoftwareApplication",
             "name": "Sipariş Masanda",
             "applicationCategory": "BusinessApplication",
             "operatingSystem": "Web",
@@ -44,12 +44,12 @@
             "image": "https://siparismasanda.com/og-cover.svg",
             "description": "Restoran ve kafeler için dijital QR menü sistemi",
             "offers": {
-                "@type": "Offer",
+                "@@type": "Offer",
                 "price": "0",
                 "priceCurrency": "TRY"
             },
             "publisher": {
-                "@type": "Organization",
+                "@@type": "Organization",
                 "name": "Sipariş Masanda",
                 "url": "https://siparismasanda.com/"
             }

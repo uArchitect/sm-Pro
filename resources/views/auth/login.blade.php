@@ -30,21 +30,21 @@
 
     <script type="application/ld+json">
         {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
+            "@@context": "https://schema.org",
+            "@@type": "WebPage",
             "name": "Giriş Yap — Sipariş Masanda",
             "description": "Sipariş Masanda restoran yönetim paneline giriş sayfası",
             "url": "https://siparismasanda.com/login",
             "isPartOf": {
-                "@type": "WebSite",
+                "@@type": "WebSite",
                 "name": "Sipariş Masanda",
                 "url": "https://siparismasanda.com/"
             },
             "breadcrumb": {
-                "@type": "BreadcrumbList",
+                "@@type": "BreadcrumbList",
                 "itemListElement": [
-                    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://siparismasanda.com/"},
-                    {"@type": "ListItem", "position": 2, "name": "Giriş Yap", "item": "https://siparismasanda.com/login"}
+                    {"@@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://siparismasanda.com/"},
+                    {"@@type": "ListItem", "position": 2, "name": "Giriş Yap", "item": "https://siparismasanda.com/login"}
                 ]
             }
         }
