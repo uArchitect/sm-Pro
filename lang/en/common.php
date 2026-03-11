@@ -15,10 +15,11 @@ return [
     'confirm'        => 'Confirm',
     'loading'        => 'Loading...',
     'saved'          => 'Saved',
+    'error'          => 'An error occurred',
     'photo'          => 'Photo',
     'remove_photo'   => 'Remove photo',
     'click_or_drop'  => 'Click or drag and drop',
-    'max_file_size'  => 'JPG, PNG, WEBP — max 2MB',
+    'max_file_size'  => 'JPG, PNG, WEBP, SVG — max 2MB',
     'language'       => 'Language',
     'optional'       => '(optional)',
 ];

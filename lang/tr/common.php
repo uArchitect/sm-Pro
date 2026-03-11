@@ -15,10 +15,11 @@ return [
     'confirm'        => 'Onayla',
     'loading'        => 'Yükleniyor...',
     'saved'          => 'Kaydedildi',
+    'error'          => 'Bir hata oluştu',
     'photo'          => 'Fotoğraf',
     'remove_photo'   => 'Fotoğrafı kaldır',
     'click_or_drop'  => 'Tıkla veya sürükle bırak',
-    'max_file_size'  => 'JPG, PNG, WEBP — maks. 2MB',
+    'max_file_size'  => 'JPG, PNG, WEBP, SVG — maks. 2MB',
     'language'       => 'Dil',
     'optional'       => '(opsiyonel)',
 ];

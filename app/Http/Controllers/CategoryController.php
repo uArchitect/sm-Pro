@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
@@ -52,7 +53,7 @@ class CategoryController extends Controller
         $request->validate([
             'name'      => 'required|string|max:255',
             'parent_id' => 'nullable|integer',
-            'image'     => 'nullable|image|max:2048',
+            'image'     => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
         ]);
 
         $parentError = $this->validateParentCategory($tenantId, $request->parent_id ? (int) $request->parent_id : null);
@@ -124,7 +125,7 @@ class CategoryController extends Controller
         $request->validate([
             'name'      => 'required|string|max:255',
             'parent_id' => 'nullable|integer',
-            'image'     => 'nullable|image|max:2048',
+            'image'     => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
         ]);
 
         $category = DB::table('categories')
@@ -260,7 +261,9 @@ class CategoryController extends Controller
 
         try {
             if ($request->hasFile('image')) {
-                $request->validate(['image' => 'image|max:2048']);
+                $request->validate([
+                    'image' => 'file|mimes:jpg,jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml|max:2048',
+                ]);
                 $newImagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'public');
                 $data['image'] = $newImagePath;
                 $oldImageToDelete = $category->image ?: null;
@@ -273,6 +276,15 @@ class CategoryController extends Controller
             if ($oldImageToDelete) {
                 Storage::disk('public')->delete($oldImageToDelete);
             }
+        } catch (ValidationException $e) {
+            if ($newImagePath ?? null) {
+                Storage::disk('public')->delete($newImagePath);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'errors'  => $e->errors(),
+            ], 422);
         } catch (\Throwable $e) {
             if ($newImagePath) {
                 Storage::disk('public')->delete($newImagePath);
