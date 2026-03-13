@@ -140,15 +140,34 @@
             .nav-toggler{display:flex;align-items:center;justify-content:center;z-index:102}
             .nav-links-collapse{
                 display:flex;flex-direction:column;
-                position:fixed;top:0;right:-100%;width:min(320px,85vw);height:100vh;
+                position:fixed;top:0;right:-100%;width:min(320px,85vw);height:100vh;height:100dvh;
                 background:linear-gradient(180deg,#0c1121 0%,#0a0f1e 100%);
-                padding:5rem 1.5rem 2rem;gap:0;
+                padding:0 1.5rem 2rem;gap:0;
                 z-index:101;
                 transition:right .35s cubic-bezier(.4,0,.2,1);
                 box-shadow:-8px 0 40px rgba(0,0,0,.5);
                 overflow-y:auto;
             }
             .nav-links-collapse.show{right:0}
+
+            /* Mobile brand */
+            .mobile-nav-brand{
+                display:flex;align-items:center;gap:.75rem;
+                padding:1.5rem 0 1.25rem;
+                margin-bottom:.25rem;
+                border-bottom:1px solid rgba(255,255,255,.08);
+            }
+            .mnb-logo{
+                width:44px;height:44px;border-radius:12px;flex-shrink:0;
+                background:linear-gradient(135deg,#FF6B35,#FF8C42);
+                display:flex;align-items:center;justify-content:center;
+                font-size:1.15rem;color:#fff;
+                box-shadow:0 4px 16px rgba(255,107,53,.35);
+            }
+            .mnb-text{display:flex;flex-direction:column}
+            .mnb-name{font-size:.95rem;font-weight:800;color:#fff;letter-spacing:-.01em;line-height:1.2}
+            .mnb-sub{font-size:.68rem;color:rgba(255,255,255,.35);font-weight:500;margin-top:.1rem}
+
             .nav-link-item{
                 padding:.85rem 0;width:100%;text-align:left;
                 font-size:.92rem;font-weight:600;
