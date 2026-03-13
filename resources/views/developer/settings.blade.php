@@ -62,6 +62,27 @@
                 </div>
             </div>
         </div>
+
+        <div class="sm-card mt-3">
+            <div class="sm-card-header">
+                <i class="bi bi-folder-symlink me-1" style="color:#6366f1"></i>Storage Link
+            </div>
+            <div class="sm-card-body">
+                <p class="text-muted small mb-3">Yüklenen dosyaların (kategori/ürün fotoğrafları vb.) erişilebilir olması için <code>public/storage</code> sembolik linkini oluşturur. Sunucuda link yoksa veya koptuysa bu butona tıklayın.</p>
+                <form method="POST" action="{{ route('developer.storage-link') }}" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="bi bi-link-45deg me-1"></i>Storage Link Oluştur
+                    </button>
+                </form>
+                @if(session('success') && str_contains(session('success'), 'storage'))
+                    <div class="alert alert-success mt-3 mb-0 small">{{ session('success') }}</div>
+                @endif
+                @if(session('error') && str_contains(session('error'), 'storage'))
+                    <div class="alert alert-danger mt-3 mb-0 small">{{ session('error') }}</div>
+                @endif
+            </div>
+        </div>
     </div>
 </div>
 @endsection
