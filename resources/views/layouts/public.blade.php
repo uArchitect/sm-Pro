@@ -226,6 +226,15 @@
                 <i class="bi bi-x-lg"></i>
             </button>
             <div class="nav-links-collapse" id="navCollapse">
+                {{-- Mobile brand header --}}
+                <div class="mobile-nav-brand d-lg-none">
+                    <div class="mnb-logo"><i class="bi bi-qr-code-scan"></i></div>
+                    <div class="mnb-text">
+                        <span class="mnb-name">Sipariş Masanda</span>
+                        <span class="mnb-sub">{{ $isTr ? 'Dijital Menü Sistemi' : 'Digital Menu System' }}</span>
+                    </div>
+                </div>
+
                 <a href="{{ route('features') }}" class="nav-link-item {{ request()->routeIs('features') ? 'active' : '' }}">
                     <i class="bi bi-grid-3x3-gap me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Özellikler' : 'Features' }}
                 </a>
