@@ -248,9 +248,13 @@
     (function(){
         var wf=document.querySelector('.wa-float');
         if(!wf)return;
-        function m(){return window.matchMedia('(max-width:768px)').matches}
-        function t(){if(!m()){wf.classList.remove('is-text-visible');return}wf.classList.add('is-text-visible');setTimeout(function(){wf.classList.remove('is-text-visible')},2200)}
-        t();setInterval(t,5200);
+        wf.addEventListener('click',function(e){
+            if(window.matchMedia('(max-width:768px)').matches && !wf.classList.contains('is-text-visible')){
+                e.preventDefault();
+                wf.classList.add('is-text-visible');
+                setTimeout(function(){wf.classList.remove('is-text-visible')},3000);
+            }
+        });
     })();
     </script>
     @yield('scripts')
