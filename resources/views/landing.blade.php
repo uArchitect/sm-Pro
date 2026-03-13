@@ -434,4 +434,172 @@
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+{{-- Kampanya Modal --}}
+<div class="promo-overlay" id="promoOverlay">
+    <div class="promo-modal" id="promoModal">
+        <button class="promo-close" id="promoClose" aria-label="Kapat">&times;</button>
+        <div class="promo-badge-row">
+            <span class="promo-badge-live"><i class="bi bi-lightning-charge-fill"></i> {{ $isTr ? 'SINIRLI TEKLİF' : 'LIMITED OFFER' }}</span>
+        </div>
+        <div class="promo-icon-wrap">
+            <i class="bi bi-gift-fill"></i>
+        </div>
+        <h2 class="promo-title">
+            {{ $isTr ? 'İlk 100 İşletmeye' : 'First 100 Businesses' }}<br>
+            <span class="promo-accent">{{ $isTr ? 'Tamamen Ücretsiz!' : 'Completely Free!' }}</span>
+        </h2>
+        <p class="promo-desc">
+            {{ $isTr
+                ? 'Premium özelliklerin tamamına sınırsız erişim. QR menü, fotoğraflı ürünler, ekip yönetimi, slider ve çok daha fazlası — herhangi bir ücret ödemeden.'
+                : 'Unlimited access to all premium features. QR menu, photo products, team management, sliders and much more — without paying a dime.' }}
+        </p>
+        <div class="promo-countdown" id="promoCountdown">
+            <div class="promo-cd-item"><span class="promo-cd-num" id="cdHours">00</span><span class="promo-cd-label">{{ $isTr ? 'Saat' : 'Hours' }}</span></div>
+            <div class="promo-cd-sep">:</div>
+            <div class="promo-cd-item"><span class="promo-cd-num" id="cdMins">00</span><span class="promo-cd-label">{{ $isTr ? 'Dakika' : 'Min' }}</span></div>
+            <div class="promo-cd-sep">:</div>
+            <div class="promo-cd-item"><span class="promo-cd-num" id="cdSecs">00</span><span class="promo-cd-label">{{ $isTr ? 'Saniye' : 'Sec' }}</span></div>
+        </div>
+        <a href="{{ route('register') }}" class="promo-cta">
+            <i class="bi bi-rocket-takeoff"></i> {{ $isTr ? 'Hemen Ücretsiz Kayıt Ol' : 'Register for Free Now' }}
+        </a>
+        <div class="promo-footer-note">
+            <i class="bi bi-shield-check"></i> {{ $isTr ? 'Kredi kartı gerekmez · 2 dakikada kurulum' : 'No credit card required · Setup in 2 minutes' }}
+        </div>
+    </div>
+</div>
+
+<style>
+.promo-overlay{
+    position:fixed;inset:0;z-index:9999;
+    background:rgba(0,0,0,.65);backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;
+    padding:1rem;
+    opacity:0;visibility:hidden;transition:opacity .4s,visibility .4s;
+}
+.promo-overlay.show{opacity:1;visibility:visible}
+.promo-modal{
+    position:relative;
+    background:linear-gradient(165deg,#0e1326 0%,#151d35 50%,#0e1326 100%);
+    border:1px solid rgba(255,107,53,.2);
+    border-radius:24px;
+    padding:2.5rem 2rem 2rem;
+    max-width:440px;width:100%;
+    text-align:center;
+    box-shadow:0 24px 80px rgba(0,0,0,.5),0 0 80px rgba(255,107,53,.08);
+    transform:scale(.9) translateY(20px);
+    transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.promo-overlay.show .promo-modal{transform:scale(1) translateY(0)}
+.promo-close{
+    position:absolute;top:1rem;right:1rem;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+    color:rgba(255,255,255,.5);font-size:1.3rem;
+    width:36px;height:36px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;transition:all .2s;line-height:1;
+}
+.promo-close:hover{background:rgba(255,255,255,.12);color:#fff}
+.promo-badge-row{margin-bottom:1rem}
+.promo-badge-live{
+    display:inline-flex;align-items:center;gap:.35rem;
+    padding:.3rem .85rem;border-radius:999px;
+    font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+    background:rgba(239,68,68,.15);color:#f87171;
+    border:1px solid rgba(239,68,68,.25);
+    animation:promoPulse 2s ease-in-out infinite;
+}
+@@keyframes promoPulse{0%,100%{opacity:1}50%{opacity:.7}}
+.promo-icon-wrap{
+    width:72px;height:72px;border-radius:20px;
+    background:linear-gradient(135deg,rgba(255,107,53,.15),rgba(255,140,66,.08));
+    border:1px solid rgba(255,107,53,.2);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 1.25rem;font-size:2rem;color:#FF8C42;
+}
+.promo-title{
+    font-size:1.6rem;font-weight:900;color:#fff;
+    line-height:1.2;letter-spacing:-.02em;margin-bottom:.75rem;
+}
+.promo-accent{
+    background:linear-gradient(90deg,#FF6B35,#FFB347);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.promo-desc{
+    font-size:.85rem;color:rgba(255,255,255,.5);line-height:1.65;
+    margin-bottom:1.25rem;max-width:360px;margin-left:auto;margin-right:auto;
+}
+.promo-countdown{
+    display:flex;align-items:center;justify-content:center;gap:.5rem;
+    margin-bottom:1.5rem;
+}
+.promo-cd-item{display:flex;flex-direction:column;align-items:center}
+.promo-cd-num{
+    font-size:1.5rem;font-weight:800;color:#fff;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+    border-radius:10px;padding:.25rem .6rem;min-width:52px;
+    font-variant-numeric:tabular-nums;
+}
+.promo-cd-label{font-size:.6rem;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.05em;margin-top:.25rem}
+.promo-cd-sep{font-size:1.3rem;font-weight:800;color:rgba(255,255,255,.2);padding-bottom:1rem}
+.promo-cta{
+    display:inline-flex;align-items:center;gap:.5rem;
+    padding:.85rem 2rem;border-radius:12px;
+    background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;
+    font-weight:700;font-size:.95rem;text-decoration:none;
+    box-shadow:0 8px 32px rgba(255,107,53,.4);
+    transition:all .2s;border:none;width:100%;justify-content:center;
+}
+.promo-cta:hover{color:#fff;transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,107,53,.55)}
+.promo-footer-note{
+    margin-top:1rem;font-size:.72rem;color:rgba(255,255,255,.35);
+    display:flex;align-items:center;justify-content:center;gap:.35rem;
+}
+@@media(max-width:480px){
+    .promo-modal{padding:2rem 1.25rem 1.5rem;border-radius:18px}
+    .promo-title{font-size:1.3rem}
+    .promo-desc{font-size:.8rem}
+    .promo-icon-wrap{width:56px;height:56px;font-size:1.5rem;border-radius:16px}
+    .promo-cd-num{font-size:1.2rem;min-width:44px;padding:.2rem .45rem}
+}
+</style>
+
+<script>
+(function(){
+    var KEY='promo_closed_v1';
+    if(sessionStorage.getItem(KEY)) return;
+
+    var overlay=document.getElementById('promoOverlay');
+    var modal=document.getElementById('promoModal');
+
+    setTimeout(function(){overlay.classList.add('show')},1500);
+
+    function close(){
+        overlay.classList.remove('show');
+        sessionStorage.setItem(KEY,'1');
+    }
+    document.getElementById('promoClose').addEventListener('click',close);
+    overlay.addEventListener('click',function(e){if(e.target===overlay)close()});
+
+    // Countdown — her gün gece yarısına kadar
+    function startCountdown(){
+        function tick(){
+            var now=new Date();
+            var end=new Date(now);
+            end.setHours(23,59,59,999);
+            var diff=Math.max(0,end-now);
+            var h=Math.floor(diff/3600000);
+            var m=Math.floor((diff%3600000)/60000);
+            var s=Math.floor((diff%60000)/1000);
+            document.getElementById('cdHours').textContent=String(h).padStart(2,'0');
+            document.getElementById('cdMins').textContent=String(m).padStart(2,'0');
+            document.getElementById('cdSecs').textContent=String(s).padStart(2,'0');
+        }
+        tick();
+        setInterval(tick,1000);
+    }
+    startCountdown();
+})();
+</script>
 @endsection
