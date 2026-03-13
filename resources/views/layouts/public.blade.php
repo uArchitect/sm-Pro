@@ -143,8 +143,6 @@
             .wa-float-text{display:none}
             .wa-float.is-text-visible .wa-float-text{display:inline}
             .page-hero{padding:6rem 0 2rem}
-        }
-        @@media(max-width:768px){
             .footer-grid{grid-template-columns:repeat(2,1fr);gap:1.5rem}
         }
         @@media(max-width:576px){
