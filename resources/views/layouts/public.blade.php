@@ -213,6 +213,8 @@
             .footer-heading{margin-bottom:.4rem;font-size:.7rem}
             .lp-footer a{font-size:.8rem}
             .footer-bottom{font-size:.72rem;margin-top:1.25rem;padding-top:1rem}
+            /* Mobile nav drawer full width on very small screens so yamuk görünmesin */
+            .nav-links-collapse{width:100vw}
         }
         @yield('styles')
     </style>
