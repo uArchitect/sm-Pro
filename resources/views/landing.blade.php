@@ -436,8 +436,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 {{-- Kampanya Modal --}}
-<div class="promo-overlay" id="promoOverlay">
-    <div class="promo-modal" id="promoModal">
+<div class="promo-overlay" id="promoOverlay" aria-hidden="true" data-nosnippet>
+    <div class="promo-modal" id="promoModal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
         <button class="promo-close" id="promoClose" aria-label="Kapat">&times;</button>
         <div class="promo-badge-row">
             <span class="promo-badge-live"><i class="bi bi-lightning-charge-fill"></i> {{ $isTr ? 'SINIRLI TEKLİF' : 'LIMITED OFFER' }}</span>
@@ -445,7 +445,7 @@
         <div class="promo-icon-wrap">
             <i class="bi bi-gift-fill"></i>
         </div>
-        <h2 class="promo-title">
+        <h2 class="promo-title" id="promoTitle">
             {{ $isTr ? 'İlk 100 İşletmeye' : 'First 100 Businesses' }}<br>
             <span class="promo-accent">{{ $isTr ? 'Tamamen Ücretsiz!' : 'Completely Free!' }}</span>
         </h2>
