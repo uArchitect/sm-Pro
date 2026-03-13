@@ -93,5 +93,35 @@
             </div>
         </div>
     </div>
+    <div class="col-lg-4">
+        <div class="sm-card sticky-top" style="top: 1rem;">
+            <div class="sm-card-header">
+                <i class="bi bi-info-circle me-1" style="color:#6366f1"></i>Bilet Özeti
+            </div>
+            <div class="sm-card-body">
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Bilet No</div>
+                    <div class="fw-600">#{{ $ticket->id }}</div>
+                </div>
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Restoran</div>
+                    <div class="fw-600">{{ $ticket->restoran_adi }}</div>
+                </div>
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Gönderen</div>
+                    <div class="fw-600">{{ $ticket->user_name }}</div>
+                    <div class="small text-muted">{{ $ticket->user_email }}</div>
+                </div>
+                <div class="mb-3">
+                    <div class="text-muted small mb-1">Durum</div>
+                    <span class="ticket-status st-{{ $ticket->status }}">{{ $ticket->status === 'open' ? 'Açık' : ($ticket->status === 'answered' ? 'Yanıtlandı' : 'Kapatıldı') }}</span>
+                </div>
+                <div>
+                    <div class="text-muted small mb-1">Oluşturulma</div>
+                    <div class="small">{{ \Carbon\Carbon::parse($ticket->created_at)->format('d.m.Y H:i') }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
