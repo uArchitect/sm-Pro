@@ -1,10 +1,17 @@
-# Laravel FTP Deploy - lftp ile paralel transfer
+# Laravel FTP Deploy - incremental (only changed files) + full fallback
 name: Deploy to FTP
 
 on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      full_deploy:
+        description: 'Force full deploy (mirror all files)'
+        required: false
+        default: 'false'
+        type: choice
+        options: ['false', 'true']
 
 env:
   FTP_SERVER: siparismasanda.com
@@ -15,11 +22,51 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    concurrency:
+      group: ftp-deploy
+      cancel-in-progress: true
     steps:
-      - name: Checkout
+      - name: Checkout (full history for diff)
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Detect changed files
+        id: changes
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "__FULL__")
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          NEEDS_BUILD=false
+          NEEDS_COMPOSER=false
+          ONLY_VIEWS=true
+
+          while IFS= read -r file; do
+            case "$file" in
+              __FULL__) NEEDS_BUILD=true; NEEDS_COMPOSER=true; ONLY_VIEWS=false; break ;;
+              package*.json|vite.config*|resources/js/*|resources/css/*) NEEDS_BUILD=true; ONLY_VIEWS=false ;;
+              composer.json|composer.lock) NEEDS_COMPOSER=true; ONLY_VIEWS=false ;;
+              resources/views/*) ;; # views only, no build needed
+              app/*|config/*|routes/*|database/*|lang/*) ONLY_VIEWS=false ;;
+            esac
+          done <<< "$CHANGED"
+
+          if [ "${{ github.event.inputs.full_deploy }}" = "true" ]; then
+            NEEDS_BUILD=true
+            NEEDS_COMPOSER=true
+            ONLY_VIEWS=false
+          fi
+
+          echo "needs_build=$NEEDS_BUILD" >> $GITHUB_OUTPUT
+          echo "needs_composer=$NEEDS_COMPOSER" >> $GITHUB_OUTPUT
+          echo "only_views=$ONLY_VIEWS" >> $GITHUB_OUTPUT
+          echo "--- Changed files ---"
+          echo "$CHANGED"
 
       - name: Setup PHP
+        if: steps.changes.outputs.needs_composer == 'true'
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
@@ -27,10 +74,12 @@ jobs:
           coverage: none
 
       - name: Get composer cache dir
+        if: steps.changes.outputs.needs_composer == 'true'
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache composer
+        if: steps.changes.outputs.needs_composer == 'true'
         uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -38,29 +87,75 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install composer deps
+        if: steps.changes.outputs.needs_composer == 'true'
         run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
 
       - name: Setup Node
+        if: steps.changes.outputs.needs_build == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
       - name: Install npm deps & build
+        if: steps.changes.outputs.needs_build == 'true'
         run: |
           npm ci
           npm run build
 
-      - name: Prepare deploy
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y lftp
+
+      - name: Incremental deploy (changed files only)
+        if: github.event.inputs.full_deploy != 'true'
+        run: |
+          CHANGED='${{ steps.changes.outputs.files }}'
+
+          CMDS=""
+          while IFS= read -r file; do
+            [ -z "$file" ] && continue
+            [[ "$file" == .github/* ]] && continue
+            [[ "$file" == .git/* ]] && continue
+            [[ "$file" == node_modules/* ]] && continue
+            [[ "$file" == tests/* ]] && continue
+            [[ "$file" == .env* ]] && continue
+            [[ "$file" == storage/logs/* ]] && continue
+            [[ "$file" == storage/framework/cache/* ]] && continue
+            [[ "$file" == storage/framework/sessions/* ]] && continue
+            [[ "$file" == storage/framework/views/* ]] && continue
+
+            REMOTE_DIR=$(dirname "$FTP_REMOTE_DIR/$file")
+
+            if [ -f "$file" ]; then
+              CMDS="${CMDS}mkdir -p ${REMOTE_DIR}; put ${file} -o ${FTP_REMOTE_DIR}/${file}; "
+            else
+              CMDS="${CMDS}rm -f ${FTP_REMOTE_DIR}/${file} 2>/dev/null; "
+            fi
+          done <<< "$CHANGED"
+
+          if [ -z "$CMDS" ]; then
+            echo "No FTP-relevant files changed, skipping."
+            exit 0
+          fi
+
+          echo "Uploading changed files..."
+          lftp -c "
+            set ftp:ssl-allow no
+            set ftp:passive-mode true
+            set net:connection-limit 4
+            open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER
+            ${CMDS}
+            quit
+          "
+          echo "Incremental deploy done."
+
+      - name: Full deploy (mirror)
+        if: github.event.inputs.full_deploy == 'true'
         run: |
           rm -rf .git .github node_modules
           find storage/logs storage/framework/cache/data storage/framework/sessions storage/framework/views -type f ! -name .gitkeep -delete 2>/dev/null || true
           mkdir -p storage/logs storage/framework/cache/data storage/framework/sessions storage/framework/views
-          touch storage/logs/.gitkeep storage/framework/cache/data/.gitkeep storage/framework/sessions/.gitkeep storage/framework/views/.gitkeep
 
-      - name: Install lftp & Deploy via FTP (parallel)
-        run: |
-          sudo apt-get update -qq && sudo apt-get install -y lftp
           lftp -c "
             set ftp:ssl-allow no
             set ftp:passive-mode true
