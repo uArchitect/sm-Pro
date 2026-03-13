@@ -567,31 +567,49 @@
 
 <script>
 (function(){
-    var KEY='promo_closed_v1';
-    if(sessionStorage.getItem(KEY)) return;
+    var CLOSED_KEY='promo_closed_v1';
+    if(sessionStorage.getItem(CLOSED_KEY)) return;
 
     var overlay=document.getElementById('promoOverlay');
     var modal=document.getElementById('promoModal');
 
-    setTimeout(function(){overlay.classList.add('show')},1500);
+    // Kampanya süresi: 14 gün
+    var WINDOW_KEY='promo_window_start_v1';
+    var startTs=parseInt(localStorage.getItem(WINDOW_KEY) || '0',10);
+    var now=Date.now();
+    if(!startTs || isNaN(startTs)){
+        startTs=now;
+        localStorage.setItem(WINDOW_KEY,String(startTs));
+    }
+    var twoWeeksMs=14*24*60*60*1000;
+    if(now-startTs>twoWeeksMs){
+        // 2 haftalık süre bittiyse modali hiç gösterme
+        return;
+    }
+
+    setTimeout(function(){
+        overlay.classList.add('show');
+        overlay.setAttribute('aria-hidden','false');
+    },1500);
 
     function close(){
         overlay.classList.remove('show');
-        sessionStorage.setItem(KEY,'1');
+        overlay.setAttribute('aria-hidden','true');
+        sessionStorage.setItem(CLOSED_KEY,'1');
     }
     document.getElementById('promoClose').addEventListener('click',close);
     overlay.addEventListener('click',function(e){if(e.target===overlay)close()});
 
-    // Countdown — her gün gece yarısına kadar
+    // Countdown — 2 haftalık kampanya penceresinin bitimine kadar
     function startCountdown(){
+        var endTs=startTs+twoWeeksMs;
         function tick(){
-            var now=new Date();
-            var end=new Date(now);
-            end.setHours(23,59,59,999);
-            var diff=Math.max(0,end-now);
-            var h=Math.floor(diff/3600000);
-            var m=Math.floor((diff%3600000)/60000);
-            var s=Math.floor((diff%60000)/1000);
+            var nowMs=Date.now();
+            var diff=Math.max(0,endTs-nowMs);
+            var totalSec=Math.floor(diff/1000);
+            var h=Math.floor(totalSec/3600);
+            var m=Math.floor((totalSec%3600)/60);
+            var s=totalSec%60;
             document.getElementById('cdHours').textContent=String(h).padStart(2,'0');
             document.getElementById('cdMins').textContent=String(m).padStart(2,'0');
             document.getElementById('cdSecs').textContent=String(s).padStart(2,'0');
