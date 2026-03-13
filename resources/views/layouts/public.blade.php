@@ -213,6 +213,8 @@
         <span class="wa-float-text">{{ $isTr ? 'İletişime Geç' : 'Contact Us' }}</span>
     </a>
 
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
     <nav class="lp-nav" id="lpNav">
         <div class="container d-flex align-items-center justify-content-between position-relative">
             <a href="{{ url('/') }}" class="d-flex align-items-center gap-2 text-decoration-none">
@@ -221,13 +223,26 @@
             </a>
             <button type="button" class="nav-toggler" id="navToggler" aria-label="Menu">
                 <i class="bi bi-list"></i>
+                <i class="bi bi-x-lg"></i>
             </button>
             <div class="nav-links-collapse" id="navCollapse">
-                <a href="{{ route('features') }}" class="nav-link-item {{ request()->routeIs('features') ? 'active' : '' }}">{{ $isTr ? 'Özellikler' : 'Features' }}</a>
-                <a href="{{ route('pricing') }}" class="nav-link-item {{ request()->routeIs('pricing') ? 'active' : '' }}">{{ $isTr ? 'Fiyatlar' : 'Pricing' }}</a>
-                <a href="{{ route('about') }}" class="nav-link-item {{ request()->routeIs('about') ? 'active' : '' }}">{{ $isTr ? 'Hakkımızda' : 'About' }}</a>
-                <a href="{{ route('contact') }}" class="nav-link-item {{ request()->routeIs('contact') ? 'active' : '' }}">{{ $isTr ? 'İletişim' : 'Contact' }}</a>
-                <div class="d-flex gap-2 ms-lg-2">
+                <a href="{{ route('features') }}" class="nav-link-item {{ request()->routeIs('features') ? 'active' : '' }}">
+                    <i class="bi bi-grid-3x3-gap me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Özellikler' : 'Features' }}
+                </a>
+                <a href="{{ route('pricing') }}" class="nav-link-item {{ request()->routeIs('pricing') ? 'active' : '' }}">
+                    <i class="bi bi-tag me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Fiyatlar' : 'Pricing' }}
+                </a>
+                <a href="{{ route('about') }}" class="nav-link-item {{ request()->routeIs('about') ? 'active' : '' }}">
+                    <i class="bi bi-building me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Hakkımızda' : 'About' }}
+                </a>
+                <a href="{{ route('contact') }}" class="nav-link-item {{ request()->routeIs('contact') ? 'active' : '' }}">
+                    <i class="bi bi-envelope me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'İletişim' : 'Contact' }}
+                </a>
+                <div class="d-none d-lg-flex gap-2 ms-lg-2">
+                    <a href="{{ route('login') }}" class="nav-btn nav-btn-ghost">{{ $isTr ? 'Giriş Yap' : 'Sign In' }}</a>
+                    <a href="{{ route('register') }}" class="nav-btn nav-btn-primary">{{ $isTr ? 'Ücretsiz Başla' : 'Start Free' }}</a>
+                </div>
+                <div class="mobile-nav-btns d-lg-none">
                     <a href="{{ route('login') }}" class="nav-btn nav-btn-ghost">{{ $isTr ? 'Giriş Yap' : 'Sign In' }}</a>
                     <a href="{{ route('register') }}" class="nav-btn nav-btn-primary">{{ $isTr ? 'Ücretsiz Başla' : 'Start Free' }}</a>
                 </div>
@@ -280,9 +295,26 @@
     window.addEventListener('scroll',function(){
         document.getElementById('lpNav').classList.toggle('scrolled',window.scrollY>40);
     });
-    document.getElementById('navToggler').addEventListener('click',function(){
-        document.getElementById('navCollapse').classList.toggle('show');
-    });
+    (function(){
+        var toggler=document.getElementById('navToggler');
+        var collapse=document.getElementById('navCollapse');
+        var overlay=document.getElementById('mobileOverlay');
+        function toggleNav(){
+            var open=collapse.classList.toggle('show');
+            toggler.classList.toggle('is-open',open);
+            overlay.classList.toggle('show',open);
+            document.body.classList.toggle('nav-open',open);
+        }
+        function closeNav(){
+            collapse.classList.remove('show');
+            toggler.classList.remove('is-open');
+            overlay.classList.remove('show');
+            document.body.classList.remove('nav-open');
+        }
+        toggler.addEventListener('click',toggleNav);
+        overlay.addEventListener('click',closeNav);
+        collapse.querySelectorAll('.nav-link-item').forEach(function(l){l.addEventListener('click',closeNav)});
+    })();
     (function(){
         var wf=document.querySelector('.wa-float');
         if(!wf)return;
