@@ -455,11 +455,11 @@
                 : 'Unlimited access to all premium features. QR menu, photo products, team management, sliders and much more — without paying a dime.' }}
         </p>
         <div class="promo-countdown" id="promoCountdown">
+            <div class="promo-cd-item"><span class="promo-cd-num" id="cdDays">00</span><span class="promo-cd-label">{{ $isTr ? 'Gün' : 'Days' }}</span></div>
+            <div class="promo-cd-sep">:</div>
             <div class="promo-cd-item"><span class="promo-cd-num" id="cdHours">00</span><span class="promo-cd-label">{{ $isTr ? 'Saat' : 'Hours' }}</span></div>
             <div class="promo-cd-sep">:</div>
             <div class="promo-cd-item"><span class="promo-cd-num" id="cdMins">00</span><span class="promo-cd-label">{{ $isTr ? 'Dakika' : 'Min' }}</span></div>
-            <div class="promo-cd-sep">:</div>
-            <div class="promo-cd-item"><span class="promo-cd-num" id="cdSecs">00</span><span class="promo-cd-label">{{ $isTr ? 'Saniye' : 'Sec' }}</span></div>
         </div>
         <a href="{{ route('register') }}" class="promo-cta">
             <i class="bi bi-rocket-takeoff"></i> {{ $isTr ? 'Hemen Ücretsiz Kayıt Ol' : 'Register for Free Now' }}
@@ -600,19 +600,20 @@
     document.getElementById('promoClose').addEventListener('click',close);
     overlay.addEventListener('click',function(e){if(e.target===overlay)close()});
 
-    // Countdown — 2 haftalık kampanya penceresinin bitimine kadar
+    // Countdown — 2 haftalık kampanya penceresinin bitimine kadar (gün:saat:dakika)
     function startCountdown(){
         var endTs=startTs+twoWeeksMs;
         function tick(){
             var nowMs=Date.now();
             var diff=Math.max(0,endTs-nowMs);
-            var totalSec=Math.floor(diff/1000);
-            var h=Math.floor(totalSec/3600);
-            var m=Math.floor((totalSec%3600)/60);
-            var s=totalSec%60;
+            var totalMin=Math.floor(diff/60000);
+            var totalDays=Math.floor(totalMin/(60*24));
+            var remMin=totalMin-totalDays*60*24;
+            var h=Math.floor(remMin/60);
+            var m=remMin%60;
+            document.getElementById('cdDays').textContent=String(totalDays).padStart(2,'0');
             document.getElementById('cdHours').textContent=String(h).padStart(2,'0');
             document.getElementById('cdMins').textContent=String(m).padStart(2,'0');
-            document.getElementById('cdSecs').textContent=String(s).padStart(2,'0');
         }
         tick();
         setInterval(tick,1000);
