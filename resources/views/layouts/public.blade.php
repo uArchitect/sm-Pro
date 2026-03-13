@@ -144,18 +144,20 @@
             .wa-float.is-text-visible .wa-float-text{display:inline}
             .page-hero{padding:6rem 0 2rem}
         }
+        @@media(max-width:768px){
+            .footer-grid{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+        }
         @@media(max-width:576px){
             .page-hero h1{font-size:1.6rem}
             .page-hero-sub{font-size:.9rem}
             .cta-bar{padding:3rem 0 4rem}
             .cta-box{padding:2rem 1rem;border-radius:18px}
             .cta-box h2{font-size:1.35rem}
+            .footer-grid{grid-template-columns:repeat(2,1fr);gap:1.25rem 1rem}
             .lp-footer{padding:2rem 0 1.5rem}
-            .lp-footer .row{row-gap:1.25rem!important}
-            .lp-footer .col-6{flex:0 0 50%;max-width:50%}
             .footer-heading{margin-bottom:.45rem;font-size:.68rem}
             .lp-footer a{font-size:.75rem}
-            .footer-bottom{text-align:center;justify-content:center!important;font-size:.7rem;margin-top:1.25rem;padding-top:1rem}
+            .footer-bottom{font-size:.7rem;margin-top:1.25rem;padding-top:1rem}
         }
         @yield('styles')
     </style>
