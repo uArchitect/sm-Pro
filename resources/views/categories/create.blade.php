@@ -23,7 +23,7 @@
                                 <div style="font-size:.72rem;color:#d1d5db">{{ __('common.max_file_size') }}</div>
                             </div>
                         </div>
-                        <input type="file" id="imgInput" name="image" accept=".jpg,.jpeg,.png,.gif,.webp,.svg,image/jpeg,image/png,image/gif,image/webp,image/svg+xml" class="d-none @error('image') is-invalid @enderror">
+                        <input type="file" id="imgInput" name="image" accept=".jpg,.jpeg,.png,.gif,.webp,.svg,image/jpeg,image/png,image/gif,image/webp,image/svg+xml" class="input-file-visible-submit @error('image') is-invalid @enderror">
                         @error('image')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                         <button type="button" class="btn btn-link btn-sm text-danger p-0 mt-1 d-none" id="removeBtn" onclick="removeImg()">
                             <i class="bi bi-x-circle me-1"></i>{{ __('common.remove_photo') }}
