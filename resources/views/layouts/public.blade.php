@@ -100,9 +100,10 @@
         .hero-btn-outline:hover{color:#fff;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25);transform:translateY(-2px)}
 
         /* Footer */
-        .lp-footer{border-top:1px solid rgba(255,255,255,.06);padding:3rem 0 2rem}
+        .lp-footer{border-top:1px solid rgba(255,255,255,.06);padding:3rem 0 2rem;position:relative;z-index:10}
         .lp-footer a{color:rgba(255,255,255,.45);text-decoration:none;font-size:.78rem;transition:color .18s}
         .lp-footer a:hover{color:#FF8C42}
+        .footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
         .footer-heading{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.65rem}
         .footer-bottom{border-top:1px solid rgba(255,255,255,.06);margin-top:2rem;padding-top:1.25rem;font-size:.75rem;color:rgba(255,255,255,.25)}
 
@@ -149,6 +150,12 @@
             .cta-bar{padding:3rem 0 4rem}
             .cta-box{padding:2rem 1rem;border-radius:18px}
             .cta-box h2{font-size:1.35rem}
+            .lp-footer{padding:2rem 0 1.5rem}
+            .lp-footer .row{row-gap:1.25rem!important}
+            .lp-footer .col-6{flex:0 0 50%;max-width:50%}
+            .footer-heading{margin-bottom:.45rem;font-size:.68rem}
+            .lp-footer a{font-size:.75rem}
+            .footer-bottom{text-align:center;justify-content:center!important;font-size:.7rem;margin-top:1.25rem;padding-top:1rem}
         }
         @yield('styles')
     </style>
@@ -194,8 +201,8 @@
 
     <footer class="lp-footer">
         <div class="container">
-            <div class="row g-4">
-                <div class="col-6 col-md-3">
+            <div class="footer-grid">
+                <div class="footer-col">
                     <div class="footer-heading">{{ $isTr ? 'Ürün' : 'Product' }}</div>
                     <div class="d-flex flex-column gap-2">
                         <a href="{{ route('features') }}">{{ $isTr ? 'Özellikler' : 'Features' }}</a>
@@ -203,21 +210,21 @@
                         <a href="{{ route('demo') }}">{{ $isTr ? 'Canlı Demo' : 'Live Demo' }}</a>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="footer-col">
                     <div class="footer-heading">{{ $isTr ? 'Şirket' : 'Company' }}</div>
                     <div class="d-flex flex-column gap-2">
                         <a href="{{ route('about') }}">{{ $isTr ? 'Hakkımızda' : 'About' }}</a>
                         <a href="{{ route('contact') }}">{{ $isTr ? 'İletişim' : 'Contact' }}</a>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="footer-col">
                     <div class="footer-heading">{{ $isTr ? 'Yasal' : 'Legal' }}</div>
                     <div class="d-flex flex-column gap-2">
                         <a href="{{ route('privacy') }}">{{ $isTr ? 'Gizlilik Politikası' : 'Privacy Policy' }}</a>
                         <a href="{{ route('terms') }}">{{ $isTr ? 'Kullanım Koşulları' : 'Terms of Use' }}</a>
                     </div>
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="footer-col">
                     <div class="footer-heading">{{ $isTr ? 'Hesap' : 'Account' }}</div>
                     <div class="d-flex flex-column gap-2">
                         <a href="{{ route('login') }}">{{ $isTr ? 'Giriş Yap' : 'Sign In' }}</a>
@@ -225,7 +232,7 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div class="footer-bottom text-center">
                 <span>&copy; {{ date('Y') }} Sipariş Masanda &mdash; {{ $isTr ? 'Tüm hakları saklıdır.' : 'All rights reserved.' }}</span>
             </div>
         </div>
