@@ -35,7 +35,7 @@
         </div>
         <div class="d-flex gap-2 flex-shrink-0 flex-wrap">
             <a href="{{ route('menu.qr') }}" class="btn btn-accent btn-sm flex-grow-1 flex-sm-grow-0">
-                <i class="bi bi-qr-code me-1"></i>{{ __('dashboard.qr_link') }}22
+                <i class="bi bi-qr-code me-1"></i>{{ __('dashboard.qr_link') }}
             </a>
             <a href="{{ $menuUrl }}" target="_blank" class="btn btn-sm"
                style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.65);">
