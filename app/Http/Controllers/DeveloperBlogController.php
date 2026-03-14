@@ -82,13 +82,14 @@ class DeveloperBlogController extends Controller
         if (!$post) abort(404);
 
         $request->validate([
-            'title'   => 'required|string|max:255',
-            'body'    => 'required|string',
-            'slug'    => 'nullable|string|max:255|unique:blog_posts,slug,' . $id,
+            'title'            => 'required|string|max:255',
+            'body'             => 'required|string',
+            'slug'             => 'nullable|string|max:255|unique:blog_posts,slug,' . $id,
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
+            'featured_image'   => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
             'is_published'     => 'nullable|boolean',
-        ]);
+        ], [], ['featured_image' => 'öne çıkan görsel']);
 
         $slug = $request->slug ?: Str::slug($request->title);
         if ($slug !== $post->slug) {
@@ -111,15 +112,23 @@ class DeveloperBlogController extends Controller
             $data['published_at'] = null;
         }
 
-        $newImagePath = $this->saveFeaturedImage($request->file('featured_image'));
-        if ($newImagePath !== null) {
-            if ($post->featured_image) {
-                Storage::disk('public')->delete($post->featured_image);
+        $newImagePath = null;
+        $oldImageToDelete = null;
+
+        if ($request->hasFile('featured_image')) {
+            $newImagePath = $request->file('featured_image')->store('blog', 'public');
+            if ($newImagePath === false) {
+                return back()->withErrors(['featured_image' => 'Görsel yüklenemedi.'])->withInput();
             }
             $data['featured_image'] = $newImagePath;
+            $oldImageToDelete = $post->featured_image;
         }
 
         DB::table('blog_posts')->where('id', $id)->update($data);
+
+        if ($oldImageToDelete) {
+            Storage::disk('public')->delete($oldImageToDelete);
+        }
 
         return redirect()->route('developer.blog.index')->with('success', 'Yazı güncellendi.');
     }
@@ -149,43 +158,4 @@ class DeveloperBlogController extends Controller
         }
     }
 
-    /**
-     * Öne çıkan görseli kaydet. Doğrulama yok, tüm uzantılar kabul.
-     * Dosya yoksa veya okunamazsa null döner.
-     */
-    private function saveFeaturedImage($file): ?string
-    {
-        if (!$file) {
-            return null;
-        }
-
-        $originalName = $file->getClientOriginalName();
-        $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
-        if ($ext === '') {
-            $ext = 'svg';
-        }
-        $ext = preg_replace('/[^a-z0-9]/', '', $ext) ?: 'svg';
-        $filename = Str::uuid() . '.' . $ext;
-        $path = 'blog/' . $filename;
-
-        try {
-            $realPath = $file->getRealPath();
-            if ($realPath && is_readable($realPath)) {
-                $contents = file_get_contents($realPath);
-                if ($contents !== false && Storage::disk('public')->put($path, $contents)) {
-                    return $path;
-                }
-            }
-            if ($file->isValid()) {
-                $stored = $file->storeAs('blog', $filename, 'public');
-                if ($stored) {
-                    return $stored;
-                }
-            }
-        } catch (\Throwable $e) {
-            report($e);
-        }
-
-        return null;
-    }
 }

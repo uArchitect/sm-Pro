@@ -42,7 +42,7 @@
                     <div id="featuredImagePreviewCreate" class="mb-2 rounded overflow-hidden bg-light" style="max-height:140px;display:none">
                         <img id="featuredImagePreviewImgCreate" src="" alt="" class="img-fluid w-100" style="object-fit:contain;max-height:140px">
                     </div>
-                    <input type="file" name="featured_image" id="featuredImageInputCreate" class="form-control">
+                    <input type="file" name="featured_image" id="featuredImageInputCreate" class="form-control" accept=".jpg,.jpeg,.png,.gif,.webp,.svg,image/jpeg,image/png,image/gif,image/webp,image/svg+xml">
                     @error('featured_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-6 mb-3">
