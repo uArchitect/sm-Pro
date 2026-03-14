@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    @include('components.gtm-head')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -429,7 +430,7 @@
     </style>
 </head>
 <body>
-
+    @include('components.gtm-body')
 @php
     $tenant   = session('tenant_id') ? DB::table('tenants')->find(session('tenant_id')) : null;
     $user     = auth()->user();
