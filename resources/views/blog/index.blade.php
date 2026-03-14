@@ -62,12 +62,9 @@
                 @foreach($posts as $post)
                 <div class="col-md-6 col-lg-4">
                     <article class="glass-card h-100 d-flex flex-column">
-                        @if($post->featured_image)
-                            @php $isSvg = str_ends_with(strtolower($post->featured_image), '.svg'); @endphp
-                            <a href="{{ route('blog.show', $post->slug) }}" class="d-block rounded-top overflow-hidden bg-dark" style="margin:-1.75rem -1.75rem 1rem -1.75rem">
-                                <img src="{{ asset('storage/'.$post->featured_image) }}" alt="" class="img-fluid w-100" style="height:200px;object-fit:{{ $isSvg ? 'contain' : 'cover' }};padding:{{ $isSvg ? '1rem' : '0' }}">
-                            </a>
-                        @endif
+                        <a href="{{ route('blog.show', $post->slug) }}" class="d-block rounded-top overflow-hidden text-decoration-none" style="margin:-1.75rem -1.75rem 1rem -1.75rem;height:200px;background:rgba(255,107,53,.12);border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center">
+                            <i class="bi bi-journal-text" style="font-size:4rem;color:rgba(255,107,53,.4)"></i>
+                        </a>
                         <div class="flex-grow-1">
                             <h2 class="h6 fw-700 mb-2" style="line-height:1.35">
                                 <a href="{{ route('blog.show', $post->slug) }}" class="text-decoration-none text-white">{{ Str::limit($post->title, 60) }}</a>
