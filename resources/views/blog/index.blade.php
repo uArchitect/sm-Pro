@@ -16,6 +16,7 @@
 .blog-card-date{color:rgba(255,255,255,.75)}
 .blog-card-thumb{height:200px;background:linear-gradient(145deg,rgba(255,107,53,.08) 0%,rgba(108,92,231,.06) 100%);border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;transition:background .2s}
 .blog-card-thumb:hover{background:linear-gradient(145deg,rgba(255,107,53,.12) 0%,rgba(108,92,231,.08) 100%)}
+.blog-card-thumb-img{width:100%;height:100%;object-fit:cover;display:block;min-height:200px}
 .blog-card-thumb-icon{width:64px;height:64px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:1.75rem;color:rgba(255,255,255,.25)}
 .blog-card-thumb:hover .blog-card-thumb-icon{color:rgba(255,107,53,.5);border-color:rgba(255,107,53,.2)}
 @endsection
@@ -67,7 +68,11 @@
                 <div class="col-md-6 col-lg-4">
                     <article class="glass-card h-100 d-flex flex-column">
                         <a href="{{ route('blog.show', $post->slug) }}" class="d-block rounded-top overflow-hidden text-decoration-none blog-card-thumb" style="margin:-1.75rem -1.75rem 1rem -1.75rem">
-                            <span class="blog-card-thumb-icon"><i class="bi bi-file-text"></i></span>
+                            @if($post->featured_image)
+                                <img src="{{ asset('uploads/'.$post->featured_image) }}" alt="{{ $post->title }}" class="blog-card-thumb-img">
+                            @else
+                                <span class="blog-card-thumb-icon"><i class="bi bi-file-text"></i></span>
+                            @endif
                         </a>
                         <div class="flex-grow-1">
                             <h2 class="h6 fw-700 mb-2" style="line-height:1.35">

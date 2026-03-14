@@ -69,7 +69,11 @@
 <section class="pb-5">
     <div class="container" style="max-width:720px">
         <div class="mb-4 rounded-3 overflow-hidden d-flex align-items-center justify-content-center blog-show-thumb">
-            <span class="blog-show-thumb-icon"><i class="bi bi-file-text"></i></span>
+            @if($post->featured_image)
+                <img src="{{ asset('uploads/'.$post->featured_image) }}" alt="{{ $post->title }}" class="blog-show-thumb-img">
+            @else
+                <span class="blog-show-thumb-icon"><i class="bi bi-file-text"></i></span>
+            @endif
         </div>
         <div class="blog-body glass-card p-4 p-md-5">
             {!! $post->body !!}
@@ -85,6 +89,7 @@
 
 @section('styles')
 .blog-show-thumb{height:200px;background:linear-gradient(145deg,rgba(255,107,53,.06) 0%,rgba(108,92,231,.05) 100%);border:1px solid rgba(255,255,255,.05);border-radius:1rem;display:flex;align-items:center;justify-content:center}
+.blog-show-thumb-img{width:100%;height:100%;object-fit:cover;display:block}
 .blog-show-thumb-icon{width:72px;height:72px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:2rem;color:rgba(255,255,255,.2)}
 .blog-body { font-size:1rem; line-height:1.85; color:rgba(255,255,255,.85); }
 .blog-body h2,.blog-body h3 { font-size:1.2rem; font-weight:700; margin-top:1.5rem; margin-bottom:.75rem; color:#fff; }
