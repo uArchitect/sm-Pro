@@ -78,6 +78,41 @@ Arama hacmi düşük ama dönüşüm odaklı ifadeler:
 
 ---
 
+## Karşılama raporu (mevcut durum)
+
+Projede önerilen anahtar kelimelerin **meta + içerik** bazında ne kadar karşılandığı.
+
+### Özet
+
+| Alan | Karşılama | Not |
+|------|-----------|-----|
+| **Ana (brand + ürün) kelimeler** | 6/6 %100 | Hepsi title, meta veya içerikte var. |
+| **Ana sayfa (TR)** | 9/12 ~%75 | Eksik meta: masa menüsü, mobil menü. |
+| **Fiyatlar (TR)** | 6/6 meta | Tam. |
+| **Özellikler (TR)** | 7/7 meta | Tam. |
+| **Hakkımızda (TR)** | 4/6 ~%67 | Eksik meta: restoran dijitalleşme, kafe dijital menü. |
+| **İletişim (TR)** | 3/5 ~%60 | Eksik meta: restoran menü demo, qr menü satış. |
+| **Giriş / Kayıt (TR)** | %100 | Tüm önerilen kelimeler meta'da mevcut. |
+| **Long-tail (10 ifade)** | ~%20 | Tam ifade yok; kavramlar içerikte dağınık. |
+
+**Genel:** Önerilen anahtar kelimelerin yaklaşık **%80'i** meta veya içerikte karşılanıyor.
+
+### Karşılanan
+
+- **Ana sayfa:** dijital menü, QR menü, karekod menü, restoran menü sistemi, ücretsiz dijital menü, temassız menü, online menü oluştur, kafe menüsü.
+- **Fiyatlar / Özellikler / Auth:** Dokümandaki meta listeleri tam karşılanıyor.
+- **Hakkımızda:** dijital menü platformu, Türkiye restoran teknolojisi, qr menü sistemi, sipariş masanda hakkında.
+- **İletişim:** sipariş masanda iletişim, qr menü destek, dijital menü iletişim.
+
+### Eksik veya zayıf
+
+1. **Ana sayfa meta:** "masa menüsü", "mobil menü" eklenebilir.
+2. **Hakkımızda meta:** "restoran dijitalleşme", "kafe dijital menü".
+3. **İletişim meta:** "restoran menü demo", "qr menü satış".
+4. **Long-tail:** "restoran için ücretsiz qr menü oluştur", "kafe için dijital menü fiyatları" vb. blog veya landing paragraflarında cümle içinde kullanılabilir.
+
+---
+
 ## Kullanım notları
 
 1. **meta_keywords:** Her sayfada 6–10 anahtar kelime yeterli; virgülle ayrılır.  
