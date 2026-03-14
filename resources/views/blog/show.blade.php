@@ -62,7 +62,6 @@
         <h1 class="mb-2" style="font-size:clamp(1.5rem,3vw,2rem);line-height:1.25">{{ $post->title }}</h1>
         <p class="page-hero-sub mb-0">
             <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($post->published_at)->locale($locale)->isoFormat('D MMMM Y') }}
-            @if($post->author_name)<span class="ms-3"><i class="bi bi-person me-1"></i>{{ $post->author_name }}</span>@endif
         </p>
     </div>
 </section>
