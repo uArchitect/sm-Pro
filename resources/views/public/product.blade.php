@@ -13,6 +13,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', $locale) }}">
 <head>
+    @include('components.gtm-head')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
@@ -43,6 +44,7 @@
     </style>
 </head>
 <body class="d-flex flex-column align-items-center justify-content-start py-5 px-3">
+    @include('components.gtm-body')
 
     <div class="product-card w-100">
         @if($product->image)
