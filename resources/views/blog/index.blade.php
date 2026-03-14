@@ -65,7 +65,7 @@
                         @if($post->featured_image)
                             @php $isSvg = str_ends_with(strtolower($post->featured_image), '.svg'); @endphp
                             <a href="{{ route('blog.show', $post->slug) }}" class="d-block rounded-top overflow-hidden bg-dark" style="margin:-1.75rem -1.75rem 1rem -1.75rem">
-                                <img src="{{ asset('storage/'.$post->featured_image) }}" alt="" class="img-fluid w-100 {{ $isSvg ? 'blog-featured-svg' : '' }}" style="height:200px;object-fit:{{ $isSvg ? 'contain' : 'cover' }};padding:{{ $isSvg ? '1rem' : '0' }}">
+                                <img src="{{ asset('storage/'.$post->featured_image) }}" alt="" class="img-fluid w-100" style="height:200px;object-fit:{{ $isSvg ? 'contain' : 'cover' }};padding:{{ $isSvg ? '1rem' : '0' }}">
                             </a>
                         @endif
                         <div class="flex-grow-1">
