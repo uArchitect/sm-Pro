@@ -86,12 +86,12 @@
         .page-hero{padding:8rem 0 3rem;text-align:center}
         .page-hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.12;letter-spacing:-.03em;margin-bottom:.75rem}
         .page-hero h1 .accent{background:linear-gradient(90deg,#FF6B35,#FFB347);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .page-hero-sub{font-size:1rem;color:rgba(255,255,255,.5);max-width:560px;margin:0 auto;line-height:1.7}
+        .page-hero-sub{font-size:1rem;color:rgba(255,255,255,.78);max-width:560px;margin:0 auto;line-height:1.7}
 
         /* Section helpers */
         .section-badge{display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:999px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem}
         .section-title{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;letter-spacing:-.03em;line-height:1.1;margin-bottom:.6rem}
-        .section-sub{font-size:.95rem;color:rgba(255,255,255,.45);max-width:540px;line-height:1.7}
+        .section-sub{font-size:.95rem;color:rgba(255,255,255,.78);max-width:540px;line-height:1.7}
 
         /* Card helpers */
         .glass-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:1.75rem;transition:all .25s}
@@ -102,7 +102,7 @@
         .cta-box{background:linear-gradient(135deg,rgba(255,107,53,.1),rgba(108,92,231,.08));border:1px solid rgba(255,107,53,.15);border-radius:24px;padding:3.5rem 2rem;text-align:center;position:relative;overflow:hidden}
         .cta-box::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,107,53,.08);filter:blur(60px)}
         .cta-box h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;letter-spacing:-.02em;margin-bottom:.5rem;position:relative}
-        .cta-box p{color:rgba(255,255,255,.5);font-size:.95rem;margin-bottom:2rem;position:relative}
+        .cta-box p{color:rgba(255,255,255,.78);font-size:.95rem;margin-bottom:2rem;position:relative}
         .hero-btn-primary{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;border-radius:12px;background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;font-weight:700;font-size:.95rem;text-decoration:none;box-shadow:0 8px 32px rgba(255,107,53,.35);transition:all .2s;border:none}
         .hero-btn-primary:hover{color:#fff;transform:translateY(-2px);box-shadow:0 12px 40px rgba(255,107,53,.5)}
         .hero-btn-outline{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.8);font-weight:600;font-size:.95rem;text-decoration:none;transition:all .2s}
@@ -110,11 +110,11 @@
 
         /* Footer */
         .lp-footer{border-top:1px solid rgba(255,255,255,.06);padding:3rem 0 2rem;position:relative;z-index:10}
-        .lp-footer a{color:rgba(255,255,255,.45);text-decoration:none;font-size:.78rem;transition:color .18s}
+        .lp-footer a{color:rgba(255,255,255,.72);text-decoration:none;font-size:.78rem;transition:color .18s}
         .lp-footer a:hover{color:#FF8C42}
         .footer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
-        .footer-heading{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.65rem}
-        .footer-bottom{border-top:1px solid rgba(255,255,255,.06);margin-top:2rem;padding-top:1.25rem;font-size:.75rem;color:rgba(255,255,255,.25)}
+.footer-heading{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:.65rem}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.06);margin-top:2rem;padding-top:1.25rem;font-size:.75rem;color:rgba(255,255,255,.65)}
 
         /* WhatsApp float */
         .wa-float{
@@ -175,7 +175,7 @@
             }
             .mnb-text{display:flex;flex-direction:column}
             .mnb-name{font-size:.95rem;font-weight:800;color:#fff;letter-spacing:-.01em;line-height:1.2}
-            .mnb-sub{font-size:.68rem;color:rgba(255,255,255,.35);font-weight:500;margin-top:.1rem}
+            .mnb-sub{font-size:.68rem;color:rgba(255,255,255,.7);font-weight:500;margin-top:.1rem}
 
             .nav-link-item{
                 padding:.85rem 0;width:100%;text-align:left;
@@ -233,9 +233,9 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T58K7CMS"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
+    <div class="blob blob-1" aria-hidden="true"></div>
+    <div class="blob blob-2" aria-hidden="true"></div>
+    <div class="blob blob-3" aria-hidden="true"></div>
 
     <a href="https://wa.me/905078928490" target="_blank" rel="noopener noreferrer" class="wa-float" aria-label="WhatsApp">
         <span class="wa-float-icon">
