@@ -151,6 +151,19 @@ jobs:
           "
           echo "Incremental deploy done."
 
+      - name: Clear Laravel view cache on server
+        run: |
+          lftp -c "
+            set ftp:ssl-allow no
+            set ftp:passive-mode true
+            set cmd:fail-exit false
+            open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER
+            cd $FTP_REMOTE_DIR/storage/framework/views
+            mrm *.php
+            quit
+          " || true
+          echo "View cache cleared (next request will recompile)."
+
       - name: Full deploy (mirror)
         if: github.event.inputs.full_deploy == 'true'
         run: |
