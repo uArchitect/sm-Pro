@@ -34,7 +34,7 @@ class DeveloperBlogController extends Controller
             'slug'    => 'nullable|string|max:255|unique:blog_posts,slug',
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
-            'featured_image'   => 'nullable|file|mimes:jpeg,png,gif,webp,svg|max:2048',
+            'featured_image'   => 'nullable|file|mimes:jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml,image/svg|max:2048',
             'is_published'    => 'nullable|boolean',
         ]);
 
@@ -43,7 +43,9 @@ class DeveloperBlogController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('featured_image')) {
-            $imagePath = $request->file('featured_image')->store('blog', 'public');
+            $file = $request->file('featured_image');
+            $ext = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'png');
+            $imagePath = $file->storeAs('blog', Str::uuid() . '.' . $ext, 'public');
         }
 
         $publishedAt = ($request->boolean('is_published')) ? now() : null;
@@ -84,7 +86,7 @@ class DeveloperBlogController extends Controller
             'slug'    => 'nullable|string|max:255|unique:blog_posts,slug,' . $id,
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
-            'featured_image'   => 'nullable|file|mimes:jpeg,png,gif,webp,svg|max:2048',
+            'featured_image'   => 'nullable|file|mimes:jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml,image/svg|max:2048',
             'is_published'    => 'nullable|boolean',
         ]);
 
@@ -113,7 +115,9 @@ class DeveloperBlogController extends Controller
             if ($post->featured_image) {
                 Storage::disk('public')->delete($post->featured_image);
             }
-            $data['featured_image'] = $request->file('featured_image')->store('blog', 'public');
+            $file = $request->file('featured_image');
+            $ext = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'png');
+            $data['featured_image'] = $file->storeAs('blog', Str::uuid() . '.' . $ext, 'public');
         }
 
         DB::table('blog_posts')->where('id', $id)->update($data);
