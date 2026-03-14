@@ -68,8 +68,8 @@
 
 <section class="pb-5">
     <div class="container" style="max-width:720px">
-        <div class="mb-4 rounded-3 overflow-hidden d-flex align-items-center justify-content-center" style="height:200px;background:rgba(255,107,53,.1);border:1px solid rgba(255,255,255,.06)">
-            <i class="bi bi-journal-text" style="font-size:4rem;color:rgba(255,107,53,.35)"></i>
+        <div class="mb-4 rounded-3 overflow-hidden d-flex align-items-center justify-content-center blog-show-thumb">
+            <span class="blog-show-thumb-icon"><i class="bi bi-file-text"></i></span>
         </div>
         <div class="blog-body glass-card p-4 p-md-5">
             {!! $post->body !!}
