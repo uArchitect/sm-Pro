@@ -15,7 +15,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    @include('components.gtag')
     <title>{{ $menuTitle }}</title>
     <meta name="description" content="{{ $menuDescription }}">
     <meta name="robots" content="noindex, follow, max-image-preview:large">
