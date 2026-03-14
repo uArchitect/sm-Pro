@@ -34,7 +34,7 @@ class DeveloperBlogController extends Controller
             'slug'    => 'nullable|string|max:255|unique:blog_posts,slug',
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
-            'featured_image'   => 'nullable|image|mimes:jpeg,png,gif,webp|max:2048',
+            'featured_image'   => 'nullable|file|mimes:jpeg,png,gif,webp,svg|max:2048',
             'is_published'    => 'nullable|boolean',
         ]);
 
@@ -84,7 +84,7 @@ class DeveloperBlogController extends Controller
             'slug'    => 'nullable|string|max:255|unique:blog_posts,slug,' . $id,
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
-            'featured_image'   => 'nullable|image|mimes:jpeg,png,gif,webp|max:2048',
+            'featured_image'   => 'nullable|file|mimes:jpeg,png,gif,webp,svg|max:2048',
             'is_published'    => 'nullable|boolean',
         ]);
 

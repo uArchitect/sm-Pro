@@ -45,7 +45,7 @@
                             <img src="{{ asset('storage/'.$post->featured_image) }}" alt="" class="img-fluid rounded" style="max-height:120px">
                         </div>
                     @endif
-                    <input type="file" name="featured_image" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp">
+                    <input type="file" name="featured_image" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml">
                     @error('featured_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-6 mb-3">

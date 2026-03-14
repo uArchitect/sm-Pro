@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Öne Çıkan Görsel</label>
-                    <input type="file" name="featured_image" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp">
+                    <input type="file" name="featured_image" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml">
                     @error('featured_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-6 mb-3">
