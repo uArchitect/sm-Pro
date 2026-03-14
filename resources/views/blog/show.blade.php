@@ -88,7 +88,7 @@
 @endsection
 
 @section('styles')
-.blog-show-thumb{height:200px;background:linear-gradient(145deg,rgba(255,107,53,.06) 0%,rgba(108,92,231,.05) 100%);border:1px solid rgba(255,255,255,.05);border-radius:1rem;display:flex;align-items:center;justify-content:center}
+.blog-show-thumb{background:linear-gradient(145deg,rgba(255,107,53,.06) 0%,rgba(108,92,231,.05) 100%);border:1px solid rgba(255,255,255,.05);border-radius:1rem;display:flex;align-items:center;justify-content:center}
 .blog-show-thumb-img{width:100%;height:100%;object-fit:cover;display:block}
 .blog-show-thumb-icon{width:72px;height:72px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:2rem;color:rgba(255,255,255,.2)}
 .blog-body { font-size:1rem; line-height:1.85; color:rgba(255,255,255,.85); }
