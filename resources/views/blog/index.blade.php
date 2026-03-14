@@ -12,10 +12,8 @@
 @section('canonical', route('blog'))
 
 @section('styles')
-<style>
-.blog-card-excerpt { font-size:.8rem; line-height:1.6; color:rgba(255,255,255,.85); }
-.blog-card-date { color:rgba(255,255,255,.75); }
-</style>
+.blog-card-excerpt{font-size:.8rem;line-height:1.6;color:rgba(255,255,255,.85)}
+.blog-card-date{color:rgba(255,255,255,.75)}
 @endsection
 
 @section('schema')
