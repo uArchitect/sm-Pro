@@ -18,13 +18,15 @@ env:
   FTP_USERNAME: developer2@siparismasanda.com
   FTP_PASSWORD: uqurcan0302
   FTP_REMOTE_DIR: /
+  # Node.js 20 deprecated on GitHub Actions; use Node 24 for JS actions (Haziran 2026 zorunlu)
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     concurrency:
       group: ftp-deploy
-      cancel-in-progress: true
+      cancel-in-progress: false
     steps:
       - name: Checkout (full history for diff)
         uses: actions/checkout@v4
@@ -94,7 +96,7 @@ jobs:
         if: steps.changes.outputs.needs_build == 'true'
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install npm deps & build
