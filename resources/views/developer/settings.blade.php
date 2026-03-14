@@ -65,6 +65,50 @@
 
         <div class="sm-card mt-3">
             <div class="sm-card-header">
+                <i class="bi bi-trash me-1" style="color:#f59e0b"></i>Önbellek Temizleme
+            </div>
+            <div class="sm-card-body">
+                <p class="text-muted small mb-3">View veya config değişikliklerinden sonra önbelleği temizleyin. "Hepsini temizle" tüm cache, view, config ve route önbelleğini siler.</p>
+                <div class="d-flex flex-wrap gap-2 mb-2">
+                    <form method="POST" action="{{ route('developer.clear-cache') }}" class="d-inline">
+                        @csrf
+                        <input type="hidden" name="action" value="all">
+                        <button type="submit" class="btn btn-warning btn-sm">
+                            <i class="bi bi-dash-circle me-1"></i>Hepsini temizle
+                        </button>
+                    </form>
+                    <form method="POST" action="{{ route('developer.clear-cache') }}" class="d-inline">
+                        @csrf
+                        <input type="hidden" name="action" value="cache">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">Uygulama cache</button>
+                    </form>
+                    <form method="POST" action="{{ route('developer.clear-cache') }}" class="d-inline">
+                        @csrf
+                        <input type="hidden" name="action" value="view">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">View cache</button>
+                    </form>
+                    <form method="POST" action="{{ route('developer.clear-cache') }}" class="d-inline">
+                        @csrf
+                        <input type="hidden" name="action" value="config">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">Config cache</button>
+                    </form>
+                    <form method="POST" action="{{ route('developer.clear-cache') }}" class="d-inline">
+                        @csrf
+                        <input type="hidden" name="action" value="route">
+                        <button type="submit" class="btn btn-outline-secondary btn-sm">Route cache</button>
+                    </form>
+                </div>
+                @if(session('success') && (str_contains(session('success'), 'önbellek') || str_contains(session('success'), 'temizlendi')))
+                    <div class="alert alert-success mt-2 mb-0 small">{{ session('success') }}</div>
+                @endif
+                @if(session('error') && str_contains(session('error'), 'Önbellek'))
+                    <div class="alert alert-danger mt-2 mb-0 small">{{ session('error') }}</div>
+                @endif
+            </div>
+        </div>
+
+        <div class="sm-card mt-3">
+            <div class="sm-card-header">
                 <i class="bi bi-folder-symlink me-1" style="color:#6366f1"></i>Storage Link
             </div>
             <div class="sm-card-body">
