@@ -10,14 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B4H9LNYM0C"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-PLW9XB0WC9');
-        gtag('config', 'G-B4H9LNYM0C');
-    </script>
+    @include('components.gtag')
     <title>@yield('title')</title>
     <meta name="description" content="@yield('meta_description')">
     <meta name="keywords" content="@yield('meta_keywords')">
