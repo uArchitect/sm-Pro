@@ -55,7 +55,7 @@ class TenantController extends Controller
 
         try {
             if ($request->hasFile('logo')) {
-                $newLogoPath = $request->file('logo')->store('logos', 'public');
+                $newLogoPath = $request->file('logo')->store('logos', 'uploads');
                 if ($newLogoPath === false) {
                     return back()->withErrors(['logo' => __('messages.upload_failed')])->withInput();
                 }
@@ -71,11 +71,11 @@ class TenantController extends Controller
             });
 
             if ($oldLogoToDelete) {
-                Storage::disk('public')->delete($oldLogoToDelete);
+                Storage::disk('uploads')->delete($oldLogoToDelete);
             }
         } catch (\Throwable $e) {
             if ($newLogoPath) {
-                Storage::disk('public')->delete($newLogoPath);
+                Storage::disk('uploads')->delete($newLogoPath);
             }
 
             throw $e;

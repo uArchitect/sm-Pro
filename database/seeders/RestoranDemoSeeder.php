@@ -29,8 +29,8 @@ class RestoranDemoSeeder extends Seeder
 
         $baseDirCategories = "tenants/{$this->tenantId}/categories";
         $baseDirProducts   = "tenants/{$this->tenantId}/products";
-        Storage::disk('public')->makeDirectory($baseDirCategories);
-        Storage::disk('public')->makeDirectory($baseDirProducts);
+        Storage::disk('uploads')->makeDirectory($baseDirCategories);
+        Storage::disk('uploads')->makeDirectory($baseDirProducts);
 
         $categories = [
             ['name' => 'İçecekler',   'parent_id' => null, 'sort_order' => 1],
@@ -106,7 +106,7 @@ class RestoranDemoSeeder extends Seeder
         try {
             $response = Http::timeout(15)->get($url);
             if ($response->successful()) {
-                Storage::disk('public')->put($path, $response->body());
+                Storage::disk('uploads')->put($path, $response->body());
                 return $path;
             }
         } catch (\Throwable $e) {

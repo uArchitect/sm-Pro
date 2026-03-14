@@ -17,7 +17,7 @@
                     <div class="mb-4">
                         <label class="form-label fw-semibold small">{{ __('products.photo_optional') }}</label>
                         <div class="img-upload-zone" id="imgZone" onclick="document.getElementById('imgInput').click()">
-                            <img id="imgPreview" src="{{ $product->image ? asset('storage/'.$product->image) : '' }}"
+                            <img id="imgPreview" src="{{ $product->image ? asset('uploads/'.$product->image) : '' }}"
                                  class="img-preview {{ $product->image ? '' : 'd-none' }}">
                             <div id="imgPlaceholder" class="text-center {{ $product->image ? 'd-none' : '' }}">
                                 <i class="bi bi-cloud-upload fs-2" style="color:#d1d5db"></i>

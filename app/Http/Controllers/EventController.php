@@ -40,7 +40,7 @@ class EventController extends Controller
 
         try {
             if ($request->hasFile('image')) {
-                $path = $request->file('image')->store("tenants/{$tenantId}/events", 'public');
+                $path = $request->file('image')->store("tenants/{$tenantId}/events", 'uploads');
                 if ($path === false) {
                     return back()->withErrors(['image' => __('messages.upload_failed')])->withInput();
                 }
@@ -61,7 +61,7 @@ class EventController extends Controller
             });
         } catch (\Throwable $e) {
             if ($path) {
-                Storage::disk('public')->delete($path);
+                Storage::disk('uploads')->delete($path);
             }
 
             throw $e;
@@ -122,7 +122,7 @@ class EventController extends Controller
 
         try {
             if ($request->hasFile('image')) {
-                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/events", 'public');
+                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/events", 'uploads');
                 if ($newImagePath === false) {
                     return back()->withErrors(['image' => __('messages.upload_failed')])->withInput();
                 }
@@ -135,11 +135,11 @@ class EventController extends Controller
             });
 
             if ($oldImageToDelete) {
-                Storage::disk('public')->delete($oldImageToDelete);
+                Storage::disk('uploads')->delete($oldImageToDelete);
             }
         } catch (\Throwable $e) {
             if ($newImagePath) {
-                Storage::disk('public')->delete($newImagePath);
+                Storage::disk('uploads')->delete($newImagePath);
             }
 
             throw $e;
@@ -166,7 +166,7 @@ class EventController extends Controller
         });
 
         if ($event->image) {
-            Storage::disk('public')->delete($event->image);
+            Storage::disk('uploads')->delete($event->image);
         }
 
         return redirect()->route('events.index')->with('success', __('events.deleted'));

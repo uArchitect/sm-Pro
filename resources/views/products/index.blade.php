@@ -63,7 +63,7 @@
                     <td class="ps-3"><i class="bi bi-grip-vertical drag-handle"></i></td>
                     <td>
                         @if($product->image)
-                            <img src="{{ asset('storage/'.$product->image) }}" class="prod-thumb"
+                            <img src="{{ asset('uploads/'.$product->image) }}" class="prod-thumb"
                                  data-img="{{ $product->id }}" onclick="triggerImgUpload({{ $product->id }})"
                                  title="{{ __('common.photo') }}">
                         @else

@@ -253,7 +253,7 @@ class DeveloperController extends Controller
         });
 
         foreach ($mediaPaths as $path) {
-            Storage::disk('public')->delete($path);
+            Storage::disk('uploads')->delete($path);
         }
 
         return redirect()->route('developer.index')->with('success', 'Restoran ve tüm verileri silindi.');

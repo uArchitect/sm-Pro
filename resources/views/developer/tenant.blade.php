@@ -279,7 +279,7 @@
                 <tr>
                     <td class="ps-3">
                         @if($p->image)
-                            <img src="{{ asset('storage/'.$p->image) }}" style="width:36px;height:36px;border-radius:8px;object-fit:cover">
+                            <img src="{{ asset('uploads/'.$p->image) }}" style="width:36px;height:36px;border-radius:8px;object-fit:cover">
                         @else
                             <div style="width:36px;height:36px;border-radius:8px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;color:#d1d5db">
                                 <i class="bi bi-box-seam" style="font-size:.8rem"></i>

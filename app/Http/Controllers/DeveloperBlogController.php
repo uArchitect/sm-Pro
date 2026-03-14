@@ -43,7 +43,7 @@ class DeveloperBlogController extends Controller
 
         $imagePath = null;
         if ($request->hasFile('featured_image')) {
-            $imagePath = $request->file('featured_image')->store('blog', 'public');
+            $imagePath = $request->file('featured_image')->store('blog', 'uploads');
             if ($imagePath === false) {
                 return back()->withErrors(['featured_image' => 'Görsel yüklenemedi.'])->withInput();
             }
@@ -116,7 +116,7 @@ class DeveloperBlogController extends Controller
         $oldImageToDelete = null;
 
         if ($request->hasFile('featured_image')) {
-            $newImagePath = $request->file('featured_image')->store('blog', 'public');
+            $newImagePath = $request->file('featured_image')->store('blog', 'uploads');
             if ($newImagePath === false) {
                 return back()->withErrors(['featured_image' => 'Görsel yüklenemedi.'])->withInput();
             }
@@ -127,7 +127,7 @@ class DeveloperBlogController extends Controller
         DB::table('blog_posts')->where('id', $id)->update($data);
 
         if ($oldImageToDelete) {
-            Storage::disk('public')->delete($oldImageToDelete);
+            Storage::disk('uploads')->delete($oldImageToDelete);
         }
 
         return redirect()->route('developer.blog.index')->with('success', 'Yazı güncellendi.');
@@ -139,7 +139,7 @@ class DeveloperBlogController extends Controller
         if (!$post) abort(404);
 
         if ($post->featured_image) {
-            Storage::disk('public')->delete($post->featured_image);
+            Storage::disk('uploads')->delete($post->featured_image);
         }
         DB::table('blog_posts')->where('id', $id)->delete();
 

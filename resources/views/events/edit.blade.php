@@ -28,7 +28,7 @@
                         <label class="form-label">{{ __('events.image') }}</label>
                         @if($event->image)
                         <div class="mb-2">
-                            <img src="{{ asset('storage/' . $event->image) }}" alt="" style="max-height:120px;border-radius:8px">
+                            <img src="{{ asset('uploads/' . $event->image) }}" alt="" style="max-height:120px;border-radius:8px">
                         </div>
                         @endif
                         <input type="file" name="image" accept=".jpg,.jpeg,.png,.gif,.webp,.svg,image/jpeg,image/png,image/gif,image/webp,image/svg+xml" class="form-control @error('image') is-invalid @enderror">

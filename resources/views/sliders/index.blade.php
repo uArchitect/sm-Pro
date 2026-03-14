@@ -91,7 +91,7 @@
             @foreach($sliders as $s)
             <div class="col-sm-6" data-id="{{ $s->id }}" draggable="true">
                 <div class="slider-card">
-                    <img src="{{ asset('storage/' . $s->image) }}" alt="{{ $s->title }}">
+                    <img src="{{ asset('uploads/' . $s->image) }}" alt="{{ $s->title }}">
                     <form method="POST" action="{{ route('sliders.destroy', $s->id) }}"
                           onsubmit="return confirm('{{ __('sliders.delete_confirm') }}')">
                         @csrf @method('DELETE')

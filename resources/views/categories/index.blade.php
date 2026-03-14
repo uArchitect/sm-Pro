@@ -66,7 +66,7 @@
                     <td class="ps-3"><i class="bi bi-grip-vertical drag-handle"></i></td>
                     <td>
                         @if($parent->image)
-                            <img src="{{ asset('storage/'.$parent->image) }}" class="cat-thumb"
+                            <img src="{{ asset('uploads/'.$parent->image) }}" class="cat-thumb"
                                  data-img="{{ $parent->id }}" onclick="triggerImgUpload({{ $parent->id }})"
                                  title="{{ __('common.photo') }}">
                         @else
@@ -105,7 +105,7 @@
                     <td class="ps-3"><i class="bi bi-grip-vertical drag-handle" style="visibility:hidden"></i></td>
                     <td>
                         @if($sub->image)
-                            <img src="{{ asset('storage/'.$sub->image) }}" class="cat-thumb"
+                            <img src="{{ asset('uploads/'.$sub->image) }}" class="cat-thumb"
                                  data-img="{{ $sub->id }}" onclick="triggerImgUpload({{ $sub->id }})"
                                  title="{{ __('common.photo') }}">
                         @else

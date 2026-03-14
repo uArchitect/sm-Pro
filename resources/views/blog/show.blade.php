@@ -5,7 +5,7 @@
     $isTr = $locale === 'tr';
     $metaTitle = $post->meta_title ?: $post->title . ($isTr ? ' | Sipariş Masanda Blog' : ' | Siparis Masanda Blog');
     $metaDesc = $post->meta_description ?: Str::limit(strip_tags($post->body), 160);
-    $ogImage = $post->featured_image ? asset('storage/'.$post->featured_image) : asset('og-cover.svg');
+    $ogImage = $post->featured_image ? asset('uploads/'.$post->featured_image) : asset('og-cover.svg');
 @endphp
 
 @section('title', $metaTitle)

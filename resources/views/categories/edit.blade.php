@@ -17,7 +17,7 @@
                     <div class="mb-4">
                         <label class="form-label fw-semibold small">{{ __('categories.photo_optional') }}</label>
                         <div class="img-upload-zone" id="imgZone" onclick="document.getElementById('imgInput').click()">
-                            <img id="imgPreview" src="{{ $category->image ? asset('storage/'.$category->image) : '' }}"
+                            <img id="imgPreview" src="{{ $category->image ? asset('uploads/'.$category->image) : '' }}"
                                  class="img-preview {{ $category->image ? '' : 'd-none' }}">
                             <div id="imgPlaceholder" class="text-center {{ $category->image ? 'd-none' : '' }}">
                                 <i class="bi bi-cloud-upload fs-2" style="color:#d1d5db"></i>

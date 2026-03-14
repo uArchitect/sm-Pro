@@ -4,7 +4,7 @@
     $menuDescription = __('public.menu_description', ['restaurant' => $tenant->restoran_adi]);
     $menuCanonical = request()->fullUrlWithoutQuery(['lang', 'preview']);
     $menuCurrentUrl = $menuCanonical . ($locale === config('app.fallback_locale', 'tr') ? '' : '?lang=' . $locale);
-    $menuShareImage = $tenant->logo ? asset('storage/' . $tenant->logo) : asset('og-cover.svg');
+    $menuShareImage = $tenant->logo ? asset('uploads/' . $tenant->logo) : asset('og-cover.svg');
     $allowDesktopPreview = request()->boolean('preview');
 @endphp
 <!DOCTYPE html>
@@ -524,7 +524,7 @@
     <header class="hdr">
         <div class="hdr-content">
             @if($tenant->logo)
-                <img src="{{ asset('storage/'.$tenant->logo) }}" alt="{{ $tenant->restoran_adi }}" class="hdr-logo">
+                <img src="{{ asset('uploads/'.$tenant->logo) }}" alt="{{ $tenant->restoran_adi }}" class="hdr-logo">
             @else
                 <div class="hdr-logo-fallback"><i class="bi bi-shop"></i></div>
             @endif
@@ -575,7 +575,7 @@
         <div class="carousel-inner">
             @foreach($sliders as $i => $sl)
             <div class="carousel-item {{ $i === 0 ? 'active' : '' }}">
-                <img src="{{ asset('storage/' . $sl->image) }}" alt="{{ $sl->title }}" class="d-block w-100" style="height:200px;object-fit:cover;">
+                <img src="{{ asset('uploads/' . $sl->image) }}" alt="{{ $sl->title }}" class="d-block w-100" style="height:200px;object-fit:cover;">
                 @if($sl->title || $sl->description)
                 <div class="carousel-caption d-block" style="background:linear-gradient(transparent,rgba(0,0,0,.6));bottom:0;left:0;right:0;padding:.75rem 1rem;">
                     @if($sl->title)<div style="font-size:.88rem;font-weight:700">{{ $sl->title }}</div>@endif
@@ -611,7 +611,7 @@
         @foreach($categories as $cat)
         <button type="button" class="cat-pill" data-cat-id="{{ $cat->id }}">
             @if($cat->image)
-                <img src="{{ asset('storage/'.$cat->image) }}" alt="" class="cat-pill-img">
+                <img src="{{ asset('uploads/'.$cat->image) }}" alt="" class="cat-pill-img">
             @else
                 <span class="cat-pill-icon"><i class="bi bi-grid-3x3-gap-fill"></i></span>
             @endif
@@ -643,7 +643,7 @@
                 @endphp
                 <button type="button" class="drawer-item" data-cat-id="{{ $cat->id }}">
                     @if($cat->image)
-                        <img src="{{ asset('storage/'.$cat->image) }}" class="di-img" alt="">
+                        <img src="{{ asset('uploads/'.$cat->image) }}" class="di-img" alt="">
                     @else
                         <div class="di-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
                     @endif
@@ -659,7 +659,7 @@
                         @if($subProdCount > 0)
                         <button type="button" class="drawer-item" data-cat-id="{{ $sub->id }}">
                             @if($sub->image)
-                                <img src="{{ asset('storage/'.$sub->image) }}" class="di-img" alt="">
+                                <img src="{{ asset('uploads/'.$sub->image) }}" class="di-img" alt="">
                             @else
                                 <div class="di-icon"><i class="bi bi-dash"></i></div>
                             @endif
@@ -696,7 +696,7 @@
                 <section class="cat-section" data-cat-id="{{ $cat->id }}" id="cat-{{ $cat->id }}">
                     <button type="button" class="cat-header" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $cat->id }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="collapse-{{ $cat->id }}">
                         @if($cat->image)
-                            <img src="{{ asset('storage/'.$cat->image) }}" class="cat-header-img" alt="">
+                            <img src="{{ asset('uploads/'.$cat->image) }}" class="cat-header-img" alt="">
                         @else
                             <div class="cat-header-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
                         @endif
@@ -709,7 +709,7 @@
                     @foreach($catProducts as $product)
                     <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
                         @if($product->image)
-                            <img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img">
+                            <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img">
                         @else
                             <div class="prod-img-empty"><i class="bi bi-box-seam"></i></div>
                         @endif
@@ -727,7 +727,7 @@
                         @if($subProducts->isNotEmpty())
                         <div class="sub-header">
                             @if($sub->image)
-                                <img src="{{ asset('storage/'.$sub->image) }}" alt="{{ $sub->name }}">
+                                <img src="{{ asset('uploads/'.$sub->image) }}" alt="{{ $sub->name }}">
                             @else
                                 <span class="sub-header-icon"><i class="bi bi-dash-lg"></i></span>
                             @endif
@@ -736,7 +736,7 @@
                         @foreach($subProducts as $product)
                         <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $sub->id }}" data-parent-cat="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
                             @if($product->image)
-                                <img src="{{ asset('storage/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img">
+                                <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img">
                             @else
                                 <div class="prod-img-empty"><i class="bi bi-box-seam"></i></div>
                             @endif
@@ -994,7 +994,7 @@
         <div class="modal-dialog modal-dialog-centered" style="max-width:380px">
             <div class="modal-content" style="border-radius:16px;overflow:hidden;border:none;box-shadow:0 20px 60px rgba(0,0,0,.25)">
                 @if($activeEvent->image)
-                <img src="{{ asset('storage/' . $activeEvent->image) }}" alt="{{ $activeEvent->title }}" style="width:100%;height:180px;object-fit:cover;">
+                <img src="{{ asset('uploads/' . $activeEvent->image) }}" alt="{{ $activeEvent->title }}" style="width:100%;height:180px;object-fit:cover;">
                 @endif
                 <div style="padding:1.25rem 1.1rem;text-align:center">
                     <div style="font-size:1.1rem;font-weight:800;color:#1f2937;margin-bottom:.35rem">{{ $activeEvent->title }}</div>

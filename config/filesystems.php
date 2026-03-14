@@ -46,6 +46,15 @@ return [
             'throw' => true,
         ],
 
+        /** Her tenant kendi klasörü: public/uploads/tenants/{id}/categories|products|sliders|events, public/uploads/logos, public/uploads/blog */
+        'uploads' => [
+            'driver' => 'local',
+            'root' => public_path('uploads'),
+            'url' => env('APP_URL').'/uploads',
+            'visibility' => 'public',
+            'throw' => true,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

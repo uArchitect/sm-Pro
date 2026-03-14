@@ -34,7 +34,7 @@ class SliderController extends Controller
         $path = null;
 
         try {
-            $path = $request->file('image')->store("tenants/{$tenantId}/sliders", 'public');
+            $path = $request->file('image')->store("tenants/{$tenantId}/sliders", 'uploads');
             if ($path === false) {
                 return back()->withErrors(['image' => __('messages.upload_failed')]);
             }
@@ -53,7 +53,7 @@ class SliderController extends Controller
             });
         } catch (\Throwable $e) {
             if ($path) {
-                Storage::disk('public')->delete($path);
+                Storage::disk('uploads')->delete($path);
             }
 
             throw $e;
@@ -79,7 +79,7 @@ class SliderController extends Controller
             DB::table('sliders')->where('id', $id)->where('tenant_id', $tenantId)->delete();
         });
 
-        Storage::disk('public')->delete($slider->image);
+        Storage::disk('uploads')->delete($slider->image);
 
         return back()->with('success', __('sliders.deleted'));
     }

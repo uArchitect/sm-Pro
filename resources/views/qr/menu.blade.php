@@ -18,7 +18,7 @@
 
                 @if($tenant->logo)
                 <div class="mb-3">
-                    <img src="{{ asset('storage/'.$tenant->logo) }}" alt="{{ $tenant->restoran_adi }}"
+                    <img src="{{ asset('uploads/'.$tenant->logo) }}" alt="{{ $tenant->restoran_adi }}"
                          style="width:56px;height:56px;border-radius:14px;object-fit:cover;border:2px solid #e5e7eb">
                 </div>
                 @endif
@@ -126,7 +126,7 @@ function downloadQR() {
 function printQR() {
     const svg = document.querySelector('.sm-card-body svg');
     const logoHtml = @json($tenant->logo)
-        ? '<img src="{{ $tenant->logo ? asset("storage/".$tenant->logo) : "" }}" style="width:60px;height:60px;border-radius:14px;object-fit:cover;margin-bottom:12px">'
+        ? '<img src="{{ $tenant->logo ? asset("uploads/".$tenant->logo) : "" }}" style="width:60px;height:60px;border-radius:14px;object-fit:cover;margin-bottom:12px">'
         : '';
     const win = window.open('', '_blank');
     win.document.write(`<!DOCTYPE html><html><head><title>QR — {{ $tenant->restoran_adi }}</title>

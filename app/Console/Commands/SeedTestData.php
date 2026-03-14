@@ -143,9 +143,9 @@ class SeedTestData extends Command
 
             if (!$data) return null;
 
-            Storage::disk('public')->makeDirectory($dir);
+            Storage::disk('uploads')->makeDirectory($dir);
             $path = "{$dir}/{$seed}.jpg";
-            Storage::disk('public')->put($path, $data);
+            Storage::disk('uploads')->put($path, $data);
             return $path;
         } catch (\Throwable) {
             return null;

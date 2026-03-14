@@ -42,7 +42,7 @@
                     <label class="form-label">Öne Çıkan Görsel</label>
                     <div id="featuredImagePreviewEdit" class="mb-2 rounded overflow-hidden bg-light" style="max-height:140px">
                         @if($post->featured_image)
-                            <img id="featuredImagePreviewImgEdit" src="{{ asset('storage/'.$post->featured_image) }}?v={{ time() }}" alt="" class="img-fluid w-100" style="object-fit:contain;max-height:140px">
+                            <img id="featuredImagePreviewImgEdit" src="{{ asset('uploads/'.$post->featured_image) }}?v={{ time() }}" alt="" class="img-fluid w-100" style="object-fit:contain;max-height:140px">
                         @else
                             <img id="featuredImagePreviewImgEdit" src="" alt="" class="img-fluid w-100" style="object-fit:contain;max-height:140px;display:none">
                         @endif

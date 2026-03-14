@@ -45,7 +45,7 @@
     <div class="col-sm-6 col-lg-4">
         <div class="event-card">
             @if($ev->image)
-            <img src="{{ asset('storage/' . $ev->image) }}" alt="{{ $ev->title }}" class="event-img">
+            <img src="{{ asset('uploads/' . $ev->image) }}" alt="{{ $ev->title }}" class="event-img">
             @else
             <div class="event-img d-flex align-items-center justify-content-center">
                 <i class="bi bi-calendar-event" style="font-size:2rem;color:#d1d5db"></i>

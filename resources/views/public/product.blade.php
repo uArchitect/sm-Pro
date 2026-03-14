@@ -8,7 +8,7 @@
     ]);
     $canonical = request()->fullUrlWithoutQuery(['lang']);
     $currentUrl = $canonical . ($locale === config('app.fallback_locale', 'en') ? '' : '?lang=' . $locale);
-    $shareImage = $product->image ? asset('storage/' . $product->image) : ($tenant->logo ? asset('storage/' . $tenant->logo) : asset('og-cover.svg'));
+    $shareImage = $product->image ? asset('uploads/' . $product->image) : ($tenant->logo ? asset('uploads/' . $tenant->logo) : asset('og-cover.svg'));
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', $locale) }}">
@@ -65,7 +65,7 @@
 
     <div class="product-card w-100">
         @if($product->image)
-        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product-image">
+        <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}" class="product-image">
         @endif
         <div class="product-header text-center">
             <div class="text-white-50 small mb-1">

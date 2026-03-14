@@ -64,7 +64,7 @@ class ProductController extends Controller
 
         try {
             if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
+                $imagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'uploads');
                 if ($imagePath === false) {
                     return back()->withErrors(['image' => __('messages.upload_failed')])->withInput();
                 }
@@ -87,7 +87,7 @@ class ProductController extends Controller
             });
         } catch (\Throwable $e) {
             if ($imagePath) {
-                Storage::disk('public')->delete($imagePath);
+                Storage::disk('uploads')->delete($imagePath);
             }
 
             throw $e;
@@ -150,7 +150,7 @@ class ProductController extends Controller
 
         try {
             if ($request->hasFile('image')) {
-                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
+                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'uploads');
                 if ($newImagePath === false) {
                     return back()->withErrors(['image' => __('messages.upload_failed')])->withInput();
                 }
@@ -166,11 +166,11 @@ class ProductController extends Controller
             });
 
             if ($oldImageToDelete) {
-                Storage::disk('public')->delete($oldImageToDelete);
+                Storage::disk('uploads')->delete($oldImageToDelete);
             }
         } catch (\Throwable $e) {
             if ($newImagePath) {
-                Storage::disk('public')->delete($newImagePath);
+                Storage::disk('uploads')->delete($newImagePath);
             }
 
             throw $e;
@@ -195,7 +195,7 @@ class ProductController extends Controller
         });
 
         if ($product->image) {
-            Storage::disk('public')->delete($product->image);
+            Storage::disk('uploads')->delete($product->image);
         }
 
         Log::info('Ürün silindi.', ['tenant_id' => $tenantId, 'product_id' => $id]);
@@ -244,7 +244,7 @@ class ProductController extends Controller
                 $request->validate([
                     'image' => 'file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
                 ]);
-                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'public');
+                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/products", 'uploads');
                 if ($newImagePath === false) {
                     return response()->json([
                         'success' => false,
@@ -264,11 +264,11 @@ class ProductController extends Controller
             });
 
             if ($oldImageToDelete) {
-                Storage::disk('public')->delete($oldImageToDelete);
+                Storage::disk('uploads')->delete($oldImageToDelete);
             }
         } catch (ValidationException $e) {
             if ($newImagePath ?? null) {
-                Storage::disk('public')->delete($newImagePath);
+                Storage::disk('uploads')->delete($newImagePath);
             }
             return response()->json([
                 'success' => false,
@@ -277,7 +277,7 @@ class ProductController extends Controller
             ], 422);
         } catch (\Throwable $e) {
             if ($newImagePath) {
-                Storage::disk('public')->delete($newImagePath);
+                Storage::disk('uploads')->delete($newImagePath);
             }
 
             throw $e;
@@ -293,7 +293,7 @@ class ProductController extends Controller
             'description_short' => $updated->description ? Str::limit($updated->description, 60) : null,
             'price'             => number_format($updated->price, 2, ',', '.'),
             'raw_price'         => $updated->price,
-            'image_url'         => $updated->image ? asset('storage/' . $updated->image) : null,
+            'image_url'         => $updated->image ? asset('uploads/' . $updated->image) : null,
             'category_name'     => $category->name ?? '',
         ]);
     }

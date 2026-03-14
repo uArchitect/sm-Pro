@@ -18,7 +18,7 @@
                     <div class="d-flex flex-column flex-sm-row align-items-center gap-3">
                         <div id="logoPreviewWrap" style="width:72px;height:72px;border-radius:14px;border:2px dashed #e5e7eb;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;flex-shrink:0;background:#fafafa" onclick="document.getElementById('logoInput').click()">
                             @if($tenant->logo)
-                                <img id="logoPreview" src="{{ asset('storage/'.$tenant->logo) }}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">
+                                <img id="logoPreview" src="{{ asset('uploads/'.$tenant->logo) }}" style="width:100%;height:100%;object-fit:cover;border-radius:12px">
                             @else
                                 <img id="logoPreview" src="" style="width:100%;height:100%;object-fit:cover;border-radius:12px;display:none">
                                 <i class="bi bi-cloud-upload" id="logoPlaceholder" style="font-size:1.5rem;color:#d1d5db"></i>
