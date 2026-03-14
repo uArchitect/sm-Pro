@@ -16,14 +16,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B4H9LNYM0C"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-PLW9XB0WC9');
-        gtag('config', 'G-B4H9LNYM0C');
-    </script>
+    @include('components.gtag')
     <title>{{ $title }}</title>
     <meta name="description" content="{{ $description }}">
     <meta name="robots" content="noindex, follow, max-image-preview:large">
