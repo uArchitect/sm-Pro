@@ -21,7 +21,7 @@
     <meta name="description" content="@yield('meta_description')">
     <meta name="keywords" content="@yield('meta_keywords')">
     <meta name="author" content="Sipariş Masanda">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+    @hasSection('meta_robots')@yield('meta_robots')@else<meta name="robots" content="index, follow, max-image-preview:large">@endif
     <meta name="theme-color" content="#0a0f1e">
     <link rel="canonical" href="@yield('canonical', $currentUrl)">
     <link rel="alternate" hreflang="tr" href="{{ $currentUrl }}?lang=tr">
