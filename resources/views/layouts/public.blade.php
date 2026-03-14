@@ -7,11 +7,11 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', $locale) }}">
 <head>
+    @include('components.gtag')
     @include('components.gtm-head')
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    @include('components.gtag')
     <title>@yield('title')</title>
     <meta name="description" content="@yield('meta_description')">
     <meta name="keywords" content="@yield('meta_keywords')">
