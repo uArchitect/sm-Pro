@@ -47,7 +47,7 @@
                             <img id="featuredImagePreviewImgEdit" src="" alt="" class="img-fluid w-100" style="object-fit:contain;max-height:140px;display:none">
                         @endif
                     </div>
-                    <input type="file" name="featured_image" id="featuredImageInputEdit" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml">
+                    <input type="file" name="featured_image" id="featuredImageInputEdit" class="form-control">
                     @error('featured_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-6 mb-3">
