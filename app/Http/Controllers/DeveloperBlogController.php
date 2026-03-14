@@ -29,18 +29,25 @@ class DeveloperBlogController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'   => 'required|string|max:255',
-            'body'    => 'required|string',
-            'slug'    => 'nullable|string|max:255|unique:blog_posts,slug',
+            'title'            => 'required|string|max:255',
+            'body'             => 'required|string',
+            'slug'             => 'nullable|string|max:255|unique:blog_posts,slug',
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
+            'featured_image'   => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
             'is_published'     => 'nullable|boolean',
-        ]);
+        ], [], ['featured_image' => 'öne çıkan görsel']);
 
         $slug = $request->slug ?: Str::slug($request->title);
         $slug = $this->ensureUniqueSlug($slug);
 
-        $imagePath = $this->saveFeaturedImage($request->file('featured_image'));
+        $imagePath = null;
+        if ($request->hasFile('featured_image')) {
+            $imagePath = $request->file('featured_image')->store('blog', 'public');
+            if ($imagePath === false) {
+                return back()->withErrors(['featured_image' => 'Görsel yüklenemedi.'])->withInput();
+            }
+        }
 
         $publishedAt = ($request->boolean('is_published')) ? now() : null;
 
