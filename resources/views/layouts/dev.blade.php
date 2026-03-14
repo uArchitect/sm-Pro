@@ -153,6 +153,9 @@
         <a href="{{ route('developer.tickets') }}" class="nav-item-link {{ request()->routeIs('developer.tickets*') ? 'active' : '' }}">
             <i class="bi bi-headset"></i> Destek Mesajları
         </a>
+        <a href="{{ route('developer.blog.index') }}" class="nav-item-link {{ request()->routeIs('developer.blog*') ? 'active' : '' }}">
+            <i class="bi bi-journal-text"></i> Blog
+        </a>
 
         <div class="sidebar-section">Hesap</div>
         <a href="{{ route('developer.settings') }}" class="nav-item-link {{ request()->routeIs('developer.settings') ? 'active' : '' }}">

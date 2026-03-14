@@ -14,6 +14,8 @@ use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\DeveloperBlogController;
+use App\Http\Controllers\BlogController;
 
 // Demo menü — potansiyel müşterilerin test sayfasını görmesi için (Fake RESTORANT seeder gerekir)
 Route::get('/demo', function () {
@@ -44,12 +46,28 @@ Route::get('/sitemap.xml', function () {
         ['loc' => route('features'), 'lastmod' => now()->toDateString(), 'priority' => '0.8'],
         ['loc' => route('about'), 'lastmod' => now()->toDateString(), 'priority' => '0.6'],
         ['loc' => route('contact'), 'lastmod' => now()->toDateString(), 'priority' => '0.6'],
+        ['loc' => route('blog'), 'lastmod' => now()->toDateString(), 'priority' => '0.7'],
         ['loc' => route('privacy'), 'lastmod' => now()->toDateString(), 'priority' => '0.3'],
         ['loc' => route('terms'), 'lastmod' => now()->toDateString(), 'priority' => '0.3'],
         ['loc' => route('demo'), 'lastmod' => now()->toDateString(), 'priority' => '0.8'],
         ['loc' => route('login'), 'lastmod' => now()->toDateString(), 'priority' => '0.6'],
         ['loc' => route('register'), 'lastmod' => now()->toDateString(), 'priority' => '0.7'],
     ]);
+
+    $blogPosts = DB::table('blog_posts')
+        ->where('is_published', true)
+        ->whereNotNull('published_at')
+        ->where('published_at', '<=', now())
+        ->orderByDesc('published_at')
+        ->get(['slug', 'updated_at']);
+
+    foreach ($blogPosts as $p) {
+        $pages->push([
+            'loc' => route('blog.show', $p->slug),
+            'lastmod' => \Carbon\Carbon::parse($p->updated_at)->toDateString(),
+            'priority' => '0.6',
+        ]);
+    }
 
     return response()
         ->view('sitemap.xml', compact('pages'))
@@ -160,6 +178,12 @@ Route::middleware(['auth', 'role:developer'])->prefix('developer')->name('develo
     Route::get('/settings',                 [DeveloperController::class, 'settings'])->name('settings');
     Route::post('/settings',                [DeveloperController::class, 'updateSettings'])->name('settings.update');
     Route::post('/storage-link',            [DeveloperController::class, 'runStorageLink'])->name('storage-link');
+    Route::get('/blog',                     [DeveloperBlogController::class, 'index'])->name('blog.index');
+    Route::get('/blog/create',              [DeveloperBlogController::class, 'create'])->name('blog.create');
+    Route::post('/blog',                    [DeveloperBlogController::class, 'store'])->name('blog.store');
+    Route::get('/blog/{id}/edit',           [DeveloperBlogController::class, 'edit'])->name('blog.edit');
+    Route::put('/blog/{id}',                [DeveloperBlogController::class, 'update'])->name('blog.update');
+    Route::delete('/blog/{id}',             [DeveloperBlogController::class, 'destroy'])->name('blog.destroy');
 });
 
 // Impersonate exit (accessible while impersonating)
@@ -168,6 +192,10 @@ Route::post('/developer/stop-impersonate', [DeveloperController::class, 'stopImp
     ->middleware('auth');
 
 // Public sayfalar (auth yok — kalıcı URL'ler, QR baskısına uygundur)
+// Public blog (SEO-friendly)
+Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show')->where('slug', '[a-z0-9\-]+');
+
 Route::get('/menu/{tenantId}', [QRController::class, 'publicMenu'])->name('public.menu');
 Route::get('/menu/{tenantId}/product/{productId}', [QRController::class, 'publicProduct'])->name('public.product');
 Route::post('/menu/{tenantId}/review', [QRController::class, 'submitReview'])->name('public.review');

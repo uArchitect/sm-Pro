@@ -28,20 +28,20 @@
     <link rel="alternate" hreflang="en" href="{{ $currentUrl }}?lang=en">
     <link rel="alternate" hreflang="x-default" href="{{ $currentUrl }}">
 
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="@yield('canonical', $currentUrl)">
     <meta property="og:title" content="@yield('title')">
     <meta property="og:description" content="@yield('meta_description')">
     <meta property="og:site_name" content="Sipariş Masanda">
     <meta property="og:locale" content="{{ $isTr ? 'tr_TR' : 'en_US' }}">
-    <meta property="og:image" content="{{ $shareImage }}">
+    <meta property="og:image" content="@yield('og_image', $shareImage)">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="@yield('title')">
     <meta name="twitter:description" content="@yield('meta_description')">
-    <meta name="twitter:image" content="{{ $shareImage }}">
+    <meta name="twitter:image" content="@yield('og_image', $shareImage)">
 
     @yield('schema')
 
@@ -268,6 +268,9 @@
                 <a href="{{ route('contact') }}" class="nav-link-item {{ request()->routeIs('contact') ? 'active' : '' }}">
                     <i class="bi bi-envelope me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'İletişim' : 'Contact' }}
                 </a>
+                <a href="{{ route('blog') }}" class="nav-link-item {{ request()->routeIs('blog*') ? 'active' : '' }}">
+                    <i class="bi bi-journal-text me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Blog' : 'Blog' }}
+                </a>
                 <div class="d-none d-lg-flex gap-2 ms-lg-2">
                     <a href="{{ route('login') }}" class="nav-btn nav-btn-ghost">{{ $isTr ? 'Giriş Yap' : 'Sign In' }}</a>
                     <a href="{{ route('register') }}" class="nav-btn nav-btn-primary">{{ $isTr ? 'Ücretsiz Başla' : 'Start Free' }}</a>
@@ -291,6 +294,7 @@
                         <a href="{{ route('features') }}">{{ $isTr ? 'Özellikler' : 'Features' }}</a>
                         <a href="{{ route('pricing') }}">{{ $isTr ? 'Fiyatlar' : 'Pricing' }}</a>
                         <a href="{{ route('demo') }}">{{ $isTr ? 'Canlı Demo' : 'Live Demo' }}</a>
+                        <a href="{{ route('blog') }}">Blog</a>
                     </div>
                 </div>
                 <div class="footer-col">
