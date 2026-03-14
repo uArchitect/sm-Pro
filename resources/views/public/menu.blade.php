@@ -75,6 +75,7 @@
         * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; min-height: 100vh; margin: 0; }
+        .menu-app { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
         img { display: block; max-width: 100%; height: auto; object-fit: cover; }
 
         /* ========== Header ========== */
@@ -413,13 +414,15 @@
         .rv-msg-ok { background: rgba(34,197,94,.12); color: #16a34a; border: 1px solid rgba(34,197,94,.2); }
         .rv-msg-warn { background: rgba(251,191,36,.12); color: #b45309; border: 1px solid rgba(251,191,36,.2); }
 
-        /* ========== Footer ========== */
+        /* ========== Footer (her zaman en altta) ========== */
+        .menu-app main { flex: 1; }
         .ftr {
-            margin-top: 2rem;
+            margin-top: auto;
             padding: 1.25rem 1rem calc(1.25rem + var(--safe-b));
             text-align: center;
             background: #fff;
             border-top: 1px solid var(--border-light);
+            flex-shrink: 0;
         }
         .ftr-inner {
             max-width: 640px; margin: 0 auto;
