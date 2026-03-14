@@ -324,6 +324,40 @@ class DeveloperController extends Controller
         return back()->with('success', 'storage:link komutu çalıştı. Çıktı: ' . trim($output));
     }
 
+    /**
+     * Önbellek temizleme (cache, view, config, route veya hepsi).
+     */
+    public function clearCache(Request $request)
+    {
+        $this->authDev();
+
+        $action = $request->input('action', 'all');
+
+        $commands = [
+            'cache'  => ['cache:clear', 'Uygulama önbelleği temizlendi.'],
+            'view'   => ['view:clear', 'View önbelleği temizlendi.'],
+            'config' => ['config:clear', 'Config önbelleği temizlendi.'],
+            'route'  => ['route:clear', 'Route önbelleği temizlendi.'],
+            'all'    => ['optimize:clear', 'Tüm önbellekler temizlendi.'],
+        ];
+
+        if (!isset($commands[$action])) {
+            return back()->with('error', 'Geçersiz işlem.');
+        }
+
+        try {
+            Artisan::call($commands[$action][0]);
+            $msg = $commands[$action][1];
+            $out = trim(Artisan::output());
+            if ($out) {
+                $msg .= ' ' . $out;
+            }
+            return back()->with('success', $msg);
+        } catch (\Throwable $e) {
+            return back()->with('error', 'Önbellek temizlenemedi: ' . $e->getMessage());
+        }
+    }
+
     public function tickets()
     {
         $this->authDev();
