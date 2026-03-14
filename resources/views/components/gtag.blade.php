@@ -1,5 +1,5 @@
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-B4H9LNYM0C"></script>
+<!-- Google tag (gtag.js) - sync load so Google can detect -->
+<script src="https://www.googletagmanager.com/gtag/js?id=G-B4H9LNYM0C"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
