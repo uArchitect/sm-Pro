@@ -33,7 +33,7 @@
 
             <div class="mb-3">
                 <label class="form-label">İçerik <span class="text-danger">*</span></label>
-                <textarea name="body" rows="14" class="form-control @error('body') is-invalid @enderror" required>{{ old('body', $post->body) }}</textarea>
+                <textarea name="body" id="blogBody" rows="14" class="form-control @error('body') is-invalid @enderror" required>{{ old('body', $post->body) }}</textarea>
                 @error('body')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
 
@@ -76,3 +76,22 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/43.0.0/classic/ckeditor.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var el = document.querySelector('#blogBody');
+    if (!el) return;
+    ClassicEditor.create(el, {
+        toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', '|', 'blockQuote', '|', 'undo', 'redo'],
+        heading: { options: [
+            { model: 'paragraph', title: 'Paragraf', class: 'ck-heading_paragraph' },
+            { model: 'heading2', view: 'h2', title: 'Başlık 2', class: 'ck-heading_heading2' },
+            { model: 'heading3', view: 'h3', title: 'Başlık 3', class: 'ck-heading_heading3' }
+        ]},
+        language: 'tr'
+    }).catch(function(err) { console.error(err); });
+});
+</script>
+@endpush
