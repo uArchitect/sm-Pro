@@ -140,9 +140,11 @@ class QRController extends Controller
                 ->first();
         }
 
+        $isDemoMenu = isset($tenant->restoran_adi) && $tenant->restoran_adi === 'Fake RESTORANT';
+
         return view('public.menu', compact(
             'tenant', 'categories', 'subCategories', 'products', 'reviews', 'reviewStats',
-            'sliders', 'activeEvent'
+            'sliders', 'activeEvent', 'isDemoMenu'
         ));
     }
 

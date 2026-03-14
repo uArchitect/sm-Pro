@@ -31,7 +31,7 @@
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <title>{{ $menuTitle }}</title>
     <meta name="description" content="{{ $menuDescription }}">
-    <meta name="robots" content="noindex, follow, max-image-preview:large">
+    <meta name="robots" content="{{ isset($isDemoMenu) && $isDemoMenu ? 'index, follow, max-image-preview:large' : 'noindex, follow, max-image-preview:large' }}">
     <link rel="canonical" href="{{ $menuCurrentUrl }}">
     <link rel="alternate" hreflang="tr" href="{{ $menuCanonical }}?lang=tr">
     <link rel="alternate" hreflang="en" href="{{ $menuCanonical }}?lang=en">
