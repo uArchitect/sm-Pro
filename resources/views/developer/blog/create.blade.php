@@ -39,7 +39,10 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Öne Çıkan Görsel</label>
-                    <input type="file" name="featured_image" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml">
+                    <div id="featuredImagePreviewCreate" class="mb-2 rounded overflow-hidden bg-light" style="max-height:140px;display:none">
+                        <img id="featuredImagePreviewImgCreate" src="" alt="" class="img-fluid w-100" style="object-fit:contain;max-height:140px">
+                    </div>
+                    <input type="file" name="featured_image" id="featuredImageInputCreate" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml">
                     @error('featured_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-6 mb-3">
@@ -83,5 +86,19 @@ document.addEventListener('DOMContentLoaded', function() {
         resize_enabled: false
     });
 });
+(function() {
+    var input = document.getElementById('featuredImageInputCreate');
+    var wrap = document.getElementById('featuredImagePreviewCreate');
+    var img = document.getElementById('featuredImagePreviewImgCreate');
+    if (!input || !wrap || !img) return;
+    input.addEventListener('change', function() {
+        var file = this.files && this.files[0];
+        if (!file) { wrap.style.display = 'none'; return; }
+        var url = URL.createObjectURL(file);
+        img.src = url;
+        img.onload = function() { URL.revokeObjectURL(url); };
+        wrap.style.display = 'block';
+    });
+})();
 </script>
 @endpush

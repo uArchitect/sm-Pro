@@ -34,9 +34,20 @@ class DeveloperBlogController extends Controller
             'slug'    => 'nullable|string|max:255|unique:blog_posts,slug',
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
-            'featured_image'   => 'nullable|file|mimes:jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml,image/svg|max:2048',
+            'featured_image'   => [
+                'nullable',
+                'file',
+                'max:2048',
+                function ($attr, $value, $fail) {
+                    if (!$value) return;
+                    $ext = strtolower($value->getClientOriginalExtension());
+                    if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'])) {
+                        $fail('Öne çıkan görsel: jpeg, png, gif, webp veya svg olmalıdır.');
+                    }
+                },
+            ],
             'is_published'    => 'nullable|boolean',
-        ]);
+        ], [], ['featured_image' => 'öne çıkan görsel']);
 
         $slug = $request->slug ?: Str::slug($request->title);
         $slug = $this->ensureUniqueSlug($slug);
@@ -44,8 +55,10 @@ class DeveloperBlogController extends Controller
         $imagePath = null;
         if ($request->hasFile('featured_image')) {
             $file = $request->file('featured_image');
-            $ext = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'png');
-            $imagePath = $file->storeAs('blog', Str::uuid() . '.' . $ext, 'public');
+            $ext = $this->getAllowedImageExtension($file);
+            if ($ext) {
+                $imagePath = $file->storeAs('blog', Str::uuid() . '.' . $ext, 'public');
+            }
         }
 
         $publishedAt = ($request->boolean('is_published')) ? now() : null;
@@ -86,9 +99,20 @@ class DeveloperBlogController extends Controller
             'slug'    => 'nullable|string|max:255|unique:blog_posts,slug,' . $id,
             'meta_title'       => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
-            'featured_image'   => 'nullable|file|mimes:jpeg,png,gif,webp,svg|mimetypes:image/jpeg,image/png,image/gif,image/webp,image/svg+xml,image/svg|max:2048',
+            'featured_image'   => [
+                'nullable',
+                'file',
+                'max:2048',
+                function ($attr, $value, $fail) {
+                    if (!$value) return;
+                    $ext = strtolower($value->getClientOriginalExtension());
+                    if (!in_array($ext, ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'])) {
+                        $fail('Öne çıkan görsel: jpeg, png, gif, webp veya svg olmalıdır.');
+                    }
+                },
+            ],
             'is_published'    => 'nullable|boolean',
-        ]);
+        ], [], ['featured_image' => 'öne çıkan görsel']);
 
         $slug = $request->slug ?: Str::slug($request->title);
         if ($slug !== $post->slug) {
@@ -112,12 +136,14 @@ class DeveloperBlogController extends Controller
         }
 
         if ($request->hasFile('featured_image')) {
-            if ($post->featured_image) {
-                Storage::disk('public')->delete($post->featured_image);
-            }
             $file = $request->file('featured_image');
-            $ext = strtolower($file->getClientOriginalExtension() ?: $file->guessExtension() ?: 'png');
-            $data['featured_image'] = $file->storeAs('blog', Str::uuid() . '.' . $ext, 'public');
+            $ext = $this->getAllowedImageExtension($file);
+            if ($ext) {
+                if ($post->featured_image) {
+                    Storage::disk('public')->delete($post->featured_image);
+                }
+                $data['featured_image'] = $file->storeAs('blog', Str::uuid() . '.' . $ext, 'public');
+            }
         }
 
         DB::table('blog_posts')->where('id', $id)->update($data);
@@ -148,5 +174,20 @@ class DeveloperBlogController extends Controller
             if (!$q->exists()) return $slug;
             $slug = $base . '-' . (++$i);
         }
+    }
+
+    /** Uzantıya göre kabul (SVG dahil); MIME sunucuda yanlış olsa bile çalışır. */
+    private function getAllowedImageExtension($file): ?string
+    {
+        $allowed = ['jpeg', 'jpg', 'png', 'gif', 'webp', 'svg'];
+        $ext = strtolower(pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION));
+        if ($ext && in_array($ext, $allowed)) {
+            return $ext;
+        }
+        $guessed = strtolower($file->guessExtension() ?: '');
+        if ($guessed && in_array($guessed, $allowed)) {
+            return $guessed === 'jpg' ? 'jpeg' : $guessed;
+        }
+        return null;
     }
 }

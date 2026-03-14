@@ -40,12 +40,14 @@
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label class="form-label">Öne Çıkan Görsel</label>
-                    @if($post->featured_image)
-                        <div class="mb-2">
-                            <img src="{{ asset('storage/'.$post->featured_image) }}" alt="" class="img-fluid rounded" style="max-height:120px">
-                        </div>
-                    @endif
-                    <input type="file" name="featured_image" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml">
+                    <div id="featuredImagePreviewEdit" class="mb-2 rounded overflow-hidden bg-light" style="max-height:140px">
+                        @if($post->featured_image)
+                            <img id="featuredImagePreviewImgEdit" src="{{ asset('storage/'.$post->featured_image) }}?v={{ time() }}" alt="" class="img-fluid w-100" style="object-fit:contain;max-height:140px">
+                        @else
+                            <img id="featuredImagePreviewImgEdit" src="" alt="" class="img-fluid w-100" style="object-fit:contain;max-height:140px;display:none">
+                        @endif
+                    </div>
+                    <input type="file" name="featured_image" id="featuredImageInputEdit" class="form-control" accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml">
                     @error('featured_image')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
                 <div class="col-md-6 mb-3">
@@ -89,5 +91,18 @@ document.addEventListener('DOMContentLoaded', function() {
         resize_enabled: false
     });
 });
+(function() {
+    var input = document.getElementById('featuredImageInputEdit');
+    var img = document.getElementById('featuredImagePreviewImgEdit');
+    if (!input || !img) return;
+    input.addEventListener('change', function() {
+        var file = this.files && this.files[0];
+        if (!file) return;
+        var url = URL.createObjectURL(file);
+        img.src = url;
+        img.style.display = 'block';
+        img.onload = function() { URL.revokeObjectURL(url); };
+    });
+})();
 </script>
 @endpush

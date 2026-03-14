@@ -69,7 +69,10 @@
 <section class="pb-5">
     <div class="container" style="max-width:720px">
         @if($post->featured_image)
-            <img src="{{ asset('storage/'.$post->featured_image) }}" alt="" class="img-fluid rounded-3 w-100 mb-4" style="max-height:400px;object-fit:cover">
+            @php $isSvg = str_ends_with(strtolower($post->featured_image), '.svg'); @endphp
+            <div class="mb-4 rounded-3 overflow-hidden bg-dark {{ $isSvg ? 'p-3' : '' }}" style="max-height:400px">
+                <img src="{{ asset('storage/'.$post->featured_image) }}" alt="" class="img-fluid w-100" style="max-height:400px;object-fit:{{ $isSvg ? 'contain' : 'cover' }};display:block">
+            </div>
         @endif
         <div class="blog-body glass-card p-4 p-md-5">
             {!! $post->body !!}
