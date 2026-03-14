@@ -52,6 +52,7 @@
     <meta name="twitter:description" content="@yield('meta_description')">
     <meta name="twitter:image" content="@yield('og_image', $shareImage)">
 
+    @include('partials.schema-global')
     @yield('schema')
 
     <link rel="preconnect" href="https://fonts.googleapis.com">

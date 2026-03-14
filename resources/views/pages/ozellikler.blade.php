@@ -46,6 +46,18 @@
     ]
 }
 </script>
+{{-- SSS: Özellikler sayfası için FAQ rich snippet --}}
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "FAQPage",
+    "mainEntity": [
+        {"@@type": "Question", "name": "{{ $isTr ? 'QR menüde hangi özellikler var?' : 'What features does the QR menu have?' }}", "acceptedAnswer": {"@@type": "Answer", "text": "{{ $isTr ? 'Sipariş Masanda ile QR kod oluşturma, sınırsız kategori ve ürün, fotoğraflı menü, müşteri değerlendirmeleri, çoklu kullanıcı, sosyal medya entegrasyonu ve mobil uyumlu tasarım sunulur.' : 'Siparis Masanda offers QR code generation, unlimited categories and products, photo menu, customer reviews, multi-user support, social media integration, and mobile-friendly design.' }}"}},
+        {"@@type": "Question", "name": "{{ $isTr ? 'Dijital menüye ürün fotoğrafı eklenebilir mi?' : 'Can I add product photos to the digital menu?' }}", "acceptedAnswer": {"@@type": "Answer", "text": "{{ $isTr ? 'Evet. Ürün ve kategori fotoğrafları ekleyebilir, otomatik boyutlandırma ile fotoğraflı menü oluşturabilirsiniz.' : 'Yes. You can add product and category photos and create a photo menu with automatic resizing.' }}"}},
+        {"@@type": "Question", "name": "{{ $isTr ? 'Menü fiyatları anlık güncellenebilir mi?' : 'Can menu prices be updated instantly?' }}", "acceptedAnswer": {"@@type": "Answer", "text": "{{ $isTr ? 'Evet. Yönetim panelinden fiyat, açıklama ve sıralama anında güncellenir; değişiklikler hemen menüde görünür.' : 'Yes. You can update prices, descriptions and order from the management panel; changes appear on the menu immediately.' }}"}}
+    ]
+}
+</script>
 @endsection
 
 @section('styles')

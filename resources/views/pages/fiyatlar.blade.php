@@ -28,6 +28,45 @@
     ]
 }
 </script>
+{{-- Ürün/Fiyat: Google fiyat rich snippet için Product + AggregateOffer --}}
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "Product",
+    "name": "Sipariş Masanda — {{ $isTr ? 'Dijital QR Menü Paketleri' : 'Digital QR Menu Plans' }}",
+    "description": "{{ $isTr ? 'Restoran ve kafeler için dijital QR menü sistemi. Ücretsiz Basic ve Premium paketler.' : 'Digital QR menu system for restaurants and cafes. Free Basic and Premium plans.' }}",
+    "image": "{{ asset('og-cover.svg') }}",
+    "url": "{{ route('pricing') }}",
+    "brand": {
+        "@@type": "Brand",
+        "name": "Sipariş Masanda"
+    },
+    "offers": {
+        "@@type": "AggregateOffer",
+        "url": "{{ route('pricing') }}",
+        "priceCurrency": "TRY",
+        "lowPrice": "0",
+        "offerCount": "2",
+        "offers": [
+            {
+                "@@type": "Offer",
+                "name": "Basic",
+                "price": "0",
+                "priceCurrency": "TRY",
+                "description": "{{ $isTr ? 'Sınırsız kategori ve ürün, QR kod, fotoğraflı menü, müşteri değerlendirmeleri' : 'Unlimited categories & products, QR code, photo menu, customer reviews' }}",
+                "availability": "https://schema.org/InStock"
+            },
+            {
+                "@@type": "Offer",
+                "name": "Premium",
+                "priceCurrency": "TRY",
+                "description": "{{ $isTr ? 'Basic + slider, etkinlik yönetimi, öncelikli destek' : 'All Basic + sliders, event management, priority support' }}",
+                "availability": "https://schema.org/InStock"
+            }
+        ]
+    }
+}
+</script>
 <script type="application/ld+json">
 {
     "@@context": "https://schema.org",
@@ -49,7 +88,6 @@
         {
             "@@type": "Offer",
             "name": "Premium",
-            "price": "",
             "priceCurrency": "TRY",
             "description": "{{ $isTr ? 'Basic planın tüm özellikleri + slider, etkinlik yönetimi, öncelikli destek' : 'All Basic features + sliders, event management, priority support' }}"
         }
