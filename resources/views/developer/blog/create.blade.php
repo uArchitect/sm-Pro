@@ -72,7 +72,7 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.ckeditor.com/4.24.0-lts/standard-all/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.22.1/standard-all/ckeditor.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof CKEDITOR === 'undefined') return;
