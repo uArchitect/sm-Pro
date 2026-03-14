@@ -102,7 +102,10 @@
     </style>
 </head>
 <body class="d-flex align-items-center justify-content-center py-5 px-3">
-    @include('components.gtm-body')
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T58K7CMS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 <div style="width:100%;max-width:480px;position:relative;z-index:1">
     <div class="text-center">
         <div class="logo-mark"><i class="bi bi-qr-code-scan"></i></div>

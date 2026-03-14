@@ -501,7 +501,10 @@
     </style>
 </head>
 <body>
-    @include('components.gtm-body')
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T58K7CMS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
     @unless($allowDesktopPreview)
     <div class="desktop-only-screen" aria-live="polite">
