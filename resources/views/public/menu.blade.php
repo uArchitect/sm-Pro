@@ -445,6 +445,21 @@
             color: #fff;
             font-size: .7rem;
         }
+
+        /* Değerlendirme sonrası geri bildirim toast */
+        .review-feedback-toast {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+            padding: 0.75rem 1rem; padding-left: max(1rem, env(safe-area-inset-left)); padding-right: max(1rem, env(safe-area-inset-right)); padding-top: max(0.75rem, env(safe-area-inset-top));
+            animation: reviewFeedbackSlide 0.35s ease-out;
+        }
+        .review-feedback-ok { background: linear-gradient(135deg, #059669, #10b981); color: #fff; box-shadow: 0 4px 20px rgba(5,150,105,.4); }
+        .review-feedback-warn { background: linear-gradient(135deg, #d97706, #f59e0b); color: #fff; box-shadow: 0 4px 20px rgba(217,119,6,.4); }
+        .review-feedback-inner { display: flex; align-items: center; justify-content: center; max-width: 480px; margin: 0 auto; font-size: 0.9rem; font-weight: 600; }
+        .review-feedback-inner span { flex: 1; }
+        .review-feedback-close { background: none; border: none; color: inherit; opacity: 0.85; padding: 0.25rem; margin-left: 0.5rem; cursor: pointer; border-radius: 6px; line-height: 1; }
+        .review-feedback-close:hover { opacity: 1; background: rgba(255,255,255,.2); }
+        @@keyframes reviewFeedbackSlide { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+
         @@media (max-width: 380px) {
             .ftr-inner { flex-wrap: wrap; font-size: .75rem; }
         }
@@ -691,11 +706,9 @@
                 @php
                     $catProducts = $products->get($cat->id, collect());
                     $subs = $subCategories[$cat->id] ?? collect();
-                    $hasContent = $catProducts->isNotEmpty() || $subs->isNotEmpty();
                     $totalInCat = $catProducts->count();
                     foreach ($subs as $sub) { $totalInCat += ($products->get($sub->id, collect()))->count(); }
                 @endphp
-                @if($hasContent)
                 <section class="cat-section" data-cat-id="{{ $cat->id }}" id="cat-{{ $cat->id }}">
                     <button type="button" class="cat-header" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $cat->id }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="collapse-{{ $cat->id }}">
                         @if($cat->image)
@@ -757,7 +770,6 @@
                     </div>
                     </div>
                 </section>
-                @endif
             @endforeach
             <div class="no-results d-none" id="noResults">
                 <i class="bi bi-search"></i>
@@ -847,6 +859,21 @@
 
     </div><!-- .menu-app -->
 
+    @if(session('review_success') || session('review_error'))
+    <div id="reviewFeedbackToast" class="review-feedback-toast review-feedback-{{ session('review_success') ? 'ok' : 'warn' }}" role="alert">
+        <div class="review-feedback-inner">
+            @if(session('review_success'))
+                <i class="bi bi-check-circle-fill me-2"></i>
+                <span>{{ __('public.review_saved') }}</span>
+            @else
+                <i class="bi bi-info-circle-fill me-2"></i>
+                <span>{{ $locale === 'tr' ? 'Bugün zaten bir değerlendirme yaptınız.' : 'You have already submitted a review today.' }}</span>
+            @endif
+            <button type="button" class="review-feedback-close" onclick="this.closest('.review-feedback-toast').remove()" aria-label="{{ $locale === 'tr' ? 'Kapat' : 'Close' }}"><i class="bi bi-x-lg"></i></button>
+        </div>
+    </div>
+    @endif
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     @php
         $catChildren = [];
@@ -854,6 +881,21 @@
             $catChildren[$parentId] = $subs->pluck('id')->values()->toArray();
         }
     @endphp
+    @if(session('review_success') || session('review_error'))
+    <script>
+    (function() {
+        var toast = document.getElementById('reviewFeedbackToast');
+        if (toast) {
+            setTimeout(function() { toast.remove(); }, 5000);
+        }
+        var modalEl = document.getElementById('reviewModal');
+        if (modalEl && typeof bootstrap !== 'undefined') {
+            var modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+            modal.show();
+        }
+    })();
+    </script>
+    @endif
     <script>
     (function() {
         var productCountSuffix = @json(app()->getLocale() === 'tr' ? 'ürün' : 'products');
