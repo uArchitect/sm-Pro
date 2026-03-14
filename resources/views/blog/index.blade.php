@@ -49,7 +49,7 @@
     <div class="container">
         @if($posts->isEmpty())
             <div class="text-center py-5">
-                <p class="text-muted">{{ $isTr ? 'Henüz yayınlanmış yazı yok.' : 'No published posts yet.' }}</p>
+                <p class="text-white opacity-90">{{ $isTr ? 'Henüz yayınlanmış yazı yok.' : 'No published posts yet.' }}</p>
                 <a href="{{ route('register') }}" class="hero-btn-outline mt-2">{{ $isTr ? 'Ücretsiz Başla' : 'Start Free' }}</a>
             </div>
         @else
