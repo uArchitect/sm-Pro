@@ -11,6 +11,13 @@
     : 'Tips and articles about digital menu, QR menu and restaurant management.')
 @section('canonical', route('blog'))
 
+@section('styles')
+<style>
+.blog-card-excerpt { font-size:.8rem; line-height:1.6; color:rgba(255,255,255,.85); }
+.blog-card-date { color:rgba(255,255,255,.75); }
+</style>
+@endsection
+
 @section('schema')
 <script type="application/ld+json">
 {
@@ -66,10 +73,10 @@
                             <h2 class="h6 fw-700 mb-2" style="line-height:1.35">
                                 <a href="{{ route('blog.show', $post->slug) }}" class="text-decoration-none text-white">{{ Str::limit($post->title, 60) }}</a>
                             </h2>
-                            <p class="small text-muted mb-2" style="font-size:.8rem;line-height:1.6">
+                            <p class="small mb-2 blog-card-excerpt">
                                 {{ Str::limit(strip_tags($post->meta_description ?: $post->body), 120) }}
                             </p>
-                            <div class="small text-muted">
+                            <div class="small blog-card-date">
                                 <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($post->published_at)->format('d.m.Y') }}
                             </div>
                         </div>
