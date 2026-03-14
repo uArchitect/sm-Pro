@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PLW9XB0WC9"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B4H9LNYM0C"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-PLW9XB0WC9');
+        gtag('config', 'G-B4H9LNYM0C');
     </script>
     <title>@yield('title', __('common.panel')) — {{ __('common.app_name') }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
