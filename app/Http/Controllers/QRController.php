@@ -107,17 +107,6 @@ class QRController extends Controller
             ->get()
             ->groupBy('category_id');
 
-        $reviews = DB::table('reviews')
-            ->where('tenant_id', $tenantId)
-            ->orderByDesc('created_at')
-            ->limit(20)
-            ->get();
-
-        $reviewStats = DB::table('reviews')
-            ->where('tenant_id', $tenantId)
-            ->selectRaw('COUNT(*) as total, COALESCE(AVG(rating), 0) as avg_rating')
-            ->first();
-
         $sliders = collect();
         $activeEvent = null;
 
@@ -143,7 +132,7 @@ class QRController extends Controller
         $isDemoMenu = isset($tenant->restoran_adi) && $tenant->restoran_adi === 'Fake RESTORANT';
 
         return view('public.menu', compact(
-            'tenant', 'categories', 'subCategories', 'products', 'reviews', 'reviewStats',
+            'tenant', 'categories', 'subCategories', 'products',
             'sliders', 'activeEvent', 'isDemoMenu'
         ));
     }

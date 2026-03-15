@@ -450,25 +450,22 @@
         .no-results { text-align: center; padding: 3rem 1.5rem; color: var(--text3); }
         .no-results i { font-size: 2.5rem; margin-bottom: .75rem; display: block; opacity: .4; }
 
-        /* ========== Review modal ========== */
-        #reviewModal .modal-dialog { max-width: 480px; }
-        #reviewModal .modal-content { background: transparent; border: none; box-shadow: none; }
-        #reviewModal .modal-body { padding-top: 0; }
-        .rv-modal-panel {
+        /* ========== Review modal (Deneyiminizi paylaşın) ========== */
+        #reviewModal .modal-dialog { max-width: 420px; }
+        #reviewModal .modal-content.review-modal-content {
             background: #fff;
             border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,.15);
+            border: none;
+            box-shadow: 0 24px 64px rgba(0,0,0,.18);
             overflow: hidden;
         }
-        .rv-summary { text-align: center; padding: 1.25rem; margin-bottom: 1rem; background: #fefce8; border: 1px solid #fef3c7; border-radius: var(--radius); }
-        .rv-big { font-size: 2.8rem; font-weight: 900; color: var(--text); line-height: 1; }
-        .rv-stars { color: var(--star); font-size: 1.1rem; margin: .25rem 0; }
-        .rv-item { padding: .85rem 0; border-bottom: 1px solid var(--border-light); }
-        .rv-item:last-child { border-bottom: none; }
-        .rv-item-name { font-weight: 700; font-size: .82rem; color: var(--text); }
-        .rv-item-stars { color: var(--star); font-size: .74rem; }
-        .rv-form-wrap { background: linear-gradient(135deg, var(--dark), var(--dark2)); border-radius: var(--radius); padding: 1.35rem; }
-        .rv-form-wrap h4 { color: #fff; font-size: .9rem; font-weight: 700; margin-bottom: .9rem; }
+        #reviewModal .modal-header .modal-title { font-size: 1.05rem; font-weight: 800; color: var(--text); }
+        #reviewModal .modal-body { padding-top: 0.25rem; }
+        .rv-form-wrap {
+            background: linear-gradient(160deg, var(--dark), var(--dark2));
+            border-radius: 16px;
+            padding: 1.25rem 1.1rem;
+        }
         .rv-label { display: block; color: rgba(255,255,255,.6); font-size: .74rem; font-weight: 600; margin-bottom: .3rem; }
         .rv-input {
             width: 100%; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
@@ -653,11 +650,7 @@
                 @endif
                 <button type="button" class="hdr-review-btn" data-bs-toggle="modal" data-bs-target="#reviewModal">
                     <i class="bi bi-star-fill"></i>
-                    @if($reviewStats->total > 0)
-                        {{ number_format($reviewStats->avg_rating, 1) }} ({{ $reviewStats->total }})
-                    @else
-                        {{ __('public.rate_now') }}
-                    @endif
+                    {{ __('public.rate_now') }}
                 </button>
             </div>
         </div>
@@ -895,45 +888,18 @@
         </div>
     </footer>
 
-    <div class="modal fade" id="reviewModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="rv-modal-panel">
-                <div class="modal-header border-0 pb-0">
-                    <h5 class="modal-title"><i class="bi bi-star-fill text-warning me-1"></i> {{ __('public.reviews') }}</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg review-modal-content">
+                <div class="modal-header border-0 pb-0 pt-1">
+                    <h5 class="modal-title" id="reviewModalTitle">
+                        <i class="bi bi-chat-heart-fill text-warning me-2"></i>
+                        {{ $locale === 'tr' ? 'Deneyiminizi paylaşın' : 'Share your experience' }}
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ $locale === 'tr' ? 'Kapat' : 'Close' }}"></button>
                 </div>
-                <div class="modal-body">
-                    @if($reviewStats->total > 0)
-                    <div class="rv-summary">
-                        <div class="rv-big">{{ number_format($reviewStats->avg_rating, 1) }}</div>
-                        <div class="rv-stars">
-                            @for($i = 1; $i <= 5; $i++)
-                            <i class="bi bi-star{{ $i <= round($reviewStats->avg_rating) ? '-fill' : '' }}"></i>
-                            @endfor
-                        </div>
-                        <div class="small text-secondary">{{ $locale === 'tr' ? $reviewStats->total . ' değerlendirme' : $reviewStats->total . ' reviews' }}</div>
-                    </div>
-                    @endif
-                    @foreach($reviews as $review)
-                    <div class="rv-item">
-                        <div class="d-flex justify-content-between align-items-center mb-1">
-                            <span class="rv-item-name"><i class="bi bi-person-circle text-secondary me-1"></i>{{ $review->customer_name ?: ($locale === 'tr' ? 'Anonim' : 'Anonymous') }}</span>
-                            <span class="small text-secondary">{{ \Carbon\Carbon::parse($review->created_at)->diffForHumans() }}</span>
-                        </div>
-                        <div class="rv-item-stars">
-                            @for($i = 1; $i <= 5; $i++)
-                            <i class="bi bi-star{{ $i <= $review->rating ? '-fill' : '' }}"></i>
-                            @endfor
-                        </div>
-                        @if($review->comment)
-                        <div class="small text-secondary mt-1">{{ $review->comment }}</div>
-                        @endif
-                    </div>
-                    @endforeach
-                    <hr>
+                <div class="modal-body pt-0">
                     <div class="rv-form-wrap">
-                        <h4><i class="bi bi-chat-heart text-warning me-1"></i> {{ $locale === 'tr' ? 'Deneyiminizi paylaşın' : 'Share your experience' }}</h4>
                         @if(session('review_success'))
                         <div class="rv-msg rv-msg-ok"><i class="bi bi-check-circle-fill me-1"></i> {{ __('public.review_saved') }}</div>
                         @endif
@@ -960,7 +926,6 @@
                             </button>
                         </form>
                     </div>
-                </div>
                 </div>
             </div>
         </div>
