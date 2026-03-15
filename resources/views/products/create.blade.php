@@ -175,7 +175,8 @@ function removeImg() {
 
 var bulkIdx = {{ count(old('products', [[]])) }};
 var bulkCategoriesOptions = {!! json_encode($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name])->values()) !!};
-var selectCategoryHtml = '<option value="">{{ __("products.select_category") }}</option>' + bulkCategoriesOptions.map(function(c) { return '<option value="'+c.id+'">'+c.name+'</option>'; }).join('');
+function escHtml(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+var selectCategoryHtml = '<option value="">{{ __("products.select_category") }}</option>' + bulkCategoriesOptions.map(function(c) { return '<option value="'+c.id+'">'+escHtml(c.name)+'</option>'; }).join('');
 var bulkPlaceholderName = {{ json_encode(__('products.name_placeholder')) }};
 var bulkPlaceholderDesc = {{ json_encode(__('products.description_placeholder')) }};
 var bulkRemoveTitle = {{ json_encode(__('products.bulk_remove_row')) }};
