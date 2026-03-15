@@ -9,6 +9,9 @@
 @section('meta_description', $isTr
     ? 'Dijital menü, QR menü ve restoran yönetimi hakkında ipuçları ve güncel yazılar.'
     : 'Tips and articles about digital menu, QR menu and restaurant management.')
+@section('meta_keywords', $isTr
+    ? 'dijital menü blog, qr menü ipuçları, restoran yönetimi, dijital menü yazıları, sipariş masanda blog'
+    : 'digital menu blog, qr menu tips, restaurant management, digital menu articles, siparis masanda blog')
 @section('canonical', route('blog'))
 
 @section('styles')

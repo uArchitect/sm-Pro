@@ -10,9 +10,19 @@
 
 @section('title', $metaTitle)
 @section('meta_description', $metaDesc)
+@section('meta_keywords', $isTr
+    ? 'dijital menü, qr menü, restoran menü sistemi, sipariş masanda blog, ' . Str::limit(strip_tags($post->title), 50)
+    : 'digital menu, qr menu, restaurant menu system, siparis masanda blog, ' . Str::limit(strip_tags($post->title), 50))
 @section('canonical', route('blog.show', $post->slug))
 @section('og_type', 'article')
 @section('og_image', $ogImage)
+@section('head_extra')
+<meta property="article:published_time" content="{{ \Carbon\Carbon::parse($post->published_at)->toIso8601String() }}">
+<meta property="article:modified_time" content="{{ \Carbon\Carbon::parse($post->updated_at)->toIso8601String() }}">
+@if(!empty($post->author_name))
+<meta property="article:author" content="{{ $post->author_name }}">
+@endif
+@endsection
 
 @section('schema')
 <script type="application/ld+json">

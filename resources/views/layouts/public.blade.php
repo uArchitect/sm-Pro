@@ -51,6 +51,7 @@
     <meta name="twitter:title" content="@yield('title')">
     <meta name="twitter:description" content="@yield('meta_description')">
     <meta name="twitter:image" content="@yield('og_image', $shareImage)">
+    @yield('head_extra')
 
     @include('partials.schema-global')
     @yield('schema')
