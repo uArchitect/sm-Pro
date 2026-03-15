@@ -270,40 +270,82 @@
 
         /* ========== Content & accordion ========== */
         .content { max-width: 640px; margin: 0 auto; padding: 1rem 1rem 2.5rem; }
-        .cat-section { margin-bottom: .5rem; }
-        .cat-header {
-            display: flex; align-items: center; gap: .75rem;
-            padding: .85rem 0;
-            border-bottom: 2px solid var(--border-light);
-            cursor: pointer; user-select: none; transition: background .15s;
-            border: none; background: transparent; width: 100%;
-            text-align: left; font-family: inherit; margin: 0;
+        .cat-section {
+            margin-bottom: .75rem;
+            background: var(--card);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: box-shadow .2s, border-color .2s;
         }
-        .cat-header:hover { background: linear-gradient(90deg, var(--accent-soft), transparent); }
+        .cat-section:last-child { margin-bottom: 0; }
+        .cat-section:hover { box-shadow: var(--shadow-md); border-color: rgba(255,107,53,.12); }
+        .cat-section:has(.cat-header[aria-expanded="true"]) {
+            border-color: rgba(255,107,53,.2);
+            box-shadow: 0 4px 16px rgba(255,107,53,.08);
+        }
+        .cat-header {
+            display: flex; align-items: center; gap: .85rem;
+            padding: 1rem 1.1rem;
+            border: none; border-bottom: 1px solid var(--border-light);
+            background: #fff;
+            cursor: pointer; user-select: none;
+            width: 100%;
+            text-align: left; font-family: inherit; margin: 0;
+            transition: background .2s, border-color .2s;
+        }
+        .cat-header:hover { background: linear-gradient(90deg, var(--accent-soft) 0%, rgba(255,107,53,.03) 60%, #fff); }
+        .cat-header[aria-expanded="true"] {
+            background: linear-gradient(90deg, rgba(255,107,53,.06) 0%, #fff 35%);
+            border-bottom-color: rgba(255,107,53,.15);
+            border-left: 3px solid var(--accent);
+        }
         .cat-header-img {
-            width: 44px; height: 44px;
+            width: 48px; height: 48px;
             border-radius: var(--radius-sm);
             object-fit: cover;
             flex-shrink: 0;
             border: 1px solid var(--border-light);
+            box-shadow: 0 2px 8px rgba(0,0,0,.06);
         }
         .cat-header-icon {
-            width: 44px; height: 44px;
+            width: 48px; height: 48px;
             border-radius: var(--radius-sm);
             flex-shrink: 0;
             background: linear-gradient(145deg, var(--accent-soft), var(--accent-soft-2));
             display: flex; align-items: center; justify-content: center;
-            color: var(--accent); font-size: 1.1rem;
-            border: 1px solid rgba(255,107,53,.1);
+            color: var(--accent); font-size: 1.2rem;
+            border: 1px solid rgba(255,107,53,.12);
+            transition: background .2s, color .2s, border-color .2s, box-shadow .2s;
         }
+        .cat-header:hover .cat-header-icon { border-color: rgba(255,107,53,.25); }
         .cat-header[aria-expanded="true"] .cat-header-icon {
             background: linear-gradient(145deg, var(--accent), var(--accent2));
             color: #fff; border-color: transparent;
+            box-shadow: 0 4px 12px rgba(255,107,53,.3);
         }
-        .cat-header-name { font-size: .95rem; font-weight: 800; color: var(--text); }
-        .cat-header-count { font-size: .72rem; color: var(--text3); margin-left: auto; }
-        .cat-header .cat-chevron { margin-left: .5rem; font-size: 1rem; color: var(--text3); transition: transform .25s; }
+        .cat-header-name { font-size: 1rem; font-weight: 800; color: var(--text); letter-spacing: -.02em; flex: 1; min-width: 0; }
+        .cat-header-count {
+            font-size: .75rem; font-weight: 600; color: var(--text3);
+            background: var(--border-light);
+            padding: .25rem .5rem; border-radius: var(--radius-pill);
+            margin-left: auto; flex-shrink: 0;
+        }
+        .cat-header[aria-expanded="true"] .cat-header-count { background: var(--accent-soft); color: var(--accent); }
+        .cat-header .cat-chevron {
+            margin-left: .35rem; font-size: 1.1rem;
+            color: var(--text3);
+            transition: transform .25s ease, color .2s;
+            flex-shrink: 0;
+        }
+        .cat-header:hover .cat-chevron { color: var(--text2); }
         .cat-header[aria-expanded="true"] .cat-chevron { transform: rotate(180deg); color: var(--accent); }
+        .cat-section-body {
+            padding: .75rem 1.1rem 1.25rem;
+            background: linear-gradient(180deg, rgba(248,250,252,.6) 0%, #fff 100%);
+            border-top: 1px solid transparent;
+        }
 
         .sub-header {
             font-size: .78rem; font-weight: 700; color: var(--text2);
@@ -721,7 +763,7 @@
                         <i class="bi bi-chevron-down cat-chevron"></i>
                     </button>
                     <div class="collapse {{ $loop->first ? 'show' : '' }}" id="collapse-{{ $cat->id }}" data-bs-parent="#menuAccordion">
-                    <div class="pt-2 pb-3">
+                    <div class="cat-section-body">
                     @foreach($catProducts as $product)
                     <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
                         @if($product->image)
