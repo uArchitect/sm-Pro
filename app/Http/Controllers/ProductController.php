@@ -114,7 +114,7 @@ class ProductController extends Controller
 
         $tenantId = session('tenant_id');
         $products = array_values(array_filter($request->products, function ($p) {
-            return !empty(trim($p['name'] ?? ''));
+            return is_array($p) && !empty(trim((string) ($p['name'] ?? '')));
         }));
 
         if (empty($products)) {

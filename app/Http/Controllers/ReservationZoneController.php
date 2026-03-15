@@ -38,7 +38,9 @@ class ReservationZoneController extends Controller
             'names.*' => 'nullable|string|max:100',
         ], [], ['names.*' => __('reservation.zone_name')]);
 
-        $names = array_values(array_filter(array_map('trim', (array) $request->names)));
+        $names = array_values(array_filter(array_map(function ($n) {
+            return is_string($n) ? trim($n) : '';
+        }, (array) $request->names)));
 
         if (empty($names)) {
             return back()->withErrors(['name' => __('reservation.at_least_one_zone')])->withInput();

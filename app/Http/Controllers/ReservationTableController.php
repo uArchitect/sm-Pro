@@ -57,7 +57,9 @@ class ReservationTableController extends Controller
             'capacity' => 'nullable|integer|min:1|max:99',
         ], [], ['names.*' => __('reservation.table_name')]);
 
-        $names = array_values(array_filter(array_map('trim', (array) $request->names)));
+        $names = array_values(array_filter(array_map(function ($n) {
+            return is_string($n) ? trim($n) : '';
+        }, (array) $request->names)));
 
         if (empty($names)) {
             return back()->withErrors(['name' => __('reservation.at_least_one_table')])->withInput();

@@ -107,7 +107,9 @@ class CategoryController extends Controller
             'parent_id' => 'nullable|integer',
         ], [], ['names.*' => __('categories.name')]);
 
-        $names = array_values(array_filter(array_map('trim', (array) $request->names)));
+        $names = array_values(array_filter(array_map(function ($n) {
+            return is_string($n) ? trim($n) : '';
+        }, (array) $request->names)));
         if (empty($names)) {
             return back()->withErrors(['names' => __('categories.bulk_at_least_one')])->withInput();
         }
