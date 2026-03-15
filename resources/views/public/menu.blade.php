@@ -1113,7 +1113,7 @@
         <div class="modal-dialog modal-dialog-centered" style="max-width:380px">
             <div class="modal-content" style="border-radius:16px;overflow:hidden;border:none;box-shadow:0 20px 60px rgba(0,0,0,.25)">
                 @if($activeEvent->image)
-                <img src="{{ asset('uploads/' . $activeEvent->image) }}" alt="{{ $activeEvent->title }}" style="width:100%;height:180px;object-fit:cover;">
+                <img src="{{ asset('uploads/' . $activeEvent->image) }}" alt="{{ $activeEvent->title }}" style="width:100%;object-fit:cover;">
                 @endif
                 <div style="padding:1.25rem 1.1rem;text-align:center">
                     <div style="font-size:1.1rem;font-weight:800;color:#1f2937;margin-bottom:.35rem">{{ $activeEvent->title }}</div>
