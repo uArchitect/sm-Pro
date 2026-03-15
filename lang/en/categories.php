@@ -19,6 +19,7 @@ return [
     'name_required' => 'Category name is required.',
     'parent_category'=> 'Parent Category (optional)',
     'parent_none'   => '— Main category (no parent) —',
+    'search_parent' => 'Search parent category...',
     'parent_hint'   => 'If selected, this becomes a subcategory of the chosen category.',
     'add_btn'       => 'Add Category',
     'update'        => 'Update',

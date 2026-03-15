@@ -19,6 +19,7 @@ return [
     'name_required' => 'Kategori adı boş olamaz.',
     'parent_category'=> 'Üst Kategori (opsiyonel)',
     'parent_none'   => '— Ana kategori (üst yok) —',
+    'search_parent' => 'Üst kategori ara...',
     'parent_hint'   => 'Seçerseniz bu, seçilen kategorinin alt kategorisi olur.',
     'add_btn'       => 'Kategori Ekle',
     'update'        => 'Güncelle',

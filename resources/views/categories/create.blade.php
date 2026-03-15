@@ -8,6 +8,23 @@
 .nav-tabs .nav-link:hover { border-color: #e5e7eb; color: var(--text-primary); }
 .nav-tabs .nav-link.active { background: #fff; border-color: var(--border); border-bottom-color: #fff; color: var(--accent); }
 .tab-content { border: 1px solid var(--border); border-top: none; border-radius: 0 0 12px 12px; padding: 1.25rem; background: #fff; }
+/* SearchableSelect (toplu kategori üst kategori) */
+.ss-wrapper { position: relative; width: 100%; }
+.ss-native { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; z-index: 0; }
+.ss-trigger { width: 100%; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: .5rem; background: #fff; border: 1.5px solid #e5e7eb; border-radius: 9px; padding: .5rem .75rem; font-size: .875rem; }
+.ss-trigger:hover { border-color: #d1d5db; }
+.ss-trigger:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,107,53,.12); }
+.ss-trigger-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ss-trigger-text.ss-placeholder { color: #9ca3af; }
+.ss-trigger-icon { color: #9ca3af; font-size: .7rem; flex-shrink: 0; }
+.ss-dropdown { display: none; position: absolute; left: 0; right: 0; top: 100%; margin-top: 2px; z-index: 1050; background: #fff; border: 1px solid #e5e7eb; border-radius: 9px; box-shadow: 0 10px 40px rgba(0,0,0,.12); overflow: hidden; }
+.ss-dropdown.ss-open { display: block; }
+.ss-search { border: none !important; border-bottom: 1px solid #e5e7eb !important; border-radius: 0 !important; padding: .5rem .65rem !important; font-size: .82rem !important; }
+.ss-search:focus { box-shadow: none !important; outline: none !important; }
+.ss-list { max-height: 200px; overflow-y: auto; padding: .25rem 0; }
+.ss-option { padding: .45rem .65rem; font-size: .82rem; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ss-option:hover, .ss-option.ss-highlight { background: rgba(255,107,53,.08); color: var(--accent); }
+.ss-option.ss-selected { font-weight: 600; color: var(--accent); }
 </style>
 
 <ul class="nav nav-tabs mb-0" role="tablist">
@@ -74,7 +91,7 @@
             @csrf
             <div class="mb-3">
                 <label class="form-label">{{ __('categories.parent_category') }} <span class="text-muted">({{ __('categories.bulk_parent_all') }})</span></label>
-                <select name="parent_id" class="form-select">
+                <select name="parent_id" class="form-select" id="bulkCategoryParentSelect">
                     <option value="">{{ __('categories.parent_none') }}</option>
                     @foreach($parents as $p)
                     <option value="{{ $p->id }}" {{ old('parent_id') == $p->id ? 'selected' : '' }}>{{ $p->name }}</option>
@@ -112,6 +129,7 @@
 </div>
 
 @push('scripts')
+<script src="{{ asset('js/searchable-select.js') }}"></script>
 <script>
 document.getElementById('imgInput').addEventListener('change', function() {
     if (!this.files[0]) return;
@@ -169,6 +187,16 @@ function updateCatRemoveVisibility() {
     });
 }
 updateCatRemoveVisibility();
+
+document.getElementById('tab-bulk') && document.getElementById('tab-bulk').addEventListener('shown.bs.tab', function() {
+    var sel = document.getElementById('bulkCategoryParentSelect');
+    if (sel && typeof SearchableSelect !== 'undefined') {
+        SearchableSelect.enhance(sel, {
+            placeholder: {{ json_encode(__('categories.parent_none')) }},
+            searchPlaceholder: {{ json_encode(__('categories.search_parent')) }}
+        });
+    }
+});
 </script>
 @endpush
 

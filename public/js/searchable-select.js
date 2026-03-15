@@ -122,6 +122,9 @@
             trigger.setAttribute('aria-expanded', 'true');
             renderList(listEl, options, '', selectEl.value);
             searchInput.value = '';
+            listEl.querySelectorAll('.ss-option').forEach(function (o) { o.classList.remove('ss-highlight'); });
+            var toHighlight = listEl.querySelector('.ss-selected') || listEl.querySelector('.ss-option');
+            if (toHighlight) toHighlight.classList.add('ss-highlight');
             searchInput.focus();
             DOC.addEventListener('click', closeOnOutsideClick);
             DOC.addEventListener('keydown', handleDocKeydown);
@@ -164,6 +167,9 @@
 
         searchInput.addEventListener('input', function () {
             renderList(listEl, options, searchInput.value, selectEl.value);
+            listEl.querySelectorAll('.ss-option').forEach(function (o) { o.classList.remove('ss-highlight'); });
+            var first = listEl.querySelector('.ss-option');
+            if (first) first.classList.add('ss-highlight');
         });
 
         searchInput.addEventListener('keydown', function (e) {
