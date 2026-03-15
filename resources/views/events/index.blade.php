@@ -11,7 +11,7 @@
 }
 .event-card:hover { box-shadow: 0 4px 15px rgba(0,0,0,.08); transform: translateY(-2px); }
 .event-img {
-    width: 100%; height: 140px; object-fit: cover; display: block; background: #f3f4f6;
+    width: 100%; object-fit: cover; display: block; background: #f3f4f6;
 }
 .event-body { padding: .85rem 1rem; }
 .event-title { font-size: .88rem; font-weight: 700; color: #1f2937; }
