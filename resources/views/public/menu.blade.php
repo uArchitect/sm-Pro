@@ -723,7 +723,6 @@
                 <div class="drawer-sub">
                     @foreach($subs as $sub)
                         @php $subProdCount = ($products->get($sub->id, collect()))->count(); @endphp
-                        @if($subProdCount > 0)
                         <button type="button" class="drawer-item" data-cat-id="{{ $sub->id }}">
                             @if($sub->image)
                                 <img src="{{ asset('uploads/'.$sub->image) }}" class="di-img" alt="">
@@ -735,7 +734,6 @@
                                 <div class="di-count">{{ __('public.products_count', ['count' => $subProdCount]) }}</div>
                             </div>
                         </button>
-                        @endif
                     @endforeach
                 </div>
                 @endif
