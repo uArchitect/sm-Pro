@@ -50,11 +50,21 @@ class ReservationTableController extends Controller
 
     public function store(Request $request)
     {
+        $names = $request->has('names')
+            ? array_values(array_filter(array_map('trim', (array) $request->names)))
+            : [trim((string) $request->name)];
+
         $request->validate([
             'zone_id'  => 'required|integer',
-            'name'     => 'required|string|max:80',
+            'name'     => 'required_without:names|nullable|string|max:80',
+            'names'    => 'required_without:name|nullable|array',
+            'names.*'  => 'string|max:80',
             'capacity' => 'nullable|integer|min:1|max:99',
-        ]);
+        ], [], ['names.*' => __('reservation.table_name')]);
+
+        if (empty($names)) {
+            return back()->withErrors(['name' => __('reservation.at_least_one_table')])->withInput();
+        }
 
         $tenantId = session('tenant_id');
 
@@ -72,17 +82,31 @@ class ReservationTableController extends Controller
             ->where('zone_id', $request->zone_id)
             ->max('sort_order') ?? 0;
 
-        DB::table('reservation_tables')->insert([
-            'tenant_id'   => $tenantId,
-            'zone_id'     => $request->zone_id,
-            'name'        => $request->name,
-            'capacity'    => (int) ($request->capacity ?: 2),
-            'sort_order'  => $maxOrder + 1,
-            'created_at'  => now(),
-            'updated_at'  => now(),
-        ]);
+        $capacity = (int) ($request->capacity ?: 2);
+        $now = now();
+        $rows = [];
+        foreach ($names as $i => $name) {
+            if ($name === '') {
+                continue;
+            }
+            $rows[] = [
+                'tenant_id'   => $tenantId,
+                'zone_id'     => $request->zone_id,
+                'name'        => $name,
+                'capacity'    => $capacity,
+                'sort_order'  => $maxOrder + $i + 1,
+                'created_at'  => $now,
+                'updated_at'  => $now,
+            ];
+        }
 
-        return redirect()->route('reservation.tables.index')->with('success', __('reservation.table_saved'));
+        if (!empty($rows)) {
+            DB::table('reservation_tables')->insert($rows);
+        }
+
+        $count = count($rows);
+        $message = $count === 1 ? __('reservation.table_saved') : __('reservation.tables_saved', ['count' => $count]);
+        return redirect()->route('reservation.tables.index')->with('success', $message);
     }
 
     public function edit(int $id)

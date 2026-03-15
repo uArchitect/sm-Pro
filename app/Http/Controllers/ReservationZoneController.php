@@ -33,22 +33,45 @@ class ReservationZoneController extends Controller
 
     public function store(Request $request)
     {
+        $names = $request->has('names')
+            ? array_values(array_filter(array_map('trim', (array) $request->names)))
+            : [trim((string) $request->name)];
+
         $request->validate([
-            'name' => 'required|string|max:100',
-        ]);
+            'name' => 'required_without:names|nullable|string|max:100',
+            'names' => 'required_without:name|nullable|array',
+            'names.*' => 'string|max:100',
+        ], [], ['names.*' => __('reservation.zone_name')]);
+
+        if (empty($names)) {
+            return back()->withErrors(['name' => __('reservation.at_least_one_zone')])->withInput();
+        }
 
         $tenantId = session('tenant_id');
         $maxOrder = DB::table('reservation_zones')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
 
-        DB::table('reservation_zones')->insert([
-            'tenant_id'   => $tenantId,
-            'name'        => $request->name,
-            'sort_order'  => $maxOrder + 1,
-            'created_at'  => now(),
-            'updated_at'  => now(),
-        ]);
+        $now = now();
+        $rows = [];
+        foreach ($names as $i => $name) {
+            if ($name === '') {
+                continue;
+            }
+            $rows[] = [
+                'tenant_id'   => $tenantId,
+                'name'        => $name,
+                'sort_order'  => $maxOrder + $i + 1,
+                'created_at'  => $now,
+                'updated_at'  => $now,
+            ];
+        }
 
-        return redirect()->route('reservation.zones.index')->with('success', __('reservation.zone_saved'));
+        if (!empty($rows)) {
+            DB::table('reservation_zones')->insert($rows);
+        }
+
+        $count = count($rows);
+        $message = $count === 1 ? __('reservation.zone_saved') : __('reservation.zones_saved', ['count' => $count]);
+        return redirect()->route('reservation.zones.index')->with('success', $message);
     }
 
     public function edit(int $id)
