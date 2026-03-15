@@ -158,7 +158,7 @@
             padding: .75rem 1rem;
         }
         .toolbar-inner {
-            max-width: 640px; margin: 0 auto;
+            width: 100%; padding: 0 1rem;
             display: flex; align-items: center; gap: .65rem;
         }
         .tb-cat-btn {
@@ -197,7 +197,7 @@
 
         /* ========== Category pills (foto varsa göster, yoksa ikon) ========== */
         .cat-pills {
-            max-width: 640px; margin: 0 auto;
+            width: 100%; padding: 0 1rem;
             padding: .5rem 1rem .35rem;
             display: flex; gap: .4rem;
             overflow-x: auto; scrollbar-width: none;
@@ -269,7 +269,7 @@
         .drawer-sub .di-img, .drawer-sub .di-icon { width: 32px; height: 32px; border-radius: 8px; font-size: .8rem; }
 
         /* ========== Content & accordion ========== */
-        .content { max-width: 640px; margin: 0 auto; padding: 1rem 1rem 2.5rem; }
+        .content { width: 100%; padding: 1rem 1rem 2.5rem; box-sizing: border-box; }
         .cat-section {
             margin-bottom: .75rem;
             background: var(--card);
