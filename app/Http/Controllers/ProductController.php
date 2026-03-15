@@ -102,10 +102,10 @@ class ProductController extends Controller
     {
         $request->validate([
             'products' => 'required|array|min:1',
-            'products.*.category_id' => 'required|integer',
-            'products.*.name'        => 'required|string|max:255',
+            'products.*.category_id' => 'nullable|integer',
+            'products.*.name'        => 'nullable|string|max:255',
             'products.*.description' => 'nullable|string|max:5000',
-            'products.*.price'       => 'required|numeric|min:0',
+            'products.*.price'       => 'nullable|numeric|min:0',
         ], [], [
             'products.*.category_id' => __('products.category'),
             'products.*.name'        => __('products.name'),
