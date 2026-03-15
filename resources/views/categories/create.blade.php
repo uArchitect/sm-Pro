@@ -131,6 +131,7 @@
 @push('scripts')
 <script src="{{ asset('js/searchable-select.js') }}"></script>
 <script>
+@php $jsonFlags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE; @endphp
 document.getElementById('imgInput').addEventListener('change', function() {
     if (!this.files[0]) return;
     var reader = new FileReader();
@@ -161,8 +162,8 @@ function removeImg() {
     document.getElementById('removeBtn').classList.add('d-none');
 }
 
-var catPlaceholder = {{ json_encode(__('categories.name_placeholder')) }};
-var catRemoveTitle = {{ json_encode(__('categories.bulk_remove_row')) }};
+var catPlaceholder = {!! json_encode(__('categories.name_placeholder'), $jsonFlags) !!};
+var catRemoveTitle = {!! json_encode(__('categories.bulk_remove_row'), $jsonFlags) !!};
 document.getElementById('catAddMore').addEventListener('click', function() {
     var container = document.getElementById('categoryNameRows');
     var div = document.createElement('div');
@@ -192,8 +193,8 @@ document.getElementById('tab-bulk') && document.getElementById('tab-bulk').addEv
     var sel = document.getElementById('bulkCategoryParentSelect');
     if (sel && typeof SearchableSelect !== 'undefined') {
         SearchableSelect.enhance(sel, {
-            placeholder: {{ json_encode(__('categories.parent_none')) }},
-            searchPlaceholder: {{ json_encode(__('categories.search_parent')) }}
+            placeholder: {!! json_encode(__('categories.parent_none'), $jsonFlags) !!},
+            searchPlaceholder: {!! json_encode(__('categories.search_parent'), $jsonFlags) !!}
         });
     }
 });

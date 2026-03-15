@@ -192,13 +192,17 @@ function removeImg() {
     document.getElementById('removeBtn').classList.add('d-none');
 }
 
+@php
+    $jsonFlags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE;
+@endphp
 var bulkIdx = {{ count(old('products', [[]])) }};
-var bulkCategoriesOptions = {!! json_encode($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name])->values()) !!};
+var bulkCategoriesOptions = {!! json_encode($categories->map(fn($c) => ['id' => $c->id, 'name' => $c->name])->values(), $jsonFlags) !!};
 function escHtml(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
-var selectCategoryHtml = '<option value="">{{ __("products.select_category") }}</option>' + bulkCategoriesOptions.map(function(c) { return '<option value="'+c.id+'">'+escHtml(c.name)+'</option>'; }).join('');
-var bulkPlaceholderName = {{ json_encode(__('products.name_placeholder')) }};
-var bulkPlaceholderDesc = {{ json_encode(__('products.description_placeholder')) }};
-var bulkRemoveTitle = {{ json_encode(__('products.bulk_remove_row')) }};
+var selectCategoryPlaceholder = {!! json_encode(__('products.select_category'), $jsonFlags) !!};
+var selectCategoryHtml = '<option value="">' + selectCategoryPlaceholder + '</option>' + bulkCategoriesOptions.map(function(c) { return '<option value="'+c.id+'">'+escHtml(c.name)+'</option>'; }).join('');
+var bulkPlaceholderName = {!! json_encode(__('products.name_placeholder'), $jsonFlags) !!};
+var bulkPlaceholderDesc = {!! json_encode(__('products.description_placeholder'), $jsonFlags) !!};
+var bulkRemoveTitle = {!! json_encode(__('products.bulk_remove_row'), $jsonFlags) !!};
 
 document.getElementById('bulkAddRow') && document.getElementById('bulkAddRow').addEventListener('click', function() {
     var tbody = document.getElementById('bulkProductRows');
@@ -214,8 +218,8 @@ document.getElementById('bulkAddRow') && document.getElementById('bulkAddRow').a
     var newSelect = tr.querySelector('select');
     if (newSelect && typeof SearchableSelect !== 'undefined') {
         SearchableSelect.enhance(newSelect, {
-            placeholder: {{ json_encode(__('products.select_category')) }},
-            searchPlaceholder: {{ json_encode(__('products.search_category')) }}
+            placeholder: {!! json_encode(__('products.select_category'), $jsonFlags) !!},
+            searchPlaceholder: {!! json_encode(__('products.search_category'), $jsonFlags) !!}
         });
     }
 });
@@ -224,8 +228,8 @@ function initBulkProductSearchableSelects() {
     var container = document.getElementById('bulkProductRows');
     if (!container || typeof SearchableSelect === 'undefined') return;
     SearchableSelect.enhanceAll(container, {
-        placeholder: {{ json_encode(__('products.select_category')) }},
-        searchPlaceholder: {{ json_encode(__('products.search_category')) }}
+        placeholder: {!! json_encode(__('products.select_category'), $jsonFlags) !!},
+        searchPlaceholder: {!! json_encode(__('products.search_category'), $jsonFlags) !!}
     });
 }
 document.addEventListener('DOMContentLoaded', function() {
