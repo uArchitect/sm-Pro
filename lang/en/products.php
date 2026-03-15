@@ -33,4 +33,5 @@ return [
     'bulk_save'      => 'Save all',
     'bulk_saved'     => ':count product(s) added.',
     'bulk_at_least_one' => 'Enter name and price for at least one product.',
+    'bulk_no_valid_category' => 'No products were added. Select a valid category for each row.',
 ];

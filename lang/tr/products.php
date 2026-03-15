@@ -33,4 +33,5 @@ return [
     'bulk_save'      => 'Tümünü kaydet',
     'bulk_saved'     => ':count ürün eklendi.',
     'bulk_at_least_one' => 'En az bir ürün için ad ve fiyat girin.',
+    'bulk_no_valid_category' => 'Hiçbir ürün eklenemedi. Her satır için geçerli bir kategori seçin.',
 ];

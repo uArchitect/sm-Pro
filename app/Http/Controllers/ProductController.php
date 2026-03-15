@@ -150,8 +150,12 @@ class ProductController extends Controller
                 $inserted = count($rows);
             }
         });
-        $count = $inserted;
-        $msg = $count === 1 ? __('messages.product_added') : __('products.bulk_saved', ['count' => $count]);
+
+        if ($inserted === 0) {
+            return back()->withErrors(['products' => __('products.bulk_no_valid_category')])->withInput();
+        }
+
+        $msg = $inserted === 1 ? __('messages.product_added') : __('products.bulk_saved', ['count' => $inserted]);
         return redirect()->route('products.index')->with('success', $msg);
     }
 
