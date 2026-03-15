@@ -13,8 +13,10 @@
 .bulk-table input, .bulk-table textarea { font-size: .82rem; }
 .bulk-table textarea { resize: vertical; min-height: 38px; }
 
-/* SearchableSelect */
-.ss-wrapper { position: relative; width: 100%; }
+/* SearchableSelect — dropdown her zaman trigger'ın altında açılsın */
+#bulkProductRows td:first-child,
+#bulkProductRows th:first-child { overflow: visible; }
+.ss-wrapper { position: relative; width: 100%; transform: translateZ(0); min-height: 2rem; }
 .ss-native { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; z-index: 0; }
 .ss-trigger { width: 100%; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: .5rem; background: #fff; border: 1.5px solid #e5e7eb; border-radius: 9px; padding: .35rem .65rem; font-size: .82rem; }
 .ss-trigger:hover { border-color: #d1d5db; }
@@ -22,7 +24,7 @@
 .ss-trigger-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ss-trigger-text.ss-placeholder { color: #9ca3af; }
 .ss-trigger-icon { color: #9ca3af; font-size: .7rem; flex-shrink: 0; }
-.ss-dropdown { display: none; position: absolute; left: 0; right: 0; top: 100%; margin-top: 2px; z-index: 1050; background: #fff; border: 1px solid #e5e7eb; border-radius: 9px; box-shadow: 0 10px 40px rgba(0,0,0,.12); overflow: hidden; }
+.ss-dropdown { display: none; position: absolute; left: 0; right: 0; top: 100%; bottom: auto; margin-top: 2px; z-index: 1050; background: #fff; border: 1px solid #e5e7eb; border-radius: 9px; box-shadow: 0 10px 40px rgba(0,0,0,.12); overflow: hidden; }
 .ss-dropdown.ss-open { display: block; }
 .ss-search { border: none !important; border-bottom: 1px solid #e5e7eb !important; border-radius: 0 !important; padding: .5rem .65rem !important; font-size: .82rem !important; }
 .ss-search:focus { box-shadow: none !important; outline: none !important; }
