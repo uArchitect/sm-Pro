@@ -4,8 +4,22 @@
 @section('page-title', __('reservation.zones_title'))
 
 @section('content')
+<style>
+.reservation-search { border:1.5px solid #e5e7eb; border-radius:9px; padding:.4rem .75rem .4rem 2rem; font-size:.82rem; width:220px; background:#fff; transition:border-color .15s, box-shadow .15s; }
+.reservation-search:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,107,53,.12); outline:none; }
+.reservation-search-wrap { position:relative; }
+.reservation-search-wrap i { position:absolute; left:.7rem; top:50%; transform:translateY(-50%); color:#98a2b3; font-size:.8rem; pointer-events:none; }
+</style>
 <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-    <span class="text-muted" style="font-size:.82rem">{{ __('reservation.zones_total', ['count' => $zones->count()]) }}</span>
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+        <span class="text-muted" style="font-size:.82rem">{{ __('reservation.zones_total', ['count' => $zones->count()]) }}</span>
+        @if($zones->isNotEmpty())
+        <div class="reservation-search-wrap">
+            <i class="bi bi-search"></i>
+            <input type="text" id="zonesSearch" class="reservation-search" placeholder="{{ __('reservation.search_zones') }}" autocomplete="off">
+        </div>
+        @endif
+    </div>
     <div class="d-flex gap-2">
         <a href="{{ route('reservation.tables.index') }}" class="btn btn-outline-secondary btn-sm">
             <i class="bi bi-table me-1"></i>{{ __('reservation.tables_title') }}
@@ -26,7 +40,7 @@
 @else
 <div class="sm-card">
     <div class="table-responsive">
-        <table class="table sm-table align-middle mb-0">
+        <table class="table sm-table align-middle mb-0" id="zonesTable">
             <thead>
                 <tr>
                     <th style="width:50px">#</th>
@@ -66,3 +80,30 @@
 </div>
 @endif
 @endsection
+
+@if($zones->isNotEmpty())
+@push('scripts')
+<script>
+$(function() {
+    var dt = $('#zonesTable').DataTable({
+        ordering: true,
+        order: [[1, 'asc']],
+        paging: true,
+        pageLength: 25,
+        dom: 't<"d-flex justify-content-between align-items-center mt-3"ip>',
+        language: {
+            info: '_START_–_END_ / _TOTAL_',
+            infoEmpty: '0 / 0',
+            infoFiltered: '',
+            zeroRecords: '<div class="text-center py-4 text-muted"><i class="bi bi-search fs-3 d-block mb-2 opacity-25"></i>{{ __("reservation.no_match_zones") }}</div>',
+            paginate: { previous: '‹', next: '›' }
+        },
+        columnDefs: [
+            { orderable: false, searchable: false, targets: 3 }
+        ]
+    });
+    $('#zonesSearch').on('keyup', function() { dt.search(this.value).draw(); });
+});
+</script>
+@endpush
+@endif
