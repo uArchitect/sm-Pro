@@ -51,4 +51,11 @@ return [
     'at_least_one_zone'      => 'En az bir bölge adı girin.',
     'at_least_one_table'     => 'En az bir masa adı girin.',
     'capacity_applies_all'   => 'Tüm masalar için geçerli.',
+
+    'search_zones'          => 'Bölge ara...',
+    'search_tables'         => 'Masa veya bölge ara...',
+    'no_match_zones'        => 'Eşleşen bölge yok.',
+    'no_match_tables'       => 'Eşleşen masa yok.',
+    'filter_by_zone'        => 'Bölgeye göre filtrele',
+    'all_zones'             => 'Tüm bölgeler',
 ];

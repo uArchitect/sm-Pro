@@ -52,4 +52,11 @@ return [
     'at_least_one_zone'      => 'Enter at least one zone name.',
     'at_least_one_table'     => 'Enter at least one table name.',
     'capacity_applies_all'   => 'Applies to all tables.',
+
+    'search_zones'          => 'Search zones...',
+    'search_tables'         => 'Search table or zone...',
+    'no_match_zones'        => 'No matching zones.',
+    'no_match_tables'       => 'No matching tables.',
+    'filter_by_zone'        => 'Filter by zone',
+    'all_zones'             => 'All zones',
 ];
