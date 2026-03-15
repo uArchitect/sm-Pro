@@ -175,7 +175,13 @@ Sortable.create(document.getElementById('sortableProds'), {
             method: 'POST',
             headers: {'Content-Type':'application/json','X-CSRF-TOKEN': CSRF},
             body: JSON.stringify({order})
-        }).then(r => r.json()).then(data => { if (data.success) afterEdit(); });
+        }).then(r => r.json()).then(data => {
+            if (data.success) {
+                // Sadece toast göster; DataTables invalidate/draw yapma, yoksa sıra eski haline döner
+                bootstrap.Toast.getOrCreateInstance(document.getElementById('saveToast')).show();
+                if (dtInstance) dtInstance.rows().invalidate(); // veriyi güncelle, draw(false) çağırma
+            }
+        });
     }
 });
 
