@@ -99,6 +99,51 @@ class CategoryController extends Controller
         return redirect()->route('categories.index')->with('success', __('messages.category_added'));
     }
 
+    public function storeBulk(Request $request)
+    {
+        $request->validate([
+            'names'     => 'required|array|min:1',
+            'names.*'   => 'nullable|string|max:255',
+            'parent_id' => 'nullable|integer',
+        ], [], ['names.*' => __('categories.name')]);
+
+        $names = array_values(array_filter(array_map('trim', (array) $request->names)));
+        if (empty($names)) {
+            return back()->withErrors(['names' => __('categories.bulk_at_least_one')])->withInput();
+        }
+
+        $tenantId = session('tenant_id');
+        $parentId = $request->parent_id ? (int) $request->parent_id : null;
+        $parentError = $this->validateParentCategory($tenantId, $parentId);
+        if ($parentError) {
+            return back()->withErrors(['parent_id' => $parentError])->withInput();
+        }
+
+        $maxOrder = DB::table('categories')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
+        $now = now();
+        $rows = [];
+        foreach ($names as $i => $name) {
+            if ($name === '') {
+                continue;
+            }
+            $rows[] = [
+                'tenant_id'  => $tenantId,
+                'parent_id'  => $parentId,
+                'name'       => $name,
+                'image'      => null,
+                'sort_order' => $maxOrder + $i + 1,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+        if (!empty($rows)) {
+            DB::table('categories')->insert($rows);
+        }
+        $count = count($rows);
+        $msg = $count === 1 ? __('messages.category_added') : __('categories.bulk_saved', ['count' => $count]);
+        return redirect()->route('categories.index')->with('success', $msg);
+    }
+
     public function edit(int $id)
     {
         $tenantId = session('tenant_id');

@@ -98,6 +98,63 @@ class ProductController extends Controller
         return redirect()->route('products.index')->with('success', __('messages.product_added'));
     }
 
+    public function storeBulk(Request $request)
+    {
+        $request->validate([
+            'products' => 'required|array|min:1',
+            'products.*.category_id' => 'required|integer',
+            'products.*.name'        => 'required|string|max:255',
+            'products.*.description' => 'nullable|string|max:5000',
+            'products.*.price'       => 'required|numeric|min:0',
+        ], [], [
+            'products.*.category_id' => __('products.category'),
+            'products.*.name'        => __('products.name'),
+            'products.*.price'       => __('products.price_tl'),
+        ]);
+
+        $tenantId = session('tenant_id');
+        $products = array_values(array_filter($request->products, function ($p) {
+            return !empty(trim($p['name'] ?? ''));
+        }));
+
+        if (empty($products)) {
+            return back()->withErrors(['products' => __('products.bulk_at_least_one')])->withInput();
+        }
+
+        $categoryIds = DB::table('categories')->where('tenant_id', $tenantId)->pluck('id')->toArray();
+
+        $inserted = 0;
+        DB::transaction(function () use ($tenantId, $products, $categoryIds, &$inserted) {
+            $maxOrder = DB::table('products')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
+            $now = now();
+            $rows = [];
+            foreach ($products as $i => $p) {
+                $catId = (int) ($p['category_id'] ?? 0);
+                if (!in_array($catId, $categoryIds, true)) {
+                    continue;
+                }
+                $rows[] = [
+                    'tenant_id'   => $tenantId,
+                    'category_id' => $catId,
+                    'name'        => trim($p['name']),
+                    'description' => isset($p['description']) ? trim($p['description']) : null,
+                    'price'       => (float) ($p['price'] ?? 0),
+                    'image'       => null,
+                    'sort_order'  => $maxOrder + count($rows) + 1,
+                    'created_at'  => $now,
+                    'updated_at'  => $now,
+                ];
+            }
+            if (!empty($rows)) {
+                DB::table('products')->insert($rows);
+                $inserted = count($rows);
+            }
+        });
+        $count = $inserted;
+        $msg = $count === 1 ? __('messages.product_added') : __('products.bulk_saved', ['count' => $count]);
+        return redirect()->route('products.index')->with('success', $msg);
+    }
+
     public function edit(int $id)
     {
         $tenantId = session('tenant_id');
