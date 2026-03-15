@@ -14,6 +14,8 @@ use App\Http\Controllers\DeveloperController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\ReservationZoneController;
+use App\Http\Controllers\ReservationTableController;
 use App\Http\Controllers\DeveloperBlogController;
 use App\Http\Controllers\BlogController;
 
@@ -154,6 +156,20 @@ Route::middleware(['auth', 'tenant'])->group(function () {
         Route::get('/events/{id}/edit', [EventController::class, 'edit'])->name('events.edit');
         Route::put('/events/{id}', [EventController::class, 'update'])->name('events.update');
         Route::delete('/events/{id}', [EventController::class, 'destroy'])->name('events.destroy');
+
+        Route::get('/reservation/zones', [ReservationZoneController::class, 'index'])->name('reservation.zones.index');
+        Route::get('/reservation/zones/create', [ReservationZoneController::class, 'create'])->name('reservation.zones.create');
+        Route::post('/reservation/zones', [ReservationZoneController::class, 'store'])->name('reservation.zones.store');
+        Route::get('/reservation/zones/{id}/edit', [ReservationZoneController::class, 'edit'])->name('reservation.zones.edit');
+        Route::put('/reservation/zones/{id}', [ReservationZoneController::class, 'update'])->name('reservation.zones.update');
+        Route::delete('/reservation/zones/{id}', [ReservationZoneController::class, 'destroy'])->name('reservation.zones.destroy');
+
+        Route::get('/reservation/tables', [ReservationTableController::class, 'index'])->name('reservation.tables.index');
+        Route::get('/reservation/tables/create', [ReservationTableController::class, 'create'])->name('reservation.tables.create');
+        Route::post('/reservation/tables', [ReservationTableController::class, 'store'])->name('reservation.tables.store');
+        Route::get('/reservation/tables/{id}/edit', [ReservationTableController::class, 'edit'])->name('reservation.tables.edit');
+        Route::put('/reservation/tables/{id}', [ReservationTableController::class, 'update'])->name('reservation.tables.update');
+        Route::delete('/reservation/tables/{id}', [ReservationTableController::class, 'destroy'])->name('reservation.tables.destroy');
     });
 
     // QR kod (auth)

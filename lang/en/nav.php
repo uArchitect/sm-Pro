@@ -16,6 +16,7 @@ return [
         'premium'       => 'Premium',
         'sliders'       => 'Slider',
         'events'        => 'Events',
+        'reservation'   => 'Reservation',
         'ordering'      => 'Order Management',
         'premium_badge' => 'Premium',
     ],

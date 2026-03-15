@@ -16,6 +16,7 @@ return [
         'premium'       => 'Premium',
         'sliders'       => 'Slider',
         'events'        => 'Etkinlikler',
+        'reservation'   => 'Rezervasyon',
         'ordering'      => 'Sipariş Yönetimi',
         'premium_badge' => 'Premium',
     ],

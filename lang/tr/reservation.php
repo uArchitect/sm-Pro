@@ -1,0 +1,43 @@
+<?php
+
+return [
+    'zones_title'           => 'Rezervasyon Bölgeleri',
+    'tables_title'          => 'Masalar',
+    'zone_add'              => 'Bölge Ekle',
+    'zone_edit'             => 'Bölgeyi Düzenle',
+    'zone_name'             => 'Bölge Adı',
+    'zone_name_placeholder' => 'Örn: Cam kenarı, Orta bölge',
+    'zone_name_hint'        => 'Müşteriler rezervasyon yaparken önce bölge, sonra masa seçer.',
+    'zone_saved'            => 'Bölge eklendi.',
+    'zone_updated'          => 'Bölge güncellendi.',
+    'zone_deleted'          => 'Bölge silindi.',
+    'zone_delete_confirm'   => '":name" bölgesi ve içindeki tüm masalar silinsin mi?',
+    'zone_add_first'        => 'İlk Bölgeyi Ekle',
+
+    'table_add'             => 'Masa Ekle',
+    'table_edit'            => 'Masayı Düzenle',
+    'table_name'            => 'Masa Adı',
+    'table_name_placeholder'=> 'Örn: Masa 1, Masa A',
+    'table_saved'           => 'Masa eklendi.',
+    'table_updated'         => 'Masa güncellendi.',
+    'table_deleted'         => 'Masa silindi.',
+    'table_delete_confirm'  => '":name" masası silinsin mi?',
+    'table_add_first'       => 'İlk Masayı Ekle',
+
+    'tables_count'         => 'Masa sayısı',
+    'tables'               => 'masa',
+    'capacity'              => 'Kapasite',
+    'capacity_hint'         => 'Kişi sayısı (opsiyonel).',
+    'persons'              => 'kişi',
+    'select_zone'           => 'Bölge seçin',
+    'add_zone_first'        => 'Önce en az bir bölge ekleyin.',
+    'zone_not_found'        => 'Seçilen bölge bulunamadı.',
+    'update'                => 'Güncelle',
+
+    'no_zones'              => 'Henüz bölge yok.',
+    'zones_hint'            => 'Önce bölgeleri tanımlayın (örn. Cam kenarı, Orta bölge), sonra her bölgeye masalar ekleyin.',
+    'zones_total'            => 'Toplam :count bölge',
+    'no_tables'             => 'Henüz masa yok.',
+    'tables_hint'            => 'Masaları bölgelere göre ekleyin. Önce bölge yoksa yandaki butondan bölge ekleyin.',
+    'tables_total'          => 'Toplam :count masa',
+];
