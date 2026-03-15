@@ -24,4 +24,13 @@ return [
     'search'      => 'Ürün ara...',
     'add_desc'    => 'Açıklama ekle...',
     'reorder_hint' => 'Sürükleyerek sıralayın. Sıra QR menüde aynen görünür.',
+
+    'tab_single'     => 'Tek ürün',
+    'tab_bulk'       => 'Toplu ürün',
+    'bulk_hint'      => 'Aynı sayfada birden fazla ürün girin. Her satırda kategori, ad, açıklama (opsiyonel) ve fiyat belirleyin. Fotoğraf toplu eklemede yoktur.',
+    'bulk_add_row'   => 'Satır ekle',
+    'bulk_remove_row'=> 'Satırı kaldır',
+    'bulk_save'      => 'Tümünü kaydet',
+    'bulk_saved'     => ':count ürün eklendi.',
+    'bulk_at_least_one' => 'En az bir ürün için ad ve fiyat girin.',
 ];

@@ -24,4 +24,14 @@ return [
     'update'        => 'Güncelle',
     'name_placeholder' => 'Örn: İçecekler, Tatlılar…',
     'reorder_hint' => 'Sürükleyerek sıralayın. Sıra QR menüde aynen görünür.',
+
+    'tab_single'       => 'Tek kategori',
+    'tab_bulk'         => 'Toplu kategori',
+    'bulk_hint'        => 'Aynı anda birden fazla kategori adı girin. Üst kategori seçerseniz hepsi o kategorinin altına eklenir.',
+    'bulk_parent_all'  => 'hepsi için',
+    'bulk_add_row'     => 'Satır ekle',
+    'bulk_remove_row'  => 'Satırı kaldır',
+    'bulk_save'        => 'Tümünü kaydet',
+    'bulk_saved'       => ':count kategori eklendi.',
+    'bulk_at_least_one'=> 'En az bir kategori adı girin.',
 ];
