@@ -726,6 +726,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body p-0">
+            <div class="drawer-cats">
             <button type="button" class="drawer-item active" data-cat-id="">
                 <div class="di-icon"><i class="bi bi-grid-3x3-gap"></i></div>
                 <div>
