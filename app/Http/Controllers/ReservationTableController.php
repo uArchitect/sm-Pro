@@ -50,17 +50,14 @@ class ReservationTableController extends Controller
 
     public function store(Request $request)
     {
-        $names = $request->has('names')
-            ? array_values(array_filter(array_map('trim', (array) $request->names)))
-            : [trim((string) $request->name)];
-
         $request->validate([
             'zone_id'  => 'required|integer',
-            'name'     => 'required_without:names|nullable|string|max:80',
-            'names'    => 'required_without:name|nullable|array',
-            'names.*'  => 'string|max:80',
+            'names'    => 'required|array',
+            'names.*'  => 'nullable|string|max:80',
             'capacity' => 'nullable|integer|min:1|max:99',
         ], [], ['names.*' => __('reservation.table_name')]);
+
+        $names = array_values(array_filter(array_map('trim', (array) $request->names)));
 
         if (empty($names)) {
             return back()->withErrors(['name' => __('reservation.at_least_one_table')])->withInput();

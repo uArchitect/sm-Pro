@@ -33,15 +33,12 @@ class ReservationZoneController extends Controller
 
     public function store(Request $request)
     {
-        $names = $request->has('names')
-            ? array_values(array_filter(array_map('trim', (array) $request->names)))
-            : [trim((string) $request->name)];
-
         $request->validate([
-            'name' => 'required_without:names|nullable|string|max:100',
-            'names' => 'required_without:name|nullable|array',
-            'names.*' => 'string|max:100',
+            'names'   => 'required|array',
+            'names.*' => 'nullable|string|max:100',
         ], [], ['names.*' => __('reservation.zone_name')]);
+
+        $names = array_values(array_filter(array_map('trim', (array) $request->names)));
 
         if (empty($names)) {
             return back()->withErrors(['name' => __('reservation.at_least_one_zone')])->withInput();
