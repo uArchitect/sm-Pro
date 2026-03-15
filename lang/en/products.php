@@ -24,4 +24,13 @@ return [
     'search'      => 'Search products...',
     'add_desc'    => 'Add description...',
     'reorder_hint' => 'Drag to reorder. Order is reflected on the QR menu.',
+
+    'tab_single'     => 'Single product',
+    'tab_bulk'       => 'Bulk products',
+    'bulk_hint'      => 'Enter multiple products in one go. Set category, name, description (optional), and price per row. No photo in bulk mode.',
+    'bulk_add_row'   => 'Add row',
+    'bulk_remove_row'=> 'Remove row',
+    'bulk_save'      => 'Save all',
+    'bulk_saved'     => ':count product(s) added.',
+    'bulk_at_least_one' => 'Enter name and price for at least one product.',
 ];

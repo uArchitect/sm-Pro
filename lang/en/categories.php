@@ -24,4 +24,14 @@ return [
     'update'        => 'Update',
     'name_placeholder' => 'e.g. Drinks, Desserts…',
     'reorder_hint' => 'Drag to reorder. Order is reflected on the QR menu.',
+
+    'tab_single'       => 'Single category',
+    'tab_bulk'         => 'Bulk categories',
+    'bulk_hint'        => 'Enter multiple category names at once. If you select a parent, all will be added as its subcategories.',
+    'bulk_parent_all'  => 'for all',
+    'bulk_add_row'     => 'Add row',
+    'bulk_remove_row'  => 'Remove row',
+    'bulk_save'        => 'Save all',
+    'bulk_saved'       => ':count category(ies) added.',
+    'bulk_at_least_one'=> 'Enter at least one category name.',
 ];
