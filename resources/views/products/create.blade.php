@@ -12,6 +12,24 @@
 .bulk-table th { font-weight: 700; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
 .bulk-table input, .bulk-table textarea { font-size: .82rem; }
 .bulk-table textarea { resize: vertical; min-height: 38px; }
+
+/* SearchableSelect */
+.ss-wrapper { position: relative; width: 100%; }
+.ss-native { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; z-index: 0; }
+.ss-trigger { width: 100%; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: .5rem; background: #fff; border: 1.5px solid #e5e7eb; border-radius: 9px; padding: .35rem .65rem; font-size: .82rem; }
+.ss-trigger:hover { border-color: #d1d5db; }
+.ss-trigger:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,107,53,.12); }
+.ss-trigger-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ss-trigger-text.ss-placeholder { color: #9ca3af; }
+.ss-trigger-icon { color: #9ca3af; font-size: .7rem; flex-shrink: 0; }
+.ss-dropdown { display: none; position: absolute; left: 0; right: 0; top: 100%; margin-top: 2px; z-index: 1050; background: #fff; border: 1px solid #e5e7eb; border-radius: 9px; box-shadow: 0 10px 40px rgba(0,0,0,.12); overflow: hidden; }
+.ss-dropdown.ss-open { display: block; }
+.ss-search { border: none !important; border-bottom: 1px solid #e5e7eb !important; border-radius: 0 !important; padding: .5rem .65rem !important; font-size: .82rem !important; }
+.ss-search:focus { box-shadow: none !important; outline: none !important; }
+.ss-list { max-height: 200px; overflow-y: auto; padding: .25rem 0; }
+.ss-option { padding: .45rem .65rem; font-size: .82rem; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ss-option:hover, .ss-option.ss-highlight { background: rgba(255,107,53,.08); color: var(--accent); }
+.ss-option.ss-selected { font-weight: 600; color: var(--accent); }
 </style>
 
 <ul class="nav nav-tabs mb-0" role="tablist">
@@ -142,6 +160,7 @@
 </div>
 
 @push('scripts')
+<script src="{{ asset('js/searchable-select.js') }}"></script>
 <script>
 document.getElementById('imgInput').addEventListener('change', function() {
     if (!this.files[0]) return;
@@ -192,6 +211,28 @@ document.getElementById('bulkAddRow') && document.getElementById('bulkAddRow').a
         '<td><button type="button" class="btn btn-sm btn-outline-danger bulk-remove" title="'+bulkRemoveTitle+'"><i class="bi bi-dash-lg"></i></button></td>';
     tbody.appendChild(tr);
     bulkIdx++;
+    var newSelect = tr.querySelector('select');
+    if (newSelect && typeof SearchableSelect !== 'undefined') {
+        SearchableSelect.enhance(newSelect, {
+            placeholder: {{ json_encode(__('products.select_category')) }},
+            searchPlaceholder: {{ json_encode(__('products.search_category')) }}
+        });
+    }
+});
+
+function initBulkProductSearchableSelects() {
+    var container = document.getElementById('bulkProductRows');
+    if (!container || typeof SearchableSelect === 'undefined') return;
+    SearchableSelect.enhanceAll(container, {
+        placeholder: {{ json_encode(__('products.select_category')) }},
+        searchPlaceholder: {{ json_encode(__('products.search_category')) }}
+    });
+}
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('bulkProductRows') && document.querySelector('#bulk select.form-select')) initBulkProductSearchableSelects();
+});
+document.getElementById('tab-bulk') && document.getElementById('tab-bulk').addEventListener('shown.bs.tab', function() {
+    initBulkProductSearchableSelects();
 });
 
 document.getElementById('bulkProductRows') && document.getElementById('bulkProductRows').addEventListener('click', function(e) {

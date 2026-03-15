@@ -17,6 +17,7 @@ return [
     'new_product' => 'New Product',
     'photo_optional' => 'Product Photo (optional)',
     'select_category' => '— Select category —',
+    'search_category' => 'Search category...',
     'add_category_first' => 'You need to <a href=":link">add a category</a> first.',
     'description' => 'Description',
     'description_placeholder' => 'Brief description of the product...',

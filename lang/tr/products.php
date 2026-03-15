@@ -17,6 +17,7 @@ return [
     'new_product' => 'Yeni Ürün',
     'photo_optional' => 'Ürün Fotoğrafı (opsiyonel)',
     'select_category' => '— Kategori seçin —',
+    'search_category' => 'Kategori ara...',
     'add_category_first' => 'Önce <a href=":link">kategori eklemeniz</a> gerekiyor.',
     'description' => 'Açıklama',
     'description_placeholder' => 'Ürün hakkında kısa açıklama...',
