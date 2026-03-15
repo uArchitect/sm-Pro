@@ -144,9 +144,9 @@ const fullDescs = @json($products->pluck('description', 'id'));
 let uploadingForId = null;
 let dtInstance = null;
 
-$(function() {
-    if (!$('#productsTable tbody tr[data-id]').length) return;
-    dtInstance = $('#productsTable').DataTable({
+function initProductsDataTable() {
+    if (!$('#productsTable tbody tr[data-id]').length) return null;
+    return $('#productsTable').DataTable({
         ordering: false,
         paging: true,
         pageLength: 25,
@@ -162,7 +162,11 @@ $(function() {
             { targets: [0, 1, 5], searchable: false, orderable: false }
         ]
     });
-    $('#prodSearch').on('keyup', function() { dtInstance.search(this.value).draw(); });
+}
+
+$(function() {
+    dtInstance = initProductsDataTable();
+    $('#prodSearch').on('keyup', function() { if (dtInstance) dtInstance.search(this.value).draw(); });
 });
 
 Sortable.create(document.getElementById('sortableProds'), {
@@ -177,9 +181,14 @@ Sortable.create(document.getElementById('sortableProds'), {
             body: JSON.stringify({order})
         }).then(r => r.json()).then(data => {
             if (data.success) {
-                // Sadece toast göster; DataTables invalidate/draw yapma, yoksa sıra eski haline döner
                 bootstrap.Toast.getOrCreateInstance(document.getElementById('saveToast')).show();
-                if (dtInstance) dtInstance.rows().invalidate(); // veriyi güncelle, draw(false) çağırma
+                // DataTables kendi satır sırasını kullanıp tekrar çizince sıra eski haline dönüyordu.
+                // Destroy edip DOM'daki (yeni) sırayla yeniden başlatıyoruz.
+                if (dtInstance) {
+                    dtInstance.destroy();
+                    dtInstance = null;
+                }
+                dtInstance = initProductsDataTable();
             }
         });
     }
