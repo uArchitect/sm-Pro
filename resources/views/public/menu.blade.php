@@ -267,6 +267,38 @@
         .di-count { font-size: .72rem; color: var(--text3); margin-top: .15rem; }
         .drawer-sub .drawer-item { padding-left: 1.75rem; }
         .drawer-sub .di-img, .drawer-sub .di-icon { width: 32px; height: 32px; border-radius: 8px; font-size: .8rem; }
+        .offcanvas-body { display: flex; flex-direction: column; padding: 0; }
+        .drawer-cats { flex: 1; overflow-y: auto; }
+        .drawer-sidebar {
+            flex-shrink: 0;
+            padding: 1rem 1rem 1.25rem;
+            border-top: 1px solid var(--border-light);
+            background: linear-gradient(180deg, rgba(248,250,252,.8) 0%, #fff 100%);
+        }
+        .drawer-sidebar-title {
+            font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+            color: var(--text3); margin-bottom: .65rem; padding-left: .1rem;
+        }
+        .drawer-social {
+            display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .75rem;
+        }
+        .drawer-social a {
+            width: 40px; height: 40px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; text-decoration: none; color: #fff;
+            transition: transform .2s, box-shadow .2s;
+        }
+        .drawer-social a:hover { transform: scale(1.08); box-shadow: 0 4px 12px rgba(0,0,0,.15); color: #fff; }
+        .drawer-social .soc-ig { background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737); }
+        .drawer-social .soc-fb { background: #1877F2; }
+        .drawer-social .soc-tw { background: #000; }
+        .drawer-social .soc-wa { background: #25D366; }
+        .drawer-contact { font-size: .8rem; color: var(--text2); line-height: 1.5; }
+        .drawer-contact a { color: var(--accent); text-decoration: none; font-weight: 600; }
+        .drawer-contact a:hover { text-decoration: underline; }
+        .drawer-contact-item { display: flex; align-items: center; gap: .5rem; margin-bottom: .4rem; }
+        .drawer-contact-item:last-child { margin-bottom: 0; }
+        .drawer-contact-item i { color: var(--accent); font-size: .9rem; width: 20px; text-align: center; }
 
         /* ========== Content & accordion ========== */
         .content { width: 100%; padding: 1rem 1rem 2.5rem; box-sizing: border-box; }
