@@ -771,6 +771,31 @@
                 </div>
                 @endif
             @endforeach
+            </div>
+            @if(($tenant->instagram ?? null) || ($tenant->facebook ?? null) || ($tenant->twitter ?? null) || ($tenant->whatsapp ?? null) || ($tenant->restoran_adresi ?? null) || ($tenant->restoran_telefonu ?? null))
+            <div class="drawer-sidebar">
+                @if(($tenant->instagram ?? null) || ($tenant->facebook ?? null) || ($tenant->twitter ?? null) || ($tenant->whatsapp ?? null))
+                <div class="drawer-sidebar-title">{{ $locale === 'tr' ? 'Bizi takip edin' : 'Follow us' }}</div>
+                <div class="drawer-social">
+                    @if($tenant->instagram)<a href="https://instagram.com/{{ $tenant->instagram }}" target="_blank" rel="noopener" class="soc-ig" aria-label="Instagram"><i class="bi bi-instagram"></i></a>@endif
+                    @if($tenant->facebook)<a href="https://facebook.com/{{ $tenant->facebook }}" target="_blank" rel="noopener" class="soc-fb" aria-label="Facebook"><i class="bi bi-facebook"></i></a>@endif
+                    @if($tenant->twitter)<a href="https://x.com/{{ $tenant->twitter }}" target="_blank" rel="noopener" class="soc-tw" aria-label="X"><i class="bi bi-twitter-x"></i></a>@endif
+                    @if($tenant->whatsapp)<a href="https://wa.me/90{{ preg_replace('/\D/', '', $tenant->whatsapp) }}" target="_blank" rel="noopener" class="soc-wa" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a>@endif
+                </div>
+                @endif
+                @if(($tenant->restoran_adresi ?? null) || ($tenant->restoran_telefonu ?? null))
+                <div class="drawer-sidebar-title">{{ $locale === 'tr' ? 'İletişim' : 'Contact' }}</div>
+                <div class="drawer-contact">
+                    @if($tenant->restoran_adresi)
+                    <div class="drawer-contact-item"><i class="bi bi-geo-alt-fill"></i> <span>{{ $tenant->restoran_adresi }}</span></div>
+                    @endif
+                    @if($tenant->restoran_telefonu)
+                    <div class="drawer-contact-item"><i class="bi bi-telephone-fill"></i> <a href="tel:{{ $tenant->restoran_telefonu }}">{{ $tenant->restoran_telefonu }}</a></div>
+                    @endif
+                </div>
+                @endif
+            </div>
+            @endif
         </div>
     </div>
 
