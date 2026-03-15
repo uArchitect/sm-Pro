@@ -346,6 +346,13 @@
             background: linear-gradient(180deg, rgba(248,250,252,.6) 0%, #fff 100%);
             border-top: 1px solid transparent;
         }
+        .cat-empty-msg {
+            margin: 0; padding: .85rem 0;
+            font-size: .9rem; color: var(--text3);
+            display: flex; align-items: center; justify-content: center;
+            gap: .35rem; text-align: center;
+        }
+        .cat-empty-msg i { font-size: 1.1rem; opacity: .8; }
 
         .sub-header {
             font-size: .78rem; font-weight: 700; color: var(--text2);
@@ -764,6 +771,9 @@
                     </button>
                     <div class="collapse {{ $loop->first ? 'show' : '' }}" id="collapse-{{ $cat->id }}" data-bs-parent="#menuAccordion">
                     <div class="cat-section-body">
+                    @if($totalInCat === 0)
+                        <p class="cat-empty-msg"><i class="bi bi-inbox me-2"></i>{{ $locale === 'tr' ? 'Henüz ürün eklenmemiş.' : 'No products added yet.' }}</p>
+                    @else
                     @foreach($catProducts as $product)
                     <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
                         @if($product->image)
@@ -806,9 +816,10 @@
                             </div>
                             <div class="prod-price">{{ number_format($product->price, 2, ',', '.') }} ₺</div>
                         </a>
-                        @endforeach
-                        @endif
+@endforeach
+                    @endif
                     @endforeach
+                    @endif
                     </div>
                     </div>
                 </section>

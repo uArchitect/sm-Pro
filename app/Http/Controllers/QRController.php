@@ -107,19 +107,6 @@ class QRController extends Controller
             ->get()
             ->groupBy('category_id');
 
-        // Sadece en az bir ürünü olan kategorileri göster (kendisinde veya alt kategorisinde ürün varsa)
-        $categories = $categories->filter(function ($cat) use ($products, $subCategories) {
-            $directCount = $products->get($cat->id, collect())->count();
-            if ($directCount > 0) {
-                return true;
-            }
-            $subs = $subCategories->get($cat->id, collect());
-            return $subs->contains(fn($sub) => $products->get($sub->id, collect())->isNotEmpty());
-        })->values();
-
-        // Alt kategorilerden sadece ürünü olanları bırak
-        $subCategories = $subCategories->map(fn($subs) => $subs->filter(fn($sub) => $products->get($sub->id, collect())->isNotEmpty())->values())->filter->isNotEmpty();
-
         $reviews = DB::table('reviews')
             ->where('tenant_id', $tenantId)
             ->orderByDesc('created_at')
