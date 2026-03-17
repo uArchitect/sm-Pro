@@ -12,4 +12,5 @@ return [
     'no_reviews'     => 'Henüz değerlendirme yok.',
     'delete_confirm' => 'Bu değerlendirmeyi silmek istediğinize emin misiniz?',
     'deleted'        => 'Değerlendirme silindi.',
+    'page_help'      => 'Müşteri değerlendirmelerini görüntüleyin ve yönetin. Ortalama puanınızı ve bireysel geri bildirimleri görün.',
 ];

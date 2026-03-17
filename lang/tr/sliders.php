@@ -15,4 +15,5 @@ return [
     'total'           => 'Toplam :count slider',
     'premium_only'    => 'Slider özelliği Premium pakete özeldir.',
     'image_required'  => 'Slider görseli zorunludur.',
+    'page_help'       => 'QR menünüzün üst kısmında gösterilen slider görsellerini yönetin. Sürükleyerek sıralayın.',
 ];
