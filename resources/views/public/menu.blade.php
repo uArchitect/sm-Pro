@@ -623,6 +623,11 @@
 
     <div class="menu-app">
     <header class="hdr">
+        <div class="hdr-lang">
+            <a href="{{ request()->fullUrlWithQuery(['lang' => 'tr']) }}" class="{{ app()->getLocale() === 'tr' ? 'active' : '' }}">TR</a>
+            <span class="ls"></span>
+            <a href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}" class="{{ app()->getLocale() !== 'tr' ? 'active' : '' }}">EN</a>
+        </div>
         <div class="hdr-content">
             @if($tenant->logo)
                 <img src="{{ asset('uploads/'.$tenant->logo) }}" alt="{{ $tenant->restoran_adi }}" class="hdr-logo">
