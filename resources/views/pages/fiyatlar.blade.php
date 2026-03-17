@@ -59,6 +59,7 @@
             {
                 "@@type": "Offer",
                 "name": "Premium",
+                "price": "199",
                 "priceCurrency": "TRY",
                 "description": "{{ $isTr ? 'Basic + slider, etkinlik yönetimi, öncelikli destek' : 'All Basic + sliders, event management, priority support' }}",
                 "availability": "https://schema.org/InStock"
@@ -88,6 +89,7 @@
         {
             "@@type": "Offer",
             "name": "Premium",
+            "price": "199",
             "priceCurrency": "TRY",
             "description": "{{ $isTr ? 'Basic planın tüm özellikleri + slider, etkinlik yönetimi, öncelikli destek' : 'All Basic features + sliders, event management, priority support' }}"
         }
@@ -195,7 +197,8 @@
                         <div><span class="price-badge" style="background:rgba(255,107,53,.15);color:#FF8C42">{{ $isTr ? 'Popüler' : 'Popular' }}</span></div>
                         <div class="price-name">Premium</div>
                         <div class="price-amount">
-                            <span style="font-size:1.1rem;color:rgba(255,255,255,.4)">{{ $isTr ? 'İletişime geçin' : 'Contact us' }}</span>
+                            <span class="currency">₺</span>199
+                            <span class="period">/ {{ $isTr ? 'ay' : 'mo' }}</span>
                         </div>
                         <div class="price-desc">{{ $isTr ? 'İşletmenizi öne çıkaran premium dijital menü özellikleri.' : 'Premium digital menu features that make your business stand out.' }}</div>
                         <ul class="price-features">
@@ -206,9 +209,10 @@
                             <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Özel tasarım seçenekleri' : 'Custom design options' }}</li>
                         </ul>
                         <div class="price-cta">
-                            <a href="{{ route('contact') }}" class="hero-btn-primary w-100 justify-content-center" style="padding:.7rem 1.5rem">
-                                <i class="bi bi-chat-dots"></i> {{ $isTr ? 'İletişime Geç' : 'Contact Us' }}
+                            <a href="{{ route('register') }}" class="hero-btn-primary w-100 justify-content-center" style="padding:.7rem 1.5rem">
+                                <i class="bi bi-rocket-takeoff"></i> {{ $isTr ? 'Premium Başla' : 'Start Premium' }}
                             </a>
+                            <div class="no-cc"><i class="bi bi-shield-check me-1"></i> {{ $isTr ? '14 gün ücretsiz deneyin' : '14-day free trial' }}</div>
                         </div>
                     </div>
                 </div>

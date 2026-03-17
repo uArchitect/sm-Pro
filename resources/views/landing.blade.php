@@ -25,23 +25,35 @@
 <script type="application/ld+json">
 {
     "@@context": "https://schema.org",
-    "@@type": "SoftwareApplication",
-    "name": "Sipariş Masanda",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web",
-    "url": "{{ url('/') }}",
-    "image": "{{ asset('og-cover.svg') }}",
-    "description": "{{ $isTr ? 'Restoran ve kafeler için dijital QR menü sistemi' : 'Digital QR menu system for restaurants and cafes' }}",
-    "offers": {
-        "@@type": "Offer",
-        "price": "0",
-        "priceCurrency": "TRY"
+    "@@type": "HowTo",
+    "name": "{{ $isTr ? 'QR Menü Nasıl Oluşturulur?' : 'How to Create a QR Menu?' }}",
+    "description": "{{ $isTr ? 'Dakikalar içinde ücretsiz dijital QR menü oluşturun.' : 'Create a free digital QR menu in minutes.' }}",
+    "totalTime": "PT3M",
+    "tool": {
+        "@@type": "HowToTool",
+        "name": "Sipariş Masanda"
     },
-    "publisher": {
-        "@@type": "Organization",
-        "name": "Sipariş Masanda",
-        "url": "{{ url('/') }}"
-    }
+    "step": [
+        {
+            "@@type": "HowToStep",
+            "position": 1,
+            "name": "{{ $isTr ? 'Ücretsiz Kayıt Olun' : 'Register for Free' }}",
+            "text": "{{ $isTr ? 'Restoran bilgilerinizi girin. Ücretsiz dijital menü hesabınız anında oluşturulur.' : 'Enter your restaurant details. Your free digital menu account is created instantly.' }}",
+            "url": "{{ route('register') }}"
+        },
+        {
+            "@@type": "HowToStep",
+            "position": 2,
+            "name": "{{ $isTr ? 'Menünüzü Oluşturun' : 'Create Your Menu' }}",
+            "text": "{{ $isTr ? 'Kategorileri ve ürünleri ekleyin. Fotoğraf yükleyin, fiyatları belirleyin.' : 'Add categories and products. Upload photos, set prices.' }}"
+        },
+        {
+            "@@type": "HowToStep",
+            "position": 3,
+            "name": "{{ $isTr ? 'QR Kodu Paylaşın' : 'Share Your QR Code' }}",
+            "text": "{{ $isTr ? 'QR kodunuzu yazdırıp masalara yerleştirin. Müşterileriniz QR kodu tarayıp menüyü görsün.' : 'Print and place your QR code on tables. Your customers scan the QR code and view the menu.' }}"
+        }
+    ]
 }
 </script>
 <script type="application/ld+json">
