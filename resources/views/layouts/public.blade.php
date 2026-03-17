@@ -294,11 +294,21 @@
                 <a href="{{ route('blog') }}" class="nav-link-item {{ request()->routeIs('blog*') ? 'active' : '' }}">
                     <i class="bi bi-journal-text me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Blog' : 'Blog' }}
                 </a>
-                <div class="d-none d-lg-flex gap-2 ms-lg-2">
+                <div class="d-none d-lg-flex align-items-center gap-2 ms-lg-2">
+                    <div class="lang-switch">
+                        <a href="{{ url()->current() }}?lang=tr" class="{{ $isTr ? 'active' : '' }}">TR</a>
+                        <span class="lang-sep"></span>
+                        <a href="{{ url()->current() }}?lang=en" class="{{ !$isTr ? 'active' : '' }}">EN</a>
+                    </div>
                     <a href="{{ route('login') }}" class="nav-btn nav-btn-ghost">{{ $isTr ? 'Giriş Yap' : 'Sign In' }}</a>
                     <a href="{{ route('register') }}" class="nav-btn nav-btn-primary">{{ $isTr ? 'Ücretsiz Başla' : 'Start Free' }}</a>
                 </div>
                 <div class="mobile-nav-btns d-lg-none">
+                    <div class="lang-switch mb-3" style="align-self:center">
+                        <a href="{{ url()->current() }}?lang=tr" class="{{ $isTr ? 'active' : '' }}">TR</a>
+                        <span class="lang-sep"></span>
+                        <a href="{{ url()->current() }}?lang=en" class="{{ !$isTr ? 'active' : '' }}">EN</a>
+                    </div>
                     <a href="{{ route('login') }}" class="nav-btn nav-btn-ghost">{{ $isTr ? 'Giriş Yap' : 'Sign In' }}</a>
                     <a href="{{ route('register') }}" class="nav-btn nav-btn-primary">{{ $isTr ? 'Ücretsiz Başla' : 'Start Free' }}</a>
                 </div>
