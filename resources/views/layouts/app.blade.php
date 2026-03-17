@@ -605,11 +605,11 @@
     @if(session('impersonating_from'))
     <div style="background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;padding:.55rem 1.75rem;display:flex;align-items:center;gap:.75rem;font-size:.84rem;font-weight:600">
         <i class="bi bi-shield-fill-check"></i>
-        <span>Developer olarak <strong>{{ $tenant?->restoran_adi ?? '' }}</strong> hesabını yönetiyorsunuz</span>
+        <span>{!! __('nav.impersonate.managing', ['name' => $tenant?->restoran_adi ?? '']) !!}</span>
         <form method="POST" action="{{ route('developer.stop-impersonate') }}" style="margin-left:auto">
             @csrf
             <button type="submit" style="color:#fff;background:rgba(255,255,255,.2);padding:.3rem .85rem;border-radius:7px;text-decoration:none;font-size:.78rem;font-weight:700;transition:background .15s;border:none" onmouseover="this.style.background='rgba(255,255,255,.35)'" onmouseout="this.style.background='rgba(255,255,255,.2)'">
-                <i class="bi bi-arrow-return-left me-1"></i>Developer Paneline Dön
+                <i class="bi bi-arrow-return-left me-1"></i>{{ __('nav.impersonate.return') }}
             </button>
         </form>
     </div>
