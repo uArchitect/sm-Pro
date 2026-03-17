@@ -26,4 +26,20 @@ return [
         'admin'     => 'yönetici',
         'personel'  => 'personel',
     ],
+    'impersonate' => [
+        'managing'    => 'Developer olarak <strong>:name</strong> hesabını yönetiyorsunuz',
+        'return'      => 'Developer Paneline Dön',
+    ],
+    'dev' => [
+        'panel_title'       => 'Developer Panel',
+        'overview'          => 'Genel Bakış',
+        'all_users'         => 'Tüm Kullanıcılar',
+        'support_messages'  => 'Destek Mesajları',
+        'contact_messages'  => 'İletişim Mesajları',
+        'blog'              => 'Blog',
+        'platform'          => 'Platform',
+        'system'            => 'Sistem',
+        'migrations'        => 'Migration',
+        'settings'          => 'Ayarlar',
+    ],
 ];

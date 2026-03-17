@@ -26,4 +26,20 @@ return [
         'admin'     => 'admin',
         'personel'  => 'personel',
     ],
+    'impersonate' => [
+        'managing'    => 'Managing <strong>:name</strong> account as Developer',
+        'return'      => 'Return to Developer Panel',
+    ],
+    'dev' => [
+        'panel_title'       => 'Developer Panel',
+        'overview'          => 'Overview',
+        'all_users'         => 'All Users',
+        'support_messages'  => 'Support Messages',
+        'contact_messages'  => 'Contact Messages',
+        'blog'              => 'Blog',
+        'platform'          => 'Platform',
+        'system'            => 'System',
+        'migrations'        => 'Migrations',
+        'settings'          => 'Settings',
+    ],
 ];
