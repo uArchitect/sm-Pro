@@ -298,6 +298,30 @@
             border-left: 3px solid #ef4444;
         }
 
+        /* Page help note (per-page info text) */
+        .page-help {
+            background: #ecfdf5;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: .75rem .9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: .6rem;
+        }
+        .page-help-icon {
+            width: 26px; height: 26px;
+            border-radius: 999px;
+            background: rgba(34,197,94,.12);
+            display: flex; align-items: center; justify-content: center;
+            color: #16a34a;
+            font-size: .9rem;
+            flex-shrink: 0;
+        }
+        .page-help-text {
+            font-size: .8rem;
+            color: #166534;
+        }
+
         /* ═══════════════════════════════════════
            TABLE
         ═══════════════════════════════════════ */
@@ -616,6 +640,17 @@
                 <ul class="mb-0 ps-2 small">@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        @endif
+
+        @hasSection('page-help')
+        <div class="page-help mb-4">
+            <div class="page-help-icon">
+                <i class="bi bi-info-circle"></i>
+            </div>
+            <div class="page-help-text">
+                @yield('page-help')
+            </div>
         </div>
         @endif
 

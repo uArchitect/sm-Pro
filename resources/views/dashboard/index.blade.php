@@ -3,6 +3,9 @@
 @section('title', __('dashboard.title'))
 @section('page-title', __('dashboard.title'))
 @section('breadcrumb', __('dashboard.breadcrumb'))
+@section('page-help')
+    Bu panelde QR menü linkinizi, temel istatistikleri ve hızlı aksiyon butonlarını görürsünüz. Kategoriler ve ürünler gibi ana içeriklerin durumunu buradan takip edebilirsiniz.
+@endsection
 
 @section('content')
 @php
