@@ -104,19 +104,35 @@
             </div>
 
             <div class="contact-form">
+                @if(session('contact_success'))
+                <div style="text-align:center;padding:2rem 1rem">
+                    <div style="width:56px;height:56px;border-radius:16px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#10b981;margin:0 auto .85rem">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <div style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.35rem">{{ $isTr ? 'Mesajınız Gönderildi!' : 'Message Sent!' }}</div>
+                    <div style="font-size:.84rem;color:rgba(255,255,255,.5);line-height:1.6">{{ $isTr ? 'En kısa sürede size geri dönüş yapacağız.' : 'We will get back to you as soon as possible.' }}</div>
+                </div>
+                @else
                 <h3 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:1.25rem;text-align:center">
                     <i class="bi bi-chat-dots text-warning me-1"></i>
                     {{ $isTr ? 'Mesaj Gönderin' : 'Send a Message' }}
                 </h3>
-                <form action="mailto:destek@siparismasanda.com" method="GET" enctype="text/plain">
-                    <label class="cf-label">{{ $isTr ? 'Adınız' : 'Your Name' }}</label>
-                    <input type="text" name="subject" class="cf-input" placeholder="{{ $isTr ? 'Adınız Soyadınız' : 'Your Full Name' }}" required>
+                <form action="{{ route('contact.send') }}" method="POST">
+                    @csrf
+                    <label class="cf-label">{{ $isTr ? 'Adınız' : 'Your Name' }} *</label>
+                    <input type="text" name="name" class="cf-input" placeholder="{{ $isTr ? 'Adınız Soyadınız' : 'Your Full Name' }}" value="{{ old('name') }}" required>
+                    @error('name')<div style="color:#fca5a5;font-size:.75rem;margin:-0.5rem 0 .5rem">{{ $message }}</div>@enderror
 
-                    <label class="cf-label">{{ $isTr ? 'E-posta' : 'Email' }}</label>
-                    <input type="email" class="cf-input" placeholder="{{ $isTr ? 'ornek@restoran.com' : 'example@restaurant.com' }}">
+                    <label class="cf-label">{{ $isTr ? 'E-posta' : 'Email' }} *</label>
+                    <input type="email" name="email" class="cf-input" placeholder="{{ $isTr ? 'ornek@restoran.com' : 'example@restaurant.com' }}" value="{{ old('email') }}" required>
+                    @error('email')<div style="color:#fca5a5;font-size:.75rem;margin:-0.5rem 0 .5rem">{{ $message }}</div>@enderror
 
-                    <label class="cf-label">{{ $isTr ? 'Mesajınız' : 'Your Message' }}</label>
-                    <textarea name="body" class="cf-input" placeholder="{{ $isTr ? 'Nasıl yardımcı olabiliriz?' : 'How can we help you?' }}" required></textarea>
+                    <label class="cf-label">{{ $isTr ? 'Telefon' : 'Phone' }}</label>
+                    <input type="tel" name="phone" class="cf-input" placeholder="{{ $isTr ? '05xx xxx xx xx' : '+90 5xx xxx xx xx' }}" value="{{ old('phone') }}">
+
+                    <label class="cf-label">{{ $isTr ? 'Mesajınız' : 'Your Message' }} *</label>
+                    <textarea name="message" class="cf-input" placeholder="{{ $isTr ? 'Nasıl yardımcı olabiliriz?' : 'How can we help you?' }}" required>{{ old('message') }}</textarea>
+                    @error('message')<div style="color:#fca5a5;font-size:.75rem;margin:-0.5rem 0 .5rem">{{ $message }}</div>@enderror
 
                     <button type="submit" class="hero-btn-primary w-100 justify-content-center" style="padding:.7rem 1.5rem">
                         <i class="bi bi-send"></i> {{ $isTr ? 'Gönder' : 'Send' }}
@@ -126,6 +142,7 @@
                     <i class="bi bi-shield-check me-1"></i>
                     {{ $isTr ? 'Bilgileriniz gizli tutulur. Genellikle 2 saat içinde yanıt veririz.' : 'Your information is kept private. We usually respond within 2 hours.' }}
                 </div>
+                @endif
             </div>
         </div>
     </section>
