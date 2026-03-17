@@ -197,6 +197,8 @@ Route::middleware(['auth', 'role:developer'])->prefix('developer')->name('develo
     Route::post('/settings',                [DeveloperController::class, 'updateSettings'])->name('settings.update');
     Route::post('/storage-link',            [DeveloperController::class, 'runStorageLink'])->name('storage-link');
     Route::post('/clear-cache',             [DeveloperController::class, 'clearCache'])->name('clear-cache');
+    Route::get('/migrations',               [DeveloperController::class, 'migrations'])->name('migrations');
+    Route::post('/migrations/run',          [DeveloperController::class, 'runMigrations'])->name('migrations.run');
     Route::get('/blog',                     [DeveloperBlogController::class, 'index'])->name('blog.index');
     Route::get('/blog/create',              [DeveloperBlogController::class, 'create'])->name('blog.create');
     Route::post('/blog',                    [DeveloperBlogController::class, 'store'])->name('blog.store');

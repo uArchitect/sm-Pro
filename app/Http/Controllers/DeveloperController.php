@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\File;
 
 class DeveloperController extends Controller
 {
@@ -418,6 +420,104 @@ class DeveloperController extends Controller
         ]);
 
         return back()->with('success', __('support.reply_sent'));
+    }
+
+    /**
+     * Web-based migration manager — lists pending & ran migrations, runs forward-only.
+     */
+    public function migrations()
+    {
+        $this->authDev();
+
+        $migrationPath = database_path('migrations');
+        $files = collect(File::glob($migrationPath . '/*.php'))
+            ->map(fn ($f) => pathinfo($f, PATHINFO_FILENAME))
+            ->sort()
+            ->values();
+
+        $ran = $this->getRanMigrations();
+
+        $migrations = $files->map(function ($file) use ($ran) {
+            $info = $ran->firstWhere('migration', $file);
+            return (object) [
+                'name'    => $file,
+                'ran'     => $info !== null,
+                'batch'   => $info ? $info->batch : null,
+                'ran_at'  => $info->ran_at ?? null,
+            ];
+        });
+
+        $pendingCount = $migrations->where('ran', false)->count();
+        $lastBatch    = $ran->max('batch') ?? 0;
+
+        return view('developer.migrations', compact('migrations', 'pendingCount', 'lastBatch'));
+    }
+
+    /**
+     * Run pending migrations — all or a single specified file. Forward-only, never destructive.
+     */
+    public function runMigrations(Request $request)
+    {
+        $this->authDev();
+
+        $file = $request->input('file');
+
+        if (!Schema::hasTable('migrations')) {
+            try {
+                Artisan::call('migrate:install');
+            } catch (\Throwable $e) {
+                return back()->with('error', 'migrations tablosu oluşturulamadı: ' . $e->getMessage());
+            }
+        }
+
+        if ($file) {
+            $fullPath = database_path('migrations/' . $file . '.php');
+            if (!File::exists($fullPath)) {
+                return back()->with('error', 'Migration dosyası bulunamadı: ' . $file);
+            }
+
+            $ran = $this->getRanMigrations();
+            if ($ran->contains('migration', $file)) {
+                return back()->with('error', 'Bu migration zaten çalıştırılmış: ' . $file);
+            }
+
+            $relativePath = 'database/migrations/' . $file . '.php';
+            try {
+                Artisan::call('migrate', [
+                    '--path'  => $relativePath,
+                    '--force' => true,
+                ]);
+                $output = trim(Artisan::output());
+                return back()->with('success', "Migration çalıştırıldı: {$file}" . ($output ? "\n" . $output : ''));
+            } catch (\Throwable $e) {
+                return back()->with('error', "Migration hatası ({$file}): " . $e->getMessage());
+            }
+        }
+
+        try {
+            Artisan::call('migrate', ['--force' => true]);
+            $output = trim(Artisan::output());
+
+            if (str_contains($output, 'Nothing to migrate')) {
+                return back()->with('success', 'Bekleyen migration yok, tüm tablolar güncel.');
+            }
+
+            return back()->with('success', 'Tüm bekleyen migration\'lar çalıştırıldı. ' . $output);
+        } catch (\Throwable $e) {
+            return back()->with('error', 'Migration hatası: ' . $e->getMessage());
+        }
+    }
+
+    private function getRanMigrations(): \Illuminate\Support\Collection
+    {
+        try {
+            if (!Schema::hasTable('migrations')) {
+                return collect();
+            }
+            return DB::table('migrations')->get();
+        } catch (\Throwable) {
+            return collect();
+        }
     }
 
     private function authDev(): void

@@ -169,7 +169,10 @@
             <i class="bi bi-journal-text"></i> Blog
         </a>
 
-        <div class="sidebar-section">Hesap</div>
+        <div class="sidebar-section">Sistem</div>
+        <a href="{{ route('developer.migrations') }}" class="nav-item-link {{ request()->routeIs('developer.migrations') ? 'active' : '' }}">
+            <i class="bi bi-database-gear"></i> Migration
+        </a>
         <a href="{{ route('developer.settings') }}" class="nav-item-link {{ request()->routeIs('developer.settings') ? 'active' : '' }}">
             <i class="bi bi-gear"></i> Ayarlar
         </a>
