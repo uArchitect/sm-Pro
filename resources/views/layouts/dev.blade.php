@@ -165,6 +165,7 @@
         <a href="{{ route('developer.tickets') }}" class="nav-item-link {{ request()->routeIs('developer.tickets*') ? 'active' : '' }}">
             <i class="bi bi-headset"></i> Destek Mesajları
         </a>
+        @if(\Illuminate\Support\Facades\Route::has('developer.contact-messages'))
         <a href="{{ route('developer.contact-messages') }}" class="nav-item-link {{ request()->routeIs('developer.contact-messages*') ? 'active' : '' }}">
             <i class="bi bi-chat-left-text"></i> İletişim Mesajları
             @php
@@ -174,6 +175,7 @@
                 <span style="margin-left:auto;background:#ef4444;color:#fff;font-size:.62rem;font-weight:700;padding:.1rem .4rem;border-radius:99px;min-width:18px;text-align:center;line-height:1.3">{{ $cmUnread }}</span>
             @endif
         </a>
+        @endif
         <a href="{{ route('developer.blog.index') }}" class="nav-item-link {{ request()->routeIs('developer.blog*') ? 'active' : '' }}">
             <i class="bi bi-journal-text"></i> Blog
         </a>

@@ -190,45 +190,50 @@
     </div>
 </div>
 
+@endsection
+
 @push('scripts')
 <script>
-function confirmRunAll() {
-    document.getElementById('migConfirmTitle').textContent = 'Tüm Bekleyen Migration\'ları Yükle';
-    document.getElementById('migConfirmDesc').innerHTML = '<strong>{{ $pendingCount }}</strong> bekleyen migration veritabanına uygulanacak.<br>Mevcut veriler <strong>silinmez</strong>, sadece yeni tablolar/sütunlar oluşturulur.';
-    document.getElementById('migConfirmFile').style.display = 'none';
-    document.getElementById('migRunFile').value = '';
-    document.getElementById('migRunBtnText').textContent = 'Hepsini Yükle';
-    document.getElementById('migConfirm').classList.add('active');
-}
+(function(){
+    var pendingCount = {{ (int)$pendingCount }};
 
-function confirmRunSingle(name) {
-    document.getElementById('migConfirmTitle').textContent = 'Migration Yükle';
-    document.getElementById('migConfirmDesc').innerHTML = 'Bu migration veritabanına uygulanacak.<br>Mevcut veriler <strong>silinmez</strong>.';
-    var fileEl = document.getElementById('migConfirmFile');
-    fileEl.textContent = name;
-    fileEl.style.display = 'inline-block';
-    document.getElementById('migRunFile').value = name;
-    document.getElementById('migRunBtnText').textContent = 'Yükle';
-    document.getElementById('migConfirm').classList.add('active');
-}
+    window.confirmRunAll = function() {
+        document.getElementById("migConfirmTitle").textContent = "Bekleyen Migration\u2019lar\u0131 Y\u00fckle";
+        document.getElementById("migConfirmDesc").innerHTML = "<strong>" + pendingCount + "</strong> bekleyen migration veritaban\u0131na uygulanacak.<br>Mevcut veriler <strong>silinmez</strong>, sadece yeni tablolar/s\u00fctunlar olu\u015fturulur.";
+        document.getElementById("migConfirmFile").style.display = "none";
+        document.getElementById("migRunFile").value = "";
+        document.getElementById("migRunBtnText").textContent = "Hepsini Y\u00fckle";
+        document.getElementById("migConfirm").classList.add("active");
+    };
 
-function closeConfirm() {
-    document.getElementById('migConfirm').classList.remove('active');
-}
+    window.confirmRunSingle = function(name) {
+        document.getElementById("migConfirmTitle").textContent = "Migration Y\u00fckle";
+        document.getElementById("migConfirmDesc").innerHTML = "Bu migration veritaban\u0131na uygulanacak.<br>Mevcut veriler <strong>silinmez</strong>.";
+        var fileEl = document.getElementById("migConfirmFile");
+        fileEl.textContent = name;
+        fileEl.style.display = "inline-block";
+        document.getElementById("migRunFile").value = name;
+        document.getElementById("migRunBtnText").textContent = "Y\u00fckle";
+        document.getElementById("migConfirm").classList.add("active");
+    };
 
-document.getElementById('migConfirm').addEventListener('click', function(e) {
-    if (e.target === this) closeConfirm();
-});
+    window.closeConfirm = function() {
+        document.getElementById("migConfirm").classList.remove("active");
+    };
 
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeConfirm();
-});
+    document.getElementById("migConfirm").addEventListener("click", function(e) {
+        if (e.target === this) window.closeConfirm();
+    });
 
-document.getElementById('migRunForm').addEventListener('submit', function() {
-    var btn = document.getElementById('migRunBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Yükleniyor...';
-});
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") window.closeConfirm();
+    });
+
+    document.getElementById("migRunForm").addEventListener("submit", function() {
+        var btn = document.getElementById("migRunBtn");
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"><\/span>Y\u00fckleniyor...';
+    });
+})();
 </script>
 @endpush
-@endsection
