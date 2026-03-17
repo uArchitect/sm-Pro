@@ -22,4 +22,5 @@ return [
     'update'          => 'Update',
     'title_placeholder' => 'e.g. Live Music Night',
     'desc_placeholder'  => 'Event details...',
+    'page_help'         => 'Manage your restaurant\'s events. Active events are displayed to customers on the QR menu.',
 ];

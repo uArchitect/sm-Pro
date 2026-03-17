@@ -35,4 +35,6 @@ return [
     'bulk_save'        => 'Save all',
     'bulk_saved'       => ':count category(ies) added.',
     'bulk_at_least_one'=> 'Enter at least one category name.',
+    'page_help'        => 'Manage your menu categories here. Drag to reorder, click to edit. Categories organize your products on the QR menu.',
+    'page_help_create' => 'Add new categories for your menu. Use single mode with a photo, or bulk mode to add multiple categories at once.',
 ];
