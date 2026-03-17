@@ -149,25 +149,25 @@
     <div class="sidebar-brand">
         <div class="logo"><i class="bi bi-terminal-fill"></i></div>
         <div class="brand-text">
-            <div class="name">Developer Panel</div>
-            <div class="sub">Sipariş Masanda</div>
+            <div class="name">{{ __('nav.dev.panel_title') }}</div>
+            <div class="sub">{{ __('common.app_name') }}</div>
         </div>
     </div>
 
     <nav class="flex-grow-1 py-1 overflow-auto">
-        <div class="sidebar-section">Platform</div>
+        <div class="sidebar-section">{{ __('nav.dev.platform') }}</div>
         <a href="{{ route('developer.index') }}" class="nav-item-link {{ request()->routeIs('developer.index') ? 'active' : '' }}">
-            <i class="bi bi-speedometer2"></i> Genel Bakış
+            <i class="bi bi-speedometer2"></i> {{ __('nav.dev.overview') }}
         </a>
         <a href="{{ route('developer.users') }}" class="nav-item-link {{ request()->routeIs('developer.users') ? 'active' : '' }}">
-            <i class="bi bi-people"></i> Tüm Kullanıcılar
+            <i class="bi bi-people"></i> {{ __('nav.dev.all_users') }}
         </a>
         <a href="{{ route('developer.tickets') }}" class="nav-item-link {{ request()->routeIs('developer.tickets*') ? 'active' : '' }}">
-            <i class="bi bi-headset"></i> Destek Mesajları
+            <i class="bi bi-headset"></i> {{ __('nav.dev.support_messages') }}
         </a>
         @if(\Illuminate\Support\Facades\Route::has('developer.contact-messages'))
         <a href="{{ route('developer.contact-messages') }}" class="nav-item-link {{ request()->routeIs('developer.contact-messages*') ? 'active' : '' }}">
-            <i class="bi bi-chat-left-text"></i> İletişim Mesajları
+            <i class="bi bi-chat-left-text"></i> {{ __('nav.dev.contact_messages') }}
             @php
                 try { $cmUnread = \Illuminate\Support\Facades\DB::table('contact_messages')->where('is_read', false)->count(); } catch (\Throwable $e) { $cmUnread = 0; }
             @endphp
@@ -177,15 +177,15 @@
         </a>
         @endif
         <a href="{{ route('developer.blog.index') }}" class="nav-item-link {{ request()->routeIs('developer.blog*') ? 'active' : '' }}">
-            <i class="bi bi-journal-text"></i> Blog
+            <i class="bi bi-journal-text"></i> {{ __('nav.dev.blog') }}
         </a>
 
-        <div class="sidebar-section">Sistem</div>
+        <div class="sidebar-section">{{ __('nav.dev.system') }}</div>
         <a href="{{ route('developer.migrations') }}" class="nav-item-link {{ request()->routeIs('developer.migrations') ? 'active' : '' }}">
-            <i class="bi bi-database-gear"></i> Migration
+            <i class="bi bi-database-gear"></i> {{ __('nav.dev.migrations') }}
         </a>
         <a href="{{ route('developer.settings') }}" class="nav-item-link {{ request()->routeIs('developer.settings') ? 'active' : '' }}">
-            <i class="bi bi-gear"></i> Ayarlar
+            <i class="bi bi-gear"></i> {{ __('nav.dev.settings') }}
         </a>
     </nav>
 
@@ -194,11 +194,11 @@
             <div class="user-avatar">{{ mb_strtoupper(mb_substr($devUser->name ?? 'D', 0, 1, 'UTF-8'), 'UTF-8') }}</div>
             <div class="flex-grow-1 overflow-hidden">
                 <div class="user-name text-truncate">{{ $devUser->name }}</div>
-                <span class="role-badge">developer</span>
+                <span class="role-badge">{{ __('nav.roles.developer') }}</span>
             </div>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="btn-logout" title="Çıkış Yap">
+                <button type="submit" class="btn-logout" title="{{ __('common.logout') }}">
                     <i class="bi bi-box-arrow-right fs-6"></i>
                 </button>
             </form>
