@@ -44,7 +44,8 @@ class SetLocale
     }
 
     /**
-     * Turkey => Turkish, otherwise English.
+     * Geo-header → country-based pick; no header → check Accept-Language
+     * but lean towards app default (tr) since this is a Turkish product.
      */
     protected function guessLocaleByCountry(Request $request): string
     {
@@ -63,8 +64,11 @@ class SetLocale
             return 'en';
         }
 
-        $preferred = $request->getPreferredLanguage(['tr', 'en']);
+        $accept = $request->header('Accept-Language', '');
+        if (stripos($accept, 'tr') !== false) {
+            return 'tr';
+        }
 
-        return $preferred === 'tr' ? 'tr' : 'en';
+        return config('app.fallback_locale', 'tr');
     }
 }
