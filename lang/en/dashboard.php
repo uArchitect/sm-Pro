@@ -31,4 +31,5 @@ return [
     'setup_step_product'  => 'Add at least 1 product to a category',
     'setup_go_category'   => 'Add Category',
     'setup_go_product'    => 'Add Product',
+    'page_help'           => 'This panel shows your QR menu link, key statistics, and quick action buttons. Monitor the status of your categories and products at a glance.',
 ];
