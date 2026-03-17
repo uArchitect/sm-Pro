@@ -80,7 +80,7 @@
     <div class="container" style="max-width:720px">
         <div class="mb-4 rounded-3 overflow-hidden d-flex align-items-center justify-content-center blog-show-thumb">
             @if($post->featured_image)
-                <img src="{{ asset('uploads/'.$post->featured_image) }}" alt="{{ $post->title }}" class="blog-show-thumb-img">
+                <img src="{{ asset('uploads/'.$post->featured_image) }}" alt="{{ $post->title }}" class="blog-show-thumb-img" loading="eager" fetchpriority="high">
             @else
                 <span class="blog-show-thumb-icon"><i class="bi bi-file-text"></i></span>
             @endif

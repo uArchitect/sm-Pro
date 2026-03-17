@@ -72,7 +72,7 @@
                     <article class="glass-card h-100 d-flex flex-column">
                         <a href="{{ route('blog.show', $post->slug) }}" class="d-block rounded-top overflow-hidden text-decoration-none blog-card-thumb" style="margin:-1.75rem -1.75rem 1rem -1.75rem">
                             @if($post->featured_image)
-                                <img src="{{ asset('uploads/'.$post->featured_image) }}" alt="{{ $post->title }}" class="blog-card-thumb-img">
+                                <img src="{{ asset('uploads/'.$post->featured_image) }}" alt="{{ $post->title }}" class="blog-card-thumb-img" loading="lazy">
                             @else
                                 <span class="blog-card-thumb-icon"><i class="bi bi-file-text"></i></span>
                             @endif
