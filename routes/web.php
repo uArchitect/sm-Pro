@@ -200,6 +200,10 @@ Route::middleware(['auth', 'role:developer'])->prefix('developer')->name('develo
     Route::post('/clear-cache',             [DeveloperController::class, 'clearCache'])->name('clear-cache');
     Route::get('/migrations',               [DeveloperController::class, 'migrations'])->name('migrations');
     Route::post('/migrations/run',          [DeveloperController::class, 'runMigrations'])->name('migrations.run');
+    Route::get('/contact-messages',          [\App\Http\Controllers\ContactController::class, 'index'])->name('contact-messages');
+    Route::get('/contact-messages/{id}',     [\App\Http\Controllers\ContactController::class, 'show'])->name('contact-messages.show');
+    Route::post('/contact-messages/{id}/toggle-read', [\App\Http\Controllers\ContactController::class, 'toggleRead'])->name('contact-messages.toggle-read');
+    Route::delete('/contact-messages/{id}',  [\App\Http\Controllers\ContactController::class, 'destroy'])->name('contact-messages.destroy');
     Route::get('/blog',                     [DeveloperBlogController::class, 'index'])->name('blog.index');
     Route::get('/blog/create',              [DeveloperBlogController::class, 'create'])->name('blog.create');
     Route::post('/blog',                    [DeveloperBlogController::class, 'store'])->name('blog.store');
