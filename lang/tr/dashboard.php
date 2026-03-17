@@ -31,4 +31,5 @@ return [
     'setup_step_product'  => 'Bir kategoriye en az 1 ürün ekleyin',
     'setup_go_category'   => 'Kategori Ekle',
     'setup_go_product'    => 'Ürün Ekle',
+    'page_help'           => 'Bu panelde QR menü linkinizi, temel istatistikleri ve hızlı aksiyon butonlarını görürsünüz. Kategori ve ürünlerinizin durumunu buradan takip edebilirsiniz.',
 ];

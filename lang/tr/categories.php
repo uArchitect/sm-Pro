@@ -35,4 +35,6 @@ return [
     'bulk_save'        => 'Tümünü kaydet',
     'bulk_saved'       => ':count kategori eklendi.',
     'bulk_at_least_one'=> 'En az bir kategori adı girin.',
+    'page_help'        => 'Menü kategorilerinizi buradan yönetin. Sürükleyerek sıralayın, tıklayarak düzenleyin. Kategoriler QR menüdeki ürünlerinizi düzenler.',
+    'page_help_create' => 'Menünüz için yeni kategoriler ekleyin. Fotoğraflı tek kategori veya toplu modda birden fazla kategori ekleyebilirsiniz.',
 ];
