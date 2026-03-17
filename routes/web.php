@@ -83,8 +83,12 @@ Route::post('/locale', function (\Illuminate\Http\Request $request) {
     session(['locale' => $request->locale]);
     cookie()->queue('locale', $request->locale, 60 * 24 * 30);
     $redirect = $request->input('redirect', '');
-    if ($redirect && str_starts_with($redirect, '/')) {
-        return redirect()->to($redirect);
+    if ($redirect) {
+        $parsed = parse_url($redirect);
+        $path   = $parsed['path'] ?? '/';
+        if (str_starts_with($path, '/')) {
+            return redirect()->to($path);
+        }
     }
     return redirect()->back();
 })->name('locale.switch');
