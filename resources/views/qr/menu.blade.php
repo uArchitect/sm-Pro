@@ -3,6 +3,7 @@
 @section('title', __('qr.title'))
 @section('page-title', __('qr.title'))
 @section('breadcrumb', __('qr.breadcrumb'))
+@section('page-help', __('qr.page_help'))
 @section('content')
 @php $menuUrl = route('public.menu', ['tenantId' => session('tenant_id')]); @endphp
 

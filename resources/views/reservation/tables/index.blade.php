@@ -2,6 +2,7 @@
 
 @section('title', __('reservation.tables_title'))
 @section('page-title', __('reservation.tables_title'))
+@section('page-help', __('reservation.page_help_tables'))
 
 @section('content')
 <style>
