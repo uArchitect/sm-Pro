@@ -21,9 +21,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 
-    <title>Giriş Yap — Sipariş Masanda | Restoran Yönetim Paneli</title>
-    <meta name="description" content="Sipariş Masanda restoran yönetim paneline giriş yapın. Dijital QR menünüzü yönetin, ürünlerinizi güncelleyin ve restoranınızı tek panelden kontrol edin.">
-    <meta name="keywords" content="sipariş masanda giriş, restoran yönetim paneli, dijital menü giriş, qr menü yönetimi, restoran panel girişi">
+    @php $isTr = app()->getLocale() === 'tr'; @endphp
+    <title>{{ $isTr ? 'Giriş Yap — Sipariş Masanda | Restoran Yönetim Paneli' : 'Sign In — Siparis Masanda | Restaurant Management Panel' }}</title>
+    <meta name="description" content="{{ $isTr ? 'Sipariş Masanda restoran yönetim paneline giriş yapın. Dijital QR menünüzü yönetin.' : 'Sign in to Siparis Masanda restaurant management panel. Manage your digital QR menu.' }}">
+    <meta name="keywords" content="{{ $isTr ? 'sipariş masanda giriş, restoran yönetim paneli, dijital menü giriş, qr menü yönetimi' : 'siparis masanda login, restaurant management panel, digital menu login, qr menu management' }}">
     <meta name="author" content="Sipariş Masanda">
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#0a0f1e">
