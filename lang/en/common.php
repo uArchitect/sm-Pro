@@ -22,4 +22,7 @@ return [
     'max_file_size'  => 'JPG, PNG, WEBP, SVG — max 2MB',
     'language'       => 'Language',
     'optional'       => '(optional)',
+    'premium_title'     => 'This Feature is Premium Only',
+    'premium_desc'      => 'Slider, Events, and Order Management features are not included in your current package. Contact us to upgrade to Premium.',
+    'premium_contact'   => 'Contact Support',
 ];
