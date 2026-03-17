@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ContactMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class ContactController extends Controller
@@ -24,7 +24,15 @@ class ContactController extends Controller
             return redirect()->route('contact')->with('contact_success', true);
         }
 
-        ContactMessage::create($request->only('name', 'email', 'phone', 'message'));
+        DB::table('contact_messages')->insert([
+            'name'       => $request->input('name'),
+            'email'      => $request->input('email'),
+            'phone'      => $request->input('phone'),
+            'message'    => $request->input('message'),
+            'is_read'    => false,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 
         return redirect()->route('contact')->with('contact_success', true);
     }
@@ -34,12 +42,13 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $messages = $this->safeQuery(fn () =>
-            ContactMessage::orderByDesc('created_at')->paginate(25)
-        );
-        $unreadCount = $this->safeQuery(fn () =>
-            ContactMessage::where('is_read', false)->count(), 0
-        );
+        try {
+            $messages    = DB::table('contact_messages')->orderByDesc('created_at')->paginate(25);
+            $unreadCount = DB::table('contact_messages')->where('is_read', false)->count();
+        } catch (\Throwable $e) {
+            $messages    = null;
+            $unreadCount = 0;
+        }
 
         return view('developer.contact-messages.index', compact('messages', 'unreadCount'));
     }
@@ -49,10 +58,15 @@ class ContactController extends Controller
      */
     public function show(int $id)
     {
-        $msg = ContactMessage::findOrFail($id);
+        $msg = DB::table('contact_messages')->where('id', $id)->first();
+
+        if (!$msg) {
+            abort(404);
+        }
 
         if (!$msg->is_read) {
-            $msg->update(['is_read' => true]);
+            DB::table('contact_messages')->where('id', $id)->update(['is_read' => true]);
+            $msg->is_read = true;
         }
 
         return view('developer.contact-messages.show', compact('msg'));
@@ -63,10 +77,19 @@ class ContactController extends Controller
      */
     public function toggleRead(int $id)
     {
-        $msg = ContactMessage::findOrFail($id);
-        $msg->update(['is_read' => !$msg->is_read]);
+        $msg = DB::table('contact_messages')->where('id', $id)->first();
 
-        return redirect()->back()->with('success', $msg->is_read ? 'Okundu olarak işaretlendi.' : 'Okunmadı olarak işaretlendi.');
+        if (!$msg) {
+            abort(404);
+        }
+
+        $newStatus = !$msg->is_read;
+        DB::table('contact_messages')->where('id', $id)->update([
+            'is_read'    => $newStatus,
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->back()->with('success', $newStatus ? 'Okundu olarak işaretlendi.' : 'Okunmadı olarak işaretlendi.');
     }
 
     /**
@@ -74,17 +97,8 @@ class ContactController extends Controller
      */
     public function destroy(int $id)
     {
-        ContactMessage::findOrFail($id)->delete();
+        DB::table('contact_messages')->where('id', $id)->delete();
 
         return redirect()->route('developer.contact-messages')->with('success', 'Mesaj silindi.');
-    }
-
-    private function safeQuery(callable $fn, $default = null)
-    {
-        try {
-            return $fn();
-        } catch (\Throwable $e) {
-            return $default;
-        }
     }
 }
