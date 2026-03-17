@@ -38,6 +38,7 @@ Route::get('/fiyatlar', fn () => view('pages.fiyatlar'))->name('pricing');
 Route::get('/ozellikler', fn () => view('pages.ozellikler'))->name('features');
 Route::get('/hakkimizda', fn () => view('pages.hakkimizda'))->name('about');
 Route::get('/iletisim', fn () => view('pages.iletisim'))->name('contact');
+Route::post('/iletisim', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.send');
 Route::get('/gizlilik-politikasi', fn () => view('pages.gizlilik-politikasi'))->name('privacy');
 Route::get('/kullanim-kosullari', fn () => view('pages.kullanim-kosullari'))->name('terms');
 
