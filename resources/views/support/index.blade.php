@@ -23,10 +23,6 @@
     </a>
 </div>
 
-@if(session('success'))
-<div class="alert alert-success py-2 px-3" style="font-size:.84rem;border-radius:9px">{{ session('success') }}</div>
-@endif
-
 <div class="sm-card">
     <div class="table-responsive">
         <table class="table sm-table align-middle mb-0">

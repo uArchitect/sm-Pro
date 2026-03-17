@@ -145,10 +145,10 @@ function printQR() {
     <body>
         <div class="logo">${logoHtml}</div>
         <h2>{{ $tenant->restoran_adi }}</h2>
-        <div class="sub">Dijital Menü</div>
+        <div class="sub">{{ __('qr.print_digital_menu') }}</div>
         ${svg.outerHTML}
         <div class="url">{{ $menuUrl }}</div>
-        <div class="brand">Sipariş Masanda</div>
+        <div class="brand">{{ __('qr.print_brand') }}</div>
     </body></html>`);
     win.document.close();
     setTimeout(() => win.print(), 400);

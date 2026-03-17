@@ -60,9 +60,9 @@
                     </div>
                     <hr class="my-4">
                     <div class="d-flex gap-2">
-                        <a href="{{ route('reservation.tables.index') }}" class="btn btn-outline-secondary btn-sm">{{ __('support.back') }}</a>
+                        <a href="{{ route('reservation.tables.index') }}" class="btn btn-outline-secondary btn-sm">{{ __('common.back') }}</a>
                         <button type="submit" class="btn btn-accent btn-sm">
-                            <i class="bi bi-check-lg me-1"></i>{{ __('support.send') }}
+                            <i class="bi bi-check-lg me-1"></i>{{ __('common.save') }}
                         </button>
                     </div>
                 </form>
