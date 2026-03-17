@@ -190,16 +190,13 @@
     </div>
 </div>
 
-@endsection
-
-@push('scripts')
 <script>
-(function(){
+document.addEventListener("DOMContentLoaded", function(){
     var pendingCount = {{ (int)$pendingCount }};
 
     window.confirmRunAll = function() {
         document.getElementById("migConfirmTitle").textContent = "Bekleyen Migration\u2019lar\u0131 Y\u00fckle";
-        document.getElementById("migConfirmDesc").innerHTML = "<strong>" + pendingCount + "</strong> bekleyen migration veritaban\u0131na uygulanacak.<br>Mevcut veriler <strong>silinmez</strong>, sadece yeni tablolar/s\u00fctunlar olu\u015fturulur.";
+        document.getElementById("migConfirmDesc").innerHTML = "<strong>" + pendingCount + "<\/strong> bekleyen migration veritaban\u0131na uygulanacak.<br>Mevcut veriler <strong>silinmez<\/strong>, sadece yeni tablolar/s\u00fctunlar olu\u015fturulur.";
         document.getElementById("migConfirmFile").style.display = "none";
         document.getElementById("migRunFile").value = "";
         document.getElementById("migRunBtnText").textContent = "Hepsini Y\u00fckle";
@@ -208,7 +205,7 @@
 
     window.confirmRunSingle = function(name) {
         document.getElementById("migConfirmTitle").textContent = "Migration Y\u00fckle";
-        document.getElementById("migConfirmDesc").innerHTML = "Bu migration veritaban\u0131na uygulanacak.<br>Mevcut veriler <strong>silinmez</strong>.";
+        document.getElementById("migConfirmDesc").innerHTML = "Bu migration veritaban\u0131na uygulanacak.<br>Mevcut veriler <strong>silinmez<\/strong>.";
         var fileEl = document.getElementById("migConfirmFile");
         fileEl.textContent = name;
         fileEl.style.display = "inline-block";
@@ -222,18 +219,18 @@
     };
 
     document.getElementById("migConfirm").addEventListener("click", function(e) {
-        if (e.target === this) window.closeConfirm();
+        if (e.target === this) closeConfirm();
     });
 
     document.addEventListener("keydown", function(e) {
-        if (e.key === "Escape") window.closeConfirm();
+        if (e.key === "Escape") closeConfirm();
     });
 
     document.getElementById("migRunForm").addEventListener("submit", function() {
         var btn = document.getElementById("migRunBtn");
         btn.disabled = true;
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"><\/span>Y\u00fckleniyor...';
+        btn.innerHTML = "<span class=\"spinner-border spinner-border-sm me-1\"><\/span>Y\u00fckleniyor...";
     });
-})();
+});
 </script>
-@endpush
+@endsection
