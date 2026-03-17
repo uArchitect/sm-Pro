@@ -437,20 +437,18 @@ class DeveloperController extends Controller
 
         $ran = $this->getRanMigrations();
 
-        $migrations = $files->map(function ($file) use ($ran) {
-            $info = $ran->firstWhere('migration', $file);
-            return (object) [
-                'name'    => $file,
-                'ran'     => $info !== null,
-                'batch'   => $info ? $info->batch : null,
-                'ran_at'  => $info->ran_at ?? null,
-            ];
-        });
+        $pending = $files->filter(fn ($f) => !$ran->contains('migration', $f))
+            ->map(fn ($file) => (object) [
+                'name' => $file,
+                'ran'  => false,
+            ])
+            ->values();
 
-        $pendingCount = $migrations->where('ran', false)->count();
+        $pendingCount = $pending->count();
+        $ranCount     = $ran->count();
         $lastBatch    = $ran->max('batch') ?? 0;
 
-        return view('developer.migrations', compact('migrations', 'pendingCount', 'lastBatch'));
+        return view('developer.migrations', compact('pending', 'pendingCount', 'ranCount', 'lastBatch'));
     }
 
     /**
