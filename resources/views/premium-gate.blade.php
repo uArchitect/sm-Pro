@@ -32,18 +32,15 @@
 
 <div class="prem-gate">
     <div class="prem-icon"><i class="bi bi-gem"></i></div>
-    <div class="prem-title">Bu Özellik Premium Pakete Özeldir</div>
-    <div class="prem-desc">
-        Slider, Etkinlik ve Sipariş Yönetimi özellikleri Premium paketinize dahil değildir. 
-        Premium'a geçiş yapmak için bizimle iletişime geçin.
-    </div>
+    <div class="prem-title">{{ __('common.premium_title') }}</div>
+    <div class="prem-desc">{{ __('common.premium_desc') }}</div>
     <div class="prem-features">
-        <span class="prem-feat"><i class="bi bi-images"></i> Slider</span>
-        <span class="prem-feat"><i class="bi bi-calendar-event"></i> Etkinlikler</span>
-        <span class="prem-feat"><i class="bi bi-cart-check"></i> Sipariş Yönetimi</span>
+        <span class="prem-feat"><i class="bi bi-images"></i> {{ __('nav.nav.sliders') }}</span>
+        <span class="prem-feat"><i class="bi bi-calendar-event"></i> {{ __('nav.nav.events') }}</span>
+        <span class="prem-feat"><i class="bi bi-cart-check"></i> {{ __('nav.nav.ordering') }}</span>
     </div>
     <a href="{{ route('support.create') }}" class="btn btn-sm" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;font-weight:700;padding:.55rem 1.5rem;border-radius:9px;">
-        <i class="bi bi-headset me-1"></i> Destek ile İletişime Geç
+        <i class="bi bi-headset me-1"></i> {{ __('common.premium_contact') }}
     </a>
 </div>
 @endsection
