@@ -71,39 +71,6 @@
 <script type="application/ld+json">
 {
     "@@context": "https://schema.org",
-    "@@type": "SoftwareApplication",
-    "name": "Sipariş Masanda",
-    "applicationCategory": "BusinessApplication",
-    "operatingSystem": "Web",
-    "url": "{{ url('/') }}",
-    "image": "{{ asset('og-cover.svg') }}",
-    "description": "{{ $isTr ? 'Restoran ve kafeler için dijital QR menü sistemi' : 'Digital QR menu system for restaurants and cafes' }}",
-    "offers": [
-        {
-            "@@type": "Offer",
-            "name": "Basic",
-            "price": "0",
-            "priceCurrency": "TRY",
-            "description": "{{ $isTr ? 'Sınırsız kategori ve ürün, QR kod, fotoğraflı menü, müşteri değerlendirmeleri' : 'Unlimited categories & products, QR code, photo menu, customer reviews' }}"
-        },
-        {
-            "@@type": "Offer",
-            "name": "Premium",
-            "price": "199",
-            "priceCurrency": "TRY",
-            "description": "{{ $isTr ? 'Basic planın tüm özellikleri + slider, etkinlik yönetimi, öncelikli destek' : 'All Basic features + sliders, event management, priority support' }}"
-        }
-    ],
-    "publisher": {
-        "@@type": "Organization",
-        "name": "Sipariş Masanda",
-        "url": "{{ url('/') }}"
-    }
-}
-</script>
-<script type="application/ld+json">
-{
-    "@@context": "https://schema.org",
     "@@type": "FAQPage",
     "mainEntity": [
         @if($isTr)
