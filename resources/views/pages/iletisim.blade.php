@@ -117,7 +117,7 @@
                     <i class="bi bi-chat-dots text-warning me-1"></i>
                     {{ $isTr ? 'Mesaj Gönderin' : 'Send a Message' }}
                 </h3>
-                <form action="{{ route('contact.send') }}" method="POST">
+                <form action="{{ Route::has('contact.send') ? route('contact.send') : url('/iletisim') }}" method="POST">
                     @csrf
                     <label class="cf-label">{{ $isTr ? 'Adınız' : 'Your Name' }} *</label>
                     <input type="text" name="name" class="cf-input" placeholder="{{ $isTr ? 'Adınız Soyadınız' : 'Your Full Name' }}" value="{{ old('name') }}" required>
