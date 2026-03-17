@@ -22,4 +22,5 @@ return [
     'update'          => 'Güncelle',
     'title_placeholder' => 'Örn: Canlı Müzik Gecesi',
     'desc_placeholder'  => 'Etkinlik hakkında detay...',
+    'page_help'         => 'Restoranınızın etkinliklerini yönetin. Aktif etkinlikler QR menüde müşterilere gösterilir.',
 ];
