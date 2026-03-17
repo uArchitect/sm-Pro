@@ -85,6 +85,13 @@
         .nav-btn-primary{background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;border:none;box-shadow:0 4px 16px rgba(255,107,53,.35)}
         .nav-btn-primary:hover{color:#fff;transform:translateY(-1px);box-shadow:0 6px 24px rgba(255,107,53,.5)}
 
+        /* Language switcher */
+        .lang-switch{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.12);border-radius:8px;overflow:hidden;background:rgba(255,255,255,.04)}
+        .lang-switch a{padding:.3rem .55rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;color:rgba(255,255,255,.45);text-decoration:none;transition:all .18s;line-height:1}
+        .lang-switch a:hover{color:rgba(255,255,255,.7)}
+        .lang-switch a.active{background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;pointer-events:none}
+        .lang-switch .lang-sep{width:1px;height:16px;background:rgba(255,255,255,.1)}
+
         /* Page hero (inner pages) */
         .page-hero{padding:8rem 0 3rem;text-align:center}
         .page-hero h1{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.12;letter-spacing:-.03em;margin-bottom:.75rem}
