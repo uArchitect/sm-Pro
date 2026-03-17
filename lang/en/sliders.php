@@ -15,4 +15,5 @@ return [
     'total'           => 'Total :count slider(s)',
     'premium_only'    => 'Slider feature is available in the Premium package.',
     'image_required'  => 'Slider image is required.',
+    'page_help'       => 'Manage slider images shown at the top of your QR menu. Drag to reorder the slides.',
 ];

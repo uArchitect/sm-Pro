@@ -12,4 +12,5 @@ return [
     'no_reviews'     => 'No reviews yet.',
     'delete_confirm' => 'Are you sure you want to delete this review?',
     'deleted'        => 'Review deleted.',
+    'page_help'      => 'View and manage customer reviews. See your average rating and individual feedback.',
 ];
