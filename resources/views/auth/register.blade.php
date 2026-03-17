@@ -22,43 +22,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
 
-    {{-- SEO meta tags --}}
-    <title>Kayıt — Sipariş Masanda</title>
-    <meta name="description" content="Sipariş Masanda ile restoranınızı dakikalar içinde dijitale taşıyın. QR menü oluşturmak, ürünlerinizi yönetmek ve misafirlerinize modern bir sipariş deneyimi sunmak için şimdi tamamen ücretsiz kayıt olun.">
-    <meta name="keywords" content="sipariş masanda, qr menü kayıt, restoran kayıt, dijital menü oluşturma, restoran yönetim sistemi, online menü, masa sipariş sistemi">
-    <meta name="author" content="Sipariş Masanda">
+    <title>{{ $isTr ? 'Kayıt — Sipariş Masanda' : 'Register — Siparis Masanda' }}</title>
+    <meta name="description" content="{{ $isTr ? 'Sipariş Masanda ile restoranınızı dakikalar içinde dijitale taşıyın. Ücretsiz kayıt olun.' : 'Take your restaurant digital in minutes with Siparis Masanda. Register for free.' }}">
     <meta name="robots" content="index, follow, max-image-preview:large">
     <meta name="theme-color" content="#0a0f1e">
-
-    {{-- Canonical & language alternates --}}
-    <link rel="canonical" href="https://siparismasanda.com/register">
-
-    {{-- Open Graph / Facebook --}}
+    <link rel="canonical" href="{{ route('register') }}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://siparismasanda.com/register">
-    <meta property="og:title" content="Kayıt — Sipariş Masanda">
-    <meta property="og:description" content="Restoranınız için QR menü ve modern sipariş deneyimi. Sipariş Masanda ile birkaç dakika içinde dijital menünüzü oluşturun ve platformu denemek için hemen ücretsiz kayıt olun.">
+    <meta property="og:url" content="{{ route('register') }}">
+    <meta property="og:title" content="{{ $isTr ? 'Kayıt — Sipariş Masanda' : 'Register — Siparis Masanda' }}">
+    <meta property="og:description" content="{{ $isTr ? 'Restoranınız için QR menü ve modern sipariş deneyimi.' : 'QR menu and modern ordering for your restaurant.' }}">
     <meta property="og:site_name" content="Sipariş Masanda">
     <meta property="og:image" content="{{ asset('og-cover.svg') }}">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-
-    {{-- Twitter Card --}}
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kayıt — Sipariş Masanda">
-    <meta name="twitter:description" content="Sipariş Masanda ile restoranınızı dijitale taşıyın. QR menü, ürün yönetimi ve modern masa sipariş deneyimi için şimdi tamamen ücretsiz kayıt olun.">
+    <meta name="twitter:title" content="{{ $isTr ? 'Kayıt — Sipariş Masanda' : 'Register — Siparis Masanda' }}">
+    <meta name="twitter:description" content="{{ $isTr ? 'Restoranınız için ücretsiz dijital menü.' : 'Free digital menu for your restaurant.' }}">
     <meta name="twitter:image" content="{{ asset('og-cover.svg') }}">
-
-    {{-- Structured data (SoftwareApplication is in global partial) --}}
     <script type="application/ld+json">
-        {
-            "@@context": "https://schema.org",
-            "@@type": "WebPage",
-            "name": "{{ $isTr ?? true ? 'Ücretsiz Kayıt — Sipariş Masanda' : 'Free Registration — Siparis Masanda' }}",
-            "url": "{{ route('register') }}",
-            "description": "{{ $isTr ?? true ? 'Ücretsiz dijital QR menü hesabınızı oluşturun' : 'Create your free digital QR menu account' }}",
-            "isPartOf": { "@@id": "{{ url('/') }}/#website" }
-        }
+    {
+        "@@context": "https://schema.org",
+        "@@type": "WebPage",
+        "name": "{{ $isTr ? 'Ücretsiz Kayıt — Sipariş Masanda' : 'Free Registration — Siparis Masanda' }}",
+        "url": "{{ route('register') }}",
+        "description": "{{ $isTr ? 'Ücretsiz dijital QR menü hesabınızı oluşturun' : 'Create your free digital QR menu account' }}",
+        "isPartOf": { "@@id": "{{ url('/') }}/#website" }
+    }
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -97,9 +84,14 @@
     <!-- End Google Tag Manager (noscript) -->
 <div style="width:100%;max-width:480px;position:relative;z-index:1">
     <div class="text-center">
+        <div style="display:inline-flex;border:1px solid rgba(255,255,255,.15);border-radius:8px;overflow:hidden;background:rgba(255,255,255,.04);margin-bottom:1rem">
+            <a href="{{ request()->fullUrlWithQuery(['lang' => 'tr']) }}" style="padding:.3rem .6rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ $isTr ? 'background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;' : 'color:rgba(255,255,255,.45);' }}">TR</a>
+            <span style="width:1px;background:rgba(255,255,255,.1)"></span>
+            <a href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}" style="padding:.3rem .6rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ !$isTr ? 'background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;' : 'color:rgba(255,255,255,.45);' }}">EN</a>
+        </div>
         <div class="logo-mark"><i class="bi bi-qr-code-scan"></i></div>
-        <div class="auth-title">Sipariş Masanda</div>
-        <div class="auth-sub">Yeni işletme hesabı oluşturun</div>
+        <div class="auth-title">{{ __('common.app_name') }}</div>
+        <div class="auth-sub">{{ __('auth.register_sub') }}</div>
     </div>
 
     <div class="auth-card p-4">
@@ -114,52 +106,52 @@
         <form method="POST" action="{{ route('register') }}" novalidate>
             @csrf
 
-            <div class="section-divider">Restoran Bilgileri</div>
+            <div class="section-divider">{{ __('auth.company_info') }}</div>
 
             <div class="mb-3">
-                <label class="form-label fw-semibold small">Restoran Adı</label>
+                <label class="form-label fw-semibold small">{{ __('auth.restaurant_name') }}</label>
                 <input type="text" name="restoran_adi" class="form-control @error('restoran_adi') is-invalid @enderror"
-                       value="{{ old('restoran_adi') }}" placeholder="Örn: Lezzet Dünyası" required>
+                       value="{{ old('restoran_adi') }}" placeholder="{{ __('auth.restaurant_placeholder') }}" required>
                 @error('restoran_adi')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
 
-            <div class="section-divider">Hesap Bilgileri</div>
+            <div class="section-divider">{{ __('auth.account_info') }}</div>
 
             <div class="mb-3">
-                <label class="form-label fw-semibold small">Ad Soyad</label>
+                <label class="form-label fw-semibold small">{{ __('auth.full_name') }}</label>
                 <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                       value="{{ old('name') }}" placeholder="Adınız Soyadınız" required>
+                       value="{{ old('name') }}" placeholder="{{ __('auth.full_name_placeholder') }}" required>
                 @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-semibold small">E-posta</label>
+                <label class="form-label fw-semibold small">{{ __('auth.email') }}</label>
                 <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                       value="{{ old('email') }}" placeholder="ornek@email.com" required>
+                       value="{{ old('email') }}" placeholder="{{ __('auth.email_placeholder') }}" required>
                 @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
 
             <div class="mb-3">
-                <label class="form-label fw-semibold small">Şifre</label>
+                <label class="form-label fw-semibold small">{{ __('auth.password') }}</label>
                 <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                       placeholder="En az 8 karakter" required minlength="8">
+                       placeholder="{{ __('auth.password_min') }}" required minlength="8">
                 @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
 
             <div class="mb-4">
-                <label class="form-label fw-semibold small">Şifre Tekrar</label>
+                <label class="form-label fw-semibold small">{{ __('auth.password_confirm') }}</label>
                 <input type="password" name="password_confirmation" class="form-control"
-                       placeholder="Şifreyi tekrar girin" required>
+                       placeholder="{{ __('auth.password_confirm_placeholder') }}" required>
             </div>
 
             <button type="submit" class="btn btn-register w-100">
-                <i class="bi bi-rocket-takeoff me-2"></i>Hesap Oluştur
+                <i class="bi bi-rocket-takeoff me-2"></i>{{ __('auth.create_btn') }}
             </button>
         </form>
     </div>
 
     <p class="auth-footer mt-3">
-        Zaten hesabınız var mı? <a href="{{ route('login') }}">Giriş yapın</a>
+        {{ __('auth.have_account') }} <a href="{{ route('login') }}">{{ __('auth.sign_in') }}</a>
     </p>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
