@@ -103,7 +103,7 @@
                 </div>
             </div>
 
-            <div class="contact-form">
+            <div class="contact-form" id="contactFormWrap">
                 @if(session('contact_success'))
                 <div style="text-align:center;padding:2rem 1rem">
                     <div style="width:56px;height:56px;border-radius:16px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#10b981;margin:0 auto .85rem">
@@ -117,25 +117,23 @@
                     <i class="bi bi-chat-dots text-warning me-1"></i>
                     {{ $isTr ? 'Mesaj Gönderin' : 'Send a Message' }}
                 </h3>
-                <form action="{{ Route::has('contact.send') ? route('contact.send') : url('/iletisim') }}" method="POST">
-                    @csrf
+                <form id="contactForm">
                     <label class="cf-label">{{ $isTr ? 'Adınız' : 'Your Name' }} *</label>
-                    <input type="text" name="name" class="cf-input" placeholder="{{ $isTr ? 'Adınız Soyadınız' : 'Your Full Name' }}" value="{{ old('name') }}" required>
-                    @error('name')<div style="color:#fca5a5;font-size:.75rem;margin:-0.5rem 0 .5rem">{{ $message }}</div>@enderror
+                    <input type="text" name="name" id="cf_name" class="cf-input" placeholder="{{ $isTr ? 'Adınız Soyadınız' : 'Your Full Name' }}" required>
 
                     <label class="cf-label">{{ $isTr ? 'E-posta' : 'Email' }} *</label>
-                    <input type="email" name="email" class="cf-input" placeholder="{{ $isTr ? 'ornek@restoran.com' : 'example@restaurant.com' }}" value="{{ old('email') }}" required>
-                    @error('email')<div style="color:#fca5a5;font-size:.75rem;margin:-0.5rem 0 .5rem">{{ $message }}</div>@enderror
+                    <input type="email" name="email" id="cf_email" class="cf-input" placeholder="{{ $isTr ? 'ornek@restoran.com' : 'example@restaurant.com' }}" required>
 
                     <label class="cf-label">{{ $isTr ? 'Telefon' : 'Phone' }}</label>
-                    <input type="tel" name="phone" class="cf-input" placeholder="{{ $isTr ? '05xx xxx xx xx' : '+90 5xx xxx xx xx' }}" value="{{ old('phone') }}">
+                    <input type="tel" name="phone" id="cf_phone" class="cf-input" placeholder="{{ $isTr ? '05xx xxx xx xx' : '+90 5xx xxx xx xx' }}">
 
                     <label class="cf-label">{{ $isTr ? 'Mesajınız' : 'Your Message' }} *</label>
-                    <textarea name="message" class="cf-input" placeholder="{{ $isTr ? 'Nasıl yardımcı olabiliriz?' : 'How can we help you?' }}" required>{{ old('message') }}</textarea>
-                    @error('message')<div style="color:#fca5a5;font-size:.75rem;margin:-0.5rem 0 .5rem">{{ $message }}</div>@enderror
+                    <textarea name="message" id="cf_message" class="cf-input" placeholder="{{ $isTr ? 'Nasıl yardımcı olabiliriz?' : 'How can we help you?' }}" required></textarea>
 
-                    <button type="submit" class="hero-btn-primary w-100 justify-content-center" style="padding:.7rem 1.5rem">
-                        <i class="bi bi-send"></i> {{ $isTr ? 'Gönder' : 'Send' }}
+                    <div id="cf_errors" style="display:none;color:#fca5a5;font-size:.78rem;margin-bottom:.75rem;line-height:1.5"></div>
+
+                    <button type="submit" id="cf_btn" class="hero-btn-primary w-100 justify-content-center" style="padding:.7rem 1.5rem">
+                        <i class="bi bi-send"></i> <span>{{ $isTr ? 'Gönder' : 'Send' }}</span>
                     </button>
                 </form>
                 <div class="response-time">
@@ -144,6 +142,69 @@
                 </div>
                 @endif
             </div>
+
+            <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var form = document.getElementById('contactForm');
+                if (!form) return;
+
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    var btn = document.getElementById('cf_btn');
+                    var errBox = document.getElementById('cf_errors');
+                    errBox.style.display = 'none';
+                    errBox.innerHTML = '';
+                    btn.disabled = true;
+                    btn.querySelector('span').textContent = '{{ $isTr ? "Gönderiliyor..." : "Sending..." }}';
+
+                    fetch('{{ url("/iletisim/gonder") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: JSON.stringify({
+                            name: document.getElementById('cf_name').value,
+                            email: document.getElementById('cf_email').value,
+                            phone: document.getElementById('cf_phone').value,
+                            message: document.getElementById('cf_message').value
+                        })
+                    })
+                    .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+                    .then(function (result) {
+                        if (result.ok && result.data.success) {
+                            document.getElementById('contactFormWrap').innerHTML =
+                                '<div style="text-align:center;padding:2rem 1rem">' +
+                                '<div style="width:56px;height:56px;border-radius:16px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#10b981;margin:0 auto .85rem"><i class="bi bi-check-circle-fill"></i></div>' +
+                                '<div style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.35rem">{{ $isTr ? "Mesajınız Gönderildi!" : "Message Sent!" }}</div>' +
+                                '<div style="font-size:.84rem;color:rgba(255,255,255,.5);line-height:1.6">{{ $isTr ? "En kısa sürede size geri dönüş yapacağız." : "We will get back to you as soon as possible." }}</div>' +
+                                '</div>';
+                        } else {
+                            var msgs = [];
+                            if (result.data.errors) {
+                                Object.keys(result.data.errors).forEach(function (k) {
+                                    msgs = msgs.concat(result.data.errors[k]);
+                                });
+                            } else if (result.data.message) {
+                                msgs.push(result.data.message);
+                            }
+                            errBox.innerHTML = msgs.join('<br>');
+                            errBox.style.display = 'block';
+                            btn.disabled = false;
+                            btn.querySelector('span').textContent = '{{ $isTr ? "Gönder" : "Send" }}';
+                        }
+                    })
+                    .catch(function () {
+                        errBox.innerHTML = '{{ $isTr ? "Bir hata oluştu. Lütfen tekrar deneyin." : "An error occurred. Please try again." }}';
+                        errBox.style.display = 'block';
+                        btn.disabled = false;
+                        btn.querySelector('span').textContent = '{{ $isTr ? "Gönder" : "Send" }}';
+                    });
+                });
+            });
+            </script>
         </div>
     </section>
 @endsection

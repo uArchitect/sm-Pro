@@ -20,19 +20,21 @@ class ContactController extends Controller
             'message' => 'required|string|max:2000',
         ]);
 
-        if (!Schema::hasTable('contact_messages')) {
-            return redirect()->route('contact')->with('contact_success', true);
+        if (Schema::hasTable('contact_messages')) {
+            DB::table('contact_messages')->insert([
+                'name'       => $request->input('name'),
+                'email'      => $request->input('email'),
+                'phone'      => $request->input('phone'),
+                'message'    => $request->input('message'),
+                'is_read'    => false,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
         }
 
-        DB::table('contact_messages')->insert([
-            'name'       => $request->input('name'),
-            'email'      => $request->input('email'),
-            'phone'      => $request->input('phone'),
-            'message'    => $request->input('message'),
-            'is_read'    => false,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
 
         return redirect()->route('contact')->with('contact_success', true);
     }
