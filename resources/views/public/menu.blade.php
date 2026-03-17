@@ -92,6 +92,11 @@
             pointer-events: none;
         }
         .hdr-content { position: relative; z-index: 1; }
+        .hdr-lang{position:absolute;top:.85rem;right:1rem;z-index:2;display:inline-flex;border:1px solid rgba(255,255,255,.15);border-radius:7px;overflow:hidden;background:rgba(0,0,0,.2)}
+        .hdr-lang a{padding:.25rem .5rem;font-size:.68rem;font-weight:700;color:rgba(255,255,255,.5);text-decoration:none;transition:all .15s;letter-spacing:.03em}
+        .hdr-lang a:hover{color:rgba(255,255,255,.8)}
+        .hdr-lang a.active{background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;pointer-events:none}
+        .hdr-lang .ls{width:1px;background:rgba(255,255,255,.12)}
         .hdr-logo {
             width: 80px; height: 80px;
             border-radius: 20px;
