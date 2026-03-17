@@ -475,41 +475,110 @@ class DeveloperController extends Controller
         }
 
         if ($file) {
-            $fullPath = database_path('migrations/' . $file . '.php');
-            if (!File::exists($fullPath)) {
-                return back()->with('error', 'Migration dosyası bulunamadı: ' . $file);
-            }
+            return $this->runSingleMigration($file);
+        }
 
-            $ran = $this->getRanMigrations();
-            if ($ran->contains('migration', $file)) {
-                return back()->with('error', 'Bu migration zaten çalıştırılmış: ' . $file);
-            }
+        return $this->runAllPendingMigrations();
+    }
 
+    private function runSingleMigration(string $file)
+    {
+        $fullPath = database_path('migrations/' . $file . '.php');
+        if (!File::exists($fullPath)) {
+            return back()->with('error', 'Migration dosyası bulunamadı: ' . $file);
+        }
+
+        $ran = $this->getRanMigrations();
+        if ($ran->contains('migration', $file)) {
+            return back()->with('error', 'Bu migration zaten çalıştırılmış: ' . $file);
+        }
+
+        $relativePath = 'database/migrations/' . $file . '.php';
+        try {
+            Artisan::call('migrate', [
+                '--path'  => $relativePath,
+                '--force' => true,
+            ]);
+            $output = trim(Artisan::output());
+            return back()->with('success', "Migration çalıştırıldı: {$file}" . ($output ? "\n" . $output : ''));
+        } catch (\Throwable $e) {
+            if ($this->isTableExistsError($e)) {
+                $this->markMigrationAsRan($file);
+                return back()->with('success', "Tablo zaten mevcut, migration kayıt altına alındı: {$file}");
+            }
+            return back()->with('error', "Migration hatası ({$file}): " . $e->getMessage());
+        }
+    }
+
+    private function runAllPendingMigrations()
+    {
+        $ran = $this->getRanMigrations();
+        $files = collect(File::glob(database_path('migrations/*.php')))
+            ->map(fn ($f) => pathinfo($f, PATHINFO_FILENAME))
+            ->sort()
+            ->values();
+
+        $pending = $files->filter(fn ($f) => !$ran->contains('migration', $f));
+
+        if ($pending->isEmpty()) {
+            return back()->with('success', 'Bekleyen migration yok, tüm tablolar güncel.');
+        }
+
+        $success  = [];
+        $skipped  = [];
+        $errors   = [];
+
+        foreach ($pending as $file) {
             $relativePath = 'database/migrations/' . $file . '.php';
             try {
                 Artisan::call('migrate', [
                     '--path'  => $relativePath,
                     '--force' => true,
                 ]);
-                $output = trim(Artisan::output());
-                return back()->with('success', "Migration çalıştırıldı: {$file}" . ($output ? "\n" . $output : ''));
+                $success[] = $file;
             } catch (\Throwable $e) {
-                return back()->with('error', "Migration hatası ({$file}): " . $e->getMessage());
+                if ($this->isTableExistsError($e)) {
+                    $this->markMigrationAsRan($file);
+                    $skipped[] = $file;
+                } else {
+                    $errors[] = $file . ': ' . $e->getMessage();
+                }
             }
         }
 
-        try {
-            Artisan::call('migrate', ['--force' => true]);
-            $output = trim(Artisan::output());
-
-            if (str_contains($output, 'Nothing to migrate')) {
-                return back()->with('success', 'Bekleyen migration yok, tüm tablolar güncel.');
-            }
-
-            return back()->with('success', 'Tüm bekleyen migration\'lar çalıştırıldı. ' . $output);
-        } catch (\Throwable $e) {
-            return back()->with('error', 'Migration hatası: ' . $e->getMessage());
+        $parts = [];
+        if (count($success)) {
+            $parts[] = count($success) . ' migration yüklendi';
         }
+        if (count($skipped)) {
+            $parts[] = count($skipped) . ' migration atlandı (tablo zaten mevcuttu)';
+        }
+
+        $msg = implode(', ', $parts) . '.';
+
+        if (count($errors)) {
+            return back()
+                ->with('success', count($parts) ? $msg : null)
+                ->with('error', 'Hatalar: ' . implode(' | ', $errors));
+        }
+
+        return back()->with('success', $msg);
+    }
+
+    private function isTableExistsError(\Throwable $e): bool
+    {
+        $message = $e->getMessage();
+        return str_contains($message, 'already exists')
+            || str_contains($message, '42S01');
+    }
+
+    private function markMigrationAsRan(string $file): void
+    {
+        $lastBatch = DB::table('migrations')->max('batch') ?? 0;
+        DB::table('migrations')->insert([
+            'migration' => $file,
+            'batch'     => $lastBatch + 1,
+        ]);
     }
 
     private function getRanMigrations(): \Illuminate\Support\Collection
