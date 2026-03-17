@@ -78,9 +78,9 @@
 
     <div class="msg-footer">
         <div class="msg-date">
-            <i class="bi bi-calendar3 me-1"></i>{{ $msg->created_at->format('d.m.Y H:i') }}
+            <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($msg->created_at)->format('d.m.Y H:i') }}
             <span style="margin-left:.5rem;color:#d1d5db">·</span>
-            <span style="margin-left:.5rem">{{ $msg->created_at->diffForHumans() }}</span>
+            <span style="margin-left:.5rem">{{ \Carbon\Carbon::parse($msg->created_at)->diffForHumans() }}</span>
         </div>
         <div class="msg-actions">
             <a href="mailto:{{ $msg->email }}?subject=Re: Sipariş Masanda İletişim" class="btn btn-accent btn-sm">
