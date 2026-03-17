@@ -48,27 +48,15 @@
     <meta name="twitter:description" content="Sipariş Masanda ile restoranınızı dijitale taşıyın. QR menü, ürün yönetimi ve modern masa sipariş deneyimi için şimdi tamamen ücretsiz kayıt olun.">
     <meta name="twitter:image" content="{{ asset('og-cover.svg') }}">
 
-    {{-- Structured data --}}
+    {{-- Structured data (SoftwareApplication is in global partial) --}}
     <script type="application/ld+json">
         {
             "@@context": "https://schema.org",
-            "@@type": "SoftwareApplication",
-            "name": "Sipariş Masanda",
-            "applicationCategory": "BusinessApplication",
-            "operatingSystem": "Web",
-            "url": "https://siparismasanda.com/",
-            "image": "https://siparismasanda.com/og-cover.svg",
-            "description": "Restoran ve kafeler için dijital QR menü sistemi",
-            "offers": {
-                "@@type": "Offer",
-                "price": "0",
-                "priceCurrency": "TRY"
-            },
-            "publisher": {
-                "@@type": "Organization",
-                "name": "Sipariş Masanda",
-                "url": "https://siparismasanda.com/"
-            }
+            "@@type": "WebPage",
+            "name": "{{ $isTr ?? true ? 'Ücretsiz Kayıt — Sipariş Masanda' : 'Free Registration — Siparis Masanda' }}",
+            "url": "{{ route('register') }}",
+            "description": "{{ $isTr ?? true ? 'Ücretsiz dijital QR menü hesabınızı oluşturun' : 'Create your free digital QR menu account' }}",
+            "isPartOf": { "@@id": "{{ url('/') }}/#website" }
         }
     </script>
 
