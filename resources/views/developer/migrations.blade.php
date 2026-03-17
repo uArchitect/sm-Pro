@@ -81,7 +81,7 @@
                 <i class="bi bi-check-circle-fill"></i>
             </div>
             <div>
-                <div class="mig-stat-value">{{ $ranCount }}</div>
+                <div class="mig-stat-value">{{ $ranCount ?? 0 }}</div>
                 <div class="mig-stat-label">Yüklü</div>
             </div>
         </div>
@@ -92,7 +92,7 @@
                 <i class="bi bi-clock-fill"></i>
             </div>
             <div>
-                <div class="mig-stat-value">{{ $pendingCount }}</div>
+                <div class="mig-stat-value">{{ $pendingCount ?? 0 }}</div>
                 <div class="mig-stat-label">Bekleyen</div>
             </div>
         </div>
@@ -103,7 +103,7 @@
                 <i class="bi bi-hash"></i>
             </div>
             <div>
-                <div class="mig-stat-value">{{ $lastBatch }}</div>
+                <div class="mig-stat-value">{{ $lastBatch ?? 0 }}</div>
                 <div class="mig-stat-label">Son Batch</div>
             </div>
         </div>
@@ -111,7 +111,7 @@
 </div>
 
 {{-- Run All Button --}}
-@if($pendingCount > 0)
+@if(($pendingCount ?? 0) > 0)
 <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
     <div class="mig-warn">
         <i class="bi bi-exclamation-triangle-fill"></i>
@@ -129,7 +129,7 @@
 @endif
 
 {{-- Pending Migration List --}}
-@if($pendingCount > 0)
+@if(($pendingCount ?? 0) > 0)
 <div class="sm-card">
     <div class="sm-card-header">
         <i class="bi bi-database" style="color:var(--dev-accent)"></i>
@@ -137,7 +137,7 @@
         <span style="margin-left:auto;font-size:.75rem;color:#9ca3af;font-weight:400">database/migrations/</span>
     </div>
     <div>
-        @foreach($pending as $m)
+        @foreach(($pending ?? collect()) as $m)
         <div class="mig-row">
             <span class="mig-badge mig-badge-pending"><i class="bi bi-clock"></i> Bekliyor</span>
             <div class="mig-name">{{ $m->name }}</div>
@@ -175,7 +175,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function(){
-    var pendingCount = {{ (int)$pendingCount }};
+    var pendingCount = {{ (int)($pendingCount ?? 0) }};
 
     window.confirmRunAll = function() {
         document.getElementById("migConfirmTitle").textContent = "Bekleyen Migration\u2019lar\u0131 Y\u00fckle";
