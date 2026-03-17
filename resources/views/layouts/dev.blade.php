@@ -208,9 +208,18 @@
 
 <div class="main-wrap">
     <header class="topbar">
-        <div class="topbar-title">@yield('page-title', 'Developer')</div>
+        <div class="topbar-title">@yield('page-title', __('nav.dev.panel_title'))</div>
         <span class="dev-badge"><i class="bi bi-shield-fill-check me-1"></i>DEV</span>
         <div class="topbar-right">
+            <form method="POST" action="{{ route('locale.switch') }}" class="d-inline">
+                @csrf
+                <input type="hidden" name="redirect" value="{{ request()->getRequestUri() }}">
+                <select name="locale" onchange="this.form.submit()" style="background:none;border:1px solid #e5e7eb;border-radius:7px;padding:.2rem .5rem;font-size:.78rem;color:#6b7280;cursor:pointer">
+                    @foreach(config('app.available_locales', ['en' => 'English', 'tr' => 'Türkçe']) as $code => $label)
+                    <option value="{{ $code }}" {{ app()->getLocale() === $code ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+            </form>
             <span class="topbar-date"><i class="bi bi-calendar3 me-1"></i>{{ now()->locale(app()->getLocale())->isoFormat('D MMM YYYY') }}</span>
         </div>
     </header>
