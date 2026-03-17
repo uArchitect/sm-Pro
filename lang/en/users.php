@@ -16,4 +16,5 @@ return [
     'registered_at' => 'Registered',
     'no_staff' => 'No staff added yet.',
     'delete_confirm' => 'Are you sure you want to delete :name?',
+    'page_help'      => 'Manage staff accounts. Add admin or personnel roles to grant access to the management panel.',
 ];
