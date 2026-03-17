@@ -282,6 +282,11 @@
 
     {{-- ═══ RIGHT: Sliding form panel ═══ --}}
     <div class="panel-white {{ ($showRegister ?? false) || $errors->has('restoran_adi') ? 'show-reg' : '' }}" id="panelRight">
+        <div style="position:absolute;top:1rem;right:1rem;z-index:10;display:inline-flex;border:1px solid rgba(0,0,0,.1);border-radius:8px;overflow:hidden;background:rgba(0,0,0,.03)">
+            <a href="{{ request()->fullUrlWithQuery(['lang' => 'tr']) }}" style="padding:.3rem .55rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ app()->getLocale() === 'tr' ? 'background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;' : 'color:rgba(0,0,0,.4);' }}">TR</a>
+            <span style="width:1px;background:rgba(0,0,0,.08)"></span>
+            <a href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}" style="padding:.3rem .55rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ app()->getLocale() !== 'tr' ? 'background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;' : 'color:rgba(0,0,0,.4);' }}">EN</a>
+        </div>
         <div class="slide-wrap" id="slideWrap">
 
             {{-- ─── LOGIN PANE ─── --}}
