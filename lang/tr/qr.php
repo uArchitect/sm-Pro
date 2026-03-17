@@ -23,4 +23,7 @@ return [
     ],
     'digital_menu_brand' => 'Dijital Menü — Sipariş Masanda',
     'copied'             => 'Kopyalandı',
+    'page_help'          => 'Restoranınızın QR kodu ve kalıcı menü bağlantısı. QR\'ı yazdırın veya indirerek masalara koyun.',
+    'print_digital_menu' => 'Dijital Menü',
+    'print_brand'        => 'Sipariş Masanda',
 ];

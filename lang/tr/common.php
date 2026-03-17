@@ -22,4 +22,7 @@ return [
     'max_file_size'  => 'JPG, PNG, WEBP, SVG — maks. 2MB',
     'language'       => 'Dil',
     'optional'       => '(opsiyonel)',
+    'premium_title'     => 'Bu Özellik Premium Pakete Özeldir',
+    'premium_desc'      => 'Slider, Etkinlik ve Sipariş Yönetimi özellikleri Premium paketinize dahil değildir. Premium\'a geçiş yapmak için bizimle iletişime geçin.',
+    'premium_contact'   => 'Destek ile İletişime Geç',
 ];

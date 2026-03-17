@@ -27,4 +27,5 @@ return [
     'all_tickets'     => 'Tüm Destek Mesajları',
     'restaurant'      => 'Restoran',
     'user'            => 'Kullanıcı',
+    'page_help'       => 'Destek mesajlarınızı görüntüleyin ve ekibimizden gelen yanıtları takip edin.',
 ];

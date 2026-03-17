@@ -18,4 +18,5 @@ return [
     'logo_label'         => 'Logo yükleyin',
     'logo_hint'          => 'PNG, SVG, JPG veya WEBP formatında yükleyin (maks. 2MB). Arka planı şeffaf veya beyaz olan logolar QR menüde en düzgün görünür.',
     'logo_remove'        => 'Logoyu kaldır',
+    'page_help'          => 'Restoranınızın temel bilgilerini, logosunu, sosyal medya bağlantılarını ve sipariş ayarlarını güncelleyin.',
 ];

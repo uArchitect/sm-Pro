@@ -16,4 +16,5 @@ return [
     'registered_at' => 'Kayıt Tarihi',
     'no_staff' => 'Henüz personel eklenmemiş.',
     'delete_confirm' => ':name adlı personeli silmek istediğinizden emin misiniz?',
+    'page_help'      => 'Personel hesaplarını yönetin. Yönetim paneline erişim için admin veya personel rolü atayın.',
 ];

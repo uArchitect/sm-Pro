@@ -58,4 +58,7 @@ return [
     'no_match_tables'       => 'Eşleşen masa yok.',
     'filter_by_zone'        => 'Bölgeye göre filtrele',
     'all_zones'             => 'Tüm bölgeler',
+    'zone_has_tables'       => 'Bu bölgede :count masa var. Önce masaları silin veya taşıyın.',
+    'page_help_zones'       => 'Rezervasyon bölgelerini tanımlayın (örn. Cam kenarı, Teras). Her bölgeye birden fazla masa eklenebilir.',
+    'page_help_tables'      => 'Rezervasyon bölgelerinizdeki masaları yönetin. Her masanın adı, bölgesi ve oturma kapasitesi vardır.',
 ];
