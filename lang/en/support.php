@@ -27,4 +27,5 @@ return [
     'all_tickets'     => 'All Support Tickets',
     'restaurant'      => 'Restaurant',
     'user'            => 'User',
+    'page_help'       => 'View your support messages and track responses from our team.',
 ];
