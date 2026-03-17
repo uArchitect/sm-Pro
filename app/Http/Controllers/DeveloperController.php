@@ -462,6 +462,10 @@ class DeveloperController extends Controller
 
         $file = $request->input('file');
 
+        if ($file && !preg_match('/^[\w\-]+$/', $file)) {
+            return back()->with('error', 'Geçersiz dosya adı.');
+        }
+
         if (!Schema::hasTable('migrations')) {
             try {
                 Artisan::call('migrate:install');
