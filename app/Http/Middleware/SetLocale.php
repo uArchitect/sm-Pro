@@ -29,9 +29,19 @@ class SetLocale
             $request->session()->put('locale', $locale);
             Cookie::queue('locale', $locale, 60 * 24 * 30);
         } else {
-            $locale = $request->session()->get('locale')
-                ?? $request->cookie('locale')
-                ?? $this->guessLocaleByCountry($request);
+            $sessionLocale = $request->session()->get('locale');
+            $cookieLocale  = $request->cookie('locale');
+
+            $locale = $sessionLocale ?? $cookieLocale ?? $this->guessLocaleByCountry($request);
+
+            if (!$sessionLocale && $cookieLocale && in_array($cookieLocale, $allowed, true)) {
+                $request->session()->put('locale', $cookieLocale);
+            }
+
+            if (!$sessionLocale && !$cookieLocale && in_array($locale, $allowed, true)) {
+                $request->session()->put('locale', $locale);
+                Cookie::queue('locale', $locale, 60 * 24 * 30);
+            }
         }
 
         if (!in_array($locale, $allowed, true)) {
