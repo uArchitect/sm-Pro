@@ -2,6 +2,7 @@
 
 @section('title', __('users.management'))
 @section('page-title', __('users.management'))
+@section('page-help', __('users.page_help'))
 
 @section('content')
 <style>

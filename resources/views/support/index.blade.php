@@ -2,6 +2,7 @@
 
 @section('title', __('support.my_tickets'))
 @section('page-title', __('support.title'))
+@section('page-help', __('support.page_help'))
 
 @section('content')
 <style>

@@ -2,6 +2,7 @@
 
 @section('title', __('sliders.title'))
 @section('page-title', __('sliders.title'))
+@section('page-help', __('sliders.page_help'))
 
 @section('content')
 <style>

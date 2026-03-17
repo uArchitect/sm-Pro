@@ -2,6 +2,7 @@
 
 @section('title', __('tenant.edit_title'))
 @section('page-title', __('tenant.edit_title'))
+@section('page-help', __('tenant.page_help'))
 @section('content')
 <div class="row justify-content-center">
     <div class="col-lg-7">

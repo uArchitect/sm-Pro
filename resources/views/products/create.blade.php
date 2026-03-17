@@ -2,6 +2,7 @@
 
 @section('title', __('products.add'))
 @section('page-title', __('products.add'))
+@section('page-help', __('products.page_help_create'))
 @section('content')
 <style>
 .nav-tabs .nav-link { border-radius: 9px 9px 0 0; font-weight: 600; font-size: .85rem; padding: .5rem 1rem; color: var(--text-secondary); border: 1px solid transparent; }
