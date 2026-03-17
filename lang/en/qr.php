@@ -23,4 +23,7 @@ return [
     ],
     'digital_menu_brand' => 'Digital Menu — Order at Your Table',
     'copied'             => 'Copied',
+    'page_help'          => 'Your restaurant\'s QR code and permanent menu link. Print or download the QR to place on tables.',
+    'print_digital_menu' => 'Digital Menu',
+    'print_brand'        => 'Order at Your Table',
 ];

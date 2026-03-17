@@ -59,4 +59,6 @@ return [
     'no_match_tables'       => 'No matching tables.',
     'filter_by_zone'        => 'Filter by zone',
     'all_zones'             => 'All zones',
+    'page_help_zones'       => 'Define reservation zones (e.g. Window side, Terrace). Each zone can contain multiple tables.',
+    'page_help_tables'      => 'Manage tables within your reservation zones. Each table has a name, zone, and seating capacity.',
 ];
