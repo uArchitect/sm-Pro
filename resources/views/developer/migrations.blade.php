@@ -128,33 +128,27 @@
 </div>
 @endif
 
-{{-- Migration List --}}
+{{-- Pending Migration List --}}
+@if($pendingCount > 0)
 <div class="sm-card">
     <div class="sm-card-header">
         <i class="bi bi-database" style="color:var(--dev-accent)"></i>
-        Migration Dosyaları
+        Bekleyen Migration Dosyaları
         <span style="margin-left:auto;font-size:.75rem;color:#9ca3af;font-weight:400">database/migrations/</span>
     </div>
     <div>
-        @foreach($migrations as $m)
+        @foreach($pending as $m)
         <div class="mig-row">
-            @if($m->ran)
-                <span class="mig-badge mig-badge-ran"><i class="bi bi-check-lg"></i> Yüklü</span>
-            @else
-                <span class="mig-badge mig-badge-pending"><i class="bi bi-clock"></i> Bekliyor</span>
-            @endif
+            <span class="mig-badge mig-badge-pending"><i class="bi bi-clock"></i> Bekliyor</span>
             <div class="mig-name">{{ $m->name }}</div>
-            @if($m->ran)
-                <span class="mig-meta">batch {{ $m->batch }}</span>
-            @else
-                <button type="button" class="btn btn-sm btn-outline-secondary" style="font-size:.75rem;padding:.2rem .6rem;" onclick="confirmRunSingle({!! json_encode($m->name, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!})">
-                    <i class="bi bi-play-fill me-1"></i>Yükle
-                </button>
-            @endif
+            <button type="button" class="btn btn-sm btn-outline-secondary" style="font-size:.75rem;padding:.2rem .6rem;" onclick="confirmRunSingle({!! json_encode($m->name, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!})">
+                <i class="bi bi-play-fill me-1"></i>Yükle
+            </button>
         </div>
         @endforeach
     </div>
 </div>
+@endif
 
 {{-- Confirm dialog --}}
 <div class="mig-confirm-overlay" id="migConfirm">
