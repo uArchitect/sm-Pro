@@ -581,7 +581,7 @@
         <div class="topbar-right">
             <form method="POST" action="{{ route('locale.switch') }}" class="d-inline" id="localeForm">
                 @csrf
-                <input type="hidden" name="redirect" value="{{ url()->current() }}">
+                <input type="hidden" name="redirect" value="{{ request()->getRequestUri() }}">
                 <label class="topbar-chip mb-0 d-flex align-items-center gap-2 pe-2" style="cursor:pointer" for="localeSelect">
                     <i class="bi bi-translate"></i>
                     <select id="localeSelect" name="locale" class="topbar-lang-select" onchange="this.form.submit()" aria-label="{{ __('common.language') }}">
