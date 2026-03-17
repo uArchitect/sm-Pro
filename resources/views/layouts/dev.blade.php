@@ -165,6 +165,15 @@
         <a href="{{ route('developer.tickets') }}" class="nav-item-link {{ request()->routeIs('developer.tickets*') ? 'active' : '' }}">
             <i class="bi bi-headset"></i> Destek Mesajları
         </a>
+        <a href="{{ route('developer.contact-messages') }}" class="nav-item-link {{ request()->routeIs('developer.contact-messages*') ? 'active' : '' }}">
+            <i class="bi bi-chat-left-text"></i> İletişim Mesajları
+            @php
+                try { $cmUnread = \App\Models\ContactMessage::where('is_read', false)->count(); } catch (\Throwable $e) { $cmUnread = 0; }
+            @endphp
+            @if($cmUnread > 0)
+                <span style="margin-left:auto;background:#ef4444;color:#fff;font-size:.62rem;font-weight:700;padding:.1rem .4rem;border-radius:99px;min-width:18px;text-align:center;line-height:1.3">{{ $cmUnread }}</span>
+            @endif
+        </a>
         <a href="{{ route('developer.blog.index') }}" class="nav-item-link {{ request()->routeIs('developer.blog*') ? 'active' : '' }}">
             <i class="bi bi-journal-text"></i> Blog
         </a>
