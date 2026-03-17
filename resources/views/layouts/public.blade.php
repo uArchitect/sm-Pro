@@ -3,6 +3,8 @@
     $isTr = $locale === 'tr';
     $shareImage = asset('og-cover.svg');
     $currentUrl = url()->current();
+    $langUrlTr = request()->fullUrlWithQuery(['lang' => 'tr']);
+    $langUrlEn = request()->fullUrlWithQuery(['lang' => 'en']);
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', $locale) }}">
