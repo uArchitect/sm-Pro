@@ -89,7 +89,7 @@
                     <div class="cm-preview">{{ Str::limit($m->message, 80) }}</div>
                 </div>
                 <div class="cm-meta">
-                    <div class="cm-date">{{ $m->created_at->diffForHumans() }}</div>
+                    <div class="cm-date">{{ \Carbon\Carbon::parse($m->created_at)->diffForHumans() }}</div>
                     @if(!$m->is_read)
                         <div class="cm-dot"></div>
                     @endif
