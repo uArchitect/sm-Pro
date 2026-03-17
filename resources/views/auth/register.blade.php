@@ -1,5 +1,6 @@
+@php $isTr = app()->getLocale() === 'tr'; @endphp
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
