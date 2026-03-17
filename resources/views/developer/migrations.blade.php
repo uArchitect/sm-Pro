@@ -75,18 +75,18 @@
 
 {{-- Stats --}}
 <div class="row g-3 mb-4">
-    <div class="col-6 col-md-3">
+    <div class="col-6 col-md-4">
         <div class="mig-stat">
             <div class="mig-stat-icon" style="background:rgba(34,197,94,.1); color:#16a34a;">
                 <i class="bi bi-check-circle-fill"></i>
             </div>
             <div>
-                <div class="mig-stat-value">{{ $migrations->where('ran', true)->count() }}</div>
+                <div class="mig-stat-value">{{ $ranCount }}</div>
                 <div class="mig-stat-label">Yüklü</div>
             </div>
         </div>
     </div>
-    <div class="col-6 col-md-3">
+    <div class="col-6 col-md-4">
         <div class="mig-stat">
             <div class="mig-stat-icon" style="background:rgba(245,158,11,.1); color:#d97706;">
                 <i class="bi bi-clock-fill"></i>
@@ -97,18 +97,7 @@
             </div>
         </div>
     </div>
-    <div class="col-6 col-md-3">
-        <div class="mig-stat">
-            <div class="mig-stat-icon" style="background:rgba(99,102,241,.1); color:#6366f1;">
-                <i class="bi bi-layers-fill"></i>
-            </div>
-            <div>
-                <div class="mig-stat-value">{{ $migrations->count() }}</div>
-                <div class="mig-stat-label">Toplam Dosya</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-6 col-md-3">
+    <div class="col-6 col-md-4">
         <div class="mig-stat">
             <div class="mig-stat-icon" style="background:rgba(239,68,68,.1); color:#ef4444;">
                 <i class="bi bi-hash"></i>
