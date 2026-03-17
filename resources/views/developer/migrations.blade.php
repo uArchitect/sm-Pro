@@ -158,7 +158,7 @@
             @if($m->ran)
                 <span class="mig-meta">batch {{ $m->batch }}</span>
             @else
-                <button type="button" class="btn btn-sm btn-outline-secondary" style="font-size:.75rem;padding:.2rem .6rem;" onclick="confirmRunSingle('{{ $m->name }}')">
+                <button type="button" class="btn btn-sm btn-outline-secondary" style="font-size:.75rem;padding:.2rem .6rem;" onclick="confirmRunSingle({!! json_encode($m->name, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) !!})">
                     <i class="bi bi-play-fill me-1"></i>Yükle
                 </button>
             @endif
