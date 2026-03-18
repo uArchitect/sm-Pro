@@ -112,8 +112,8 @@
         .topbar-title { font-size: .95rem; font-weight: 700; color: #111827; }
         .dev-badge {
             font-size: .68rem; font-weight: 700; border-radius: 5px;
-            padding: .2rem .5rem; background: rgba(239,68,68,.1); color: #dc2626;
-            border: 1px solid rgba(239,68,68,.2);
+            padding: .2rem .5rem; background: rgba(79,70,229,.08); color: #4F46E5;
+            border: 1px solid rgba(79,70,229,.15);
         }
         .topbar-right { margin-left: auto; display: flex; align-items: center; gap: .75rem; }
         .topbar-date {
@@ -132,10 +132,10 @@
         .sm-table td { vertical-align:middle; color:#374151; }
         .btn { font-weight:500; border-radius:9px; font-size:.855rem; }
         .btn-sm { padding:.35rem .75rem; border-radius:7px; }
-        .btn-accent { background:linear-gradient(135deg,#ef4444,#f87171); border:none; color:#fff; box-shadow:0 4px 14px rgba(239,68,68,.3); }
-        .btn-accent:hover { color:#fff; box-shadow:0 6px 20px rgba(239,68,68,.45); transform:translateY(-1px); }
+        .btn-accent { background:linear-gradient(135deg,#4F46E5,#6366F1); border:none; color:#fff; box-shadow:0 4px 14px rgba(79,70,229,.25); }
+        .btn-accent:hover { color:#fff; box-shadow:0 6px 20px rgba(79,70,229,.4); transform:translateY(-1px); }
         .form-control,.form-select { border-radius:9px; border-color:#e5e7eb; font-size:.875rem; padding:.6rem .95rem; color:#111827; }
-        .form-control:focus,.form-select:focus { border-color:#ef4444; box-shadow:0 0 0 3px rgba(239,68,68,.12); }
+        .form-control:focus,.form-select:focus { border-color:#4F46E5; box-shadow:0 0 0 3px rgba(79,70,229,.1); }
         .form-label { font-weight:600; font-size:.8rem; color:#374151; margin-bottom:.4rem; }
         .alert { border:none; border-radius:10px; font-size:.875rem; }
         .alert-success { background:#f0fdf4; color:#166534; }
@@ -180,7 +180,7 @@
                 try { $cmUnread = \Illuminate\Support\Facades\DB::table('contact_messages')->where('is_read', false)->count(); } catch (\Throwable $e) { $cmUnread = 0; }
             @endphp
             @if($cmUnread > 0)
-                <span style="margin-left:auto;background:#ef4444;color:#fff;font-size:.62rem;font-weight:700;padding:.1rem .4rem;border-radius:99px;min-width:18px;text-align:center;line-height:1.3">{{ $cmUnread }}</span>
+                <span style="margin-left:auto;background:#4F46E5;color:#fff;font-size:.62rem;font-weight:700;padding:.1rem .4rem;border-radius:99px;min-width:18px;text-align:center;line-height:1.3">{{ $cmUnread }}</span>
             @endif
         </a>
         @endif
