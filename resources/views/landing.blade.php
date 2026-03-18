@@ -351,7 +351,7 @@
     <section class="how" id="how">
         <div class="container">
             <div class="text-center mb-5">
-                <div class="section-badge" style="background:rgba(108,92,231,.1);color:#a29bfe">
+                <div class="section-badge" style="background:rgba(79,70,229,.08);color:#4F46E5">
                     <i class="bi bi-lightning-charge"></i> {{ $isTr ? 'Nasıl Çalışır?' : 'How It Works?' }}
                 </div>
                 <h2 class="section-title">{{ $isTr ? '3 Adımda QR Menü Oluşturun' : 'Create a QR Menu in 3 Steps' }}</h2>
@@ -360,7 +360,7 @@
             <div class="row align-items-start">
                 <div class="col-12 col-md-4">
                     <div class="step-card">
-                        <div class="step-num" style="background:rgba(255,107,53,.12);color:#FF6B35">1</div>
+                        <div class="step-num" style="background:rgba(79,70,229,.08);color:#4F46E5">1</div>
                         <h3>{{ $isTr ? 'Ücretsiz Kayıt Olun' : 'Register for Free' }}</h3>
                         <p>{{ $isTr ? 'Restoran bilgilerinizi girin. Ücretsiz dijital menü hesabınız anında oluşturulur.' : 'Enter your restaurant details. Your free digital menu account is created instantly.' }}</p>
                     </div>
