@@ -42,7 +42,7 @@
     <meta name="keywords" content="@yield('meta_keywords')">
     <meta name="author" content="Sipariş Masanda">
     @hasSection('meta_robots')@yield('meta_robots')@else<meta name="robots" content="index, follow, max-image-preview:large">@endif
-    <meta name="theme-color" content="#0a0f1e">
+    <meta name="theme-color" content="#ffffff">
     <link rel="canonical" href="@yield('canonical', $currentUrl)">
     <link rel="alternate" hreflang="tr" href="{{ $langUrlTr }}">
     <link rel="alternate" hreflang="en" href="{{ $langUrlEn }}">
@@ -76,12 +76,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" media="print" onload="this.media='all'">
     <style>
         *{font-family:'Inter',sans-serif;box-sizing:border-box}
-        body{background:#0a0f1e;color:#fff;margin:0;overflow-x:hidden}
-        body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,107,53,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,107,53,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
-        .blob{position:fixed;border-radius:50%;filter:blur(140px);pointer-events:none;opacity:.25;z-index:0}
-        .blob-1{width:600px;height:600px;background:#FF6B35;top:-200px;left:-200px}
-        .blob-2{width:500px;height:500px;background:#6C5CE7;bottom:-150px;right:-200px}
-        .blob-3{width:300px;height:300px;background:#FF6B35;top:50%;left:50%;transform:translate(-50%,-50%)}
+        body{background:#fff;color:#0f172a;margin:0;overflow-x:hidden}
+        .blob{display:none}
         section,.page-content{position:relative;z-index:1}
 
         /* Navbar */
