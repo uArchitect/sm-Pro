@@ -63,8 +63,8 @@
                         <a href="{{ route('blog') }}" class="hero-btn-outline">Blog</a>
                         <a href="{{ route('contact') }}" class="hero-btn-outline">{{ $isTr ? 'İletişim' : 'Contact' }}</a>
                     </div>
-                    <p class="small text-muted mt-4 mb-0">
-                        <a href="{{ route('sitemap') }}" class="text-white-50">{{ $isTr ? 'Site haritası' : 'Sitemap' }}</a>
+                    <p class="small mt-4 mb-0" style="color:#94a3b8">
+                        <a href="{{ route('sitemap') }}" style="color:#64748b;text-decoration:none">{{ $isTr ? 'Site haritası' : 'Sitemap' }}</a>
                     </p>
                 </div>
             </div>
