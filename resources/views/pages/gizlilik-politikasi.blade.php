@@ -32,13 +32,13 @@
 
 @section('styles')
         .legal-section{padding:2rem 0 5rem}
-        .legal-content{max-width:760px;margin:0 auto;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:2.5rem 2rem}
-        .legal-content h2{font-size:1.1rem;font-weight:800;color:#fff;margin:2rem 0 .6rem}
+        .legal-content{max-width:760px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:2.5rem 2rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+        .legal-content h2{font-size:1.1rem;font-weight:800;color:#1e293b;margin:2rem 0 .6rem}
         .legal-content h2:first-child{margin-top:0}
-        .legal-content p,.legal-content li{font-size:.86rem;color:rgba(255,255,255,.5);line-height:1.8}
+        .legal-content p,.legal-content li{font-size:.86rem;color:#475569;line-height:1.8}
         .legal-content ul{padding-left:1.25rem;margin:.5rem 0}
-        .legal-content strong{color:rgba(255,255,255,.7)}
-        .legal-update{font-size:.75rem;color:rgba(255,255,255,.25);text-align:center;margin-top:1.5rem}
+        .legal-content strong{color:#1e293b}
+        .legal-update{font-size:.75rem;color:#94a3b8;text-align:center;margin-top:1.5rem}
 @endsection
 
 @section('content')

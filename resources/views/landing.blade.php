@@ -108,60 +108,61 @@
 
 @section('styles')
         /* Hero */
-        .hero{min-height:100vh;display:flex;align-items:center;padding-top:5rem}
-        .hero-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:999px;background:rgba(79,70,229,.08);border:1px solid rgba(79,70,229,.15);font-size:.75rem;font-weight:600;color:#4F46E5;margin-bottom:1.5rem}
-        .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite}
+        .hero{min-height:100vh;display:flex;align-items:center;padding-top:5rem;background:linear-gradient(165deg,#f8fafc 0%,#eef2ff 50%,#e0e7ff 100%)}
+        .hero-badge{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:999px;background:rgba(79,70,229,.1);border:1px solid rgba(79,70,229,.2);font-size:.75rem;font-weight:700;color:#4338CA;margin-bottom:1.5rem}
+        .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite}
         @@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-        .hero h1 .accent{background:linear-gradient(90deg,#4F46E5,#818CF8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero h1 .accent{background:linear-gradient(90deg,#4338CA,#6366F1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
         .hero h1{font-size:clamp(2.2rem,5vw,3.8rem);font-weight:900;line-height:1.08;letter-spacing:-.03em;margin-bottom:1.25rem;color:#0f172a}
-        .hero-sub{font-size:1.05rem;color:#64748b;line-height:1.7;max-width:520px;margin-bottom:2.5rem}
+        .hero-sub{font-size:1.05rem;color:#475569;line-height:1.7;max-width:520px;margin-bottom:2.5rem}
         .hero-btns{display:flex;gap:.75rem;flex-wrap:wrap}
 
         .hero-visual{position:relative}
-        .hero-mockup{width:100%;max-width:380px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:24px;padding:1.5rem;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+        .hero-mockup{width:100%;max-width:380px;margin:0 auto;background:#fff;border:1px solid #c7d2fe;border-radius:24px;padding:1.5rem;box-shadow:0 8px 40px rgba(79,70,229,.12),0 2px 8px rgba(0,0,0,.06)}
         .mock-header{text-align:center;margin-bottom:1.25rem}
-        .mock-logo{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#4F46E5,#6366F1);display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;margin-bottom:.5rem}
-        .mock-title{font-size:.95rem;font-weight:800;color:#0f172a}
-        .mock-sub{font-size:.72rem;color:#94a3b8}
-        .mock-item{display:flex;align-items:center;gap:.7rem;padding:.7rem .8rem;background:#f8fafc;border:1px solid #f1f5f9;border-radius:12px;margin-bottom:.5rem}
-        .mock-thumb{width:40px;height:40px;border-radius:8px;background:rgba(79,70,229,.08);display:flex;align-items:center;justify-content:center;font-size:.9rem;color:#4F46E5;flex-shrink:0}
-        .mock-name{font-size:.78rem;font-weight:600;color:#0f172a}
-        .mock-desc{font-size:.65rem;color:#94a3b8}
-        .mock-price{font-size:.82rem;font-weight:800;color:#4F46E5;margin-left:auto;white-space:nowrap}
+        .mock-logo{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#4F46E5,#6366F1);display:inline-flex;align-items:center;justify-content:center;font-size:1.1rem;color:#fff;margin-bottom:.5rem;box-shadow:0 4px 12px rgba(79,70,229,.3)}
+        .mock-title{font-size:.95rem;font-weight:800;color:#1e293b}
+        .mock-sub{font-size:.72rem;color:#64748b;font-weight:500}
+        .mock-item{display:flex;align-items:center;gap:.7rem;padding:.7rem .8rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;margin-bottom:.5rem;transition:border-color .15s}
+        .mock-item:hover{border-color:#c7d2fe}
+        .mock-thumb{width:40px;height:40px;border-radius:8px;background:#eef2ff;display:flex;align-items:center;justify-content:center;font-size:.95rem;color:#4338CA;flex-shrink:0;border:1px solid #e0e7ff}
+        .mock-name{font-size:.8rem;font-weight:700;color:#1e293b}
+        .mock-desc{font-size:.68rem;color:#64748b}
+        .mock-price{font-size:.85rem;font-weight:800;color:#4338CA;margin-left:auto;white-space:nowrap}
         .mock-glow{display:none}
 
         /* Social proof */
-        .proof-bar{padding:3rem 0}
-        .proof-stat{text-align:center}
-        .proof-stat .num{font-size:clamp(1.3rem,5vw,2rem);font-weight:900;color:#0f172a;line-height:1.1;letter-spacing:-.02em}
-        .proof-stat .lbl{font-size:.78rem;color:#64748b;margin-top:.2rem;line-height:1.35}
+        .proof-bar{padding:3rem 0;background:#fff}
+        .proof-stat{text-align:center;padding:1.25rem;border-radius:16px;background:#f8fafc;border:1px solid #e2e8f0}
+        .proof-stat .num{font-size:clamp(1.3rem,5vw,2rem);font-weight:900;color:#4338CA;line-height:1.1;letter-spacing:-.02em}
+        .proof-stat .lbl{font-size:.78rem;color:#475569;margin-top:.2rem;line-height:1.35;font-weight:500}
 
         /* Features */
         .features{padding:6rem 0;background:#f8fafc}
-        .feat-card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:1.75rem;transition:all .25s;height:100%;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-        .feat-card:hover{border-color:rgba(79,70,229,.2);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
+        .feat-card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:1.75rem;transition:all .25s;height:100%;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+        .feat-card:hover{border-color:#c7d2fe;transform:translateY(-4px);box-shadow:0 12px 40px rgba(79,70,229,.1)}
         .feat-icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem}
-        .feat-card h3{font-size:.95rem;font-weight:700;color:#0f172a;margin-bottom:.4rem}
-        .feat-card p{font-size:.82rem;color:#64748b;line-height:1.6;margin:0}
+        .feat-card h3{font-size:.95rem;font-weight:700;color:#1e293b;margin-bottom:.4rem}
+        .feat-card p{font-size:.82rem;color:#475569;line-height:1.6;margin:0}
 
         /* How it Works */
-        .how{padding:6rem 0}
+        .how{padding:6rem 0;background:#fff}
         .step-num{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;margin:0 auto 1rem;position:relative}
-        .step-num::after{content:'';position:absolute;inset:-3px;border-radius:18px;border:2px dashed rgba(79,70,229,.15);animation:spin 20s linear infinite}
+        .step-num::after{content:'';position:absolute;inset:-3px;border-radius:18px;border:2px dashed rgba(79,70,229,.2);animation:spin 20s linear infinite}
         @@keyframes spin{to{transform:rotate(360deg)}}
-        .step-card{text-align:center;padding:1.5rem}
-        .step-card h3{font-size:.95rem;font-weight:700;color:#0f172a;margin-bottom:.35rem}
-        .step-card p{font-size:.82rem;color:#64748b;line-height:1.6}
-        .step-arrow{display:flex;align-items:center;justify-content:center;color:#cbd5e1;font-size:1.5rem;padding-top:2rem}
+        .step-card{text-align:center;padding:1.5rem;background:#f8fafc;border-radius:16px;border:1px solid #e2e8f0}
+        .step-card h3{font-size:.95rem;font-weight:700;color:#1e293b;margin-bottom:.35rem}
+        .step-card p{font-size:.82rem;color:#475569;line-height:1.6}
+        .step-arrow{display:flex;align-items:center;justify-content:center;color:#c7d2fe;font-size:1.5rem;padding-top:2rem}
 
         /* FAQ */
         .faq-section{padding:5rem 0;background:#f8fafc}
-        .faq-item{background:#fff;border:1px solid #e2e8f0;border-radius:14px;margin-bottom:.6rem;overflow:hidden}
-        .faq-btn{width:100%;background:none;border:none;padding:1rem 1.25rem;text-align:left;color:#0f172a;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:.75rem}
-        .faq-btn:hover{background:#f8fafc}
-        .faq-btn i{color:#4F46E5;transition:transform .25s;font-size:.85rem;flex-shrink:0}
+        .faq-item{background:#fff;border:1px solid #e2e8f0;border-radius:14px;margin-bottom:.6rem;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+        .faq-btn{width:100%;background:none;border:none;padding:1rem 1.25rem;text-align:left;color:#1e293b;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:.75rem}
+        .faq-btn:hover{background:#fafbfc}
+        .faq-btn i{color:#4338CA;transition:transform .25s;font-size:.85rem;flex-shrink:0}
         .faq-btn:not(.collapsed) i{transform:rotate(180deg)}
-        .faq-answer{padding:0 1.25rem 1rem;font-size:.84rem;color:#64748b;line-height:1.7}
+        .faq-answer{padding:0 1.25rem 1rem;font-size:.84rem;color:#475569;line-height:1.7}
 
         @@media(max-width:768px){
             .hero-visual{margin-top:3rem}
@@ -192,7 +193,7 @@
             .step-num{width:48px;height:48px;font-size:1.25rem}
             .faq-section{padding:3rem 0}
             .proof-bar .row > [class*="col-"]{flex:0 0 100%;max-width:100%}
-            .proof-stat{padding:.85rem 1rem;border:1px solid #e2e8f0;border-radius:12px;background:#fff}
+            .proof-stat{padding:.85rem 1rem;border:1px solid #e2e8f0;border-radius:12px;background:#fff;box-shadow:none}
             .proof-stat .lbl{font-size:.74rem}
             /* Right-side floating widgets can cover content on narrow screens */
             .proof-bar .container,.lp-footer .container{padding-right:3.1rem}
@@ -289,7 +290,7 @@
     <section class="features" id="features">
         <div class="container">
             <div class="text-center mb-5">
-                <div class="section-badge" style="background:rgba(79,70,229,.08);color:#4F46E5">
+                <div class="section-badge" style="background:#eef2ff;color:#4338CA;border:1px solid #e0e7ff">
                     <i class="bi bi-stars"></i> {{ $isTr ? 'Özellikler' : 'Features' }}
                 </div>
                 <h2 class="section-title">{{ $isTr ? 'Restoran Menü Sisteminiz İçin' : 'Everything You Need For' }}<br>{{ $isTr ? 'İhtiyacınız Olan Her Şey' : 'Your Restaurant Menu' }}</h2>
@@ -298,42 +299,42 @@
             <div class="row g-4">
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
-                        <div class="feat-icon" style="background:rgba(79,70,229,.08);color:#4F46E5"><i class="bi bi-qr-code"></i></div>
+                        <div class="feat-icon" style="background:#eef2ff;color:#4338CA"><i class="bi bi-qr-code"></i></div>
                         <h3>{{ $isTr ? 'QR Kod Menü' : 'QR Code Menu' }}</h3>
                         <p>{{ $isTr ? 'Baskıya hazır karekod menü oluşturun. Müşterileriniz telefonlarıyla tarayıp dijital menünüzü anında görsün.' : 'Create print-ready QR code menus. Your customers can scan with their phones and instantly view your digital menu.' }}</p>
                     </article>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
-                        <div class="feat-icon" style="background:rgba(16,185,129,.12);color:#10b981"><i class="bi bi-grid-3x3-gap"></i></div>
+                        <div class="feat-icon" style="background:#ecfdf5;color:#059669"><i class="bi bi-grid-3x3-gap"></i></div>
                         <h3>{{ $isTr ? 'Kategori & Ürün Yönetimi' : 'Category & Product Management' }}</h3>
                         <p>{{ $isTr ? 'Sınırsız kategori ve ürün. Fotoğraf, açıklama, fiyat — sürükle-bırak sıralama ile online menü yönetimi.' : 'Unlimited categories and products. Photos, descriptions, prices — drag-and-drop ordering for online menu management.' }}</p>
                     </article>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
-                        <div class="feat-icon" style="background:rgba(251,191,36,.12);color:#FBBF24"><i class="bi bi-star"></i></div>
+                        <div class="feat-icon" style="background:#fef9c3;color:#ca8a04"><i class="bi bi-star"></i></div>
                         <h3>{{ $isTr ? 'Müşteri Değerlendirmeleri' : 'Customer Reviews' }}</h3>
                         <p>{{ $isTr ? 'Müşterileriniz QR menü üzerinden restoran değerlendirmesi bıraksın. Puanlarınızı takip edin.' : 'Let your customers leave reviews via the QR menu. Track your ratings.' }}</p>
                     </article>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
-                        <div class="feat-icon" style="background:rgba(99,102,241,.12);color:#6366f1"><i class="bi bi-people"></i></div>
+                        <div class="feat-icon" style="background:#eef2ff;color:#4338CA"><i class="bi bi-people"></i></div>
                         <h3>{{ $isTr ? 'Çoklu Kullanıcı' : 'Multi-User Access' }}</h3>
                         <p>{{ $isTr ? 'Ekibinizi davet edin. Owner, admin ve personel rolleriyle restoran yönetim paneli.' : 'Invite your team. Restaurant management panel with owner, admin, and staff roles.' }}</p>
                     </article>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
-                        <div class="feat-icon" style="background:rgba(236,72,153,.12);color:#EC4899"><i class="bi bi-instagram"></i></div>
+                        <div class="feat-icon" style="background:#fce7f3;color:#db2777"><i class="bi bi-instagram"></i></div>
                         <h3>{{ $isTr ? 'Sosyal Medya Entegrasyonu' : 'Social Media Integration' }}</h3>
                         <p>{{ $isTr ? 'Instagram, Facebook, WhatsApp hesaplarınızı ekleyin. Dijital menü sayfanızda otomatik gösterilsin.' : 'Add your Instagram, Facebook, WhatsApp accounts. Automatically displayed on your digital menu page.' }}</p>
                     </article>
                 </div>
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
-                        <div class="feat-icon" style="background:rgba(168,85,247,.12);color:#A855F7"><i class="bi bi-phone"></i></div>
+                        <div class="feat-icon" style="background:#f3e8ff;color:#9333ea"><i class="bi bi-phone"></i></div>
                         <h3>{{ $isTr ? 'Mobil Uyumlu Menü' : 'Mobile Friendly Menu' }}</h3>
                         <p>{{ $isTr ? 'Tüm cihazlarda kusursuz görüntülenen mobil uyumlu menü tasarımı. Müşterileriniz her yerden erişsin.' : 'Mobile-friendly menu design that displays perfectly on all devices. Your customers can access from anywhere.' }}</p>
                     </article>
@@ -351,7 +352,7 @@
     <section class="how" id="how">
         <div class="container">
             <div class="text-center mb-5">
-                <div class="section-badge" style="background:rgba(79,70,229,.08);color:#4F46E5">
+                <div class="section-badge" style="background:#eef2ff;color:#4338CA;border:1px solid #e0e7ff">
                     <i class="bi bi-lightning-charge"></i> {{ $isTr ? 'Nasıl Çalışır?' : 'How It Works?' }}
                 </div>
                 <h2 class="section-title">{{ $isTr ? '3 Adımda QR Menü Oluşturun' : 'Create a QR Menu in 3 Steps' }}</h2>
@@ -360,7 +361,7 @@
             <div class="row align-items-start">
                 <div class="col-12 col-md-4">
                     <div class="step-card">
-                        <div class="step-num" style="background:rgba(79,70,229,.08);color:#4F46E5">1</div>
+                        <div class="step-num" style="background:#eef2ff;color:#4338CA;border:1px solid #e0e7ff">1</div>
                         <h3>{{ $isTr ? 'Ücretsiz Kayıt Olun' : 'Register for Free' }}</h3>
                         <p>{{ $isTr ? 'Restoran bilgilerinizi girin. Ücretsiz dijital menü hesabınız anında oluşturulur.' : 'Enter your restaurant details. Your free digital menu account is created instantly.' }}</p>
                     </div>
@@ -368,7 +369,7 @@
                 <div class="col-12 col-md-1 d-none d-md-flex step-arrow"><i class="bi bi-arrow-right"></i></div>
                 <div class="col-12 col-md-3">
                     <div class="step-card">
-                        <div class="step-num" style="background:rgba(16,185,129,.12);color:#10b981">2</div>
+                        <div class="step-num" style="background:#ecfdf5;color:#059669;border:1px solid #d1fae5">2</div>
                         <h3>{{ $isTr ? 'Menünüzü Oluşturun' : 'Create Your Menu' }}</h3>
                         <p>{{ $isTr ? 'Kategorileri ve ürünleri ekleyin. Fotoğraf yükleyin, fiyatları belirleyin. Anlık menü güncelleme yapın.' : 'Add categories and products. Upload photos, set prices. Make instant menu updates.' }}</p>
                     </div>
@@ -376,7 +377,7 @@
                 <div class="col-12 col-md-1 d-none d-md-flex step-arrow"><i class="bi bi-arrow-right"></i></div>
                 <div class="col-12 col-md-3">
                     <div class="step-card">
-                        <div class="step-num" style="background:rgba(251,191,36,.12);color:#FBBF24">3</div>
+                        <div class="step-num" style="background:#fef9c3;color:#ca8a04;border:1px solid #fef08a">3</div>
                         <h3>{{ $isTr ? 'QR Kodu Paylaşın' : 'Share Your QR Code' }}</h3>
                         <p>{{ $isTr ? 'QR kodunuzu yazdırıp masalara yerleştirin. Müşterileriniz karekod menüyü tarayıp menüyü görsün.' : 'Print and place your QR code on tables. Your customers scan the QR code menu and view the menu.' }}</p>
                     </div>
@@ -389,7 +390,7 @@
     <section class="faq-section" id="faq">
         <div class="container" style="max-width:720px">
             <div class="text-center mb-4">
-                <div class="section-badge" style="background:rgba(79,70,229,.08);color:#4F46E5">
+                <div class="section-badge" style="background:#eef2ff;color:#4338CA;border:1px solid #e0e7ff">
                     <i class="bi bi-question-circle"></i> {{ $isTr ? 'SSS' : 'FAQ' }}
                 </div>
                 <h2 class="section-title">{{ $isTr ? 'Sık Sorulan Sorular' : 'Frequently Asked Questions' }}</h2>
@@ -432,7 +433,7 @@
                 <h2>{{ $isTr ? 'Restoranınızı Dijitale Taşımaya' : 'Ready to Take Your Restaurant' }}<br>{{ $isTr ? 'Hazır mısınız?' : 'Digital?' }}</h2>
                 <p>{{ $isTr ? 'Hemen ücretsiz hesap oluşturun ve dijital menünüzü dakikalar içinde yayına alın.' : 'Create a free account now and publish your digital menu in minutes.' }}</p>
                 <div class="d-flex flex-wrap gap-2 justify-content-center">
-                    <a href="{{ route('register') }}" class="hero-btn-primary" style="position:relative;background:#fff;color:#4F46E5;box-shadow:0 8px 32px rgba(0,0,0,.15)">
+                    <a href="{{ route('register') }}" class="hero-btn-primary" style="position:relative;background:#fff;color:#4338CA;box-shadow:0 8px 32px rgba(0,0,0,.18);font-weight:800">
                         <i class="bi bi-rocket-takeoff"></i> {{ $isTr ? 'Ücretsiz Hesap Oluştur' : 'Create Free Account' }}
                     </a>
                     <a href="{{ locale_route('demo') }}" class="hero-btn-outline" style="position:relative;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.25);color:#fff">

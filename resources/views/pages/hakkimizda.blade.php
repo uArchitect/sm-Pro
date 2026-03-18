@@ -50,8 +50,8 @@
         .about-block{margin-bottom:3.5rem}
         .about-block h2{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:.6rem}
         .about-block p{font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.75;max-width:640px}
-        .value-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:1.5rem;text-align:center;height:100%;transition:all .25s}
-        .value-card:hover{background:rgba(255,255,255,.05);border-color:rgba(79,70,229,.15);transform:translateY(-3px)}
+        .value-card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:1.5rem;text-align:center;height:100%;transition:all .25s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+        .value-card:hover{border-color:#c7d2fe;transform:translateY(-3px);box-shadow:0 8px 24px rgba(79,70,229,.08)}
         .value-icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin:0 auto .75rem}
         .value-card h3{font-size:.9rem;font-weight:700;color:#fff;margin-bottom:.3rem}
         .value-card p{font-size:.8rem;color:rgba(255,255,255,.4);line-height:1.6;margin:0}
