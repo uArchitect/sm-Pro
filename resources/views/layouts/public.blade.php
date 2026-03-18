@@ -5,6 +5,9 @@
     $currentUrl = url()->current();
     $langUrlTr = alternate_url('tr');
     $langUrlEn = alternate_url('en');
+
+    $prefix = $isTr ? '' : 'en.';
+    $r = fn(string $name, $params = []) => route($prefix . $name, $params);
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', $locale) }}">
@@ -263,7 +266,7 @@
 
     <nav class="lp-nav" id="lpNav">
         <div class="container d-flex align-items-center justify-content-between position-relative">
-            <a href="{{ url('/') }}" class="d-flex align-items-center gap-2 text-decoration-none">
+            <a href="{{ $r('home') }}" class="d-flex align-items-center gap-2 text-decoration-none">
                 <div class="logo-icon"><i class="bi bi-qr-code-scan"></i></div>
                 <span class="logo-text">Sipariş Masanda</span>
             </a>
