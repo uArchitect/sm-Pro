@@ -133,10 +133,22 @@
     </div>
 </div>
 
+@php
+    $tablesJson = [];
+    foreach ($tables as $zoneId => $group) {
+        $tablesJson[$zoneId] = [];
+        foreach ($group as $t) {
+            $tablesJson[$zoneId][] = ['id' => $t->id, 'name' => $t->name, 'capacity' => $t->capacity];
+        }
+    }
+    $selectPlaceholder = $locale === 'tr' ? 'Masa seçin' : 'Select table';
+    $zoneFirstLabel = $locale === 'tr' ? 'Önce bölge seçin' : 'Select zone first';
+    $pLabel = $locale === 'tr' ? 'kişi' : 'persons';
+@endphp
 <script>
-var tablesData = @json($tables->map(fn($group, $zoneId) => $group->map(fn($t) => ['id' => $t->id, 'name' => $t->name, 'capacity' => $t->capacity]))->toArray());
-var tableSelectPlaceholder = @json($locale === 'tr' ? 'Masa seçin' : 'Select table');
-var personLabel = @json($locale === 'tr' ? 'kişi' : 'persons');
+var tablesData = {!! json_encode($tablesJson) !!};
+var tableSelectPlaceholder = {!! json_encode($selectPlaceholder) !!};
+var personLabel = {!! json_encode($pLabel) !!};
 
 function updateTables() {
     var zoneId = document.getElementById('zoneSelect').value;
@@ -144,7 +156,7 @@ function updateTables() {
     sel.innerHTML = '';
 
     if (!zoneId || !tablesData[zoneId]) {
-        sel.innerHTML = '<option value="">' + @json($locale === 'tr' ? 'Önce bölge seçin' : 'Select zone first') + '</option>';
+        sel.innerHTML = '<option value="">' + {!! json_encode($zoneFirstLabel) !!} + '</option>';
         return;
     }
 
