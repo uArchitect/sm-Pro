@@ -20,7 +20,7 @@
 .blog-card-thumb{background:linear-gradient(145deg,rgba(79,70,229,.08) 0%,rgba(108,92,231,.06) 100%);border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;transition:background .2s}
 .blog-card-thumb:hover{background:linear-gradient(145deg,rgba(79,70,229,.12) 0%,rgba(108,92,231,.08) 100%)}
 .blog-card-thumb-img{width:100%;height:100%;object-fit:cover;display:block;min-height:200px}
-.blog-card-thumb-icon{width:64px;height:64px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:1.75rem;color:rgba(255,255,255,.25)}
+.blog-card-thumb-icon{width:64px;height:64px;border-radius:16px;background:#eef2ff;border:1px solid #e0e7ff;display:flex;align-items:center;justify-content:center;font-size:1.75rem;color:#4338CA}
 .blog-card-thumb:hover .blog-card-thumb-icon{color:rgba(79,70,229,.5);border-color:rgba(79,70,229,.2)}
 @endsection
 

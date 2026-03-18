@@ -36,7 +36,7 @@
 @section('content')
 <section class="page-hero">
     <div class="container text-center">
-        <div class="mb-4" style="font-size:4rem;font-weight:800;color:rgba(255,255,255,.12);line-height:1">404</div>
+        <div class="mb-4" style="font-size:4rem;font-weight:800;color:rgba(79,70,229,.12);line-height:1">404</div>
         <h1 class="mb-3">{{ $isTr ? 'Sayfa Bulunamadı' : 'Page Not Found' }}</h1>
         <p class="page-hero-sub mx-auto" style="max-width:480px">
             {{ $isTr
@@ -51,7 +51,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
                 <div class="glass-card p-4 p-md-5 text-center">
-                    <p class="text-white mb-4 opacity-90">
+                    <p class="mb-4" style="color:#475569">
                         {{ $isTr ? 'Ana sayfaya dönerek veya aşağıdaki linkleri kullanarak devam edebilirsiniz.' : 'You can continue by returning to the homepage or using the links below.' }}
                     </p>
                     <div class="d-flex flex-wrap gap-2 justify-content-center">

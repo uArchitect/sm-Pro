@@ -63,7 +63,7 @@
 <section class="page-hero">
     <div class="container" style="max-width:720px">
         <nav aria-label="breadcrumb" class="mb-3">
-            <ol class="breadcrumb small mb-0" style="background:transparent;color:rgba(255,255,255,.5)">
+            <ol class="breadcrumb small mb-0" style="background:transparent;color:#64748b">
                 <li class="breadcrumb-item"><a href="{{ locale_route('home') }}" class="text-white-50">{{ $isTr ? 'Ana Sayfa' : 'Home' }}</a></li>
                 <li class="breadcrumb-item"><a href="{{ locale_route('blog') }}" class="text-white-50">{{ $isTr ? 'Blog' : 'Blog' }}</a></li>
                 <li class="breadcrumb-item active text-white" aria-current="page">{{ Str::limit($post->title, 40) }}</li>
@@ -112,7 +112,7 @@
 @section('styles')
 .blog-show-thumb{background:linear-gradient(145deg,rgba(79,70,229,.06) 0%,rgba(108,92,231,.05) 100%);border:1px solid rgba(255,255,255,.05);border-radius:1rem;display:flex;align-items:center;justify-content:center}
 .blog-show-thumb-img{width:100%;height:100%;object-fit:cover;display:block}
-.blog-show-thumb-icon{width:72px;height:72px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:2rem;color:rgba(255,255,255,.2)}
+.blog-show-thumb-icon{width:72px;height:72px;border-radius:18px;background:#eef2ff;border:1px solid #e0e7ff;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#4338CA}
 .blog-body { font-size:1rem; line-height:1.85; color:rgba(255,255,255,.88); word-wrap:break-word; overflow-wrap:break-word; }
 .blog-body > *:first-child { margin-top:0; }
 .blog-body h2 { font-size:clamp(1.15rem,2.5vw,1.35rem); font-weight:800; margin:2rem 0 .85rem; padding-bottom:.5rem; color:#fff; border-bottom:1px solid rgba(79,70,229,.2); line-height:1.35; }
@@ -137,7 +137,7 @@
 }
 .blog-body blockquote p { margin:0; font-size:.98rem; line-height:1.75; }
 .blog-body blockquote p + p { margin-top:.75rem; }
-.blog-body blockquote cite, .blog-body blockquote footer { display:block; margin-top:.75rem; font-size:.85rem; font-style:normal; color:rgba(255,255,255,.55); }
+.blog-body blockquote cite, .blog-body blockquote footer { display:block; margin-top:.75rem; font-size:.85rem; font-style:normal; color:#64748b; }
 .blog-body hr { border:0; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent); margin:1.75rem 0; }
 .blog-body a { color:#6366F1; text-decoration:underline; text-underline-offset:2px; }
 .blog-body a:hover { color:#818CF8; }
