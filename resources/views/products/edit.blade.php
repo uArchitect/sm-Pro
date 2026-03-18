@@ -101,7 +101,7 @@ document.getElementById('imgInput').addEventListener('change', function() {
     reader.readAsDataURL(this.files[0]);
 });
 const zone = document.getElementById('imgZone');
-zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor='#FF6B35'; });
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor='#4F46E5'; });
 zone.addEventListener('dragleave', () => zone.style.borderColor='');
 zone.addEventListener('drop', e => {
     e.preventDefault(); zone.style.borderColor='';
@@ -126,7 +126,7 @@ function removeImg() {
     text-align:center; cursor:pointer; transition:border-color .15s,background .15s;
     min-height:120px; display:flex; align-items:center; justify-content:center;
 }
-.img-upload-zone:hover { border-color:#FF6B35; background:#fff8f5; }
+.img-upload-zone:hover { border-color:#4F46E5; background:#fff8f5; }
 .img-preview { max-width:100%; max-height:180px; border-radius:8px; object-fit:contain; }
 </style>
 @endsection

@@ -7,7 +7,7 @@
     <div class="col-lg-5">
         <div class="sm-card text-center">
             <div class="sm-card-header justify-content-center">
-                <i class="bi bi-qr-code" style="color:#FF6B35"></i>{{ $product->name }} — {{ __('product_qr.title') }}
+                <i class="bi bi-qr-code" style="color:#4F46E5"></i>{{ $product->name }} — {{ __('product_qr.title') }}
             </div>
             <div class="sm-card-body">
                 <div class="d-inline-block border rounded-3 p-3 mb-3 bg-white">

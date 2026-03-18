@@ -21,7 +21,7 @@
 .ss-native { position: absolute; left: 0; top: 0; width: 100%; height: 100%; opacity: 0; pointer-events: none; z-index: 0; }
 .ss-trigger { width: 100%; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: .5rem; background: #fff; border: 1.5px solid #e5e7eb; border-radius: 9px; padding: .35rem .65rem; font-size: .82rem; }
 .ss-trigger:hover { border-color: #d1d5db; }
-.ss-trigger:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,107,53,.12); }
+.ss-trigger:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,70,229,.12); }
 .ss-trigger-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ss-trigger-text.ss-placeholder { color: #9ca3af; }
 .ss-trigger-icon { color: #9ca3af; font-size: .7rem; flex-shrink: 0; }
@@ -31,7 +31,7 @@
 .ss-search:focus { box-shadow: none !important; outline: none !important; }
 .ss-list { max-height: 200px; overflow-y: auto; padding: .25rem 0; }
 .ss-option { padding: .45rem .65rem; font-size: .82rem; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ss-option:hover, .ss-option.ss-highlight { background: rgba(255,107,53,.08); color: var(--accent); }
+.ss-option:hover, .ss-option.ss-highlight { background: rgba(79,70,229,.08); color: var(--accent); }
 .ss-option.ss-selected { font-weight: 600; color: var(--accent); }
 </style>
 
@@ -178,7 +178,7 @@ document.getElementById('imgInput').addEventListener('change', function() {
 });
 var zone = document.getElementById('imgZone');
 if (zone) {
-    zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.style.borderColor='#FF6B35'; });
+    zone.addEventListener('dragover', function(e) { e.preventDefault(); zone.style.borderColor='#4F46E5'; });
     zone.addEventListener('dragleave', function() { zone.style.borderColor=''; });
     zone.addEventListener('drop', function(e) {
         e.preventDefault(); zone.style.borderColor='';
@@ -253,7 +253,7 @@ document.getElementById('bulkProductRows') && document.getElementById('bulkProdu
 
 <style>
 .img-upload-zone { border:2px dashed #e5e7eb; border-radius:12px; padding:1.5rem; text-align:center; cursor:pointer; transition:border-color .15s,background .15s; min-height:120px; display:flex; align-items:center; justify-content:center; }
-.img-upload-zone:hover { border-color:#FF6B35; background:#fff8f5; }
+.img-upload-zone:hover { border-color:#4F46E5; background:#fff8f5; }
 .img-preview { max-width:100%; max-height:180px; border-radius:8px; object-fit:contain; }
 </style>
 @endsection
