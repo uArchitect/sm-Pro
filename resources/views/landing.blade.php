@@ -389,7 +389,7 @@
     <section class="faq-section" id="faq">
         <div class="container" style="max-width:720px">
             <div class="text-center mb-4">
-                <div class="section-badge" style="background:rgba(16,185,129,.1);color:#10b981">
+                <div class="section-badge" style="background:rgba(79,70,229,.08);color:#4F46E5">
                     <i class="bi bi-question-circle"></i> {{ $isTr ? 'SSS' : 'FAQ' }}
                 </div>
                 <h2 class="section-title">{{ $isTr ? 'Sık Sorulan Sorular' : 'Frequently Asked Questions' }}</h2>
