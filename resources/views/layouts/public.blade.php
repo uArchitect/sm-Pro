@@ -288,10 +288,10 @@
                 <a href="{{ locale_route('pricing') }}" class="nav-link-item {{ request()->routeIs('pricing', 'en.pricing') ? 'active' : '' }}">
                     <i class="bi bi-tag me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Fiyatlar' : 'Pricing' }}
                 </a>
-                <a href="{{ $r('about') }}" class="nav-link-item {{ request()->routeIs('about', 'en.about') ? 'active' : '' }}">
+                <a href="{{ locale_route('about') }}" class="nav-link-item {{ request()->routeIs('about', 'en.about') ? 'active' : '' }}">
                     <i class="bi bi-building me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Hakkımızda' : 'About' }}
                 </a>
-                <a href="{{ $r('contact') }}" class="nav-link-item {{ request()->routeIs('contact', 'en.contact') ? 'active' : '' }}">
+                <a href="{{ locale_route('contact') }}" class="nav-link-item {{ request()->routeIs('contact', 'en.contact') ? 'active' : '' }}">
                     <i class="bi bi-envelope me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'İletişim' : 'Contact' }}
                 </a>
                 <a href="{{ $r('blog') }}" class="nav-link-item {{ request()->routeIs('blog', 'blog.show', 'en.blog', 'en.blog.show') ? 'active' : '' }}">
@@ -336,8 +336,8 @@
                 <div class="footer-col">
                     <div class="footer-heading">{{ $isTr ? 'Şirket' : 'Company' }}</div>
                     <div class="d-flex flex-column gap-2">
-                        <a href="{{ $r('about') }}">{{ $isTr ? 'Hakkımızda' : 'About' }}</a>
-                        <a href="{{ $r('contact') }}">{{ $isTr ? 'İletişim' : 'Contact' }}</a>
+                        <a href="{{ locale_route('about') }}">{{ $isTr ? 'Hakkımızda' : 'About' }}</a>
+                        <a href="{{ locale_route('contact') }}">{{ $isTr ? 'İletişim' : 'Contact' }}</a>
                     </div>
                 </div>
                 <div class="footer-col">
