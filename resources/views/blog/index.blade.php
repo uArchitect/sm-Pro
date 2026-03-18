@@ -88,7 +88,7 @@
                                 <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($post->published_at)->format('d.m.Y') }}
                             </div>
                         </div>
-                        <a href="{{ locale_route('blog.show', $post->slug) }}" class="mt-3 btn btn-sm btn-outline-light align-self-start">
+                        <a href="{{ locale_route('blog.show', $post->slug) }}" class="mt-3 btn btn-sm align-self-start" style="color:#4F46E5;border:1px solid #c7d2fe;background:#eef2ff">
                             {{ $isTr ? 'Oku' : 'Read' }} <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </article>
