@@ -61,20 +61,21 @@
 @endsection
 
 @section('styles')
-        .features-section{padding:2rem 0 5rem}
+        .features-section{padding:2.5rem 0 5.5rem}
         /* Index'teki gibi kartları yan yana göstermek için grid + card stilleri */
-        .features-grid{margin-top:1.5rem}
+        .features-grid{margin-top:2rem}
         .feat-card{
             background:#fff;border:1px solid #e2e8f0;border-radius:18px;
-            padding:1.75rem;transition:all .25s;height:100%;
+            padding:1.6rem;transition:all .25s;height:100%;
             box-shadow:0 1px 4px rgba(0,0,0,.05);
+            display:flex; flex-direction:column;
         }
         .feat-card:hover{border-color:#c7d2fe;transform:translateY(-4px);box-shadow:0 12px 40px rgba(79,70,229,.1)}
-        .feat-block-icon{width:56px;height:56px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
-        .feat-card h2{font-size:1.25rem;font-weight:800;color:#0f172a;margin-bottom:.5rem}
-        .feat-card p{font-size:.9rem;color:#64748b;line-height:1.7;max-width:520px}
-        .feat-card ul{list-style:none;padding:0;margin:.75rem 0 0}
-        .feat-card ul li{font-size:.84rem;color:#475569;padding:.3rem 0;display:flex;align-items:flex-start;gap:.5rem}
+        .feat-block-icon{width:56px;height:56px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.05rem}
+        .feat-card h2{font-size:1.18rem;font-weight:800;color:#0f172a;margin-bottom:.55rem;line-height:1.25}
+        .feat-card p{font-size:.9rem;color:#64748b;line-height:1.75;margin:0 0 1.05rem;max-width:none}
+        .feat-card ul{list-style:none;padding:0;margin:.2rem 0 0; display:flex; flex-direction:column; gap:.35rem}
+        .feat-card ul li{font-size:.84rem;color:#475569;padding:0;display:flex;align-items:flex-start;gap:.55rem}
         .feat-card ul li i{color:#4F46E5;font-size:.7rem;margin-top:.3rem;flex-shrink:0}
 @endsection
 
@@ -87,7 +88,7 @@
     </section>
 
     <section class="features-section">
-        <div class="container" style="max-width:800px">
+        <div class="container" style="max-width:1100px">
             <div class="features-grid">
                 <div class="row g-4">
 

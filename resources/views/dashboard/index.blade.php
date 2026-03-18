@@ -16,10 +16,11 @@
     background: linear-gradient(135deg, #4F46E5 0%, #6366F1 60%, #4338CA 100%);
     border: none;
     border-radius: 18px;
-    padding: 1.4rem 1.6rem;
+    padding: 1.15rem 1.25rem;
     position: relative; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(79,70,229,.18);
 ">
-    <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.12) 0%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;top:-55px;right:-55px;width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.18) 0%,transparent 70%);pointer-events:none;"></div>
 
     <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3 flex-wrap">
         <div style="width:50px;height:50px;border-radius:13px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#fff;flex-shrink:0;">
@@ -28,18 +29,22 @@
         <div class="flex-grow-1" style="min-width:0">
             <div style="font-weight:700;font-size:.92rem;color:#fff;margin-bottom:.3rem;">
                 {{ __('dashboard.menu_live') }}
-                <span style="display:inline-flex;align-items:center;gap:.25rem;font-size:.65rem;font-weight:700;background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.25);padding:.1rem .45rem;border-radius:999px;margin-left:.4rem;vertical-align:middle;">
+                <span style="display:inline-flex;align-items:center;gap:.25rem;font-size:.65rem;font-weight:800;background:rgba(34,197,94,.15);color:#4ade80;border:1px solid rgba(34,197,94,.25);padding:.12rem .5rem;border-radius:999px;margin-left:.4rem;vertical-align:middle;line-height:1;white-space:nowrap;">
                     <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;"></span> {{ __('common.active') }}
                 </span>
             </div>
-            <code style="color:rgba(255,255,255,.8);font-size:.76rem;word-break:break-all;display:block;">{{ $menuUrl }}</code>
+            <code style="color:rgba(255,255,255,.88);font-size:.76rem;word-break:break-all;display:block;
+                background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+                padding:.45rem .65rem;border-radius:12px;">{{ $menuUrl }}</code>
         </div>
         <div class="d-flex gap-2 flex-shrink-0 flex-wrap">
-            <a href="{{ route('menu.qr') }}" class="btn btn-accent btn-sm flex-grow-1 flex-sm-grow-0">
+            <a href="{{ route('menu.qr') }}" class="btn btn-accent btn-sm flex-grow-1 flex-sm-grow-0" style="white-space:nowrap">
                 <i class="bi bi-qr-code me-1"></i>{{ __('dashboard.qr_link') }}  
             </a>
             <a href="{{ $menuUrl }}" target="_blank" class="btn btn-sm"
-               style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.65);">
+               style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.65);
+                      display:inline-flex;align-items:center;justify-content:center;
+                      width:42px;height:38px;border-radius:12px; padding:0;">
                 <i class="bi bi-box-arrow-up-right"></i>
             </a>
         </div>
