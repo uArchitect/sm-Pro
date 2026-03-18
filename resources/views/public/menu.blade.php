@@ -59,8 +59,8 @@
         :root {
             --accent: #4F46E5;
             --accent2: #6366F1;
-            --accent-soft: rgba(255, 107, 53, 0.08);
-            --accent-soft-2: rgba(255, 107, 53, 0.12);
+            --accent-soft: rgba(79, 70, 229, 0.08);
+            --accent-soft-2: rgba(79, 70, 229, 0.12);
             --dark: #0f172a;
             --dark2: #1e293b;
             --text: #1e293b;
