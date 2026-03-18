@@ -294,7 +294,7 @@
                 <a href="{{ locale_route('contact') }}" class="nav-link-item {{ request()->routeIs('contact', 'en.contact') ? 'active' : '' }}">
                     <i class="bi bi-envelope me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'İletişim' : 'Contact' }}
                 </a>
-                <a href="{{ $r('blog') }}" class="nav-link-item {{ request()->routeIs('blog', 'blog.show', 'en.blog', 'en.blog.show') ? 'active' : '' }}">
+                <a href="{{ locale_route('blog') }}" class="nav-link-item {{ request()->routeIs('blog', 'blog.show', 'en.blog', 'en.blog.show') ? 'active' : '' }}">
                     <i class="bi bi-journal-text me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Blog' : 'Blog' }}
                 </a>
                 <div class="d-none d-lg-flex align-items-center gap-2 ms-lg-2">
@@ -329,8 +329,8 @@
                     <div class="d-flex flex-column gap-2">
                         <a href="{{ locale_route('features') }}">{{ $isTr ? 'Özellikler' : 'Features' }}</a>
                         <a href="{{ locale_route('pricing') }}">{{ $isTr ? 'Fiyatlar' : 'Pricing' }}</a>
-                        <a href="{{ $r('demo') }}">{{ $isTr ? 'Canlı Demo' : 'Live Demo' }}</a>
-                        <a href="{{ $r('blog') }}">Blog</a>
+                        <a href="{{ locale_route('demo') }}">{{ $isTr ? 'Canlı Demo' : 'Live Demo' }}</a>
+                        <a href="{{ locale_route('blog') }}">Blog</a>
                     </div>
                 </div>
                 <div class="footer-col">
@@ -343,7 +343,7 @@
                 <div class="footer-col">
                     <div class="footer-heading">{{ $isTr ? 'Yasal' : 'Legal' }}</div>
                     <div class="d-flex flex-column gap-2">
-                        <a href="{{ $r('privacy') }}">{{ $isTr ? 'Gizlilik Politikası' : 'Privacy Policy' }}</a>
+                        <a href="{{ locale_route('privacy') }}">{{ $isTr ? 'Gizlilik Politikası' : 'Privacy Policy' }}</a>
                         <a href="{{ $r('terms') }}">{{ $isTr ? 'Kullanım Koşulları' : 'Terms of Use' }}</a>
                     </div>
                 </div>
