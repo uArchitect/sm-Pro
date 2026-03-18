@@ -432,10 +432,10 @@
                 <h2>{{ $isTr ? 'Restoranınızı Dijitale Taşımaya' : 'Ready to Take Your Restaurant' }}<br>{{ $isTr ? 'Hazır mısınız?' : 'Digital?' }}</h2>
                 <p>{{ $isTr ? 'Hemen ücretsiz hesap oluşturun ve dijital menünüzü dakikalar içinde yayına alın.' : 'Create a free account now and publish your digital menu in minutes.' }}</p>
                 <div class="d-flex flex-wrap gap-2 justify-content-center">
-                    <a href="{{ route('register') }}" class="hero-btn-primary" style="position:relative">
+                    <a href="{{ route('register') }}" class="hero-btn-primary" style="position:relative;background:#fff;color:#4F46E5;box-shadow:0 8px 32px rgba(0,0,0,.15)">
                         <i class="bi bi-rocket-takeoff"></i> {{ $isTr ? 'Ücretsiz Hesap Oluştur' : 'Create Free Account' }}
                     </a>
-                    <a href="{{ locale_route('demo') }}" class="hero-btn-outline" style="position:relative">
+                    <a href="{{ locale_route('demo') }}" class="hero-btn-outline" style="position:relative;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.25);color:#fff">
                         <i class="bi bi-eye"></i> {{ $isTr ? 'Canlı Demo' : 'Live Demo' }}
                     </a>
                 </div>

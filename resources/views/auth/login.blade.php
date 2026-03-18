@@ -33,7 +33,7 @@
     <meta name="keywords" content="{{ $isTr ? 'sipariş masanda giriş, restoran yönetim paneli, dijital menü giriş, qr menü yönetimi' : 'siparis masanda login, restaurant management panel, digital menu login, qr menu management' }}">
     <meta name="author" content="Sipariş Masanda">
     <meta name="robots" content="index, follow">
-    <meta name="theme-color" content="#0a0f1e">
+    <meta name="theme-color" content="#ffffff">
 
     <link rel="canonical" href="https://siparismasanda.com/login">
 
@@ -95,7 +95,7 @@
         }
         .panel-dark::after {
             content: ''; position: absolute; inset: 0; z-index: 1;
-            background: linear-gradient(170deg, rgba(12,8,4,.9) 0%, rgba(15,10,5,.8) 50%, rgba(8,5,2,.93) 100%);
+            background: linear-gradient(170deg, rgba(30,27,75,.92) 0%, rgba(49,46,129,.85) 50%, rgba(30,27,75,.95) 100%);
         }
         .panel-dark > * { position: relative; z-index: 2; }
 
@@ -103,10 +103,10 @@
         .brand-inline { display: flex; align-items: center; gap: .85rem; }
         .brand-icon {
             width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
-            background: linear-gradient(135deg, #FF6B35, #FF8C42);
+            background: linear-gradient(135deg, #4F46E5, #6366F1);
             display: flex; align-items: center; justify-content: center;
             font-size: 1.2rem; color: #fff;
-            box-shadow: 0 8px 24px rgba(255,107,53,.5);
+            box-shadow: 0 8px 24px rgba(79,70,229,.4);
         }
         .brand-text-wrap { line-height: 1; }
         .brand-name  { font-size: 1.05rem; font-weight: 800; color: #fff; letter-spacing: -.01em; }
