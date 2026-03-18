@@ -203,7 +203,7 @@
     <section class="hero">
         <div class="container">
             @if(session('demo_unavailable'))
-                <div class="alert mb-3" role="alert" style="background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.3);color:#fbbf24;border-radius:12px">
+                <div class="alert mb-3" role="alert" style="background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3);color:#92400e;border-radius:12px">
                     Demo menü henüz yüklenmemiş.
                 </div>
             @endif

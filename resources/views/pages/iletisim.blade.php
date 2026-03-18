@@ -130,7 +130,7 @@
                     <label class="cf-label">{{ $isTr ? 'Mesajınız' : 'Your Message' }} *</label>
                     <textarea name="message" id="cf_message" class="cf-input" placeholder="{{ $isTr ? 'Nasıl yardımcı olabiliriz?' : 'How can we help you?' }}" required></textarea>
 
-                    <div id="cf_errors" style="display:none;color:#fca5a5;font-size:.78rem;margin-bottom:.75rem;line-height:1.5"></div>
+                    <div id="cf_errors" style="display:none;color:#dc2626;font-size:.78rem;margin-bottom:.75rem;line-height:1.5"></div>
 
                     <button type="submit" id="cf_btn" class="hero-btn-primary w-100 justify-content-center" style="padding:.7rem 1.5rem">
                         <i class="bi bi-send"></i> <span>{{ $isTr ? 'Gönder' : 'Send' }}</span>
