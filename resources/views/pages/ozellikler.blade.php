@@ -176,11 +176,14 @@
                         <div class="feat-card">
                             <div class="feat-block-icon" style="background:rgba(99,102,241,.12);color:#6366f1"><i class="bi bi-palette"></i></div>
                             <h2>{{ $isTr ? 'Menü Tasarımı (Layout & Renk)' : 'Menu Design (Layout & Color)' }}</h2>
-                            <p>{{ $isTr ? 'Premium menünüzde 4 farklı düzen seçin ve renkleri markanıza göre özelleştirin. Kaydetmeden önce canlı önizleme ile görünümü test edin.' : 'Pick one of 4 layouts and customize menu colors to match your brand. Test the look with live preview before saving.' }}</p>
+                            <p>{{ $isTr ? 'QR menü ve dijital menü görünümünü markanıza uyarlayın. Premium pakette dört farklı menü düzeni ve tam renk özelleştirmesi ile restoran menünüzü benzersiz kılın. Yönetim panelinden canlı önizleme ile değişiklikleri anında görün.' : 'Customize your QR menu and digital menu appearance to match your brand. With four distinct menu layouts and full color customization in the premium plan, make your restaurant menu unique. Preview changes live from the management panel before publishing.' }}</p>
                             <ul>
-                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? '4 farklı düzen: Akordeon / Sekme / Izgara / Elegant' : '4 layouts: Accordion / Tabs / Grid / Elegant' }}</li>
-                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Renk & tema özelleştirmesi' : 'Color & theme customization' }}</li>
-                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Canlı önizleme ile kaydet' : 'Save with live preview' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Akordeon düzeni: Açılır kapanır kategorilerle sade menü' : 'Accordion layout: Clean menu with collapsible categories' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Sekmeli düzen: Kategori sekmeleri ile hızlı geçiş' : 'Tab layout: Quick switching with category tabs' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Izgara düzeni: Ürün kartları ile görsel menü' : 'Grid layout: Visual menu with product cards' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Elegant düzen: Dergi tarzı büyük bölümler' : 'Elegant layout: Magazine-style sections' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Renk ve tema özelleştirmesi (ana renk, arka plan, başlık)' : 'Color and theme customization (primary, background, header)' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Canlı önizleme ile kaydetmeden önce test' : 'Live preview before saving' }}</li>
                             </ul>
                         </div>
                     </div>
