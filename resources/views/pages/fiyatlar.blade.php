@@ -93,7 +93,7 @@
         .pricing-section{padding:2rem 0 5rem}
         .price-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:2rem 1.75rem;text-align:center;transition:all .25s;height:100%;display:flex;flex-direction:column}
         .price-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.2)}
-        .price-card.featured{border-color:rgba(255,107,53,.3);background:rgba(255,107,53,.04)}
+        .price-card.featured{border-color:rgba(79,70,229,.3);background:rgba(79,70,229,.04)}
         .price-badge{display:inline-flex;padding:.2rem .6rem;border-radius:999px;font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.75rem}
         .price-name{font-size:1.1rem;font-weight:800;color:#fff;margin-bottom:.25rem}
         .price-amount{font-size:2.5rem;font-weight:900;color:#fff;line-height:1;margin:.75rem 0 .25rem}
@@ -112,7 +112,7 @@
         .faq-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;margin-bottom:.6rem;overflow:hidden}
         .faq-btn{width:100%;background:none;border:none;padding:1rem 1.25rem;text-align:left;color:#fff;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:.75rem}
         .faq-btn:hover{background:rgba(255,255,255,.02)}
-        .faq-btn i{color:#FF6B35;transition:transform .25s;font-size:.85rem;flex-shrink:0}
+        .faq-btn i{color:#4F46E5;transition:transform .25s;font-size:.85rem;flex-shrink:0}
         .faq-btn:not(.collapsed) i{transform:rotate(180deg)}
         .faq-answer{padding:0 1.25rem 1rem;font-size:.84rem;color:rgba(255,255,255,.5);line-height:1.7}
 @endsection
@@ -161,7 +161,7 @@
                 {{-- Premium --}}
                 <div class="col-md-6">
                     <div class="price-card featured">
-                        <div><span class="price-badge" style="background:rgba(255,107,53,.15);color:#FF8C42">{{ $isTr ? 'Popüler' : 'Popular' }}</span></div>
+                        <div><span class="price-badge" style="background:rgba(79,70,229,.15);color:#6366F1">{{ $isTr ? 'Popüler' : 'Popular' }}</span></div>
                         <div class="price-name">Premium</div>
                         <div class="price-amount">
                             <span class="currency">₺</span>199

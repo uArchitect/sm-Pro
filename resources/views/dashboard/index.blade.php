@@ -14,15 +14,15 @@
 {{-- QR Banner --}}
 <div class="mb-4" style="
     background: linear-gradient(135deg, #0d1117 0%, #1a2332 60%, #0f1923 100%);
-    border: 1px solid rgba(255,107,53,.2);
+    border: 1px solid rgba(79,70,229,.2);
     border-radius: 18px;
     padding: 1.4rem 1.6rem;
     position: relative; overflow: hidden;
 ">
-    <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,53,.12) 0%,transparent 70%);pointer-events:none;"></div>
+    <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.12) 0%,transparent 70%);pointer-events:none;"></div>
 
     <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3 flex-wrap">
-        <div style="width:50px;height:50px;border-radius:13px;background:rgba(255,107,53,.15);border:1px solid rgba(255,107,53,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#FF6B35;flex-shrink:0;">
+        <div style="width:50px;height:50px;border-radius:13px;background:rgba(79,70,229,.15);border:1px solid rgba(79,70,229,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#4F46E5;flex-shrink:0;">
             <i class="bi bi-qr-code"></i>
         </div>
         <div class="flex-grow-1" style="min-width:0">
@@ -32,7 +32,7 @@
                     <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;"></span> {{ __('common.active') }}
                 </span>
             </div>
-            <code style="color:#FF8C42;font-size:.76rem;word-break:break-all;display:block;">{{ $menuUrl }}</code>
+            <code style="color:#6366F1;font-size:.76rem;word-break:break-all;display:block;">{{ $menuUrl }}</code>
         </div>
         <div class="d-flex gap-2 flex-shrink-0 flex-wrap">
             <a href="{{ route('menu.qr') }}" class="btn btn-accent btn-sm flex-grow-1 flex-sm-grow-0">
@@ -90,8 +90,8 @@
     </div>
     <div class="col-6 col-lg-3">
         <div class="stat-card">
-            <div class="stat-icon" style="background:rgba(255,107,53,.1);">
-                <i class="bi bi-box-seam" style="color:#FF6B35;"></i>
+            <div class="stat-icon" style="background:rgba(79,70,229,.1);">
+                <i class="bi bi-box-seam" style="color:#4F46E5;"></i>
             </div>
             <div>
                 <div class="stat-label">{{ __('dashboard.product') }}</div>
@@ -180,7 +180,7 @@
     <div class="col-md-6">
         <div class="sm-card h-100">
             <div class="sm-card-header">
-                <i class="bi bi-lightning-charge" style="color:#FF6B35;"></i>
+                <i class="bi bi-lightning-charge" style="color:#4F46E5;"></i>
                 {{ __('dashboard.quick_actions') }}
             </div>
             <div class="sm-card-body d-flex flex-column gap-2">
@@ -191,8 +191,8 @@
                     {{ __('dashboard.add_category') }}
                 </a>
                 <a href="{{ route('products.create') }}" class="btn btn-sm btn-outline-secondary text-start d-flex align-items-center gap-2">
-                    <span style="width:26px;height:26px;border-radius:7px;background:rgba(255,107,53,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <i class="bi bi-plus-lg" style="color:#FF6B35;font-size:.75rem;"></i>
+                    <span style="width:26px;height:26px;border-radius:7px;background:rgba(79,70,229,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="bi bi-plus-lg" style="color:#4F46E5;font-size:.75rem;"></i>
                     </span>
                     {{ __('dashboard.add_product') }}
                 </a>
