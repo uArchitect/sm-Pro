@@ -62,7 +62,7 @@
     <div class="container">
         @if($posts->isEmpty())
             <div class="text-center py-5">
-                <p class="text-white opacity-90">{{ $isTr ? 'Henüz yayınlanmış yazı yok.' : 'No published posts yet.' }}</p>
+                <p style="color:#475569">{{ $isTr ? 'Henüz yayınlanmış yazı yok.' : 'No published posts yet.' }}</p>
                 <a href="{{ route('register') }}" class="hero-btn-outline mt-2">{{ $isTr ? 'Ücretsiz Başla' : 'Start Free' }}</a>
             </div>
         @else
@@ -79,7 +79,7 @@
                         </a>
                         <div class="flex-grow-1">
                             <h2 class="h6 fw-700 mb-2" style="line-height:1.35">
-                                <a href="{{ locale_route('blog.show', $post->slug) }}" class="text-decoration-none text-white">{{ Str::limit(strip_tags($post->title), 60) }}</a>
+                                <a href="{{ locale_route('blog.show', $post->slug) }}" class="text-decoration-none" style="color:#1e293b">{{ Str::limit(strip_tags($post->title), 60) }}</a>
                             </h2>
                             <p class="small mb-2 blog-card-excerpt">
                                 {{ Str::limit(strip_tags($post->meta_description ?: $post->body), 120) }}
