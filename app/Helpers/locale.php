@@ -3,6 +3,17 @@
 use Illuminate\Support\Facades\Route;
 
 /**
+ * Locale-aware route() — automatically prefixes 'en.' when current locale is English.
+ */
+function locale_route(string $name, mixed $params = []): string
+{
+    $prefix   = app()->getLocale() === 'tr' ? '' : 'en.';
+    $fullName = $prefix . $name;
+
+    return Route::has($fullName) ? route($fullName, $params) : route($name, $params);
+}
+
+/**
  * Generate the URL for the alternate language version of the current page.
  */
 function alternate_url(string $locale): string

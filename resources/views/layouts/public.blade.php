@@ -6,8 +6,6 @@
     $langUrlTr = alternate_url('tr');
     $langUrlEn = alternate_url('en');
 
-    $prefix = $isTr ? '' : 'en.';
-    $r = fn(string $name, $params = []) => route($prefix . $name, $params);
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', $locale) }}">
@@ -266,7 +264,7 @@
 
     <nav class="lp-nav" id="lpNav">
         <div class="container d-flex align-items-center justify-content-between position-relative">
-            <a href="{{ $r('home') }}" class="d-flex align-items-center gap-2 text-decoration-none">
+            <a href="{{ locale_route('home') }}" class="d-flex align-items-center gap-2 text-decoration-none">
                 <div class="logo-icon"><i class="bi bi-qr-code-scan"></i></div>
                 <span class="logo-text">Sipariş Masanda</span>
             </a>
@@ -284,10 +282,10 @@
                     </div>
                 </div>
 
-                <a href="{{ $r('features') }}" class="nav-link-item {{ request()->routeIs('features', 'en.features') ? 'active' : '' }}">
+                <a href="{{ locale_route('features') }}" class="nav-link-item {{ request()->routeIs('features', 'en.features') ? 'active' : '' }}">
                     <i class="bi bi-grid-3x3-gap me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Özellikler' : 'Features' }}
                 </a>
-                <a href="{{ $r('pricing') }}" class="nav-link-item {{ request()->routeIs('pricing', 'en.pricing') ? 'active' : '' }}">
+                <a href="{{ locale_route('pricing') }}" class="nav-link-item {{ request()->routeIs('pricing', 'en.pricing') ? 'active' : '' }}">
                     <i class="bi bi-tag me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Fiyatlar' : 'Pricing' }}
                 </a>
                 <a href="{{ $r('about') }}" class="nav-link-item {{ request()->routeIs('about', 'en.about') ? 'active' : '' }}">
@@ -329,8 +327,8 @@
                 <div class="footer-col">
                     <div class="footer-heading">{{ $isTr ? 'Ürün' : 'Product' }}</div>
                     <div class="d-flex flex-column gap-2">
-                        <a href="{{ $r('features') }}">{{ $isTr ? 'Özellikler' : 'Features' }}</a>
-                        <a href="{{ $r('pricing') }}">{{ $isTr ? 'Fiyatlar' : 'Pricing' }}</a>
+                        <a href="{{ locale_route('features') }}">{{ $isTr ? 'Özellikler' : 'Features' }}</a>
+                        <a href="{{ locale_route('pricing') }}">{{ $isTr ? 'Fiyatlar' : 'Pricing' }}</a>
                         <a href="{{ $r('demo') }}">{{ $isTr ? 'Canlı Demo' : 'Live Demo' }}</a>
                         <a href="{{ $r('blog') }}">Blog</a>
                     </div>
