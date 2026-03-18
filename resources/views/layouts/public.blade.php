@@ -108,12 +108,12 @@
 
         /* Section helpers */
         .section-badge{display:inline-flex;align-items:center;gap:.35rem;padding:.3rem .75rem;border-radius:999px;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.75rem}
-        .section-title{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;letter-spacing:-.03em;line-height:1.1;margin-bottom:.6rem}
-        .section-sub{font-size:.95rem;color:rgba(255,255,255,.78);max-width:540px;line-height:1.7}
+        .section-title{font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:900;letter-spacing:-.03em;line-height:1.1;margin-bottom:.6rem;color:#0f172a}
+        .section-sub{font-size:.95rem;color:#64748b;max-width:540px;line-height:1.7}
 
         /* Card helpers */
-        .glass-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:1.75rem;transition:all .25s}
-        .glass-card:hover{background:rgba(255,255,255,.05);border-color:rgba(255,107,53,.15);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.2)}
+        .glass-card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:1.75rem;transition:all .25s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+        .glass-card:hover{border-color:rgba(79,70,229,.2);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.08)}
 
         /* CTA bar */
         .cta-bar{padding:5rem 0 6rem}
