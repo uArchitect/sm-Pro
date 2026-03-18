@@ -292,9 +292,9 @@
     {{-- ═══ RIGHT: Sliding form panel ═══ --}}
     <div class="panel-white {{ ($showRegister ?? false) || $errors->has('restoran_adi') ? 'show-reg' : '' }}" id="panelRight">
         <div style="position:absolute;top:1rem;right:1rem;z-index:10;display:inline-flex;border:1px solid rgba(0,0,0,.1);border-radius:8px;overflow:hidden;background:rgba(0,0,0,.03)">
-            <a href="{{ request()->fullUrlWithQuery(['lang' => 'tr']) }}" style="padding:.3rem .55rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ app()->getLocale() === 'tr' ? 'background:linear-gradient(135deg,#4F46E5,#6366F1);color:#fff;' : 'color:rgba(0,0,0,.4);' }}">TR</a>
+            <a href="{{ request()->fullUrlWithQuery(['lang' => 'tr']) }}" style="padding:.3rem .55rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ app()->getLocale() === 'tr' ? 'background:linear-gradient(135deg,#4F46E5,#6366F1) !important;color:#fff !important;' : 'background:transparent !important;color:#64748b !important;' }}">TR</a>
             <span style="width:1px;background:rgba(0,0,0,.08)"></span>
-            <a href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}" style="padding:.3rem .55rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ app()->getLocale() !== 'tr' ? 'background:linear-gradient(135deg,#4F46E5,#6366F1);color:#fff;' : 'color:rgba(0,0,0,.4);' }}">EN</a>
+            <a href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}" style="padding:.3rem .55rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ app()->getLocale() !== 'tr' ? 'background:linear-gradient(135deg,#4F46E5,#6366F1) !important;color:#fff !important;' : 'background:transparent !important;color:#64748b !important;' }}">EN</a>
         </div>
         <div class="slide-wrap" id="slideWrap">
 
