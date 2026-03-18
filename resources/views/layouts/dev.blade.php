@@ -35,8 +35,8 @@
         :root {
             --sidebar-width: 240px;
             --topbar-h: 58px;
-            --dev-accent: #ef4444;
-            --dev-dark: #0f0f10;
+            --dev-accent: #4F46E5;
+            --dev-dark: #1e1b4b;
         }
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Inter', sans-serif; background: #f4f5f7; color: #111827; }
@@ -76,8 +76,8 @@
             transition: background .15s, color .15s;
         }
         .nav-item-link:hover { background: rgba(255,255,255,.06); color: rgba(255,255,255,.85); }
-        .nav-item-link.active { background: rgba(239,68,68,.18); color: #fca5a5; }
-        .nav-item-link.active i { color: var(--dev-accent); }
+        .nav-item-link.active { background: rgba(99,102,241,.15); color: #a5b4fc; }
+        .nav-item-link.active i { color: #a5b4fc; }
 
         .sidebar-footer {
             padding: .9rem 1rem; border-top: 1px solid rgba(255,255,255,.06); flex-shrink: 0;
@@ -92,7 +92,7 @@
         .user-name { font-size: .8rem; font-weight: 600; color: #fff; }
         .role-badge {
             font-size: .65rem; font-weight: 700; border-radius: 4px;
-            padding: .1rem .4rem; background: rgba(239,68,68,.2); color: #fca5a5;
+            padding: .1rem .4rem; background: rgba(79,70,229,.2); color: #a5b4fc;
         }
         .btn-logout {
             background: none; border: none; padding: .25rem;
