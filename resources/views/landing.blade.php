@@ -192,11 +192,10 @@
             .step-card:not(:last-child){margin-bottom:1.5rem}
             .step-num{width:48px;height:48px;font-size:1.25rem}
             .faq-section{padding:3rem 0}
-            .proof-bar .row > [class*="col-"]{flex:0 0 100%;max-width:100%}
+            .proof-bar .row{flex-direction:column;align-items:stretch}
+            .proof-bar .row > [class*="col-"]{flex:0 0 100%;max-width:100%;width:100%}
             .proof-stat{padding:.85rem 1rem;border:1px solid #e2e8f0;border-radius:12px;background:#fff;box-shadow:none}
             .proof-stat .lbl{font-size:.74rem}
-            /* Right-side floating widgets can cover content on narrow screens */
-            .proof-bar .container,.lp-footer .container{padding-right:3.1rem}
         }
 @endsection
 
