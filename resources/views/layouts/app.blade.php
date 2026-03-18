@@ -36,20 +36,20 @@
     @stack('styles')
     <style>
         :root {
-            --accent:        #FF6B35;
-            --accent-2:      #FF8C42;
-            --accent-glow:   rgba(255,107,53,.18);
-            --accent-soft:   rgba(255,107,53,.09);
-            --sidebar-bg:    #0d1117;
+            --accent:        #4F46E5;
+            --accent-2:      #6366F1;
+            --accent-glow:   rgba(79,70,229,.15);
+            --accent-soft:   rgba(79,70,229,.06);
+            --sidebar-bg:    #1e1b4b;
             --sidebar-w:     260px;
             --topbar-h:      62px;
             --radius-card:   16px;
             --shadow-card:   0 1px 3px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
-            --border:        #eaecf0;
-            --text-primary:  #101828;
-            --text-secondary:#475467;
-            --text-muted:    #98a2b3;
-            --bg-page:       #f7f8fa;
+            --border:        #e2e8f0;
+            --text-primary:  #0f172a;
+            --text-secondary:#475569;
+            --text-muted:    #94a3b8;
+            --bg-page:       #f8fafc;
         }
         *, *::before, *::after { box-sizing: border-box; }
         html, body { height: 100%; }
@@ -70,7 +70,7 @@
         .sidebar::before {
             content: '';
             position: absolute; top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-2), #FFB347);
+            background: linear-gradient(90deg, var(--accent), var(--accent-2), #818CF8);
         }
 
         /* Brand area */
@@ -84,7 +84,7 @@
             background: linear-gradient(135deg, var(--accent), var(--accent-2));
             display: flex; align-items: center; justify-content: center;
             font-size: 1.1rem; color: #fff;
-            box-shadow: 0 6px 20px rgba(255,107,53,.45);
+            box-shadow: 0 6px 20px rgba(79,70,229,.4);
         }
         .sb-brand-text { line-height: 1; min-width: 0; }
         .sb-name { font-size: .92rem; font-weight: 800; color: #fff; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
