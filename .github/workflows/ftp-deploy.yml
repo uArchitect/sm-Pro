@@ -105,6 +105,21 @@ jobs:
           npm ci
           npm run build
 
+      - name: Setup PHP (for translation audit)
+        if: steps.changes.outputs.needs_composer != 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, xml, ctype, json, fileinfo
+          coverage: none
+
+      - name: Install composer deps (for translation audit)
+        if: steps.changes.outputs.needs_composer != 'true'
+        run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+
+      - name: Audit translation keys (EN ↔ TR)
+        run: php artisan translations:audit
+
       - name: Install lftp
         run: sudo apt-get update -qq && sudo apt-get install -y lftp
 
