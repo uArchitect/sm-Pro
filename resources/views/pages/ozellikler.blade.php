@@ -62,14 +62,20 @@
 
 @section('styles')
         .features-section{padding:2rem 0 5rem}
-        .feat-block{margin-bottom:4rem}
-        .feat-block:last-child{margin-bottom:0}
+        /* Index'teki gibi kartları yan yana göstermek için grid + card stilleri */
+        .features-grid{margin-top:1.5rem}
+        .feat-card{
+            background:#fff;border:1px solid #e2e8f0;border-radius:18px;
+            padding:1.75rem;transition:all .25s;height:100%;
+            box-shadow:0 1px 4px rgba(0,0,0,.05);
+        }
+        .feat-card:hover{border-color:#c7d2fe;transform:translateY(-4px);box-shadow:0 12px 40px rgba(79,70,229,.1)}
         .feat-block-icon{width:56px;height:56px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
-        .feat-block h2{font-size:1.25rem;font-weight:800;color:#0f172a;margin-bottom:.5rem}
-        .feat-block p{font-size:.9rem;color:#64748b;line-height:1.7;max-width:520px}
-        .feat-block ul{list-style:none;padding:0;margin:.75rem 0 0}
-        .feat-block ul li{font-size:.84rem;color:#475569;padding:.3rem 0;display:flex;align-items:flex-start;gap:.5rem}
-        .feat-block ul li i{color:#4F46E5;font-size:.7rem;margin-top:.3rem;flex-shrink:0}
+        .feat-card h2{font-size:1.25rem;font-weight:800;color:#0f172a;margin-bottom:.5rem}
+        .feat-card p{font-size:.9rem;color:#64748b;line-height:1.7;max-width:520px}
+        .feat-card ul{list-style:none;padding:0;margin:.75rem 0 0}
+        .feat-card ul li{font-size:.84rem;color:#475569;padding:.3rem 0;display:flex;align-items:flex-start;gap:.5rem}
+        .feat-card ul li i{color:#4F46E5;font-size:.7rem;margin-top:.3rem;flex-shrink:0}
 @endsection
 
 @section('content')
@@ -82,70 +88,89 @@
 
     <section class="features-section">
         <div class="container" style="max-width:800px">
+            <div class="features-grid">
+                <div class="row g-4">
 
-            <div class="feat-block">
-                <div class="feat-block-icon" style="background:rgba(79,70,229,.12);color:#4F46E5"><i class="bi bi-qr-code"></i></div>
-                <h2>{{ $isTr ? 'QR Kod Oluşturma ve Baskı' : 'QR Code Generation & Print' }}</h2>
-                <p>{{ $isTr ? 'Restoranınız için benzersiz QR kod oluşturun. Yüksek çözünürlüklü karekod menü dosyasını indirip masalarınıza, tabelalarınıza veya broşürlerinize yerleştirin.' : 'Create a unique QR code for your restaurant. Download the high-resolution QR code file and place it on your tables, signs, or brochures.' }}</p>
-                <ul>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Yüksek çözünürlüklü QR kod indirme' : 'High-resolution QR code download' }}</li>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Tek QR kod ile tüm menüye erişim' : 'Access entire menu with a single QR code' }}</li>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Ürün bazlı QR kod oluşturma' : 'Product-level QR code generation' }}</li>
-                </ul>
-            </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(79,70,229,.12);color:#4F46E5"><i class="bi bi-qr-code"></i></div>
+                            <h2>{{ $isTr ? 'QR Kod Oluşturma ve Baskı' : 'QR Code Generation & Print' }}</h2>
+                            <p>{{ $isTr ? 'Restoranınız için benzersiz QR kod oluşturun. Yüksek çözünürlüklü karekod menü dosyasını indirip masalarınıza, tabelalarınıza veya broşürlerinize yerleştirin.' : 'Create a unique QR code for your restaurant. Download the high-resolution QR code file and place it on your tables, signs, or brochures.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Yüksek çözünürlüklü QR kod indirme' : 'High-resolution QR code download' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Tek QR kod ile tüm menüye erişim' : 'Access entire menu with a single QR code' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Ürün bazlı QR kod oluşturma' : 'Product-level QR code generation' }}</li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <div class="feat-block">
-                <div class="feat-block-icon" style="background:rgba(16,185,129,.12);color:#10b981"><i class="bi bi-grid-3x3-gap"></i></div>
-                <h2>{{ $isTr ? 'Sınırsız Kategori ve Ürün Yönetimi' : 'Unlimited Category & Product Management' }}</h2>
-                <p>{{ $isTr ? 'Online menü yönetimi ile sınırsız kategori ve ürün ekleyin. Alt kategoriler, sürükle-bırak sıralama ve anlık menü güncelleme ile restoran menü sisteminizi tam kontrol edin.' : 'Add unlimited categories and products with online menu management. Full control of your restaurant menu system with subcategories, drag-and-drop ordering, and instant menu updates.' }}</p>
-                <ul>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Sınırsız kategori ve alt kategori' : 'Unlimited categories and subcategories' }}</li>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Sürükle-bırak sıralama' : 'Drag-and-drop reordering' }}</li>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Anlık fiyat ve açıklama güncelleme' : 'Instant price and description updates' }}</li>
-                </ul>
-            </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(16,185,129,.12);color:#10b981"><i class="bi bi-grid-3x3-gap"></i></div>
+                            <h2>{{ $isTr ? 'Sınırsız Kategori ve Ürün Yönetimi' : 'Unlimited Category & Product Management' }}</h2>
+                            <p>{{ $isTr ? 'Online menü yönetimi ile sınırsız kategori ve ürün ekleyin. Alt kategoriler, sürükle-bırak sıralama ve anlık menü güncelleme ile restoran menü sisteminizi tam kontrol edin.' : 'Add unlimited categories and products with online menu management. Full control of your restaurant menu system with subcategories, drag-and-drop ordering, and instant menu updates.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Sınırsız kategori ve alt kategori' : 'Unlimited categories and subcategories' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Sürükle-bırak sıralama' : 'Drag-and-drop reordering' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Anlık fiyat ve açıklama güncelleme' : 'Instant price and description updates' }}</li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <div class="feat-block">
-                <div class="feat-block-icon" style="background:rgba(236,72,153,.12);color:#EC4899"><i class="bi bi-images"></i></div>
-                <h2>{{ $isTr ? 'Fotoğraflı Dijital Menü' : 'Digital Menu with Photos' }}</h2>
-                <p>{{ $isTr ? 'Ürünlerinize fotoğraf ekleyerek fotoğraflı menü oluşturun. Görsel zenginlik müşterilerinizin sipariş kararını kolaylaştırır ve satışlarınızı artırır.' : 'Create a photo menu by adding images to your products. Visual richness makes it easier for customers to decide and increases your sales.' }}</p>
-                <ul>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Ürün ve kategori fotoğrafları' : 'Product and category photos' }}</li>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Otomatik boyutlandırma ve optimizasyon' : 'Automatic resizing and optimization' }}</li>
-                </ul>
-            </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(236,72,153,.12);color:#EC4899"><i class="bi bi-images"></i></div>
+                            <h2>{{ $isTr ? 'Fotoğraflı Dijital Menü' : 'Digital Menu with Photos' }}</h2>
+                            <p>{{ $isTr ? 'Ürünlerinize fotoğraf ekleyerek fotoğraflı menü oluşturun. Görsel zenginlik müşterilerinizin sipariş kararını kolaylaştırır ve satışlarınızı artırır.' : 'Create a photo menu by adding images to your products. Visual richness makes it easier for customers to decide and increases your sales.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Ürün ve kategori fotoğrafları' : 'Product and category photos' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Otomatik boyutlandırma ve optimizasyon' : 'Automatic resizing and optimization' }}</li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <div class="feat-block">
-                <div class="feat-block-icon" style="background:rgba(251,191,36,.12);color:#FBBF24"><i class="bi bi-star"></i></div>
-                <h2>{{ $isTr ? 'Müşteri Değerlendirme Sistemi' : 'Customer Review System' }}</h2>
-                <p>{{ $isTr ? 'Müşterileriniz QR menü üzerinden doğrudan değerlendirme bıraksın. Puanları ve yorumları restoran yönetim panelinden takip edin.' : 'Let your customers leave reviews directly through the QR menu. Track ratings and comments from the restaurant management panel.' }}</p>
-                <ul>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? '5 yıldızlı puanlama' : '5-star rating' }}</li>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Yorum ve puan yönetimi' : 'Review and rating management' }}</li>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Günlük tekrar koruma sistemi' : 'Daily duplicate protection' }}</li>
-                </ul>
-            </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(251,191,36,.12);color:#FBBF24"><i class="bi bi-star"></i></div>
+                            <h2>{{ $isTr ? 'Müşteri Değerlendirme Sistemi' : 'Customer Review System' }}</h2>
+                            <p>{{ $isTr ? 'Müşterileriniz QR menü üzerinden doğrudan değerlendirme bıraksın. Puanları ve yorumları restoran yönetim panelinden takip edin.' : 'Let your customers leave reviews directly through the QR menu. Track ratings and comments from the restaurant management panel.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? '5 yıldızlı puanlama' : '5-star rating' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Yorum ve puan yönetimi' : 'Review and rating management' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Günlük tekrar koruma sistemi' : 'Daily duplicate protection' }}</li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <div class="feat-block">
-                <div class="feat-block-icon" style="background:rgba(99,102,241,.12);color:#6366f1"><i class="bi bi-people"></i></div>
-                <h2>{{ $isTr ? 'Çoklu Kullanıcı ve Rol Yönetimi' : 'Multi-User & Role Management' }}</h2>
-                <p>{{ $isTr ? 'Ekibinizi restoran yönetim paneline davet edin. Owner, admin ve personel rolleriyle yetkilendirme yapın.' : 'Invite your team to the restaurant management panel. Assign permissions with owner, admin, and staff roles.' }}</p>
-                <ul>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Owner, admin, personel rolleri' : 'Owner, admin, staff roles' }}</li>
-                    <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Rol bazlı yetkilendirme' : 'Role-based permissions' }}</li>
-                </ul>
-            </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(99,102,241,.12);color:#6366f1"><i class="bi bi-people"></i></div>
+                            <h2>{{ $isTr ? 'Çoklu Kullanıcı ve Rol Yönetimi' : 'Multi-User & Role Management' }}</h2>
+                            <p>{{ $isTr ? 'Ekibinizi restoran yönetim paneline davet edin. Owner, admin ve personel rolleriyle yetkilendirme yapın.' : 'Invite your team to the restaurant management panel. Assign permissions with owner, admin, and staff roles.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Owner, admin, personel rolleri' : 'Owner, admin, staff roles' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Rol bazlı yetkilendirme' : 'Role-based permissions' }}</li>
+                            </ul>
+                        </div>
+                    </div>
 
-            <div class="feat-block">
-                <div class="feat-block-icon" style="background:rgba(236,72,153,.12);color:#EC4899"><i class="bi bi-instagram"></i></div>
-                <h2>{{ $isTr ? 'Sosyal Medya Entegrasyonu' : 'Social Media Integration' }}</h2>
-                <p>{{ $isTr ? 'Instagram, Facebook, X ve WhatsApp hesaplarınızı dijital menü sayfanıza ekleyin. Müşterileriniz sizi kolayca takip etsin.' : 'Add your Instagram, Facebook, X, and WhatsApp accounts to your digital menu page. Let your customers follow you easily.' }}</p>
-            </div>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(236,72,153,.12);color:#EC4899"><i class="bi bi-instagram"></i></div>
+                            <h2>{{ $isTr ? 'Sosyal Medya Entegrasyonu' : 'Social Media Integration' }}</h2>
+                            <p>{{ $isTr ? 'Instagram, Facebook, X ve WhatsApp hesaplarınızı dijital menü sayfanıza ekleyin. Müşterileriniz sizi kolayca takip etsin.' : 'Add your Instagram, Facebook, X, and WhatsApp accounts to your digital menu page. Let your customers follow you easily.' }}</p>
+                        </div>
+                    </div>
 
-            <div class="feat-block">
-                <div class="feat-block-icon" style="background:rgba(168,85,247,.12);color:#A855F7"><i class="bi bi-phone"></i></div>
-                <h2>{{ $isTr ? 'Mobil Uyumlu Menü Tasarımı' : 'Mobile Friendly Menu Design' }}</h2>
-                <p>{{ $isTr ? 'Tüm cihazlarda kusursuz görüntülenen mobil uyumlu menü. Müşterileriniz uygulama indirmeden telefonlarıyla karekod menüyü tarayıp anında erişsin.' : 'Mobile-friendly menu that displays perfectly on all devices. Your customers can scan the QR code menu with their phones and access instantly without downloading an app.' }}</p>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(168,85,247,.12);color:#A855F7"><i class="bi bi-phone"></i></div>
+                            <h2>{{ $isTr ? 'Mobil Uyumlu Menü Tasarımı' : 'Mobile Friendly Menu Design' }}</h2>
+                            <p>{{ $isTr ? 'Tüm cihazlarda kusursuz görüntülenen mobil uyumlu menü. Müşterileriniz uygulama indirmeden telefonlarıyla karekod menüyü tarayıp anında erişsin.' : 'Mobile-friendly menu that displays perfectly on all devices. Your customers can scan the QR code menu with their phones and access instantly without downloading an app.' }}</p>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </section>
