@@ -26,7 +26,7 @@
     @endif
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon-indigo.svg') }}">
 
     <title>{{ $isTr ? 'Kayıt — Sipariş Masanda' : 'Register — Siparis Masanda' }}</title>
     <meta name="description" content="{{ $isTr ? 'Sipariş Masanda ile restoranınızı dakikalar içinde dijitale taşıyın. Ücretsiz kayıt olun.' : 'Take your restaurant digital in minutes with Siparis Masanda. Register for free.' }}">

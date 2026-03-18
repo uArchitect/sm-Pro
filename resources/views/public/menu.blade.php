@@ -34,7 +34,7 @@
     @endif
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon-indigo.svg') }}">
     <title>{{ $menuTitle }}</title>
     <meta name="description" content="{{ $menuDescription }}">
     <meta name="robots" content="{{ isset($isDemoMenu) && $isDemoMenu ? 'index, follow, max-image-preview:large' : 'noindex, follow, max-image-preview:large' }}">
