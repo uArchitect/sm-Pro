@@ -170,7 +170,7 @@
         .slide-pane.reg-pane { justify-content: flex-start; padding-top: 3rem; }
 
         /* ── Form typography ── */
-        .form-eyebrow { font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #FF6B35; margin-bottom: .5rem; }
+        .form-eyebrow { font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #4F46E5; margin-bottom: .5rem; }
         .form-title   { font-size: 1.6rem; font-weight: 900; color: #0f172a; letter-spacing: -.02em; line-height: 1.2; margin-bottom: .35rem; }
         .form-sub     { font-size: .82rem; color: #94a3b8; margin-bottom: 1.75rem; line-height: 1.5; }
 
@@ -196,7 +196,7 @@
             -webkit-appearance: none;
         }
         .f-input::placeholder { color: #c0c9d4; }
-        .f-input:focus { border-color: #FF6B35; background: #fff; box-shadow: 0 0 0 3px rgba(255,107,53,.12); }
+        .f-input:focus { border-color: #4F46E5; background: #fff; box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
         .f-input.is-invalid { border-color: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
         .f-err { font-size: .73rem; color: #ef4444; margin-top: .3rem; }
         .pw-toggle {
