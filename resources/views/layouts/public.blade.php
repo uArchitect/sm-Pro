@@ -3,8 +3,8 @@
     $isTr = $locale === 'tr';
     $shareImage = asset('og-cover.svg');
     $currentUrl = url()->current();
-    $langUrlTr = request()->fullUrlWithQuery(['lang' => 'tr']);
-    $langUrlEn = request()->fullUrlWithQuery(['lang' => 'en']);
+    $langUrlTr = alternate_url('tr');
+    $langUrlEn = alternate_url('en');
 @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', $locale) }}">
@@ -35,9 +35,9 @@
     @hasSection('meta_robots')@yield('meta_robots')@else<meta name="robots" content="index, follow, max-image-preview:large">@endif
     <meta name="theme-color" content="#0a0f1e">
     <link rel="canonical" href="@yield('canonical', $currentUrl)">
-    <link rel="alternate" hreflang="tr" href="{{ $currentUrl }}?lang=tr">
-    <link rel="alternate" hreflang="en" href="{{ $currentUrl }}?lang=en">
-    <link rel="alternate" hreflang="x-default" href="{{ $currentUrl }}">
+    <link rel="alternate" hreflang="tr" href="{{ $langUrlTr }}">
+    <link rel="alternate" hreflang="en" href="{{ $langUrlEn }}">
+    <link rel="alternate" hreflang="x-default" href="{{ $langUrlTr }}">
 
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="@yield('canonical', $currentUrl)">
