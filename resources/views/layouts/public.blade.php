@@ -220,9 +220,15 @@
             body.nav-open{overflow:hidden}
         }
         @@media(max-width:768px){
-            .wa-float{padding:.4rem .5rem .4rem .4rem;font-size:.75rem}
-            .wa-float-icon{width:36px;height:36px;border-radius:10px}
-            .wa-float-icon svg{width:18px;height:18px}
+            .wa-float{
+                top:auto;bottom:1rem;left:1rem;
+                transform:none;
+                border-radius:14px;
+                border:1px solid #e2e8f0;
+                padding:.5rem;
+            }
+            .wa-float-icon{width:40px;height:40px;border-radius:12px}
+            .wa-float-icon svg{width:20px;height:20px}
             .wa-float-text{display:none}
             .wa-float.is-text-visible .wa-float-text{display:inline}
             .page-hero{padding:6rem 0 2rem}
