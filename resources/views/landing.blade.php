@@ -289,7 +289,7 @@
     <section class="features" id="features">
         <div class="container">
             <div class="text-center mb-5">
-                <div class="section-badge" style="background:rgba(255,107,53,.1);color:#FF8C42">
+                <div class="section-badge" style="background:rgba(79,70,229,.08);color:#4F46E5">
                     <i class="bi bi-stars"></i> {{ $isTr ? 'Özellikler' : 'Features' }}
                 </div>
                 <h2 class="section-title">{{ $isTr ? 'Restoran Menü Sisteminiz İçin' : 'Everything You Need For' }}<br>{{ $isTr ? 'İhtiyacınız Olan Her Şey' : 'Your Restaurant Menu' }}</h2>
@@ -298,7 +298,7 @@
             <div class="row g-4">
                 <div class="col-12 col-md-6 col-lg-4">
                     <article class="feat-card">
-                        <div class="feat-icon" style="background:rgba(255,107,53,.12);color:#FF6B35"><i class="bi bi-qr-code"></i></div>
+                        <div class="feat-icon" style="background:rgba(79,70,229,.08);color:#4F46E5"><i class="bi bi-qr-code"></i></div>
                         <h3>{{ $isTr ? 'QR Kod Menü' : 'QR Code Menu' }}</h3>
                         <p>{{ $isTr ? 'Baskıya hazır karekod menü oluşturun. Müşterileriniz telefonlarıyla tarayıp dijital menünüzü anında görsün.' : 'Create print-ready QR code menus. Your customers can scan with their phones and instantly view your digital menu.' }}</p>
                     </article>
