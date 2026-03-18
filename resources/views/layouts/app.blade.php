@@ -543,6 +543,10 @@
             <i class="bi bi-calendar-check"></i> {{ __('nav.nav.reservation') }}
             @if(!$isPremium)<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif
         </a>
+        <a href="{{ $isPremium ? route('menu-settings.index') : route('premium.gate') }}" class="sb-link {{ request()->routeIs('menu-settings.*') ? 'active' : '' }}">
+            <i class="bi bi-palette"></i> {{ __('nav.nav.menu_design') }}
+            @if(!$isPremium)<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif
+        </a>
         <a href="{{ $isPremium ? '#' : route('premium.gate') }}" class="sb-link">
             <i class="bi bi-cart-check"></i> {{ __('nav.nav.ordering') }}
             @if(!$isPremium)<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif

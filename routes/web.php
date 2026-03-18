@@ -18,6 +18,7 @@ use App\Http\Controllers\ReservationZoneController;
 use App\Http\Controllers\ReservationTableController;
 use App\Http\Controllers\DeveloperBlogController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\MenuSettingsController;
 
 // Demo menü — potansiyel müşterilerin test sayfasını görmesi için (Fake RESTORANT seeder gerekir)
 Route::get('/demo', function () {
@@ -186,6 +187,9 @@ Route::middleware(['auth', 'tenant'])->group(function () {
         Route::get('/reservation/tables/{id}/edit', [ReservationTableController::class, 'edit'])->name('reservation.tables.edit');
         Route::put('/reservation/tables/{id}', [ReservationTableController::class, 'update'])->name('reservation.tables.update');
         Route::delete('/reservation/tables/{id}', [ReservationTableController::class, 'destroy'])->name('reservation.tables.destroy');
+
+        Route::get('/menu-settings', [MenuSettingsController::class, 'index'])->name('menu-settings.index');
+        Route::put('/menu-settings', [MenuSettingsController::class, 'update'])->name('menu-settings.update');
     });
 
     // QR kod (auth)

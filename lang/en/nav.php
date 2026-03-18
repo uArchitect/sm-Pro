@@ -18,6 +18,7 @@ return [
         'events'        => 'Events',
         'reservation'   => 'Reservation',
         'ordering'      => 'Order Management',
+        'menu_design'   => 'Menu Design',
         'premium_badge' => 'Premium',
     ],
     'roles' => [

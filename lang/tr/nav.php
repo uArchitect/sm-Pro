@@ -18,6 +18,7 @@ return [
         'events'        => 'Etkinlikler',
         'reservation'   => 'Rezervasyon',
         'ordering'      => 'Sipariş Yönetimi',
+        'menu_design'   => 'Menü Tasarımı',
         'premium_badge' => 'Premium',
     ],
     'roles' => [

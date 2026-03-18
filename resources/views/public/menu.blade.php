@@ -52,24 +52,35 @@
     <meta name="twitter:image" content="{{ $menuShareImage }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family={{ urlencode($ms->font_family ?? 'Inter') }}:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    @php
+        $ms = $menuSettings ?? (object)[
+            'primary_color'=>'#4F46E5','secondary_color'=>'#6366F1',
+            'background_color'=>'#f8fafc','card_color'=>'#ffffff',
+            'text_color'=>'#1e293b','header_bg'=>'#ffffff',
+            'header_text_color'=>'#0f172a','font_family'=>'Inter','layout'=>'accordion',
+        ];
+        $pc = $ms->primary_color ?? '#4F46E5';
+        $sc = $ms->secondary_color ?? '#6366F1';
+        $pcRgb = implode(',', [hexdec(substr($pc,1,2)), hexdec(substr($pc,3,2)), hexdec(substr($pc,5,2))]);
+    @endphp
     <style>
         :root {
-            --accent: #4F46E5;
-            --accent2: #6366F1;
-            --accent-soft: rgba(79, 70, 229, 0.08);
-            --accent-soft-2: rgba(79, 70, 229, 0.12);
+            --accent: {{ $pc }};
+            --accent2: {{ $sc }};
+            --accent-soft: rgba({{ $pcRgb }}, 0.08);
+            --accent-soft-2: rgba({{ $pcRgb }}, 0.12);
             --dark: #0f172a;
             --dark2: #1e293b;
-            --text: #1e293b;
+            --text: {{ $ms->text_color ?? '#1e293b' }};
             --text2: #475569;
             --text3: #94a3b8;
             --border: #e2e8f0;
             --border-light: #f1f5f9;
-            --bg: #f8fafc;
-            --card: #ffffff;
+            --bg: {{ $ms->background_color ?? '#f8fafc' }};
+            --card: {{ $ms->card_color ?? '#ffffff' }};
             --star: #f59e0b;
             --radius: 16px;
             --radius-sm: 12px;
@@ -77,8 +88,10 @@
             --shadow: 0 1px 3px rgba(0,0,0,.06);
             --shadow-md: 0 4px 12px rgba(0,0,0,.08);
             --safe-b: env(safe-area-inset-bottom, 0px);
+            --header-bg: {{ $ms->header_bg ?? '#ffffff' }};
+            --header-text: {{ $ms->header_text_color ?? '#0f172a' }};
         }
-        * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+        * { font-family: '{{ $ms->font_family ?? 'Inter' }}', sans-serif; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         body { background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; min-height: 100vh; margin: 0; }
         .menu-app { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
@@ -86,7 +99,7 @@
 
         /* ========== Header (light theme) ========== */
         .hdr {
-            background: linear-gradient(160deg, #ffffff 0%, #f8fafc 100%);
+            background: linear-gradient(160deg, var(--header-bg) 0%, var(--bg) 100%);
             position: relative; overflow: hidden;
             padding: 1.75rem 1.25rem 1.5rem;
             text-align: center;
@@ -123,7 +136,7 @@
             box-shadow: 0 12px 40px rgba(79,70,229,.35);
             border: 2px solid rgba(79,70,229,.15);
         }
-        .hdr-name { font-size: 1.5rem; font-weight: 800; color: var(--dark); letter-spacing: -.02em; line-height: 1.2; margin: 0; }
+        .hdr-name { font-size: 1.5rem; font-weight: 800; color: var(--header-text); letter-spacing: -.02em; line-height: 1.2; margin: 0; }
         .hdr-sub { font-size: .7rem; color: var(--text2); margin-top: .2rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
         .hdr-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem .85rem; margin-top: .75rem; }
         .hdr-meta-item {
@@ -820,85 +833,7 @@
                 <div class="fw-bold">{{ __('public.menu_not_ready') }}</div>
             </div>
         @else
-            <div id="menuAccordion">
-            @foreach($categories as $cat)
-                @php
-                    $catProducts = $products->get($cat->id, collect());
-                    $subs = $subCategories[$cat->id] ?? collect();
-                    $totalInCat = $catProducts->count();
-                    foreach ($subs as $sub) { $totalInCat += ($products->get($sub->id, collect()))->count(); }
-                @endphp
-                <section class="cat-section" data-cat-id="{{ $cat->id }}" id="cat-{{ $cat->id }}">
-                    <button type="button" class="cat-header" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $cat->id }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="collapse-{{ $cat->id }}">
-                        @if($cat->image)
-                            <img src="{{ asset('uploads/'.$cat->image) }}" class="cat-header-img" alt="{{ $cat->name }}" loading="lazy">
-                        @else
-                            <div class="cat-header-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
-                        @endif
-                        <span class="cat-header-name">{{ $cat->name }}</span>
-                        <span class="cat-header-count cat-count" data-cat-id="{{ $cat->id }}">{{ __('public.products_count', ['count' => $totalInCat]) }}</span>
-                        <i class="bi bi-chevron-down cat-chevron"></i>
-                    </button>
-                    <div class="collapse {{ $loop->first ? 'show' : '' }}" id="collapse-{{ $cat->id }}" data-bs-parent="#menuAccordion">
-                    <div class="cat-section-body">
-                    @if($totalInCat === 0)
-                        <p class="cat-empty-msg"><i class="bi bi-inbox me-2"></i>{{ $locale === 'tr' ? 'Henüz ürün eklenmemiş.' : 'No products added yet.' }}</p>
-                    @else
-                    @foreach($catProducts as $product)
-                    <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
-                        @if($product->image)
-                            <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img" loading="lazy">
-                        @else
-                            <div class="prod-img-empty"><i class="bi bi-box-seam"></i></div>
-                        @endif
-                        <div class="prod-body">
-                            <div class="prod-name">{{ $product->name }}</div>
-                            @if($product->description)
-                            <div class="prod-desc">{{ $product->description }}</div>
-                            @endif
-                        </div>
-                        <div class="prod-price">{{ number_format($product->price, 2, ',', '.') }} ₺</div>
-                    </a>
-                    @endforeach
-                    @foreach($subs as $sub)
-                        @php $subProducts = $products->get($sub->id, collect()); @endphp
-                        @if($subProducts->isNotEmpty())
-                        <div class="sub-header">
-                            @if($sub->image)
-                                <img src="{{ asset('uploads/'.$sub->image) }}" alt="{{ $sub->name }}" loading="lazy">
-                            @else
-                                <span class="sub-header-icon"><i class="bi bi-dash-lg"></i></span>
-                            @endif
-                            {{ $sub->name }}
-                        </div>
-                        @foreach($subProducts as $product)
-                        <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $sub->id }}" data-parent-cat="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
-                            @if($product->image)
-                                <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img" loading="lazy">
-                            @else
-                                <div class="prod-img-empty"><i class="bi bi-box-seam"></i></div>
-                            @endif
-                            <div class="prod-body">
-                                <div class="prod-name">{{ $product->name }}</div>
-                                @if($product->description)
-                                <div class="prod-desc">{{ $product->description }}</div>
-                                @endif
-                            </div>
-                            <div class="prod-price">{{ number_format($product->price, 2, ',', '.') }} ₺</div>
-                        </a>
-@endforeach
-                    @endif
-                    @endforeach
-                    @endif
-                    </div>
-                    </div>
-                </section>
-            @endforeach
-            <div class="no-results d-none" id="noResults">
-                <i class="bi bi-search"></i>
-                <div class="fw-bold">Sonuç bulunamadı</div>
-                <div class="small mt-1">Farklı bir arama deneyin</div>
-            </div>
+            @include('public.partials.menu-' . ($ms->layout ?? 'accordion'))
         @endif
     </main>
 
@@ -993,8 +928,9 @@
     @endif
     <script>
     (function() {
+        var menuLayout = @json($ms->layout ?? 'accordion');
         var productCountSuffix = @json(app()->getLocale() === 'tr' ? 'ürün' : 'products');
-        var allProducts = document.querySelectorAll('.prod');
+        var allProducts = document.querySelectorAll('.prod, .grid-card');
         var sections = document.querySelectorAll('.cat-section');
         var collapses = document.querySelectorAll('#menuAccordion .collapse');
         var searchEl = document.getElementById('menuSearch');
@@ -1019,23 +955,56 @@
                 }
             });
 
-            if (q) {
-                collapses.forEach(function(el) {
-                    bootstrap.Collapse.getOrCreateInstance(el).show();
-                });
-                sections.forEach(function(sec) {
-                    var any = 0;
-                    sec.querySelectorAll('.prod').forEach(function(p) {
-                        if (p.style.display !== 'none') any++;
-                    });
-                    sec.style.display = any > 0 ? '' : 'none';
-                });
-            } else {
-                sections.forEach(function(sec) { sec.style.display = ''; });
-                if (activeCatId) {
+            if (menuLayout === 'accordion') {
+                if (q) {
                     collapses.forEach(function(el) {
-                        var inst = bootstrap.Collapse.getOrCreateInstance(el);
-                        if (el.id === 'collapse-' + activeCatId) inst.show(); else inst.hide();
+                        bootstrap.Collapse.getOrCreateInstance(el).show();
+                    });
+                    sections.forEach(function(sec) {
+                        var any = 0;
+                        sec.querySelectorAll('.prod').forEach(function(p) {
+                            if (p.style.display !== 'none') any++;
+                        });
+                        sec.style.display = any > 0 ? '' : 'none';
+                    });
+                } else {
+                    sections.forEach(function(sec) { sec.style.display = ''; });
+                    if (activeCatId) {
+                        collapses.forEach(function(el) {
+                            var inst = bootstrap.Collapse.getOrCreateInstance(el);
+                            if (el.id === 'collapse-' + activeCatId) inst.show(); else inst.hide();
+                        });
+                    }
+                }
+            } else if (menuLayout === 'elegant') {
+                sections.forEach(function(sec) {
+                    if (q) {
+                        var any = 0;
+                        sec.querySelectorAll('.prod').forEach(function(p) {
+                            if (p.style.display !== 'none') any++;
+                        });
+                        sec.style.display = any > 0 ? '' : 'none';
+                    } else {
+                        sec.style.display = '';
+                    }
+                });
+            } else if (menuLayout === 'grid') {
+                document.querySelectorAll('.grid-cat-label').forEach(function(lbl) {
+                    if (q) {
+                        lbl.style.display = 'none';
+                    } else {
+                        lbl.style.display = '';
+                    }
+                });
+            } else if (menuLayout === 'tabs') {
+                var panels = document.querySelectorAll('.tab-panel');
+                if (q) {
+                    panels.forEach(function(p) { p.classList.add('active'); });
+                } else {
+                    var activeTab = document.querySelector('#menuTabs .tab-btn.active');
+                    var activeId = activeTab ? activeTab.getAttribute('data-tab') : '';
+                    panels.forEach(function(p) {
+                        p.classList.toggle('active', p.id === 'tabPanel-' + activeId);
                     });
                 }
             }
@@ -1054,16 +1023,31 @@
             allProducts.forEach(function(p) { p.style.display = ''; });
             sections.forEach(function(s) { s.style.display = ''; });
 
-            collapses.forEach(function(el) {
-                var inst = bootstrap.Collapse.getOrCreateInstance(el);
-                if (!activeCatId) {
-                    inst.show();
-                } else if (el.id === 'collapse-' + activeCatId) {
-                    inst.show();
-                } else {
-                    inst.hide();
+            if (menuLayout === 'accordion') {
+                collapses.forEach(function(el) {
+                    var inst = bootstrap.Collapse.getOrCreateInstance(el);
+                    if (!activeCatId) {
+                        inst.show();
+                    } else if (el.id === 'collapse-' + activeCatId) {
+                        inst.show();
+                    } else {
+                        inst.hide();
+                    }
+                });
+            } else if (menuLayout === 'tabs') {
+                if (activeCatId) {
+                    var tabBtn = document.querySelector('#menuTabs .tab-btn[data-tab="' + activeCatId + '"]');
+                    if (tabBtn) tabBtn.click();
                 }
-            });
+            } else if (menuLayout === 'grid') {
+                var gridBtn = document.querySelector('#gridFilters .grid-filter-btn[data-filter-cat="' + (activeCatId || '') + '"]');
+                if (gridBtn) gridBtn.click();
+            } else if (menuLayout === 'elegant') {
+                if (activeCatId) {
+                    var target = document.getElementById('elegant-' + activeCatId);
+                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
 
             if (searchEl) searchEl.value = '';
 
