@@ -329,24 +329,24 @@
                 <div class="footer-col">
                     <div class="footer-heading">{{ $isTr ? 'Ürün' : 'Product' }}</div>
                     <div class="d-flex flex-column gap-2">
-                        <a href="{{ route('features') }}">{{ $isTr ? 'Özellikler' : 'Features' }}</a>
-                        <a href="{{ route('pricing') }}">{{ $isTr ? 'Fiyatlar' : 'Pricing' }}</a>
-                        <a href="{{ route('demo') }}">{{ $isTr ? 'Canlı Demo' : 'Live Demo' }}</a>
-                        <a href="{{ route('blog') }}">Blog</a>
+                        <a href="{{ $r('features') }}">{{ $isTr ? 'Özellikler' : 'Features' }}</a>
+                        <a href="{{ $r('pricing') }}">{{ $isTr ? 'Fiyatlar' : 'Pricing' }}</a>
+                        <a href="{{ $r('demo') }}">{{ $isTr ? 'Canlı Demo' : 'Live Demo' }}</a>
+                        <a href="{{ $r('blog') }}">Blog</a>
                     </div>
                 </div>
                 <div class="footer-col">
                     <div class="footer-heading">{{ $isTr ? 'Şirket' : 'Company' }}</div>
                     <div class="d-flex flex-column gap-2">
-                        <a href="{{ route('about') }}">{{ $isTr ? 'Hakkımızda' : 'About' }}</a>
-                        <a href="{{ route('contact') }}">{{ $isTr ? 'İletişim' : 'Contact' }}</a>
+                        <a href="{{ $r('about') }}">{{ $isTr ? 'Hakkımızda' : 'About' }}</a>
+                        <a href="{{ $r('contact') }}">{{ $isTr ? 'İletişim' : 'Contact' }}</a>
                     </div>
                 </div>
                 <div class="footer-col">
                     <div class="footer-heading">{{ $isTr ? 'Yasal' : 'Legal' }}</div>
                     <div class="d-flex flex-column gap-2">
-                        <a href="{{ route('privacy') }}">{{ $isTr ? 'Gizlilik Politikası' : 'Privacy Policy' }}</a>
-                        <a href="{{ route('terms') }}">{{ $isTr ? 'Kullanım Koşulları' : 'Terms of Use' }}</a>
+                        <a href="{{ $r('privacy') }}">{{ $isTr ? 'Gizlilik Politikası' : 'Privacy Policy' }}</a>
+                        <a href="{{ $r('terms') }}">{{ $isTr ? 'Kullanım Koşulları' : 'Terms of Use' }}</a>
                     </div>
                 </div>
                 <div class="footer-col">
