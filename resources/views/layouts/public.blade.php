@@ -344,7 +344,7 @@
                     <div class="footer-heading">{{ $isTr ? 'Yasal' : 'Legal' }}</div>
                     <div class="d-flex flex-column gap-2">
                         <a href="{{ locale_route('privacy') }}">{{ $isTr ? 'Gizlilik Politikası' : 'Privacy Policy' }}</a>
-                        <a href="{{ $r('terms') }}">{{ $isTr ? 'Kullanım Koşulları' : 'Terms of Use' }}</a>
+                        <a href="{{ locale_route('terms') }}">{{ $isTr ? 'Kullanım Koşulları' : 'Terms of Use' }}</a>
                     </div>
                 </div>
                 <div class="footer-col">
