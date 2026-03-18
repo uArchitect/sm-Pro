@@ -65,11 +65,11 @@
         .feat-block{margin-bottom:4rem}
         .feat-block:last-child{margin-bottom:0}
         .feat-block-icon{width:56px;height:56px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem}
-        .feat-block h2{font-size:1.25rem;font-weight:800;color:#fff;margin-bottom:.5rem}
-        .feat-block p{font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.7;max-width:520px}
+        .feat-block h2{font-size:1.25rem;font-weight:800;color:#0f172a;margin-bottom:.5rem}
+        .feat-block p{font-size:.9rem;color:#64748b;line-height:1.7;max-width:520px}
         .feat-block ul{list-style:none;padding:0;margin:.75rem 0 0}
-        .feat-block ul li{font-size:.84rem;color:rgba(255,255,255,.55);padding:.3rem 0;display:flex;align-items:flex-start;gap:.5rem}
-        .feat-block ul li i{color:#FF6B35;font-size:.7rem;margin-top:.3rem;flex-shrink:0}
+        .feat-block ul li{font-size:.84rem;color:#475569;padding:.3rem 0;display:flex;align-items:flex-start;gap:.5rem}
+        .feat-block ul li i{color:#4F46E5;font-size:.7rem;margin-top:.3rem;flex-shrink:0}
 @endsection
 
 @section('content')
@@ -84,7 +84,7 @@
         <div class="container" style="max-width:800px">
 
             <div class="feat-block">
-                <div class="feat-block-icon" style="background:rgba(255,107,53,.12);color:#FF6B35"><i class="bi bi-qr-code"></i></div>
+                <div class="feat-block-icon" style="background:rgba(79,70,229,.12);color:#4F46E5"><i class="bi bi-qr-code"></i></div>
                 <h2>{{ $isTr ? 'QR Kod Oluşturma ve Baskı' : 'QR Code Generation & Print' }}</h2>
                 <p>{{ $isTr ? 'Restoranınız için benzersiz QR kod oluşturun. Yüksek çözünürlüklü karekod menü dosyasını indirip masalarınıza, tabelalarınıza veya broşürlerinize yerleştirin.' : 'Create a unique QR code for your restaurant. Download the high-resolution QR code file and place it on your tables, signs, or brochures.' }}</p>
                 <ul>
@@ -153,13 +153,13 @@
     <section class="py-4">
         <div class="container" style="max-width:800px">
             <div class="text-center">
-                <p style="font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.7">
+                <p style="font-size:.88rem;color:#64748b;line-height:1.7">
                     {{ $isTr
                         ? 'Dijital menü ve QR menü kullanımı hakkında daha fazla bilgi edinmek ister misiniz?'
                         : 'Want to learn more about digital menu and QR menu usage?' }}
-                    <a href="{{ locale_route('blog') }}" style="color:#FF8C42;text-decoration:underline">{{ $isTr ? 'Blog yazılarımızı okuyun' : 'Read our blog' }}</a>
+                    <a href="{{ locale_route('blog') }}" style="color:#6366F1;text-decoration:underline">{{ $isTr ? 'Blog yazılarımızı okuyun' : 'Read our blog' }}</a>
                     {{ $isTr ? 'veya' : 'or' }}
-                    <a href="{{ locale_route('pricing') }}" style="color:#FF8C42;text-decoration:underline">{{ $isTr ? 'fiyat planlarını karşılaştırın' : 'compare pricing plans' }}</a>.
+                    <a href="{{ locale_route('pricing') }}" style="color:#6366F1;text-decoration:underline">{{ $isTr ? 'fiyat planlarını karşılaştırın' : 'compare pricing plans' }}</a>.
                 </p>
             </div>
         </div>

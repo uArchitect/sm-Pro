@@ -13,8 +13,8 @@
 
 {{-- QR Banner --}}
 <div class="mb-4" style="
-    background: linear-gradient(135deg, #0d1117 0%, #1a2332 60%, #0f1923 100%);
-    border: 1px solid rgba(79,70,229,.2);
+    background: linear-gradient(135deg, #4F46E5 0%, #6366F1 60%, #4338CA 100%);
+    border: none;
     border-radius: 18px;
     padding: 1.4rem 1.6rem;
     position: relative; overflow: hidden;

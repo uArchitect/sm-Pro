@@ -53,20 +53,20 @@
 
 @section('styles')
         .contact-section{padding:2rem 0 5rem}
-        .contact-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:1.75rem;height:100%;transition:all .25s}
-        .contact-card:hover{background:rgba(255,255,255,.05);border-color:rgba(255,107,53,.15);transform:translateY(-3px)}
+        .contact-card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:1.75rem;height:100%;transition:all .25s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+        .contact-card:hover{background:#f8fafc;border-color:rgba(79,70,229,.2);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.06)}
         .contact-card-icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:.75rem}
-        .contact-card h3{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:.3rem}
-        .contact-card p{font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6;margin:0}
-        .contact-card a{color:#FF8C42;text-decoration:none;font-weight:600}
+        .contact-card h3{font-size:.95rem;font-weight:700;color:#0f172a;margin-bottom:.3rem}
+        .contact-card p{font-size:.82rem;color:#64748b;line-height:1.6;margin:0}
+        .contact-card a{color:#6366F1;text-decoration:none;font-weight:600}
         .contact-card a:hover{text-decoration:underline}
-        .contact-form{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:18px;padding:2rem;max-width:640px;margin:2.5rem auto 0}
-        .cf-label{display:block;font-size:.75rem;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:.3rem}
-        .cf-input{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:#fff;border-radius:10px;padding:.6rem .85rem;font-size:.85rem;font-family:inherit;outline:none;margin-bottom:.85rem;transition:border-color .2s}
-        .cf-input::placeholder{color:rgba(255,255,255,.2)}
-        .cf-input:focus{border-color:#FF6B35;box-shadow:0 0 0 3px rgba(255,107,53,.12)}
+        .contact-form{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:2rem;max-width:640px;margin:2.5rem auto 0;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+        .cf-label{display:block;font-size:.75rem;font-weight:600;color:#475569;margin-bottom:.3rem}
+        .cf-input{width:100%;background:#f8fafc;border:1px solid #e2e8f0;color:#0f172a;border-radius:10px;padding:.6rem .85rem;font-size:.85rem;font-family:inherit;outline:none;margin-bottom:.85rem;transition:border-color .2s}
+        .cf-input::placeholder{color:#94a3b8}
+        .cf-input:focus{border-color:#4F46E5;box-shadow:0 0 0 3px rgba(79,70,229,.12);background:#fff}
         textarea.cf-input{resize:vertical;min-height:110px}
-        .response-time{font-size:.78rem;color:rgba(255,255,255,.35);margin-top:.75rem;text-align:center}
+        .response-time{font-size:.78rem;color:#94a3b8;margin-top:.75rem;text-align:center}
 @endsection
 
 @section('content')
@@ -89,7 +89,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="contact-card text-center">
-                        <div class="contact-card-icon mx-auto" style="background:rgba(255,107,53,.12);color:#FF6B35"><i class="bi bi-envelope"></i></div>
+                        <div class="contact-card-icon mx-auto" style="background:rgba(79,70,229,.12);color:#4F46E5"><i class="bi bi-envelope"></i></div>
                         <h3>{{ $isTr ? 'E-posta' : 'Email' }}</h3>
                         <p><a href="mailto:destek@siparismasanda.com">destek@siparismasanda.com</a></p>
                     </div>
@@ -109,11 +109,11 @@
                     <div style="width:56px;height:56px;border-radius:16px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#10b981;margin:0 auto .85rem">
                         <i class="bi bi-check-circle-fill"></i>
                     </div>
-                    <div style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.35rem">{{ $isTr ? 'Mesajınız Gönderildi!' : 'Message Sent!' }}</div>
-                    <div style="font-size:.84rem;color:rgba(255,255,255,.5);line-height:1.6">{{ $isTr ? 'En kısa sürede size geri dönüş yapacağız.' : 'We will get back to you as soon as possible.' }}</div>
+                    <div style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:.35rem">{{ $isTr ? 'Mesajınız Gönderildi!' : 'Message Sent!' }}</div>
+                    <div style="font-size:.84rem;color:#64748b;line-height:1.6">{{ $isTr ? 'En kısa sürede size geri dönüş yapacağız.' : 'We will get back to you as soon as possible.' }}</div>
                 </div>
                 @else
-                <h3 style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:1.25rem;text-align:center">
+                <h3 style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:1.25rem;text-align:center">
                     <i class="bi bi-chat-dots text-warning me-1"></i>
                     {{ $isTr ? 'Mesaj Gönderin' : 'Send a Message' }}
                 </h3>
@@ -178,8 +178,8 @@
                             document.getElementById('contactFormWrap').innerHTML =
                                 '<div style="text-align:center;padding:2rem 1rem">' +
                                 '<div style="width:56px;height:56px;border-radius:16px;background:rgba(16,185,129,.12);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#10b981;margin:0 auto .85rem"><i class="bi bi-check-circle-fill"></i></div>' +
-                                '<div style="font-size:1rem;font-weight:700;color:#fff;margin-bottom:.35rem">{{ $isTr ? "Mesajınız Gönderildi!" : "Message Sent!" }}</div>' +
-                                '<div style="font-size:.84rem;color:rgba(255,255,255,.5);line-height:1.6">{{ $isTr ? "En kısa sürede size geri dönüş yapacağız." : "We will get back to you as soon as possible." }}</div>' +
+                                '<div style="font-size:1rem;font-weight:700;color:#0f172a;margin-bottom:.35rem">{{ $isTr ? "Mesajınız Gönderildi!" : "Message Sent!" }}</div>' +
+                                '<div style="font-size:.84rem;color:#64748b;line-height:1.6">{{ $isTr ? "En kısa sürede size geri dönüş yapacağız." : "We will get back to you as soon as possible." }}</div>' +
                                 '</div>';
                         } else {
                             var msgs = [];

@@ -90,7 +90,7 @@
             </div>
         </div>
 
-        <div class="sm-card" style="border-left: 3px solid #FF6B35">
+        <div class="sm-card" style="border-left: 3px solid #4F46E5">
             <div class="sm-card-body">
                 <h6 class="fw-bold mb-2" style="font-size:.85rem"><i class="bi bi-lightbulb-fill text-warning me-1"></i>{{ __('qr.usage_guide') }}</h6>
                 <ul class="mb-0 ps-3 small text-muted" style="line-height:1.9">
