@@ -31,7 +31,7 @@
     <title>{{ $isTr ? 'Kayıt — Sipariş Masanda' : 'Register — Siparis Masanda' }}</title>
     <meta name="description" content="{{ $isTr ? 'Sipariş Masanda ile restoranınızı dakikalar içinde dijitale taşıyın. Ücretsiz kayıt olun.' : 'Take your restaurant digital in minutes with Siparis Masanda. Register for free.' }}">
     <meta name="robots" content="index, follow, max-image-preview:large">
-    <meta name="theme-color" content="#0a0f1e">
+    <meta name="theme-color" content="#ffffff">
     <link rel="canonical" href="{{ route('register') }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ route('register') }}">
@@ -60,27 +60,22 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         * { font-family: 'Inter', sans-serif; }
-        body { background: #0a0f1e; min-height: 100vh; }
-        body::before {
-            content:''; position:fixed; inset:0;
-            background-image: linear-gradient(rgba(255,107,53,.04) 1px,transparent 1px), linear-gradient(90deg,rgba(255,107,53,.04) 1px,transparent 1px);
-            background-size: 60px 60px; pointer-events:none;
-        }
-        .auth-card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:20px; backdrop-filter:blur(20px); box-shadow:0 24px 64px rgba(0,0,0,.4); }
-        .logo-mark { width:52px; height:52px; border-radius:14px; background:linear-gradient(135deg,#FF6B35,#FF8C42); display:flex; align-items:center; justify-content:center; font-size:1.4rem; color:#fff; margin:0 auto 1rem; box-shadow:0 10px 32px rgba(255,107,53,.4); }
-        .auth-title { font-size:1.35rem; font-weight:800; color:#fff; margin-bottom:.2rem; }
-        .auth-sub { font-size:.85rem; color:rgba(255,255,255,.4); margin-bottom:1.5rem; }
-        .form-label { font-size:.78rem; font-weight:600; color:rgba(255,255,255,.7); margin-bottom:.35rem; }
-        .form-control { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); color:#fff; border-radius:10px; padding:.55rem .9rem; font-size:.875rem; }
-        .form-control::placeholder { color:rgba(255,255,255,.22); }
-        .form-control:focus { background:rgba(255,255,255,.09); border-color:#FF6B35; box-shadow:0 0 0 3px rgba(255,107,53,.18); color:#fff; }
-        .section-divider { font-size:.68rem; text-transform:uppercase; letter-spacing:.1em; color:rgba(255,255,255,.28); margin:1.1rem 0 .8rem; border-bottom:1px solid rgba(255,255,255,.07); padding-bottom:.5rem; font-weight:600; }
-        .btn-register { background:linear-gradient(135deg,#FF6B35,#FF8C42); border:none; color:#fff; font-weight:700; padding:.7rem; border-radius:11px; box-shadow:0 8px 28px rgba(255,107,53,.4); transition:all .2s; font-size:.9rem; }
-        .btn-register:hover { color:#fff; transform:translateY(-2px); box-shadow:0 12px 36px rgba(255,107,53,.55); }
-        .auth-footer { font-size:.82rem; color:rgba(255,255,255,.35); text-align:center; margin-top:1.1rem; }
-        .auth-footer a { color:#FF8C42; text-decoration:none; font-weight:600; }
-        .invalid-feedback { color:#fca5a5; font-size:.78rem; }
-        .is-invalid { border-color:rgba(239,68,68,.5)!important; }
+        body { background: #f8fafc; min-height: 100vh; }
+        .auth-card { background:#fff; border:1px solid #e2e8f0; border-radius:20px; box-shadow:0 4px 24px rgba(0,0,0,.06); }
+        .logo-mark { width:52px; height:52px; border-radius:14px; background:linear-gradient(135deg,#4F46E5,#6366F1); display:flex; align-items:center; justify-content:center; font-size:1.4rem; color:#fff; margin:0 auto 1rem; box-shadow:0 10px 32px rgba(79,70,229,.25); }
+        .auth-title { font-size:1.35rem; font-weight:800; color:#0f172a; margin-bottom:.2rem; }
+        .auth-sub { font-size:.85rem; color:#94a3b8; margin-bottom:1.5rem; }
+        .form-label { font-size:.78rem; font-weight:600; color:#475569; margin-bottom:.35rem; }
+        .form-control { background:#f8fafc; border:1.5px solid #e2e8f0; color:#0f172a; border-radius:10px; padding:.55rem .9rem; font-size:.875rem; }
+        .form-control::placeholder { color:#c0c9d4; }
+        .form-control:focus { background:#fff; border-color:#4F46E5; box-shadow:0 0 0 3px rgba(79,70,229,.1); color:#0f172a; }
+        .section-divider { font-size:.68rem; text-transform:uppercase; letter-spacing:.1em; color:#94a3b8; margin:1.1rem 0 .8rem; border-bottom:1px solid #f1f5f9; padding-bottom:.5rem; font-weight:600; }
+        .btn-register { background:linear-gradient(135deg,#4F46E5,#6366F1); border:none; color:#fff; font-weight:700; padding:.7rem; border-radius:11px; box-shadow:0 8px 28px rgba(79,70,229,.3); transition:all .2s; font-size:.9rem; }
+        .btn-register:hover { color:#fff; transform:translateY(-2px); box-shadow:0 12px 36px rgba(79,70,229,.4); }
+        .auth-footer { font-size:.82rem; color:#94a3b8; text-align:center; margin-top:1.1rem; }
+        .auth-footer a { color:#4F46E5; text-decoration:none; font-weight:600; }
+        .invalid-feedback { color:#ef4444; font-size:.78rem; }
+        .is-invalid { border-color:#ef4444!important; }
     </style>
 </head>
 <body class="d-flex align-items-center justify-content-center py-5 px-3">
@@ -92,10 +87,10 @@
     @endif
 <div style="width:100%;max-width:480px;position:relative;z-index:1">
     <div class="text-center">
-        <div style="display:inline-flex;border:1px solid rgba(255,255,255,.15);border-radius:8px;overflow:hidden;background:rgba(255,255,255,.04);margin-bottom:1rem">
-            <a href="{{ request()->fullUrlWithQuery(['lang' => 'tr']) }}" style="padding:.3rem .6rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ $isTr ? 'background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;' : 'color:rgba(255,255,255,.45);' }}">TR</a>
-            <span style="width:1px;background:rgba(255,255,255,.1)"></span>
-            <a href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}" style="padding:.3rem .6rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ !$isTr ? 'background:linear-gradient(135deg,#FF6B35,#FF8C42);color:#fff;' : 'color:rgba(255,255,255,.45);' }}">EN</a>
+        <div style="display:inline-flex;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#fff;margin-bottom:1rem">
+            <a href="{{ request()->fullUrlWithQuery(['lang' => 'tr']) }}" style="padding:.3rem .6rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ $isTr ? 'background:linear-gradient(135deg,#4F46E5,#6366F1);color:#fff;' : 'color:#94a3b8;' }}">TR</a>
+            <span style="width:1px;background:#e2e8f0"></span>
+            <a href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}" style="padding:.3rem .6rem;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-decoration:none;transition:all .15s;line-height:1;{{ !$isTr ? 'background:linear-gradient(135deg,#4F46E5,#6366F1);color:#fff;' : 'color:#94a3b8;' }}">EN</a>
         </div>
         <div class="logo-mark"><i class="bi bi-qr-code-scan"></i></div>
         <div class="auth-title">{{ __('common.app_name') }}</div>
@@ -104,9 +99,9 @@
 
     <div class="auth-card p-4">
         @if($errors->any())
-            <div class="mb-3 py-2 px-3" style="background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.3);border-radius:10px;">
+            <div class="mb-3 py-2 px-3" style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;">
                 @foreach($errors->all() as $error)
-                    <div class="small" style="color:#fca5a5"><i class="bi bi-exclamation-circle me-1"></i>{{ $error }}</div>
+                    <div class="small" style="color:#dc2626"><i class="bi bi-exclamation-circle me-1"></i>{{ $error }}</div>
                 @endforeach
             </div>
         @endif
