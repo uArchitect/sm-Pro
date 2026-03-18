@@ -53,7 +53,7 @@ class CategoryController extends Controller
         $request->validate([
             'name'      => 'required|string|max:255',
             'parent_id' => 'nullable|integer',
-            'image'     => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
+            'image'     => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg',
         ]);
 
         $parentError = $this->validateParentCategory($tenantId, $request->parent_id ? (int) $request->parent_id : null);
@@ -175,7 +175,7 @@ class CategoryController extends Controller
         $request->validate([
             'name'      => 'required|string|max:255',
             'parent_id' => 'nullable|integer',
-            'image'     => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
+            'image'     => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg',
         ]);
 
         $category = DB::table('categories')
@@ -315,7 +315,7 @@ class CategoryController extends Controller
         try {
             if ($request->hasFile('image')) {
                 $request->validate([
-                    'image' => 'file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
+                    'image' => 'file|mimes:jpg,jpeg,png,gif,webp,svg',
                 ]);
                 $newImagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'uploads');
                 if ($newImagePath === false) {
