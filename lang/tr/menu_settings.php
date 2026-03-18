@@ -34,5 +34,6 @@ return [
     'color_header_text' => 'Başlık Metin',
 
     'font_section'     => 'Yazı Tipi',
-    'refresh_preview'  => 'Önizlemeyi Yenile',
+    'refresh_preview'    => 'Önizlemeyi Yenile',
+    'live_preview_hint'  => 'Değişiklikler önizlemede anında güncellenir',
 ];

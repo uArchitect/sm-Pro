@@ -34,5 +34,6 @@ return [
     'color_header_text' => 'Header Text',
 
     'font_section'     => 'Font Family',
-    'refresh_preview'  => 'Refresh Preview',
+    'refresh_preview'    => 'Refresh Preview',
+    'live_preview_hint'  => 'Changes update in preview instantly',
 ];

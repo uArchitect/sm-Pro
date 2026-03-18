@@ -62,6 +62,20 @@
             'text_color'=>'#1e293b','header_bg'=>'#ffffff',
             'header_text_color'=>'#0f172a','font_family'=>'Inter','layout'=>'accordion',
         ];
+        if ($allowDesktopPreview && request()->has('_layout')) {
+            $hex = fn($v,$d) => preg_match('/^#[0-9A-Fa-f]{6}$/', $v ?? '') ? $v : $d;
+            $ms = (object)[
+                'layout'            => in_array(request('_layout'), ['accordion','tabs','grid','elegant']) ? request('_layout') : ($ms->layout ?? 'accordion'),
+                'primary_color'     => $hex(request('_primary_color'), $ms->primary_color ?? '#4F46E5'),
+                'secondary_color'   => $hex(request('_secondary_color'), $ms->secondary_color ?? '#6366F1'),
+                'background_color'  => $hex(request('_background_color'), $ms->background_color ?? '#f8fafc'),
+                'card_color'        => $hex(request('_card_color'), $ms->card_color ?? '#ffffff'),
+                'text_color'        => $hex(request('_text_color'), $ms->text_color ?? '#1e293b'),
+                'header_bg'         => $hex(request('_header_bg'), $ms->header_bg ?? '#ffffff'),
+                'header_text_color' => $hex(request('_header_text_color'), $ms->header_text_color ?? '#0f172a'),
+                'font_family'       => request('_font_family', $ms->font_family ?? 'Inter'),
+            ];
+        }
         $pc = $ms->primary_color ?? '#4F46E5';
         $sc = $ms->secondary_color ?? '#6366F1';
         $pcRgb = implode(',', [hexdec(substr($pc,1,2)), hexdec(substr($pc,3,2)), hexdec(substr($pc,5,2))]);

@@ -261,13 +261,14 @@
                 </div>
             </div>
 
-            <div class="d-flex gap-2 flex-wrap">
+            <div class="d-flex gap-2 flex-wrap align-items-center">
                 <button type="submit" class="btn btn-accent">
                     <i class="bi bi-check-lg me-1"></i>{{ __('common.save') }}
                 </button>
                 <button type="button" class="btn btn-outline-secondary" onclick="refreshPreview()">
                     <i class="bi bi-arrow-clockwise me-1"></i>{{ __('menu_settings.refresh_preview') }}
                 </button>
+                <span class="text-muted ms-2" style="font-size:.82rem"><i class="bi bi-info-circle me-1"></i>{{ __('menu_settings.live_preview_hint') }}</span>
             </div>
         </div>
 
@@ -277,9 +278,9 @@
                 <span class="pb-dot" style="background:#ef4444"></span>
                 <span class="pb-dot" style="background:#fbbf24"></span>
                 <span class="pb-dot" style="background:#22c55e"></span>
-                <span class="pb-url" id="previewUrl">{{ route('public.menu', ['tenantId' => $tenant->id]) }}?preview=1</span>
+                <span class="pb-url" id="previewUrl">...</span>
             </div>
-            <iframe id="previewFrame" src="{{ route('public.menu', ['tenantId' => $tenant->id]) }}?preview=1" loading="lazy"></iframe>
+            <iframe id="previewFrame" src="about:blank" loading="lazy"></iframe>
         </div>
     </div>
 </form>
@@ -287,22 +288,51 @@
 
 @push('scripts')
 <script>
+var _previewBase = @json(route('public.menu', ['tenantId' => $tenant->id])) + '?preview=1';
+var _previewTimer = null;
+
+function buildPreviewUrl() {
+    var params = new URLSearchParams();
+    params.set('preview', '1');
+    params.set('_layout', document.getElementById('layoutInput').value);
+    var colorFields = ['primary_color','secondary_color','background_color','card_color','text_color','header_bg','header_text_color'];
+    colorFields.forEach(function(f) {
+        var el = document.getElementById('color_' + f);
+        if (el) params.set('_' + f, el.value);
+    });
+    var fontEl = document.getElementById('fontSelect');
+    if (fontEl) params.set('_font_family', fontEl.value);
+    return @json(route('public.menu', ['tenantId' => $tenant->id])) + '?' + params.toString();
+}
+
+function pushPreview() {
+    clearTimeout(_previewTimer);
+    _previewTimer = setTimeout(function() {
+        var url = buildPreviewUrl();
+        document.getElementById('previewUrl').textContent = url;
+        document.getElementById('previewFrame').src = url;
+    }, 400);
+}
+
 function selectLayout(val) {
     document.getElementById('layoutInput').value = val;
     document.querySelectorAll('.layout-card').forEach(function(c) {
         c.classList.toggle('selected', c.getAttribute('data-layout') === val);
     });
+    pushPreview();
 }
 
 function syncHex(colorInput) {
     var hexInput = document.getElementById('hex_' + colorInput.name);
     if (hexInput) hexInput.value = colorInput.value.toUpperCase();
+    pushPreview();
 }
 
 function syncColor(hexInput, colorId) {
     var v = hexInput.value.trim();
     if (/^#[0-9A-Fa-f]{6}$/.test(v)) {
         document.getElementById(colorId).value = v;
+        pushPreview();
     }
 }
 
@@ -322,11 +352,20 @@ function applyPreset(primary, secondary, bg, card, text, headerBg, headerText) {
         if (colorEl) colorEl.value = map[key];
         if (hexEl) hexEl.value = map[key].toUpperCase();
     }
+    pushPreview();
 }
 
 function refreshPreview() {
     var frame = document.getElementById('previewFrame');
-    if (frame) frame.src = frame.src;
+    if (frame) frame.src = buildPreviewUrl();
 }
+
+document.getElementById('fontSelect').addEventListener('change', pushPreview);
+
+document.addEventListener('DOMContentLoaded', function() {
+    var url = buildPreviewUrl();
+    document.getElementById('previewUrl').textContent = url;
+    document.getElementById('previewFrame').src = url;
+});
 </script>
 @endpush
