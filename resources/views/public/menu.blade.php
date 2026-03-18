@@ -10,22 +10,28 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', $locale) }}">
 <head>
+    @if(config('services.google.gtm_id'))
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-T58K7CMS');</script>
+    })(window,document,'script','dataLayer','{{ config('services.google.gtm_id') }}');</script>
     <!-- End Google Tag Manager -->
+    @endif
+    @if(config('services.google.ga_id'))
     <!-- Google tag (gtag.js) -->
-    <script src="https://www.googletagmanager.com/gtag/js?id=G-B4H9LNYM0C"></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google.ga_id') }}"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-PLW9XB0WC9');
-    gtag('config', 'G-B4H9LNYM0C');
+    @if(config('services.google.ga_id_secondary'))
+    gtag('config', '{{ config('services.google.ga_id_secondary') }}');
+    @endif
+    gtag('config', '{{ config('services.google.ga_id') }}');
     </script>
+    @endif
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
@@ -602,10 +608,12 @@
     </style>
 </head>
 <body>
+    @if(config('services.google.gtm_id'))
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T58K7CMS"
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ config('services.google.gtm_id') }}"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
+    @endif
 
     @unless($allowDesktopPreview)
     <div class="desktop-only-screen" aria-live="polite">
@@ -713,7 +721,7 @@
         @foreach($categories as $cat)
         <button type="button" class="cat-pill" data-cat-id="{{ $cat->id }}">
             @if($cat->image)
-                <img src="{{ asset('uploads/'.$cat->image) }}" alt="" class="cat-pill-img">
+                <img src="{{ asset('uploads/'.$cat->image) }}" alt="{{ $cat->name }}" class="cat-pill-img" loading="lazy">
             @else
                 <span class="cat-pill-icon"><i class="bi bi-grid-3x3-gap-fill"></i></span>
             @endif
@@ -746,7 +754,7 @@
                 @endphp
                 <button type="button" class="drawer-item" data-cat-id="{{ $cat->id }}">
                     @if($cat->image)
-                        <img src="{{ asset('uploads/'.$cat->image) }}" class="di-img" alt="">
+                        <img src="{{ asset('uploads/'.$cat->image) }}" class="di-img" alt="{{ $cat->name }}" loading="lazy">
                     @else
                         <div class="di-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
                     @endif
@@ -761,7 +769,7 @@
                         @php $subProdCount = ($products->get($sub->id, collect()))->count(); @endphp
                         <button type="button" class="drawer-item" data-cat-id="{{ $sub->id }}">
                             @if($sub->image)
-                                <img src="{{ asset('uploads/'.$sub->image) }}" class="di-img" alt="">
+                                <img src="{{ asset('uploads/'.$sub->image) }}" class="di-img" alt="{{ $sub->name }}" loading="lazy">
                             @else
                                 <div class="di-icon"><i class="bi bi-dash"></i></div>
                             @endif
@@ -820,7 +828,7 @@
                 <section class="cat-section" data-cat-id="{{ $cat->id }}" id="cat-{{ $cat->id }}">
                     <button type="button" class="cat-header" data-bs-toggle="collapse" data-bs-target="#collapse-{{ $cat->id }}" aria-expanded="{{ $loop->first ? 'true' : 'false' }}" aria-controls="collapse-{{ $cat->id }}">
                         @if($cat->image)
-                            <img src="{{ asset('uploads/'.$cat->image) }}" class="cat-header-img" alt="">
+                            <img src="{{ asset('uploads/'.$cat->image) }}" class="cat-header-img" alt="{{ $cat->name }}" loading="lazy">
                         @else
                             <div class="cat-header-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
                         @endif
@@ -836,7 +844,7 @@
                     @foreach($catProducts as $product)
                     <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
                         @if($product->image)
-                            <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img">
+                            <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img" loading="lazy">
                         @else
                             <div class="prod-img-empty"><i class="bi bi-box-seam"></i></div>
                         @endif
@@ -854,7 +862,7 @@
                         @if($subProducts->isNotEmpty())
                         <div class="sub-header">
                             @if($sub->image)
-                                <img src="{{ asset('uploads/'.$sub->image) }}" alt="{{ $sub->name }}">
+                                <img src="{{ asset('uploads/'.$sub->image) }}" alt="{{ $sub->name }}" loading="lazy">
                             @else
                                 <span class="sub-header-icon"><i class="bi bi-dash-lg"></i></span>
                             @endif
@@ -863,7 +871,7 @@
                         @foreach($subProducts as $product)
                         <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $sub->id }}" data-parent-cat="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
                             @if($product->image)
-                                <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img">
+                                <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img" loading="lazy">
                             @else
                                 <div class="prod-img-empty"><i class="bi bi-box-seam"></i></div>
                             @endif
@@ -1123,7 +1131,7 @@
         <div class="modal-dialog modal-dialog-centered" style="max-width:380px">
             <div class="modal-content" style="border-radius:16px;overflow:hidden;border:none;box-shadow:0 20px 60px rgba(0,0,0,.25)">
                 @if($activeEvent->image)
-                <img src="{{ asset('uploads/' . $activeEvent->image) }}" alt="{{ $activeEvent->title }}" style="width:100%;object-fit:cover;">
+                <img src="{{ asset('uploads/' . $activeEvent->image) }}" alt="{{ $activeEvent->title }}" style="width:100%;object-fit:cover;" loading="lazy">
                 @endif
                 <div style="padding:1.25rem 1.1rem;text-align:center">
                     <div style="font-size:1.1rem;font-weight:800;color:#1f2937;margin-bottom:.35rem">{{ $activeEvent->title }}</div>

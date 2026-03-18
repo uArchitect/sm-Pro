@@ -19,7 +19,7 @@
     ? 'dijital menü, QR menü, karekod menü, restoran menü sistemi, ücretsiz dijital menü, temassız menü, online menü oluştur, kafe menüsü'
     : 'digital menu, QR menu, qr code menu, restaurant menu system, free digital menu, contactless menu, online menu creator, cafe menu')
 
-@section('canonical', url('/'))
+@section('canonical', locale_route('home'))
 
 @section('schema')
 <script type="application/ld+json">
@@ -39,7 +39,7 @@
             "position": 1,
             "name": "{{ $isTr ? 'Ücretsiz Kayıt Olun' : 'Register for Free' }}",
             "text": "{{ $isTr ? 'Restoran bilgilerinizi girin. Ücretsiz dijital menü hesabınız anında oluşturulur.' : 'Enter your restaurant details. Your free digital menu account is created instantly.' }}",
-            "url": "{{ route('register') }}"
+            "url": "{{ locale_route('home') }}"
         },
         {
             "@@type": "HowToStep",
@@ -220,7 +220,7 @@
                         <a href="{{ route('register') }}" class="hero-btn-primary">
                             <i class="bi bi-rocket-takeoff"></i> {{ $isTr ? 'Ücretsiz Başla' : 'Start Free' }}
                         </a>
-                        <a href="{{ route('demo') }}" class="hero-btn-outline">
+                        <a href="{{ locale_route('demo') }}" class="hero-btn-outline">
                             <i class="bi bi-eye"></i> {{ $isTr ? 'Canlı Demo' : 'Live Demo' }}
                         </a>
                     </div>
@@ -340,7 +340,7 @@
                 </div>
             </div>
             <div class="text-center mt-4">
-                <a href="{{ route('features') }}" class="hero-btn-outline" style="font-size:.85rem;padding:.65rem 1.5rem">
+                <a href="{{ locale_route('features') }}" class="hero-btn-outline" style="font-size:.85rem;padding:.65rem 1.5rem">
                     <i class="bi bi-arrow-right"></i> {{ $isTr ? 'Tüm Özellikleri Gör' : 'See All Features' }}
                 </a>
             </div>
@@ -435,7 +435,7 @@
                     <a href="{{ route('register') }}" class="hero-btn-primary" style="position:relative">
                         <i class="bi bi-rocket-takeoff"></i> {{ $isTr ? 'Ücretsiz Hesap Oluştur' : 'Create Free Account' }}
                     </a>
-                    <a href="{{ route('demo') }}" class="hero-btn-outline" style="position:relative">
+                    <a href="{{ locale_route('demo') }}" class="hero-btn-outline" style="position:relative">
                         <i class="bi bi-eye"></i> {{ $isTr ? 'Canlı Demo' : 'Live Demo' }}
                     </a>
                 </div>

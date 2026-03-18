@@ -23,8 +23,8 @@
     "@@context": "https://schema.org",
     "@@type": "BreadcrumbList",
     "itemListElement": [
-        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ url('/') }}"},
-        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Kullanım Koşulları' : 'Terms of Use' }}", "item": "{{ route('terms') }}"}
+        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ locale_route('home') }}"},
+        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Kullanım Koşulları' : 'Terms of Use' }}", "item": "{{ locale_route('terms') }}"}
     ]
 }
 </script>
@@ -88,7 +88,7 @@
                 <p>Bu kullanım koşulları Türkiye Cumhuriyeti yasalarına tabidir.</p>
 
                 <h2>10. İletişim</h2>
-                <p>Kullanım koşulları ile ilgili sorularınız için <a href="{{ route('contact') }}" style="color:#FF8C42">iletişim sayfamızdan</a> bize ulaşabilirsiniz.</p>
+                <p>Kullanım koşulları ile ilgili sorularınız için <a href="{{ locale_route('contact') }}" style="color:#FF8C42">iletişim sayfamızdan</a> bize ulaşabilirsiniz.</p>
                 @else
                 <h2>1. Service Description</h2>
                 <p><strong>Sipariş Masanda</strong> ("Platform") is a web platform that provides digital QR menu creation and management services for restaurants, cafes, and food businesses.</p>
@@ -125,7 +125,7 @@
                 <p>These terms of use are governed by the laws of the Republic of Turkey.</p>
 
                 <h2>10. Contact</h2>
-                <p>For questions about these terms of use, you can reach us through our <a href="{{ route('contact') }}" style="color:#FF8C42">contact page</a>.</p>
+                <p>For questions about these terms of use, you can reach us through our <a href="{{ locale_route('contact') }}" style="color:#FF8C42">contact page</a>.</p>
                 @endif
 
                 <div class="legal-update">{{ $isTr ? 'Son güncelleme: Mart 2026' : 'Last updated: March 2026' }}</div>

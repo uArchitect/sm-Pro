@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'google' => [
+        'gtm_id' => env('GOOGLE_GTM_ID', 'GTM-T58K7CMS'),
+        'ga_id' => env('GOOGLE_GA_ID', 'G-B4H9LNYM0C'),
+        'ga_id_secondary' => env('GOOGLE_GA_ID_SECONDARY', 'G-PLW9XB0WC9'),
+        'site_verification' => env('GOOGLE_SITE_VERIFICATION', ''),
+    ],
+
 ];

@@ -13,7 +13,7 @@
 @section('meta_keywords', $isTr
     ? 'dijital menü, qr menü, restoran menü sistemi, sipariş masanda blog, ' . Str::limit(strip_tags($post->title), 50)
     : 'digital menu, qr menu, restaurant menu system, siparis masanda blog, ' . Str::limit(strip_tags($post->title), 50))
-@section('canonical', route('blog.show', $post->slug))
+@section('canonical', locale_route('blog.show', $post->slug))
 @section('og_type', 'article')
 @section('og_image', $ogImage)
 @section('head_extra')
@@ -43,7 +43,7 @@
         "name": "Sipariş Masanda",
         "logo": { "@@type": "ImageObject", "url": "{{ asset('og-cover.svg') }}" }
     },
-    "mainEntityOfPage": { "@@type": "WebPage", "@@id": "{{ route('blog.show', $post->slug) }}" }
+    "mainEntityOfPage": { "@@type": "WebPage", "@@id": "{{ locale_route('blog.show', $post->slug) }}" }
 }
 </script>
 <script type="application/ld+json">
@@ -51,9 +51,9 @@
     "@@context": "https://schema.org",
     "@@type": "BreadcrumbList",
     "itemListElement": [
-        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ url('/') }}"},
-        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Blog' : 'Blog' }}", "item": "{{ route('blog') }}"},
-        {"@@type": "ListItem", "position": 3, "name": "{{ addslashes(Str::limit($post->title, 50)) }}", "item": "{{ route('blog.show', $post->slug) }}"}
+        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ locale_route('home') }}"},
+        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Blog' : 'Blog' }}", "item": "{{ locale_route('blog') }}"},
+        {"@@type": "ListItem", "position": 3, "name": "{{ addslashes(Str::limit($post->title, 50)) }}", "item": "{{ locale_route('blog.show', $post->slug) }}"}
     ]
 }
 </script>
@@ -64,8 +64,8 @@
     <div class="container" style="max-width:720px">
         <nav aria-label="breadcrumb" class="mb-3">
             <ol class="breadcrumb small mb-0" style="background:transparent;color:rgba(255,255,255,.5)">
-                <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-white-50">{{ $isTr ? 'Ana Sayfa' : 'Home' }}</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('blog') }}" class="text-white-50">{{ $isTr ? 'Blog' : 'Blog' }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ locale_route('home') }}" class="text-white-50">{{ $isTr ? 'Ana Sayfa' : 'Home' }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ locale_route('blog') }}" class="text-white-50">{{ $isTr ? 'Blog' : 'Blog' }}</a></li>
                 <li class="breadcrumb-item active text-white" aria-current="page">{{ Str::limit($post->title, 40) }}</li>
             </ol>
         </nav>
@@ -88,8 +88,20 @@
         <div class="blog-body glass-card p-4 p-md-5">
             {!! $post->body !!}
         </div>
+        <div class="cta-box mt-5 p-4" style="border-radius:16px">
+            <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:.35rem;position:relative">{{ $isTr ? 'Restoranınız İçin QR Menü Oluşturun' : 'Create a QR Menu for Your Restaurant' }}</h3>
+            <p style="font-size:.85rem;margin-bottom:1rem;position:relative">{{ $isTr ? 'Ücretsiz plan ile dakikalar içinde dijital menünüzü hazırlayın.' : 'Prepare your digital menu in minutes with the free plan.' }}</p>
+            <div class="d-flex flex-wrap gap-2 justify-content-center" style="position:relative">
+                <a href="{{ route('register') }}" class="hero-btn-primary" style="font-size:.85rem;padding:.6rem 1.25rem">
+                    <i class="bi bi-rocket-takeoff"></i> {{ $isTr ? 'Ücretsiz Başla' : 'Start Free' }}
+                </a>
+                <a href="{{ locale_route('pricing') }}" class="hero-btn-outline" style="font-size:.85rem;padding:.6rem 1.25rem">
+                    <i class="bi bi-tag"></i> {{ $isTr ? 'Fiyatları Gör' : 'View Pricing' }}
+                </a>
+            </div>
+        </div>
         <div class="mt-4 text-center">
-            <a href="{{ route('blog') }}" class="hero-btn-outline btn-sm">
+            <a href="{{ locale_route('blog') }}" class="hero-btn-outline btn-sm">
                 <i class="bi bi-arrow-left me-1"></i>{{ $isTr ? 'Tüm Yazılar' : 'All Posts' }}
             </a>
         </div>

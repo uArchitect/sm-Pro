@@ -1,3 +1,21 @@
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /dashboard
+Disallow: /login
+Disallow: /register
+Disallow: /logout
+Disallow: /developer
+Disallow: /company
+Disallow: /users
+Disallow: /categories
+Disallow: /products
+Disallow: /support
+Disallow: /sliders
+Disallow: /events
+Disallow: /reservation
+Disallow: /premium
+Disallow: /locale
+Disallow: /menu/*/product/
+Disallow: /*?lang=
+
 Sitemap: https://siparismasanda.com/sitemap.xml

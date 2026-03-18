@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
+    @if(config('services.google.gtm_id'))
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-T58K7CMS');</script>
+    })(window,document,'script','dataLayer','{{ config('services.google.gtm_id') }}');</script>
     <!-- End Google Tag Manager -->
+    @endif
+    @if(config('services.google.ga_id'))
     <!-- Google tag (gtag.js) -->
-    <script src="https://www.googletagmanager.com/gtag/js?id=G-B4H9LNYM0C"></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google.ga_id') }}"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-PLW9XB0WC9');
-    gtag('config', 'G-B4H9LNYM0C');
+    @if(config('services.google.ga_id_secondary'))
+    gtag('config', '{{ config('services.google.ga_id_secondary') }}');
+    @endif
+    gtag('config', '{{ config('services.google.ga_id') }}');
     </script>
+    @endif
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
@@ -139,10 +145,12 @@
     </style>
 </head>
 <body>
+    @if(config('services.google.gtm_id'))
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T58K7CMS"
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ config('services.google.gtm_id') }}"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
+    @endif
 @php $devUser = auth()->user(); @endphp
 
 <aside class="sidebar">

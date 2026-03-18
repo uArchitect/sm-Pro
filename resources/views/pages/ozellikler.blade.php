@@ -23,8 +23,8 @@
     "@@context": "https://schema.org",
     "@@type": "BreadcrumbList",
     "itemListElement": [
-        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ url('/') }}"},
-        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Özellikler' : 'Features' }}", "item": "{{ route('features') }}"}
+        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ locale_route('home') }}"},
+        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Özellikler' : 'Features' }}", "item": "{{ locale_route('features') }}"}
     ]
 }
 </script>
@@ -150,6 +150,21 @@
         </div>
     </section>
 
+    <section class="py-4">
+        <div class="container" style="max-width:800px">
+            <div class="text-center">
+                <p style="font-size:.88rem;color:rgba(255,255,255,.5);line-height:1.7">
+                    {{ $isTr
+                        ? 'Dijital menü ve QR menü kullanımı hakkında daha fazla bilgi edinmek ister misiniz?'
+                        : 'Want to learn more about digital menu and QR menu usage?' }}
+                    <a href="{{ locale_route('blog') }}" style="color:#FF8C42;text-decoration:underline">{{ $isTr ? 'Blog yazılarımızı okuyun' : 'Read our blog' }}</a>
+                    {{ $isTr ? 'veya' : 'or' }}
+                    <a href="{{ locale_route('pricing') }}" style="color:#FF8C42;text-decoration:underline">{{ $isTr ? 'fiyat planlarını karşılaştırın' : 'compare pricing plans' }}</a>.
+                </p>
+            </div>
+        </div>
+    </section>
+
     <section class="cta-bar" style="padding-top:0">
         <div class="container">
             <div class="cta-box">
@@ -159,7 +174,7 @@
                     <a href="{{ route('register') }}" class="hero-btn-primary" style="position:relative">
                         <i class="bi bi-rocket-takeoff"></i> {{ $isTr ? 'Ücretsiz Başla' : 'Start Free' }}
                     </a>
-                    <a href="{{ route('pricing') }}" class="hero-btn-outline" style="position:relative">
+                    <a href="{{ locale_route('pricing') }}" class="hero-btn-outline" style="position:relative">
                         <i class="bi bi-tag"></i> {{ $isTr ? 'Fiyatları Gör' : 'View Pricing' }}
                     </a>
                 </div>

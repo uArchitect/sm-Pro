@@ -43,18 +43,26 @@ Route::get('/gizlilik-politikasi', fn () => view('pages.gizlilik-politikasi'))->
 Route::get('/kullanim-kosullari', fn () => view('pages.kullanim-kosullari'))->name('terms');
 
 Route::get('/sitemap.xml', function () {
+    $today = now()->toDateString();
+    $alt = fn(string $tr, string $en) => ['tr' => $tr, 'en' => $en];
+
     $pages = collect([
-        ['loc' => url('/'), 'lastmod' => now()->toDateString(), 'priority' => '1.0'],
-        ['loc' => route('pricing'), 'lastmod' => now()->toDateString(), 'priority' => '0.9'],
-        ['loc' => route('features'), 'lastmod' => now()->toDateString(), 'priority' => '0.8'],
-        ['loc' => route('about'), 'lastmod' => now()->toDateString(), 'priority' => '0.6'],
-        ['loc' => route('contact'), 'lastmod' => now()->toDateString(), 'priority' => '0.6'],
-        ['loc' => route('blog'), 'lastmod' => now()->toDateString(), 'priority' => '0.7'],
-        ['loc' => route('privacy'), 'lastmod' => now()->toDateString(), 'priority' => '0.3'],
-        ['loc' => route('terms'), 'lastmod' => now()->toDateString(), 'priority' => '0.3'],
-        ['loc' => route('demo'), 'lastmod' => now()->toDateString(), 'priority' => '0.8'],
-        ['loc' => route('login'), 'lastmod' => now()->toDateString(), 'priority' => '0.6'],
-        ['loc' => route('register'), 'lastmod' => now()->toDateString(), 'priority' => '0.7'],
+        ['loc' => url('/'),                'lastmod' => $today, 'priority' => '1.0', 'changefreq' => 'weekly',   'alternate' => $alt(url('/'), route('en.home'))],
+        ['loc' => route('pricing'),        'lastmod' => $today, 'priority' => '0.9', 'changefreq' => 'monthly',  'alternate' => $alt(route('pricing'), route('en.pricing'))],
+        ['loc' => route('features'),       'lastmod' => $today, 'priority' => '0.8', 'changefreq' => 'monthly',  'alternate' => $alt(route('features'), route('en.features'))],
+        ['loc' => route('blog'),           'lastmod' => $today, 'priority' => '0.7', 'changefreq' => 'weekly',   'alternate' => $alt(route('blog'), route('en.blog'))],
+        ['loc' => route('about'),          'lastmod' => $today, 'priority' => '0.6', 'changefreq' => 'monthly',  'alternate' => $alt(route('about'), route('en.about'))],
+        ['loc' => route('contact'),        'lastmod' => $today, 'priority' => '0.6', 'changefreq' => 'monthly',  'alternate' => $alt(route('contact'), route('en.contact'))],
+        ['loc' => route('demo'),           'lastmod' => $today, 'priority' => '0.8', 'changefreq' => 'monthly',  'alternate' => $alt(route('demo'), route('en.demo'))],
+        ['loc' => route('privacy'),        'lastmod' => $today, 'priority' => '0.3', 'changefreq' => 'yearly',   'alternate' => $alt(route('privacy'), route('en.privacy'))],
+        ['loc' => route('terms'),          'lastmod' => $today, 'priority' => '0.3', 'changefreq' => 'yearly',   'alternate' => $alt(route('terms'), route('en.terms'))],
+        // EN versions
+        ['loc' => route('en.home'),        'lastmod' => $today, 'priority' => '0.9', 'changefreq' => 'weekly',   'alternate' => $alt(url('/'), route('en.home'))],
+        ['loc' => route('en.pricing'),     'lastmod' => $today, 'priority' => '0.8', 'changefreq' => 'monthly',  'alternate' => $alt(route('pricing'), route('en.pricing'))],
+        ['loc' => route('en.features'),    'lastmod' => $today, 'priority' => '0.7', 'changefreq' => 'monthly',  'alternate' => $alt(route('features'), route('en.features'))],
+        ['loc' => route('en.blog'),        'lastmod' => $today, 'priority' => '0.6', 'changefreq' => 'weekly',   'alternate' => $alt(route('blog'), route('en.blog'))],
+        ['loc' => route('en.about'),       'lastmod' => $today, 'priority' => '0.5', 'changefreq' => 'monthly',  'alternate' => $alt(route('about'), route('en.about'))],
+        ['loc' => route('en.contact'),     'lastmod' => $today, 'priority' => '0.5', 'changefreq' => 'monthly',  'alternate' => $alt(route('contact'), route('en.contact'))],
     ]);
 
     $blogPosts = DB::table('blog_posts')
@@ -65,11 +73,12 @@ Route::get('/sitemap.xml', function () {
         ->get(['slug', 'updated_at']);
 
     foreach ($blogPosts as $p) {
-        $pages->push([
-            'loc' => route('blog.show', $p->slug),
-            'lastmod' => \Carbon\Carbon::parse($p->updated_at)->toDateString(),
-            'priority' => '0.6',
-        ]);
+        $trUrl = route('blog.show', $p->slug);
+        $enUrl = route('en.blog.show', $p->slug);
+        $lastmod = \Carbon\Carbon::parse($p->updated_at)->toDateString();
+
+        $pages->push(['loc' => $trUrl, 'lastmod' => $lastmod, 'priority' => '0.6', 'changefreq' => 'monthly', 'alternate' => $alt($trUrl, $enUrl)]);
+        $pages->push(['loc' => $enUrl, 'lastmod' => $lastmod, 'priority' => '0.5', 'changefreq' => 'monthly', 'alternate' => $alt($trUrl, $enUrl)]);
     }
 
     return response()

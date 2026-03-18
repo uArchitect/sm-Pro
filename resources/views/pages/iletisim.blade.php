@@ -23,8 +23,8 @@
     "@@context": "https://schema.org",
     "@@type": "BreadcrumbList",
     "itemListElement": [
-        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ url('/') }}"},
-        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'İletişim' : 'Contact' }}", "item": "{{ route('contact') }}"}
+        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ locale_route('home') }}"},
+        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'İletişim' : 'Contact' }}", "item": "{{ locale_route('contact') }}"}
     ]
 }
 </script>
@@ -158,7 +158,7 @@
                     btn.disabled = true;
                     btn.querySelector('span').textContent = '{{ $isTr ? "Gönderiliyor..." : "Sending..." }}';
 
-                    fetch('{{ url("/iletisim/gonder") }}', {
+                    fetch('{{ locale_route("contact.send") }}', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',

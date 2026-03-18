@@ -23,8 +23,8 @@
     "@@context": "https://schema.org",
     "@@type": "BreadcrumbList",
     "itemListElement": [
-        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ url('/') }}"},
-        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Hakkımızda' : 'About' }}", "item": "{{ route('about') }}"}
+        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ locale_route('home') }}"},
+        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Hakkımızda' : 'About' }}", "item": "{{ locale_route('about') }}"}
     ]
 }
 </script>
@@ -119,7 +119,7 @@
                     <a href="{{ route('register') }}" class="hero-btn-primary" style="position:relative">
                         <i class="bi bi-rocket-takeoff"></i> {{ $isTr ? 'Ücretsiz Başla' : 'Start Free' }}
                     </a>
-                    <a href="{{ route('features') }}" class="hero-btn-outline" style="position:relative">
+                    <a href="{{ locale_route('features') }}" class="hero-btn-outline" style="position:relative">
                         <i class="bi bi-stars"></i> {{ $isTr ? 'Özellikleri Gör' : 'View Features' }}
                     </a>
                 </div>

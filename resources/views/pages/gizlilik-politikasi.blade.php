@@ -23,8 +23,8 @@
     "@@context": "https://schema.org",
     "@@type": "BreadcrumbList",
     "itemListElement": [
-        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ url('/') }}"},
-        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Gizlilik Politikası' : 'Privacy Policy' }}", "item": "{{ route('privacy') }}"}
+        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ locale_route('home') }}"},
+        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Gizlilik Politikası' : 'Privacy Policy' }}", "item": "{{ locale_route('privacy') }}"}
     ]
 }
 </script>
@@ -96,7 +96,7 @@
                 </ul>
 
                 <h2>8. İletişim</h2>
-                <p>Gizlilik politikası ile ilgili sorularınız için <a href="{{ route('contact') }}" style="color:#FF8C42">iletişim sayfamızdan</a> bize ulaşabilirsiniz.</p>
+                <p>Gizlilik politikası ile ilgili sorularınız için <a href="{{ locale_route('contact') }}" style="color:#FF8C42">iletişim sayfamızdan</a> bize ulaşabilirsiniz.</p>
                 @else
                 <h2>1. Data Controller</h2>
                 <p>This privacy policy has been prepared by <strong>Sipariş Masanda</strong> ("Platform") to fulfill its obligation to inform users regarding the processing of personal data within the scope of services provided.</p>
@@ -141,7 +141,7 @@
                 </ul>
 
                 <h2>8. Contact</h2>
-                <p>For questions about this privacy policy, you can reach us through our <a href="{{ route('contact') }}" style="color:#FF8C42">contact page</a>.</p>
+                <p>For questions about this privacy policy, you can reach us through our <a href="{{ locale_route('contact') }}" style="color:#FF8C42">contact page</a>.</p>
                 @endif
 
                 <div class="legal-update">{{ $isTr ? 'Son güncelleme: Mart 2026' : 'Last updated: March 2026' }}</div>

@@ -10,22 +10,30 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', $locale) }}">
 <head>
+    @if(config('services.google.gtm_id'))
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-T58K7CMS');</script>
-    <!-- End Google Tag Manager -->
+    })(window,document,'script','dataLayer','{{ config('services.google.gtm_id') }}');</script>
+    @endif
+    @if(config('services.google.ga_id'))
     <!-- Google tag (gtag.js) -->
-    <script src="https://www.googletagmanager.com/gtag/js?id=G-B4H9LNYM0C"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google.ga_id') }}"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-PLW9XB0WC9');
-    gtag('config', 'G-B4H9LNYM0C');
+    @if(config('services.google.ga_id_secondary'))
+    gtag('config', '{{ config('services.google.ga_id_secondary') }}');
+    @endif
+    gtag('config', '{{ config('services.google.ga_id') }}');
     </script>
+    @endif
+    @if(config('services.google.site_verification'))
+    <meta name="google-site-verification" content="{{ config('services.google.site_verification') }}">
+    @endif
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
@@ -46,6 +54,7 @@
     <meta property="og:description" content="@yield('meta_description')">
     <meta property="og:site_name" content="Sipariş Masanda">
     <meta property="og:locale" content="{{ $isTr ? 'tr_TR' : 'en_US' }}">
+    <meta property="og:locale:alternate" content="{{ $isTr ? 'en_US' : 'tr_TR' }}">
     <meta property="og:image" content="@yield('og_image', $shareImage)">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -242,10 +251,10 @@
     </style>
 </head>
 <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T58K7CMS"
+    @if(config('services.google.gtm_id'))
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ config('services.google.gtm_id') }}"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    @endif
     <div class="blob blob-1" aria-hidden="true"></div>
     <div class="blob blob-2" aria-hidden="true"></div>
     <div class="blob blob-3" aria-hidden="true"></div>

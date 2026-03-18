@@ -40,7 +40,7 @@
             "telephone": "+90-507-892-84-90",
             "availableLanguage": ["Turkish", "English"],
             "areaServed": "TR",
-            "url": "{{ route('contact') }}"
+            "url": "{{ locale_route('contact') }}"
         },
         {
             "@@type": "ContactPoint",

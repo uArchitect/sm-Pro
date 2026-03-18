@@ -23,8 +23,8 @@
     "@@context": "https://schema.org",
     "@@type": "BreadcrumbList",
     "itemListElement": [
-        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ url('/') }}"},
-        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Fiyatlar' : 'Pricing' }}", "item": "{{ route('pricing') }}"}
+        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ locale_route('home') }}"},
+        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Fiyatlar' : 'Pricing' }}", "item": "{{ locale_route('pricing') }}"}
     ]
 }
 </script>
@@ -36,14 +36,14 @@
     "name": "Sipariş Masanda — {{ $isTr ? 'Dijital QR Menü Paketleri' : 'Digital QR Menu Plans' }}",
     "description": "{{ $isTr ? 'Restoran ve kafeler için dijital QR menü sistemi. Ücretsiz Basic ve Premium paketler.' : 'Digital QR menu system for restaurants and cafes. Free Basic and Premium plans.' }}",
     "image": "{{ asset('og-cover.svg') }}",
-    "url": "{{ route('pricing') }}",
+    "url": "{{ locale_route('pricing') }}",
     "brand": {
         "@@type": "Brand",
         "name": "Sipariş Masanda"
     },
     "offers": {
         "@@type": "AggregateOffer",
-        "url": "{{ route('pricing') }}",
+        "url": "{{ locale_route('pricing') }}",
         "priceCurrency": "TRY",
         "lowPrice": "0",
         "offerCount": "2",

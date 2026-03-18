@@ -5,14 +5,14 @@
     $isTr = $locale === 'tr';
 @endphp
 
-@section('title', $isTr ? 'Blog | Sipariş Masanda' : 'Blog | Siparis Masanda')
+@section('title', $isTr ? 'Blog | Dijital Menü ve Restoran Yönetimi İpuçları | Sipariş Masanda' : 'Blog | Digital Menu & Restaurant Management Tips | Siparis Masanda')
 @section('meta_description', $isTr
     ? 'Dijital menü, QR menü ve restoran yönetimi hakkında ipuçları ve güncel yazılar.'
     : 'Tips and articles about digital menu, QR menu and restaurant management.')
 @section('meta_keywords', $isTr
     ? 'dijital menü blog, qr menü ipuçları, restoran yönetimi, dijital menü yazıları, sipariş masanda blog'
     : 'digital menu blog, qr menu tips, restaurant management, digital menu articles, siparis masanda blog')
-@section('canonical', route('blog'))
+@section('canonical', locale_route('blog'))
 
 @section('styles')
 .blog-card-excerpt{font-size:.8rem;line-height:1.6;color:rgba(255,255,255,.85)}
@@ -30,7 +30,7 @@
     "@@context": "https://schema.org",
     "@@type": "Blog",
     "name": "{{ $isTr ? 'Sipariş Masanda Blog' : 'Siparis Masanda Blog' }}",
-    "url": "{{ route('blog') }}",
+    "url": "{{ locale_route('blog') }}",
     "publisher": {
         "@@type": "Organization",
         "name": "Sipariş Masanda",
@@ -43,8 +43,8 @@
     "@@context": "https://schema.org",
     "@@type": "BreadcrumbList",
     "itemListElement": [
-        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ url('/') }}"},
-        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Blog' : 'Blog' }}", "item": "{{ route('blog') }}"}
+        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ locale_route('home') }}"},
+        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Blog' : 'Blog' }}", "item": "{{ locale_route('blog') }}"}
     ]
 }
 </script>
@@ -70,7 +70,7 @@
                 @foreach($posts as $post)
                 <div class="col-md-6 col-lg-4">
                     <article class="glass-card h-100 d-flex flex-column">
-                        <a href="{{ route('blog.show', $post->slug) }}" class="d-block rounded-top overflow-hidden text-decoration-none blog-card-thumb" style="margin:-1.75rem -1.75rem 1rem -1.75rem">
+                        <a href="{{ locale_route('blog.show', $post->slug) }}" class="d-block rounded-top overflow-hidden text-decoration-none blog-card-thumb" style="margin:-1.75rem -1.75rem 1rem -1.75rem">
                             @if($post->featured_image)
                                 <img src="{{ asset('uploads/'.$post->featured_image) }}" alt="{{ $post->title }}" class="blog-card-thumb-img" loading="lazy">
                             @else
@@ -79,7 +79,7 @@
                         </a>
                         <div class="flex-grow-1">
                             <h2 class="h6 fw-700 mb-2" style="line-height:1.35">
-                                <a href="{{ route('blog.show', $post->slug) }}" class="text-decoration-none text-white">{{ Str::limit($post->title, 60) }}</a>
+                                <a href="{{ locale_route('blog.show', $post->slug) }}" class="text-decoration-none text-white">{{ Str::limit($post->title, 60) }}</a>
                             </h2>
                             <p class="small mb-2 blog-card-excerpt">
                                 {{ Str::limit(strip_tags($post->meta_description ?: $post->body), 120) }}
@@ -88,7 +88,7 @@
                                 <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($post->published_at)->format('d.m.Y') }}
                             </div>
                         </div>
-                        <a href="{{ route('blog.show', $post->slug) }}" class="mt-3 btn btn-sm btn-outline-light align-self-start">
+                        <a href="{{ locale_route('blog.show', $post->slug) }}" class="mt-3 btn btn-sm btn-outline-light align-self-start">
                             {{ $isTr ? 'Oku' : 'Read' }} <i class="bi bi-arrow-right ms-1"></i>
                         </a>
                     </article>
