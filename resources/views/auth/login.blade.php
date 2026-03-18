@@ -214,7 +214,7 @@
             border: 1.5px solid #cbd5e1; background: #f8fafc;
             cursor: pointer; transition: all .15s; flex-shrink: 0;
         }
-        .f-check:checked { background: #FF6B35; border-color: #FF6B35; }
+        .f-check:checked { background: #4F46E5; border-color: #4F46E5; }
         .f-check:checked::after { content: '✓'; display: block; text-align: center; font-size: .65rem; color: #fff; line-height: 14px; }
         .remember-label { font-size: .8rem; color: #64748b; cursor: pointer; }
 
