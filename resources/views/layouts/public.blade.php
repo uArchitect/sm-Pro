@@ -160,7 +160,7 @@
         .nav-links-collapse{display:flex;align-items:center;gap:.5rem}
 
         /* Mobile overlay */
-        .mobile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:98;opacity:0;transition:opacity .3s}
+        .mobile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:98;opacity:0;transition:opacity .3s}
         .mobile-overlay.show{display:block;opacity:1}
 
         @@media(max-width:991px){
@@ -168,11 +168,11 @@
             .nav-links-collapse{
                 display:flex;flex-direction:column;
                 position:fixed;top:0;right:-100%;width:min(320px,85vw);height:100vh;height:100dvh;
-                background:linear-gradient(180deg,#0c1121 0%,#0a0f1e 100%);
+                background:#fff;
                 padding:0 1.5rem 2rem;gap:0;
                 z-index:101;
                 transition:right .35s cubic-bezier(.4,0,.2,1);
-                box-shadow:-8px 0 40px rgba(0,0,0,.5);
+                box-shadow:-8px 0 40px rgba(0,0,0,.1);
                 overflow-y:auto;
             }
             .nav-links-collapse.show{right:0}
@@ -182,32 +182,32 @@
                 display:flex;align-items:center;gap:.75rem;
                 padding:1.5rem 0 1.25rem;
                 margin-bottom:.25rem;
-                border-bottom:1px solid rgba(255,255,255,.08);
+                border-bottom:1px solid #e2e8f0;
             }
             .mnb-logo{
                 width:44px;height:44px;border-radius:12px;flex-shrink:0;
-                background:linear-gradient(135deg,#FF6B35,#FF8C42);
+                background:linear-gradient(135deg,#4F46E5,#6366F1);
                 display:flex;align-items:center;justify-content:center;
                 font-size:1.15rem;color:#fff;
-                box-shadow:0 4px 16px rgba(255,107,53,.35);
+                box-shadow:0 4px 16px rgba(79,70,229,.25);
             }
             .mnb-text{display:flex;flex-direction:column}
-            .mnb-name{font-size:.95rem;font-weight:800;color:#fff;letter-spacing:-.01em;line-height:1.2}
-            .mnb-sub{font-size:.68rem;color:rgba(255,255,255,.7);font-weight:500;margin-top:.1rem}
+            .mnb-name{font-size:.95rem;font-weight:800;color:#0f172a;letter-spacing:-.01em;line-height:1.2}
+            .mnb-sub{font-size:.68rem;color:#64748b;font-weight:500;margin-top:.1rem}
 
             .nav-link-item{
                 padding:.85rem 0;width:100%;text-align:left;
                 font-size:.92rem;font-weight:600;
-                color:rgba(255,255,255,.6);
-                border-bottom:1px solid rgba(255,255,255,.06);
+                color:#64748b;
+                border-bottom:1px solid #f1f5f9;
                 transition:color .18s,padding-left .18s;
             }
-            .nav-link-item:hover,.nav-link-item.active{color:#fff;padding-left:.3rem}
-            .nav-link-item.active{color:#FF8C42}
+            .nav-link-item:hover,.nav-link-item.active{color:#0f172a;padding-left:.3rem}
+            .nav-link-item.active{color:#4F46E5}
             .nav-links-collapse .mobile-nav-btns{
                 display:flex;flex-direction:column;gap:.6rem;
                 margin-top:auto;padding-top:1.5rem;
-                border-top:1px solid rgba(255,255,255,.06);
+                border-top:1px solid #f1f5f9;
                 width:100%;
             }
             .nav-links-collapse .nav-btn{
@@ -215,7 +215,7 @@
                 padding:.7rem 1rem;border-radius:10px;font-size:.88rem;
             }
             .nav-links-collapse .nav-btn-primary{
-                box-shadow:0 4px 20px rgba(255,107,53,.3);
+                box-shadow:0 4px 20px rgba(79,70,229,.25);
             }
             body.nav-open{overflow:hidden}
         }
@@ -240,7 +240,6 @@
             .footer-heading{margin-bottom:.4rem;font-size:.7rem}
             .lp-footer a{font-size:.8rem}
             .footer-bottom{font-size:.72rem;margin-top:1.25rem;padding-top:1rem}
-            /* Mobile nav drawer full width on very small screens so yamuk görünmesin */
             .nav-links-collapse{width:100vw}
         }
         @yield('styles')
@@ -360,7 +359,7 @@
                     </div>
                 </div>
             </div>
-            <div class="footer-bottom text-center">
+            <div class="footer-bottom text-center" style="color:#94a3b8">
                 <span>&copy; {{ date('Y') }} Sipariş Masanda &mdash; {{ $isTr ? 'Tüm hakları saklıdır.' : 'All rights reserved.' }}</span>
             </div>
         </div>
