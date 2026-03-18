@@ -72,14 +72,14 @@
                     <article class="glass-card h-100 d-flex flex-column">
                         <a href="{{ locale_route('blog.show', $post->slug) }}" class="d-block rounded-top overflow-hidden text-decoration-none blog-card-thumb" style="margin:-1.75rem -1.75rem 1rem -1.75rem">
                             @if($post->featured_image)
-                                <img src="{{ asset('uploads/'.$post->featured_image) }}" alt="{{ $post->title }}" class="blog-card-thumb-img" loading="lazy">
+                                <img src="{{ asset('uploads/'.$post->featured_image) }}" alt="{{ strip_tags($post->title) }}" class="blog-card-thumb-img" loading="lazy">
                             @else
                                 <span class="blog-card-thumb-icon"><i class="bi bi-file-text"></i></span>
                             @endif
                         </a>
                         <div class="flex-grow-1">
                             <h2 class="h6 fw-700 mb-2" style="line-height:1.35">
-                                <a href="{{ locale_route('blog.show', $post->slug) }}" class="text-decoration-none text-white">{{ Str::limit($post->title, 60) }}</a>
+                                <a href="{{ locale_route('blog.show', $post->slug) }}" class="text-decoration-none text-white">{{ Str::limit(strip_tags($post->title), 60) }}</a>
                             </h2>
                             <p class="small mb-2 blog-card-excerpt">
                                 {{ Str::limit(strip_tags($post->meta_description ?: $post->body), 120) }}
