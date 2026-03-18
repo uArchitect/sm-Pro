@@ -36,21 +36,21 @@
     width: 38px; height: 38px; border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     font-size: .85rem; font-weight: 700; flex-shrink: 0;
-    background: linear-gradient(135deg, #FF6B35, #FF8C42); color: #fff;
+    background: linear-gradient(135deg, #4F46E5, #6366F1); color: #fff;
 }
 .cm-info { flex: 1; min-width: 0; }
 .cm-name { font-size: .84rem; font-weight: 700; color: #111827; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cm-preview { font-size: .76rem; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px; }
 .cm-meta { display: flex; flex-direction: column; align-items: flex-end; gap: .15rem; flex-shrink: 0; }
 .cm-date { font-size: .7rem; color: #9ca3af; font-weight: 500; }
-.cm-dot { width: 8px; height: 8px; border-radius: 50%; background: #FF6B35; }
+.cm-dot { width: 8px; height: 8px; border-radius: 50%; background: #4F46E5; }
 .cm-empty { text-align: center; padding: 3rem 1rem; color: #9ca3af; }
 .cm-empty i { font-size: 2.5rem; display: block; margin-bottom: .75rem; opacity: .4; }
 </style>
 
 <div class="cm-stats">
     <div class="cm-stat">
-        <div class="cm-stat-icon" style="background:rgba(255,107,53,.1);color:#FF6B35"><i class="bi bi-envelope-fill"></i></div>
+        <div class="cm-stat-icon" style="background:rgba(79,70,229,.1);color:#4F46E5"><i class="bi bi-envelope-fill"></i></div>
         <div>
             <div class="cm-stat-value">{{ $messages ? $messages->total() : 0 }}</div>
             <div class="cm-stat-label">Toplam Mesaj</div>

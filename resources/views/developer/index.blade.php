@@ -53,9 +53,9 @@
     <div class="col-6 col-xl-2">
         <div class="stat-card">
             <div class="d-flex align-items-center gap-3">
-                <div class="stat-icon" style="background:rgba(255,107,53,.1); color:#FF6B35"><i class="bi bi-people"></i></div>
+                <div class="stat-icon" style="background:rgba(79,70,229,.1); color:#4F46E5"><i class="bi bi-people"></i></div>
                 <div>
-                    <div class="stat-num" style="color:#FF6B35">{{ $stats['total_users'] }}</div>
+                    <div class="stat-num" style="color:#4F46E5">{{ $stats['total_users'] }}</div>
                     <div class="stat-lbl">Kullanıcı</div>
                 </div>
             </div>
@@ -157,7 +157,7 @@
     <div class="col-lg-8">
         <div class="sm-card">
             <div class="sm-card-header d-flex justify-content-between align-items-center">
-                <span><i class="bi bi-building me-1" style="color:#FF6B35"></i>Tüm Restoranlar</span>
+                <span><i class="bi bi-building me-1" style="color:#4F46E5"></i>Tüm Restoranlar</span>
                 <span class="badge" style="background:rgba(99,102,241,.1);color:#6366f1;font-size:.75rem;border-radius:6px;padding:.3rem .6rem">
                     {{ $stats['total_tenants'] }} kayıt
                 </span>

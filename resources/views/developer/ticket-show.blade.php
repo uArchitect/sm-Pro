@@ -48,7 +48,7 @@
                     <small class="text-muted">{{ \Carbon\Carbon::parse($ticket->created_at)->format('d.m.Y H:i') }}</small>
                 </div>
                 <div class="mb-2">
-                    <span class="badge" style="background:rgba(255,107,53,.1);color:#c2410c;font-size:.72rem;border-radius:6px;padding:.2rem .5rem">
+                    <span class="badge" style="background:rgba(79,70,229,.1);color:#c2410c;font-size:.72rem;border-radius:6px;padding:.2rem .5rem">
                         <i class="bi bi-building me-1"></i>{{ $ticket->restoran_adi }}
                     </span>
                 </div>

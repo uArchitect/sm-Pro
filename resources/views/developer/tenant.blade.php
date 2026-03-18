@@ -115,7 +115,7 @@
     {{-- Tenant info + edit --}}
     <div class="col-md-5">
         <div class="sm-card h-100">
-            <div class="sm-card-header"><i class="bi bi-building me-1" style="color:#FF6B35"></i>Restoran Bilgileri</div>
+            <div class="sm-card-header"><i class="bi bi-building me-1" style="color:#4F46E5"></i>Restoran Bilgileri</div>
             <div class="sm-card-body">
                 <div class="pkg-card mb-3">
                     <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap">
@@ -218,7 +218,7 @@
                             <td>
                                 @php
                                     $roleColors = ['owner'=>'#c2410c','admin'=>'#0369a1','personel'=>'#374151'];
-                                    $roleBgs    = ['owner'=>'rgba(255,107,53,.1)','admin'=>'rgba(3,105,161,.08)','personel'=>'rgba(0,0,0,.04)'];
+                                    $roleBgs    = ['owner'=>'rgba(79,70,229,.1)','admin'=>'rgba(3,105,161,.08)','personel'=>'rgba(0,0,0,.04)'];
                                 @endphp
                                 <span class="badge" style="background:{{ $roleBgs[$u->role] ?? 'rgba(0,0,0,.04)' }};color:{{ $roleColors[$u->role] ?? '#374151' }};font-size:.72rem;border-radius:5px">
                                     {{ $u->role }}
@@ -288,7 +288,7 @@
                     </td>
                     <td class="fw-semibold small">{{ $p->name }}</td>
                     <td><span class="badge" style="background:rgba(99,102,241,.08);color:#6366f1;border-radius:5px;font-size:.72rem">{{ $p->category_name }}</span></td>
-                    <td style="color:#FF6B35;font-weight:700;font-size:.85rem">{{ number_format($p->price, 2, ',', '.') }} ₺</td>
+                    <td style="color:#4F46E5;font-weight:700;font-size:.85rem">{{ number_format($p->price, 2, ',', '.') }} ₺</td>
                 </tr>
                 @empty
                 <tr><td colspan="4" class="text-center text-muted py-4">Ürün yok</td></tr>

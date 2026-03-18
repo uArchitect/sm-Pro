@@ -13,7 +13,7 @@
             {{-- Logo --}}
             <div class="sm-card mb-4">
                 <div class="sm-card-header">
-                    <i class="bi bi-image" style="color:#FF6B35"></i>{{ __('tenant.logo_section') }}
+                    <i class="bi bi-image" style="color:#4F46E5"></i>{{ __('tenant.logo_section') }}
                 </div>
                 <div class="sm-card-body">
                     <div class="d-flex flex-column flex-sm-row align-items-center gap-3">
@@ -96,7 +96,7 @@
             {{-- Sosyal Medya --}}
             <div class="sm-card mb-4">
                 <div class="sm-card-header">
-                    <i class="bi bi-share" style="color:#FF6B35"></i>{{ __('tenant.social_section') }}
+                    <i class="bi bi-share" style="color:#4F46E5"></i>{{ __('tenant.social_section') }}
                 </div>
                 <div class="sm-card-body">
                     <p class="text-muted small mb-3">{{ __('tenant.social_hint') }}</p>

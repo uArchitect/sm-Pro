@@ -18,7 +18,7 @@
     width: 48px; height: 48px; border-radius: 13px;
     display: flex; align-items: center; justify-content: center;
     font-size: 1.1rem; font-weight: 800; flex-shrink: 0;
-    background: linear-gradient(135deg, #FF6B35, #FF8C42); color: #fff;
+    background: linear-gradient(135deg, #4F46E5, #6366F1); color: #fff;
 }
 .msg-sender { flex: 1; }
 .msg-sender-name { font-size: 1rem; font-weight: 700; color: #111827; }
@@ -67,7 +67,7 @@
                     <i class="bi bi-check-lg"></i> Okundu
                 </span>
             @else
-                <span style="display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .55rem;border-radius:6px;background:rgba(255,107,53,.1);color:#FF6B35;font-size:.7rem;font-weight:600">
+                <span style="display:inline-flex;align-items:center;gap:.3rem;padding:.2rem .55rem;border-radius:6px;background:rgba(79,70,229,.1);color:#4F46E5;font-size:.7rem;font-weight:600">
                     <i class="bi bi-circle-fill" style="font-size:.4rem"></i> Yeni
                 </span>
             @endif

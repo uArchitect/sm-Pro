@@ -7,7 +7,7 @@
 @section('content')
 <style>
 .reservation-search { border:1.5px solid #e5e7eb; border-radius:9px; padding:.4rem .75rem .4rem 2rem; font-size:.82rem; width:220px; background:#fff; transition:border-color .15s, box-shadow .15s; }
-.reservation-search:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,107,53,.12); outline:none; }
+.reservation-search:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(79,70,229,.12); outline:none; }
 .reservation-search-wrap { position:relative; }
 .reservation-search-wrap i { position:absolute; left:.7rem; top:50%; transform:translateY(-50%); color:#98a2b3; font-size:.8rem; pointer-events:none; }
 .reservation-zone-filter { font-size:.82rem; padding:.35rem .65rem; border-radius:8px; border:1.5px solid #e5e7eb; min-width:160px; background:#fff; }

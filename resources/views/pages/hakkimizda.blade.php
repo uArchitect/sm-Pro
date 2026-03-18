@@ -51,7 +51,7 @@
         .about-block h2{font-size:1.3rem;font-weight:800;color:#fff;margin-bottom:.6rem}
         .about-block p{font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.75;max-width:640px}
         .value-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:16px;padding:1.5rem;text-align:center;height:100%;transition:all .25s}
-        .value-card:hover{background:rgba(255,255,255,.05);border-color:rgba(255,107,53,.15);transform:translateY(-3px)}
+        .value-card:hover{background:rgba(255,255,255,.05);border-color:rgba(79,70,229,.15);transform:translateY(-3px)}
         .value-icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin:0 auto .75rem}
         .value-card h3{font-size:.9rem;font-weight:700;color:#fff;margin-bottom:.3rem}
         .value-card p{font-size:.8rem;color:rgba(255,255,255,.4);line-height:1.6;margin:0}
@@ -86,7 +86,7 @@
                 <div class="row g-3 mt-2">
                     <div class="col-6 col-md-4">
                         <div class="value-card">
-                            <div class="value-icon" style="background:rgba(255,107,53,.12);color:#FF6B35"><i class="bi bi-hand-thumbs-up"></i></div>
+                            <div class="value-icon" style="background:rgba(79,70,229,.12);color:#4F46E5"><i class="bi bi-hand-thumbs-up"></i></div>
                             <h3>{{ $isTr ? 'Basitlik' : 'Simplicity' }}</h3>
                             <p>{{ $isTr ? 'Teknik bilgi gerektirmeyen, herkesin kullanabileceği arayüzler.' : 'Interfaces that require no technical knowledge and anyone can use.' }}</p>
                         </div>

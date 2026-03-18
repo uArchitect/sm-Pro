@@ -10,7 +10,7 @@
     display:inline-block; font-size:.7rem; font-weight:700; padding:.2rem .55rem;
     border-radius:20px; text-transform:capitalize;
 }
-.role-owner   { background:rgba(255,107,53,.1); color:#c2410c; }
+.role-owner   { background:rgba(79,70,229,.1); color:#c2410c; }
 .role-admin   { background:rgba(99,102,241,.08); color:#6366f1; }
 .role-personel{ background:rgba(0,0,0,.04); color:#374151; }
 .search-box {
