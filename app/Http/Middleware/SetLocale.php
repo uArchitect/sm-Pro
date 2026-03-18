@@ -77,6 +77,12 @@ class SetLocale
         $params    = $route ? $route->parameters() : [];
         $isEn      = $routeName && str_starts_with($routeName, 'en.');
 
+        // Legacy support: ?lang=en|tr is used across the site (including routes that don't
+        // have an en.* counterpart like login/register and the permanent QR menu routes).
+        // Always persist the selected locale so the next request renders the correct language.
+        $request->session()->put('locale', $lang);
+        Cookie::queue('locale', $lang, 60 * 24 * 30);
+
         if ($lang === 'en' && !$isEn && $routeName) {
             $enRoute = 'en.' . $routeName;
             if (Route::has($enRoute)) {
