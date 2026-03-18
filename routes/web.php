@@ -221,11 +221,30 @@ Route::post('/developer/stop-impersonate', [DeveloperController::class, 'stopImp
     ->name('developer.stop-impersonate')
     ->middleware('auth');
 
-// Public sayfalar (auth yok — kalıcı URL'ler, QR baskısına uygundur)
 // Public blog (SEO-friendly)
 Route::get('/blog', [BlogController::class, 'index'])->name('blog');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show')->where('slug', '[a-z0-9\-]+');
 
+// English versions of public pages (/en/ prefix)
+Route::prefix('en')->name('en.')->group(function () {
+    Route::get('/', fn () => view('landing'))->name('home');
+    Route::get('/features', fn () => view('pages.ozellikler'))->name('features');
+    Route::get('/pricing', fn () => view('pages.fiyatlar'))->name('pricing');
+    Route::get('/about', fn () => view('pages.hakkimizda'))->name('about');
+    Route::get('/contact', fn () => view('pages.iletisim'))->name('contact');
+    Route::post('/contact/send', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.send');
+    Route::get('/privacy', fn () => view('pages.gizlilik-politikasi'))->name('privacy');
+    Route::get('/terms', fn () => view('pages.kullanim-kosullari'))->name('terms');
+    Route::get('/blog', [BlogController::class, 'index'])->name('blog');
+    Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show')->where('slug', '[a-z0-9\-]+');
+    Route::get('/demo', function () {
+        $tenant = DB::table('tenants')->where('restoran_adi', 'Fake RESTORANT')->where('is_active', true)->first();
+        if (!$tenant) return redirect()->route('en.home');
+        return redirect()->route('public.menu', ['tenantId' => $tenant->id, 'preview' => 1]);
+    })->name('demo');
+});
+
+// Public menu pages (no locale prefix — permanent QR URLs)
 Route::get('/menu/{tenantId}', [QRController::class, 'publicMenu'])->name('public.menu');
 Route::get('/menu/{tenantId}/product/{productId}', [QRController::class, 'publicProduct'])->name('public.product');
 Route::post('/menu/{tenantId}/review', [QRController::class, 'submitReview'])->name('public.review');
