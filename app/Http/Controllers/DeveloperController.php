@@ -354,6 +354,12 @@ class DeveloperController extends Controller
             if ($out) {
                 $msg .= ' ' . $out;
             }
+
+            if (function_exists('opcache_reset')) {
+                opcache_reset();
+                $msg .= ' OPcache sıfırlandı.';
+            }
+
             return back()->with('success', $msg);
         } catch (\Throwable $e) {
             return back()->with('error', 'Önbellek temizlenemedi: ' . $e->getMessage());

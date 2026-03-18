@@ -151,7 +151,7 @@ jobs:
           "
           echo "Incremental deploy done."
 
-      - name: Clear Laravel view cache (after incremental)
+      - name: Clear all Laravel caches (after incremental)
         if: github.event.inputs.full_deploy != 'true'
         run: |
           lftp -c "
@@ -161,9 +161,11 @@ jobs:
             open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER
             cd $FTP_REMOTE_DIR/storage/framework/views
             mrm *.php
+            cd $FTP_REMOTE_DIR/bootstrap/cache
+            mrm *.php
             quit
           " || true
-          echo "View cache cleared."
+          echo "View + bootstrap caches cleared."
 
       - name: Full deploy (mirror)
         if: github.event.inputs.full_deploy == 'true'
@@ -184,7 +186,7 @@ jobs:
             quit
           "
 
-      - name: Clear Laravel view cache (after full deploy)
+      - name: Clear all Laravel caches (after full deploy)
         if: github.event.inputs.full_deploy == 'true'
         run: |
           lftp -c "
@@ -194,6 +196,8 @@ jobs:
             open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER
             cd $FTP_REMOTE_DIR/storage/framework/views
             mrm *.php
+            cd $FTP_REMOTE_DIR/bootstrap/cache
+            mrm *.php
             quit
           " || true
-          echo "View cache cleared."
+          echo "View + bootstrap caches cleared."
