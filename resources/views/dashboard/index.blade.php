@@ -22,7 +22,7 @@
     <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(79,70,229,.12) 0%,transparent 70%);pointer-events:none;"></div>
 
     <div class="d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3 flex-wrap">
-        <div style="width:50px;height:50px;border-radius:13px;background:rgba(79,70,229,.15);border:1px solid rgba(79,70,229,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#4F46E5;flex-shrink:0;">
+        <div style="width:50px;height:50px;border-radius:13px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#fff;flex-shrink:0;">
             <i class="bi bi-qr-code"></i>
         </div>
         <div class="flex-grow-1" style="min-width:0">
@@ -32,7 +32,7 @@
                     <span style="width:5px;height:5px;border-radius:50%;background:#4ade80;"></span> {{ __('common.active') }}
                 </span>
             </div>
-            <code style="color:#6366F1;font-size:.76rem;word-break:break-all;display:block;">{{ $menuUrl }}</code>
+            <code style="color:rgba(255,255,255,.8);font-size:.76rem;word-break:break-all;display:block;">{{ $menuUrl }}</code>
         </div>
         <div class="d-flex gap-2 flex-shrink-0 flex-wrap">
             <a href="{{ route('menu.qr') }}" class="btn btn-accent btn-sm flex-grow-1 flex-sm-grow-0">
