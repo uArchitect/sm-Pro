@@ -15,9 +15,9 @@
 @section('canonical', locale_route('blog'))
 
 @section('styles')
-.blog-card-excerpt{font-size:.8rem;line-height:1.6;color:rgba(255,255,255,.85)}
-.blog-card-date{color:rgba(255,255,255,.75)}
-.blog-card-thumb{background:linear-gradient(145deg,rgba(79,70,229,.08) 0%,rgba(108,92,231,.06) 100%);border-bottom:1px solid rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;transition:background .2s}
+.blog-card-excerpt{font-size:.8rem;line-height:1.6;color:#475569}
+.blog-card-date{color:#64748b}
+.blog-card-thumb{background:linear-gradient(145deg,rgba(79,70,229,.06) 0%,rgba(108,92,231,.04) 100%);border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:center;transition:background .2s}
 .blog-card-thumb:hover{background:linear-gradient(145deg,rgba(79,70,229,.12) 0%,rgba(108,92,231,.08) 100%)}
 .blog-card-thumb-img{width:100%;height:100%;object-fit:cover;display:block;min-height:200px}
 .blog-card-thumb-icon{width:64px;height:64px;border-radius:16px;background:#eef2ff;border:1px solid #e0e7ff;display:flex;align-items:center;justify-content:center;font-size:1.75rem;color:#4338CA}

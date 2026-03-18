@@ -65,9 +65,9 @@
     <div class="container" style="max-width:720px">
         <nav aria-label="breadcrumb" class="mb-3">
             <ol class="breadcrumb small mb-0" style="background:transparent;color:#64748b">
-                <li class="breadcrumb-item"><a href="{{ locale_route('home') }}" class="text-white-50">{{ $isTr ? 'Ana Sayfa' : 'Home' }}</a></li>
-                <li class="breadcrumb-item"><a href="{{ locale_route('blog') }}" class="text-white-50">{{ $isTr ? 'Blog' : 'Blog' }}</a></li>
-                <li class="breadcrumb-item active text-white" aria-current="page">{{ Str::limit($cleanTitle, 40) }}</li>
+                <li class="breadcrumb-item"><a href="{{ locale_route('home') }}" style="color:#64748b;text-decoration:none">{{ $isTr ? 'Ana Sayfa' : 'Home' }}</a></li>
+                <li class="breadcrumb-item"><a href="{{ locale_route('blog') }}" style="color:#64748b;text-decoration:none">{{ $isTr ? 'Blog' : 'Blog' }}</a></li>
+                <li class="breadcrumb-item active" style="color:#1e293b" aria-current="page">{{ Str::limit($cleanTitle, 40) }}</li>
             </ol>
         </nav>
         <h1 class="mb-2" style="font-size:clamp(1.5rem,3vw,2rem);line-height:1.25">{{ $cleanTitle }}</h1>
@@ -111,7 +111,7 @@
 @endsection
 
 @section('styles')
-.blog-show-thumb{background:linear-gradient(145deg,rgba(79,70,229,.06) 0%,rgba(108,92,231,.05) 100%);border:1px solid rgba(255,255,255,.05);border-radius:1rem;display:flex;align-items:center;justify-content:center}
+.blog-show-thumb{background:linear-gradient(145deg,rgba(79,70,229,.06) 0%,rgba(108,92,231,.04) 100%);border:1px solid #e2e8f0;border-radius:1rem;display:flex;align-items:center;justify-content:center}
 .blog-show-thumb-img{width:100%;height:100%;object-fit:cover;display:block}
 .blog-show-thumb-icon{width:72px;height:72px;border-radius:18px;background:#eef2ff;border:1px solid #e0e7ff;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#4338CA}
 .blog-body { font-size:1rem; line-height:1.85; color:#334155; word-wrap:break-word; overflow-wrap:break-word; }
@@ -139,13 +139,13 @@
 .blog-body blockquote p { margin:0; font-size:.98rem; line-height:1.75; }
 .blog-body blockquote p + p { margin-top:.75rem; }
 .blog-body blockquote cite, .blog-body blockquote footer { display:block; margin-top:.75rem; font-size:.85rem; font-style:normal; color:#64748b; }
-.blog-body hr { border:0; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent); margin:1.75rem 0; }
+.blog-body hr { border:0; height:1px; background:linear-gradient(90deg,transparent,#e2e8f0,transparent); margin:1.75rem 0; }
 .blog-body a { color:#6366F1; text-decoration:underline; text-underline-offset:2px; }
 .blog-body a:hover { color:#818CF8; }
 .blog-body img { max-width:100%; height:auto; border-radius:8px; }
-.blog-body code { background:rgba(255,255,255,.08); padding:.15rem .4rem; border-radius:6px; font-size:.9em; }
-.blog-body pre { background:rgba(0,0,0,.25); padding:1rem; border-radius:10px; overflow-x:auto; margin:1rem 0; font-size:.88rem; }
+.blog-body code { background:#f1f5f9; padding:.15rem .4rem; border-radius:6px; font-size:.9em; color:#334155; }
+.blog-body pre { background:#1e293b; color:#e2e8f0; padding:1rem; border-radius:10px; overflow-x:auto; margin:1rem 0; font-size:.88rem; }
 .blog-body table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:.92rem; }
-.blog-body th, .blog-body td { border:1px solid rgba(255,255,255,.1); padding:.5rem .65rem; text-align:left; }
+.blog-body th, .blog-body td { border:1px solid #e2e8f0; padding:.5rem .65rem; text-align:left; }
 .blog-body th { background:#eef2ff; color:#1e293b; }
 @endsection
