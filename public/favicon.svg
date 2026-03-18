@@ -1,19 +1,59 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#FF6B35"/>
-      <stop offset="100%" stop-color="#FF8C42"/>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5"/>
+      <stop offset="100%" style="stop-color:#6366F1"/>
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="14" fill="#0d1117"/>
-  <rect x="7" y="7" width="18" height="18" rx="4" fill="none" stroke="url(#g)" stroke-width="4"/>
-  <rect x="11.5" y="11.5" width="9" height="9" rx="2" fill="url(#g)"/>
-  <rect x="39" y="7" width="18" height="18" rx="4" fill="none" stroke="url(#g)" stroke-width="4"/>
-  <rect x="43.5" y="11.5" width="9" height="9" rx="2" fill="url(#g)"/>
-  <rect x="7" y="39" width="18" height="18" rx="4" fill="none" stroke="url(#g)" stroke-width="4"/>
-  <rect x="11.5" y="43.5" width="9" height="9" rx="2" fill="url(#g)"/>
-  <rect x="34" y="34" width="6" height="6" rx="1.5" fill="url(#g)"/>
-  <rect x="44" y="34" width="6" height="6" rx="1.5" fill="url(#g)"/>
-  <rect x="34" y="44" width="6" height="6" rx="1.5" fill="url(#g)"/>
-  <rect x="44" y="44" width="13" height="13" rx="3" fill="none" stroke="url(#g)" stroke-width="4"/>
+
+  <!-- Background rounded square with CTA gradient -->
+  <rect width="64" height="64" rx="14" fill="url(#bgGrad)"/>
+
+  <!-- White card -->
+  <rect x="8" y="8" width="48" height="48" rx="6" fill="#FFFFFF"/>
+
+  <!-- Top-left finder pattern -->
+  <rect x="13" y="13" width="14" height="14" rx="2.5" fill="#4F46E5"/>
+  <rect x="15" y="15" width="10" height="10" rx="1.5" fill="#FFFFFF"/>
+  <rect x="17" y="17" width="6" height="6" rx="1" fill="#4F46E5"/>
+
+  <!-- Top-right finder pattern -->
+  <rect x="37" y="13" width="14" height="14" rx="2.5" fill="#4F46E5"/>
+  <rect x="39" y="15" width="10" height="10" rx="1.5" fill="#FFFFFF"/>
+  <rect x="41" y="17" width="6" height="6" rx="1" fill="#4F46E5"/>
+
+  <!-- Bottom-left finder pattern -->
+  <rect x="13" y="37" width="14" height="14" rx="2.5" fill="#4F46E5"/>
+  <rect x="15" y="39" width="10" height="10" rx="1.5" fill="#FFFFFF"/>
+  <rect x="17" y="41" width="6" height="6" rx="1" fill="#4F46E5"/>
+
+  <!-- Timing pattern horizontal -->
+  <rect x="29" y="13" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="29" y="19" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="29" y="25" width="3" height="3" rx="0.5" fill="#6366F1"/>
+
+  <!-- Timing pattern vertical -->
+  <rect x="13" y="29" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="19" y="29" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="25" y="29" width="3" height="3" rx="0.5" fill="#6366F1"/>
+
+  <!-- Data modules bottom-right -->
+  <rect x="37" y="37" width="4" height="4" rx="0.8" fill="#4F46E5"/>
+  <rect x="43" y="37" width="4" height="4" rx="0.8" fill="#4F46E5"/>
+  <rect x="47" y="37" width="4" height="4" rx="0.8" fill="#4F46E5"/>
+  <rect x="37" y="43" width="4" height="4" rx="0.8" fill="#4F46E5"/>
+  <rect x="43" y="43" width="4" height="4" rx="0.8" fill="#4F46E5"/>
+  <rect x="41" y="47" width="4" height="4" rx="0.8" fill="#4F46E5"/>
+  <rect x="47" y="47" width="4" height="4" rx="0.8" fill="#4F46E5"/>
+
+  <!-- Extra data bits center area -->
+  <rect x="33" y="29" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="37" y="29" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="43" y="29" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="47" y="29" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="13" y="33" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="19" y="33" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="25" y="33" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="37" y="33" width="3" height="3" rx="0.5" fill="#6366F1"/>
+  <rect x="43" y="33" width="3" height="3" rx="0.5" fill="#6366F1"/>
 </svg>
