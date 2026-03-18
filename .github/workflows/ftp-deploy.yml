@@ -154,6 +154,22 @@ jobs:
           "
           echo "Incremental deploy done."
 
+      - name: Always sync critical directories (lang, config)
+        if: github.event.inputs.full_deploy != 'true'
+        run: |
+          echo "Syncing lang/ and config/ directories..."
+          lftp -c "
+            set ftp:ssl-allow no
+            set ftp:passive-mode true
+            set mirror:no-permissions true
+            set net:connection-limit 4
+            open -u $FTP_USERNAME,$FTP_PASSWORD $FTP_SERVER
+            mirror -R --delete --verbose lang $FTP_REMOTE_DIR/lang
+            mirror -R --delete --verbose config $FTP_REMOTE_DIR/config
+            quit
+          "
+          echo "Critical directories synced."
+
       - name: Clear all Laravel caches (after incremental)
         if: github.event.inputs.full_deploy != 'true'
         run: |
