@@ -25,7 +25,7 @@
     @endif
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon-indigo.svg') }}">
 
     @php $isTr = app()->getLocale() === 'tr'; @endphp
     <title>{{ $isTr ? 'Giriş Yap — Sipariş Masanda | Restoran Yönetim Paneli' : 'Sign In — Siparis Masanda | Restaurant Management Panel' }}</title>
