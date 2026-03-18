@@ -221,14 +221,14 @@
         /* ── Submit ── */
         .btn-submit {
             width: 100%; height: 48px;
-            background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%);
+            background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%);
             border: none; border-radius: 11px;
             color: #fff; font-weight: 700; font-size: .9rem; font-family: 'Inter', sans-serif;
-            cursor: pointer; box-shadow: 0 4px 20px rgba(255,107,53,.36);
+            cursor: pointer; box-shadow: 0 4px 20px rgba(79,70,229,.3);
             transition: transform .15s, box-shadow .15s;
             display: flex; align-items: center; justify-content: center; gap: .5rem;
         }
-        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,107,53,.5); }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(79,70,229,.45); }
         .btn-submit:active { transform: translateY(0); }
 
         /* ── Error box ── */
@@ -241,7 +241,7 @@
             border-top: 1px solid #f1f5f9;
             text-align: center; font-size: .8rem; color: #94a3b8;
         }
-        .form-footer a { color: #FF6B35; text-decoration: none; font-weight: 700; cursor: pointer; }
+        .form-footer a { color: #4F46E5; text-decoration: none; font-weight: 700; cursor: pointer; }
         .form-footer a:hover { text-decoration: underline; }
 
         /* ══ RESPONSIVE ══ */
