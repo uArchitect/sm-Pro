@@ -34,7 +34,7 @@
     "@@type": "ItemList",
     "name": "{{ $isTr ? 'Sipariş Masanda QR Menü Özellikleri' : 'Siparis Masanda QR Menu Features' }}",
     "description": "{{ $isTr ? 'Restoran ve kafeler için dijital QR menü sistemi özellikleri' : 'Digital QR menu system features for restaurants and cafes' }}",
-    "numberOfItems": 7,
+    "numberOfItems": 8,
     "itemListElement": [
         {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'QR Kod Oluşturma ve Baskı' : 'QR Code Generation & Print' }}"},
         {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Sınırsız Kategori ve Ürün Yönetimi' : 'Unlimited Category & Product Management' }}"},
@@ -42,7 +42,8 @@
         {"@@type": "ListItem", "position": 4, "name": "{{ $isTr ? 'Müşteri Değerlendirme Sistemi' : 'Customer Review System' }}"},
         {"@@type": "ListItem", "position": 5, "name": "{{ $isTr ? 'Çoklu Kullanıcı ve Rol Yönetimi' : 'Multi-User & Role Management' }}"},
         {"@@type": "ListItem", "position": 6, "name": "{{ $isTr ? 'Sosyal Medya Entegrasyonu' : 'Social Media Integration' }}"},
-        {"@@type": "ListItem", "position": 7, "name": "{{ $isTr ? 'Mobil Uyumlu Menü Tasarımı' : 'Mobile Friendly Menu Design' }}"}
+        {"@@type": "ListItem", "position": 7, "name": "{{ $isTr ? 'Mobil Uyumlu Menü Tasarımı' : 'Mobile Friendly Menu Design' }}"},
+        {"@@type": "ListItem", "position": 8, "name": "{{ $isTr ? 'Menü Tasarımı (Layout & Renk)' : 'Menu Design (Layout & Color)' }}"}
     ]
 }
 </script>
@@ -168,6 +169,19 @@
                             <div class="feat-block-icon" style="background:rgba(168,85,247,.12);color:#A855F7"><i class="bi bi-phone"></i></div>
                             <h2>{{ $isTr ? 'Mobil Uyumlu Menü Tasarımı' : 'Mobile Friendly Menu Design' }}</h2>
                             <p>{{ $isTr ? 'Tüm cihazlarda kusursuz görüntülenen mobil uyumlu menü. Müşterileriniz uygulama indirmeden telefonlarıyla karekod menüyü tarayıp anında erişsin.' : 'Mobile-friendly menu that displays perfectly on all devices. Your customers can scan the QR code menu with their phones and access instantly without downloading an app.' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(99,102,241,.12);color:#6366f1"><i class="bi bi-palette"></i></div>
+                            <h2>{{ $isTr ? 'Menü Tasarımı (Layout & Renk)' : 'Menu Design (Layout & Color)' }}</h2>
+                            <p>{{ $isTr ? 'Premium menünüzde 4 farklı düzen seçin ve renkleri markanıza göre özelleştirin. Kaydetmeden önce canlı önizleme ile görünümü test edin.' : 'Pick one of 4 layouts and customize menu colors to match your brand. Test the look with live preview before saving.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? '4 farklı düzen: Akordeon / Sekme / Izgara / Elegant' : '4 layouts: Accordion / Tabs / Grid / Elegant' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Renk & tema özelleştirmesi' : 'Color & theme customization' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Canlı önizleme ile kaydet' : 'Save with live preview' }}</li>
+                            </ul>
                         </div>
                     </div>
 
