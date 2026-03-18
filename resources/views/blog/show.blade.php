@@ -3,7 +3,8 @@
 @php
     $locale = app()->getLocale();
     $isTr = $locale === 'tr';
-    $metaTitle = strip_tags($post->meta_title ?: $post->title) . ($isTr ? ' | Sipariş Masanda Blog' : ' | Siparis Masanda Blog');
+    $cleanTitle = strip_tags($post->title);
+    $metaTitle = strip_tags($post->meta_title ?: $cleanTitle) . ($isTr ? ' | Sipariş Masanda Blog' : ' | Siparis Masanda Blog');
     $metaDesc = $post->meta_description ?: Str::limit(strip_tags($post->body), 160);
     $ogImage = $post->featured_image ? asset('uploads/'.$post->featured_image) : asset('og-cover.svg');
 @endphp
@@ -11,8 +12,8 @@
 @section('title', $metaTitle)
 @section('meta_description', $metaDesc)
 @section('meta_keywords', $isTr
-    ? 'dijital menü, qr menü, restoran menü sistemi, sipariş masanda blog, ' . Str::limit(strip_tags($post->title), 50)
-    : 'digital menu, qr menu, restaurant menu system, siparis masanda blog, ' . Str::limit(strip_tags($post->title), 50))
+    ? 'dijital menü, qr menü, restoran menü sistemi, sipariş masanda blog, ' . Str::limit($cleanTitle, 50)
+    : 'digital menu, qr menu, restaurant menu system, siparis masanda blog, ' . Str::limit($cleanTitle, 50))
 @section('canonical', locale_route('blog.show', $post->slug))
 @section('og_type', 'article')
 @section('og_image', $ogImage)
@@ -29,7 +30,7 @@
 {
     "@@context": "https://schema.org",
     "@@type": "Article",
-    "headline": "{{ addslashes($post->title) }}",
+    "headline": "{{ addslashes($cleanTitle) }}",
     "description": "{{ addslashes($metaDesc) }}",
     "image": "{{ $ogImage }}",
     "datePublished": "{{ \Carbon\Carbon::parse($post->published_at)->toIso8601String() }}",
@@ -53,7 +54,7 @@
     "itemListElement": [
         {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ locale_route('home') }}"},
         {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Blog' : 'Blog' }}", "item": "{{ locale_route('blog') }}"},
-        {"@@type": "ListItem", "position": 3, "name": "{{ addslashes(Str::limit($post->title, 50)) }}", "item": "{{ locale_route('blog.show', $post->slug) }}"}
+        {"@@type": "ListItem", "position": 3, "name": "{{ addslashes(Str::limit($cleanTitle, 50)) }}", "item": "{{ locale_route('blog.show', $post->slug) }}"}
     ]
 }
 </script>
@@ -66,10 +67,10 @@
             <ol class="breadcrumb small mb-0" style="background:transparent;color:#64748b">
                 <li class="breadcrumb-item"><a href="{{ locale_route('home') }}" class="text-white-50">{{ $isTr ? 'Ana Sayfa' : 'Home' }}</a></li>
                 <li class="breadcrumb-item"><a href="{{ locale_route('blog') }}" class="text-white-50">{{ $isTr ? 'Blog' : 'Blog' }}</a></li>
-                <li class="breadcrumb-item active text-white" aria-current="page">{{ Str::limit($post->title, 40) }}</li>
+                <li class="breadcrumb-item active text-white" aria-current="page">{{ Str::limit($cleanTitle, 40) }}</li>
             </ol>
         </nav>
-        <h1 class="mb-2" style="font-size:clamp(1.5rem,3vw,2rem);line-height:1.25">{{ $post->title }}</h1>
+        <h1 class="mb-2" style="font-size:clamp(1.5rem,3vw,2rem);line-height:1.25">{{ $cleanTitle }}</h1>
         <p class="page-hero-sub mb-0">
             <i class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($post->published_at)->locale($locale)->isoFormat('D MMMM Y') }}
         </p>
@@ -80,7 +81,7 @@
     <div class="container" style="max-width:720px">
         <div class="mb-4 rounded-3 overflow-hidden d-flex align-items-center justify-content-center blog-show-thumb">
             @if($post->featured_image)
-                <img src="{{ asset('uploads/'.$post->featured_image) }}" alt="{{ $post->title }}" class="blog-show-thumb-img" loading="eager" fetchpriority="high">
+                <img src="{{ asset('uploads/'.$post->featured_image) }}" alt="{{ $cleanTitle }}" class="blog-show-thumb-img" loading="eager" fetchpriority="high">
             @else
                 <span class="blog-show-thumb-icon"><i class="bi bi-file-text"></i></span>
             @endif
