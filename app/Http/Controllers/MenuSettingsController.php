@@ -17,6 +17,23 @@ class MenuSettingsController extends Controller
         'header_bg'         => '#ffffff',
         'header_text_color' => '#0f172a',
         'font_family'       => 'Inter',
+        'show_review'        => true,
+        'show_lang_switcher' => true,
+        'show_search'        => true,
+        'show_category_pills'=> true,
+        'show_address'       => true,
+        'show_social'        => true,
+        'show_footer'        => true,
+    ];
+
+    private const TOGGLE_FIELDS = [
+        'show_review',
+        'show_lang_switcher',
+        'show_search',
+        'show_category_pills',
+        'show_address',
+        'show_social',
+        'show_footer',
     ];
 
     public function index()
@@ -50,6 +67,10 @@ class MenuSettingsController extends Controller
             'header_text_color' => ['required', 'regex:/^#[0-9A-Fa-f]{6}$/'],
             'font_family'       => 'required|string|max:50',
         ]);
+
+        foreach (self::TOGGLE_FIELDS as $field) {
+            $data[$field] = $request->boolean($field);
+        }
 
         $exists = DB::table('menu_settings')->where('tenant_id', $tenantId)->exists();
 

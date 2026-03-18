@@ -539,8 +539,12 @@
             <i class="bi bi-calendar-event"></i> {{ __('nav.nav.events') }}
             @if(!$isPremium)<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif
         </a>
-        <a href="{{ $isPremium ? route('reservation.zones.index') : route('premium.gate') }}" class="sb-link {{ request()->routeIs('reservation.*') ? 'active' : '' }}">
+        <a href="{{ $isPremium ? route('reservation.zones.index') : route('premium.gate') }}" class="sb-link {{ request()->routeIs('reservation.zones.*', 'reservation.tables.*') ? 'active' : '' }}">
             <i class="bi bi-calendar-check"></i> {{ __('nav.nav.reservation') }}
+            @if(!$isPremium)<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif
+        </a>
+        <a href="{{ $isPremium ? route('reservations.index') : route('premium.gate') }}" class="sb-link {{ request()->routeIs('reservations.*') ? 'active' : '' }}">
+            <i class="bi bi-bell"></i> {{ __('nav.nav.reservation_list') }}
             @if(!$isPremium)<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif
         </a>
         <a href="{{ $isPremium ? route('menu-settings.index') : route('premium.gate') }}" class="sb-link {{ request()->routeIs('menu-settings.*') ? 'active' : '' }}">
@@ -603,6 +607,12 @@
                     </select>
                 </label>
             </form>
+            @if($isPremium)
+            <a href="{{ route('reservations.index') }}" class="topbar-chip topbar-notif-bell position-relative" title="{{ __('reservation.reservations_title') }}" style="text-decoration:none;color:var(--text-secondary)">
+                <i class="bi bi-bell"></i>
+                <span class="notif-badge" id="notifBadge" style="display:none;position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:.58rem;font-weight:800;min-width:16px;height:16px;border-radius:999px;display:none;align-items:center;justify-content:center;padding:0 4px;line-height:1;border:2px solid #fff">0</span>
+            </a>
+            @endif
             <div class="topbar-chip topbar-date">
                 <i class="bi bi-calendar3"></i>
                 {{ now()->locale(app()->getLocale())->isoFormat('D MMM YYYY') }}
@@ -686,6 +696,27 @@ function closeSb() {
 document.querySelectorAll('.sb-link').forEach(el =>
     el.addEventListener('click', () => { if (window.innerWidth <= 768) closeSb(); })
 );
+@if($isPremium)
+(function() {
+    var badge = document.getElementById('notifBadge');
+    if (!badge) return;
+    function fetchCount() {
+        fetch(@json(route('reservations.unreadCount')), { credentials: 'same-origin' })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                if (d.count > 0) {
+                    badge.textContent = d.count > 99 ? '99+' : d.count;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            })
+            .catch(function() {});
+    }
+    fetchCount();
+    setInterval(fetchCount, 30000);
+})();
+@endif
 </script>
 @stack('scripts')
 </body>

@@ -19,6 +19,8 @@ use App\Http\Controllers\ReservationTableController;
 use App\Http\Controllers\DeveloperBlogController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\MenuSettingsController;
+use App\Http\Controllers\PublicReservationController;
+use App\Http\Controllers\ReservationNotificationController;
 
 // Demo menü — potansiyel müşterilerin test sayfasını görmesi için (Fake RESTORANT seeder gerekir)
 Route::get('/demo', function () {
@@ -190,6 +192,11 @@ Route::middleware(['auth', 'tenant'])->group(function () {
 
         Route::get('/menu-settings', [MenuSettingsController::class, 'index'])->name('menu-settings.index');
         Route::put('/menu-settings', [MenuSettingsController::class, 'update'])->name('menu-settings.update');
+
+        Route::get('/reservations', [ReservationNotificationController::class, 'index'])->name('reservations.index');
+        Route::put('/reservations/{id}/status', [ReservationNotificationController::class, 'updateStatus'])->name('reservations.updateStatus');
+        Route::delete('/reservations/{id}', [ReservationNotificationController::class, 'destroy'])->name('reservations.destroy');
+        Route::get('/reservations/unread-count', [ReservationNotificationController::class, 'unreadCount'])->name('reservations.unreadCount');
     });
 
     // QR kod (auth)
@@ -261,3 +268,5 @@ Route::prefix('en')->name('en.')->group(function () {
 Route::get('/menu/{tenantId}', [QRController::class, 'publicMenu'])->name('public.menu');
 Route::get('/menu/{tenantId}/product/{productId}', [QRController::class, 'publicProduct'])->name('public.product');
 Route::post('/menu/{tenantId}/review', [QRController::class, 'submitReview'])->name('public.review');
+Route::get('/menu/{tenantId}/reservation', [PublicReservationController::class, 'form'])->name('public.reservation');
+Route::post('/menu/{tenantId}/reservation', [PublicReservationController::class, 'store'])->name('public.reservation.store');

@@ -132,15 +132,20 @@ class QRController extends Controller
         $isDemoMenu = isset($tenant->restoran_adi) && $tenant->restoran_adi === 'Fake RESTORANT';
 
         $menuSettings = null;
+        $hasReservation = false;
         if (($tenant->package ?? 'basic') === 'premium') {
             $menuSettings = DB::table('menu_settings')
                 ->where('tenant_id', $tenantId)
                 ->first();
+
+            $hasReservation = DB::table('reservation_zones')
+                ->where('tenant_id', $tenantId)
+                ->exists();
         }
 
         return view('public.menu', compact(
             'tenant', 'categories', 'subCategories', 'products',
-            'sliders', 'activeEvent', 'isDemoMenu', 'menuSettings'
+            'sliders', 'activeEvent', 'isDemoMenu', 'menuSettings', 'hasReservation'
         ));
     }
 

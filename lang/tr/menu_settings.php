@@ -36,4 +36,22 @@ return [
     'font_section'     => 'Yazı Tipi',
     'refresh_preview'    => 'Önizlemeyi Yenile',
     'live_preview_hint'  => 'Değişiklikler önizlemede anında güncellenir',
+
+    'toggles_section' => 'Görünürlük Ayarları',
+    'toggles_hint'    => 'Menünüzde hangi bölümlerin gösterileceğini seçin.',
+
+    'toggle_show_review'             => 'Değerlendirme Butonu',
+    'toggle_show_review_desc'        => 'Müşterilerin yıldız puanı ve yorum bırakmasını sağlar',
+    'toggle_show_lang_switcher'      => 'Dil Değiştirici',
+    'toggle_show_lang_switcher_desc' => 'Menüde TR / EN dil seçim butonları',
+    'toggle_show_search'             => 'Arama Çubuğu',
+    'toggle_show_search_desc'        => 'Ürün adına göre arama yapılmasını sağlar',
+    'toggle_show_category_pills'     => 'Kategori Filtreleri',
+    'toggle_show_category_pills_desc'=> 'Kategoriler arası hızlı geçiş butonları',
+    'toggle_show_address'            => 'Adres & Telefon',
+    'toggle_show_address_desc'       => 'Başlık alanında restoran adresi ve telefon numarası',
+    'toggle_show_social'             => 'Sosyal Medya',
+    'toggle_show_social_desc'        => 'Instagram, Facebook, X, WhatsApp ikonları',
+    'toggle_show_footer'             => 'Alt Bilgi (Footer)',
+    'toggle_show_footer_desc'        => '"Sipariş Masanda" marka bağlantısı',
 ];

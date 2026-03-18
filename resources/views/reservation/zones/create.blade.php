@@ -16,6 +16,7 @@
                     @csrf
                     <div id="zoneRows">
                         <div class="zone-row mb-2 d-flex gap-2 align-items-center">
+                            <span class="text-muted me-1" style="font-size:.75rem;min-width:20px;text-align:center">1</span>
                             <input type="text" name="names[]" class="form-control @error('names.0') is-invalid @enderror"
                                    placeholder="{{ __('reservation.zone_name_placeholder') }}" value="{{ old('names.0') }}">
                             <button type="button" class="btn btn-outline-secondary btn-sm zone-remove" style="visibility:hidden" title="{{ __('reservation.remove_row') }}"><i class="bi bi-dash-lg"></i></button>
@@ -24,6 +25,7 @@
                             @foreach(old('names') as $idx => $oldName)
                                 @if($idx > 0)
                                 <div class="zone-row mb-2 d-flex gap-2 align-items-center">
+                                    <span class="text-muted me-1" style="font-size:.75rem;min-width:20px;text-align:center">{{ $idx + 1 }}</span>
                                     <input type="text" name="names[]" class="form-control" placeholder="{{ __('reservation.zone_name_placeholder') }}" value="{{ $oldName }}">
                                     <button type="button" class="btn btn-outline-danger btn-sm zone-remove"><i class="bi bi-dash-lg"></i></button>
                                 </div>
@@ -37,8 +39,17 @@
                         <button type="button" id="zoneAddMore" class="btn btn-outline-secondary btn-sm">
                             <i class="bi bi-plus-lg me-1"></i>{{ __('reservation.add_another_zone') }}
                         </button>
+                        <button type="button" id="zoneAddBulk" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-plus-circle me-1"></i>{{ __('reservation.add_5_zones') }}
+                        </button>
                     </div>
                     <div class="form-text mt-1">{{ __('reservation.zone_name_hint') }}</div>
+
+                    <div class="form-check mt-3">
+                        <input class="form-check-input" type="checkbox" id="redirectToTables" name="redirect_to_tables" value="1" checked>
+                        <label class="form-check-label small" for="redirectToTables">{{ __('reservation.redirect_to_tables_after') }}</label>
+                    </div>
+
                     <hr class="my-4">
                     <div class="d-flex gap-2">
                         <a href="{{ route('reservation.zones.index') }}" class="btn btn-outline-secondary btn-sm">{{ __('common.back') }}</a>
@@ -53,38 +64,54 @@
 </div>
 @push('scripts')
 <script>
-(function() {
+document.addEventListener('DOMContentLoaded', function() {
     var container = document.getElementById('zoneRows');
     var addBtn = document.getElementById('zoneAddMore');
-    var placeholder = {{ json_encode(__('reservation.zone_name_placeholder')) }};
+    var bulkBtn = document.getElementById('zoneAddBulk');
+    var placeholder = @json(__('reservation.zone_name_placeholder'));
 
-    function updateRemoveVisibility() {
+    function reIndex() {
         var rows = container.querySelectorAll('.zone-row');
         rows.forEach(function(r, i) {
+            var num = r.querySelector('span');
+            if (num) num.textContent = i + 1;
             var btn = r.querySelector('.zone-remove');
             if (btn) btn.style.visibility = rows.length > 1 ? 'visible' : 'hidden';
         });
     }
 
-    addBtn.addEventListener('click', function() {
+    function addRow() {
         var div = document.createElement('div');
         div.className = 'zone-row mb-2 d-flex gap-2 align-items-center';
-        div.innerHTML = '<input type="text" name="names[]" class="form-control" placeholder="' + placeholder + '">' +
+        div.innerHTML = '<span class="text-muted me-1" style="font-size:.75rem;min-width:20px;text-align:center"></span>' +
+            '<input type="text" name="names[]" class="form-control" placeholder="' + placeholder + '">' +
             '<button type="button" class="btn btn-outline-danger btn-sm zone-remove"><i class="bi bi-dash-lg"></i></button>';
         container.appendChild(div);
-        div.querySelector('input').focus();
-        updateRemoveVisibility();
+        reIndex();
+        return div.querySelector('input');
+    }
+
+    addBtn.addEventListener('click', function() {
+        addRow().focus();
+    });
+
+    bulkBtn.addEventListener('click', function() {
+        var lastInput;
+        for (var i = 0; i < 5; i++) {
+            lastInput = addRow();
+        }
+        if (lastInput) container.querySelectorAll('.zone-row input')[container.querySelectorAll('.zone-row').length - 5].focus();
     });
 
     container.addEventListener('click', function(e) {
         if (e.target.closest('.zone-remove')) {
             e.target.closest('.zone-row').remove();
-            updateRemoveVisibility();
+            reIndex();
         }
     });
 
-    updateRemoveVisibility();
-})();
+    reIndex();
+});
 </script>
 @endpush
 @endsection

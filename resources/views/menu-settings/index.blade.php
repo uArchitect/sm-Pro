@@ -65,6 +65,32 @@
         width:14px; height:14px; border-radius:50%; border:1.5px solid rgba(0,0,0,.08);
     }
 
+    .toggle-list { display:flex; flex-direction:column; gap:.1rem; }
+    .toggle-row {
+        display:flex; align-items:center; justify-content:space-between;
+        padding:.7rem .85rem; border-radius:10px; transition:background .15s;
+    }
+    .toggle-row:hover { background:#f8fafc; }
+    .toggle-info { display:flex; align-items:center; gap:.7rem; }
+    .toggle-icon {
+        width:34px; height:34px; border-radius:9px;
+        display:flex; align-items:center; justify-content:center;
+        font-size:.85rem; flex-shrink:0;
+    }
+    .toggle-label { font-size:.82rem; font-weight:600; color:var(--text-primary); line-height:1.2; }
+    .toggle-desc { font-size:.68rem; color:var(--text-muted); margin-top:.1rem; }
+    .form-switch-lg .form-check-input {
+        width:2.75rem; height:1.4rem; cursor:pointer;
+        border-color:#d1d5db; background-color:#e5e7eb;
+    }
+    .form-switch-lg .form-check-input:checked {
+        background-color:var(--accent); border-color:var(--accent);
+    }
+    .form-switch-lg .form-check-input:focus {
+        box-shadow:0 0 0 .2rem rgba(79,70,229,.15);
+        border-color:var(--accent);
+    }
+
     .preview-frame-wrap {
         position:sticky; top:80px;
         background:#1e293b; border-radius:var(--radius-card); overflow:hidden;
@@ -261,6 +287,47 @@
                 </div>
             </div>
 
+            {{-- Visibility Toggles --}}
+            <div class="sm-card mb-4">
+                <div class="sm-card-header">
+                    <i class="bi bi-toggles" style="color:#4F46E5"></i>{{ __('menu_settings.toggles_section') }}
+                </div>
+                <div class="sm-card-body">
+                    <p class="text-muted small mb-2">{{ __('menu_settings.toggles_hint') }}</p>
+                    <div class="toggle-list">
+                        @php
+                            $toggles = [
+                                ['field'=>'show_review',        'icon'=>'bi-star-fill',        'color'=>'#f59e0b', 'bg'=>'rgba(245,158,11,.12)'],
+                                ['field'=>'show_lang_switcher', 'icon'=>'bi-translate',        'color'=>'#6366f1', 'bg'=>'rgba(99,102,241,.12)'],
+                                ['field'=>'show_search',        'icon'=>'bi-search',           'color'=>'#3b82f6', 'bg'=>'rgba(59,130,246,.12)'],
+                                ['field'=>'show_category_pills','icon'=>'bi-grid-3x3-gap-fill','color'=>'#10b981', 'bg'=>'rgba(16,185,129,.12)'],
+                                ['field'=>'show_address',       'icon'=>'bi-geo-alt-fill',     'color'=>'#ef4444', 'bg'=>'rgba(239,68,68,.12)'],
+                                ['field'=>'show_social',        'icon'=>'bi-share-fill',       'color'=>'#8b5cf6', 'bg'=>'rgba(139,92,246,.12)'],
+                                ['field'=>'show_footer',        'icon'=>'bi-layout-text-window','color'=>'#64748b','bg'=>'rgba(100,116,139,.12)'],
+                            ];
+                        @endphp
+                        @foreach($toggles as $t)
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <div class="toggle-icon" style="background:{{ $t['bg'] }};color:{{ $t['color'] }}"><i class="bi {{ $t['icon'] }}"></i></div>
+                                <div>
+                                    <div class="toggle-label">{{ __('menu_settings.toggle_' . $t['field']) }}</div>
+                                    <div class="toggle-desc">{{ __('menu_settings.toggle_' . $t['field'] . '_desc') }}</div>
+                                </div>
+                            </div>
+                            <div class="form-check form-switch form-switch-lg mb-0">
+                                <input type="hidden" name="{{ $t['field'] }}" value="0">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                       name="{{ $t['field'] }}" value="1" id="toggle_{{ $t['field'] }}"
+                                       {{ ($settings->{$t['field']} ?? true) ? 'checked' : '' }}
+                                       onchange="pushPreview()">
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
             <div class="d-flex gap-2 flex-wrap align-items-center">
                 <button type="submit" class="btn btn-accent">
                     <i class="bi bi-check-lg me-1"></i>{{ __('common.save') }}
@@ -302,6 +369,11 @@ function buildPreviewUrl() {
     });
     var fontEl = document.getElementById('fontSelect');
     if (fontEl) params.set('_font_family', fontEl.value);
+    var toggleFields = ['show_review','show_lang_switcher','show_search','show_category_pills','show_address','show_social','show_footer'];
+    toggleFields.forEach(function(f) {
+        var el = document.getElementById('toggle_' + f);
+        if (el) params.set('_' + f, el.checked ? '1' : '0');
+    });
     return @json(route('public.menu', ['tenantId' => $tenant->id])) + '?' + params.toString();
 }
 

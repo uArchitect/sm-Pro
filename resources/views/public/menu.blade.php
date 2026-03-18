@@ -64,6 +64,7 @@
         ];
         if ($allowDesktopPreview && request()->has('_layout')) {
             $hex = fn($v,$d) => preg_match('/^#[0-9A-Fa-f]{6}$/', $v ?? '') ? $v : $d;
+            $bool = fn($k,$d) => request()->has('_'.$k) ? request('_'.$k) === '1' : ($d ?? true);
             $ms = (object)[
                 'layout'            => in_array(request('_layout'), ['accordion','tabs','grid','elegant']) ? request('_layout') : ($ms->layout ?? 'accordion'),
                 'primary_color'     => $hex(request('_primary_color'), $ms->primary_color ?? '#4F46E5'),
@@ -74,6 +75,13 @@
                 'header_bg'         => $hex(request('_header_bg'), $ms->header_bg ?? '#ffffff'),
                 'header_text_color' => $hex(request('_header_text_color'), $ms->header_text_color ?? '#0f172a'),
                 'font_family'       => request('_font_family', $ms->font_family ?? 'Inter'),
+                'show_review'        => $bool('show_review', $ms->show_review ?? true),
+                'show_lang_switcher' => $bool('show_lang_switcher', $ms->show_lang_switcher ?? true),
+                'show_search'        => $bool('show_search', $ms->show_search ?? true),
+                'show_category_pills'=> $bool('show_category_pills', $ms->show_category_pills ?? true),
+                'show_address'       => $bool('show_address', $ms->show_address ?? true),
+                'show_social'        => $bool('show_social', $ms->show_social ?? true),
+                'show_footer'        => $bool('show_footer', $ms->show_footer ?? true),
             ];
         }
         $pc = $ms->primary_color ?? '#4F46E5';
@@ -661,11 +669,13 @@
 
     <div class="menu-app">
     <header class="hdr">
+        @if($ms->show_lang_switcher ?? true)
         <div class="hdr-lang">
             <a href="{{ request()->fullUrlWithQuery(['lang' => 'tr']) }}" class="{{ app()->getLocale() === 'tr' ? 'active' : '' }}">TR</a>
             <span class="ls"></span>
             <a href="{{ request()->fullUrlWithQuery(['lang' => 'en']) }}" class="{{ app()->getLocale() !== 'tr' ? 'active' : '' }}">EN</a>
         </div>
+        @endif
         <div class="hdr-content">
             @if($tenant->logo)
                 <img src="{{ asset('uploads/'.$tenant->logo) }}" alt="{{ $tenant->restoran_adi }}" class="hdr-logo">
@@ -674,7 +684,7 @@
             @endif
             <h1 class="hdr-name">{{ $tenant->restoran_adi }}</h1>
             <div class="hdr-sub">{{ __('public.menu_suffix') }}</div>
-            @if(($tenant->restoran_adresi ?? null) || ($tenant->restoran_telefonu ?? null))
+            @if(($ms->show_address ?? true) && (($tenant->restoran_adresi ?? null) || ($tenant->restoran_telefonu ?? null)))
             <div class="hdr-meta">
                 @if($tenant->restoran_adresi)
                 <span class="hdr-meta-item"><i class="bi bi-geo-alt-fill"></i> {{ $tenant->restoran_adresi }}</span>
@@ -684,7 +694,7 @@
                 @endif
             </div>
             @endif
-            @if(($tenant->instagram ?? null) || ($tenant->facebook ?? null) || ($tenant->twitter ?? null) || ($tenant->whatsapp ?? null))
+            @if(($ms->show_social ?? true) && (($tenant->instagram ?? null) || ($tenant->facebook ?? null) || ($tenant->twitter ?? null) || ($tenant->whatsapp ?? null)))
             <div class="hdr-social">
                 @if($tenant->instagram)<a href="https://instagram.com/{{ $tenant->instagram }}" target="_blank" class="soc-ig"><i class="bi bi-instagram"></i></a>@endif
                 @if($tenant->facebook)<a href="https://facebook.com/{{ $tenant->facebook }}" target="_blank" class="soc-fb"><i class="bi bi-facebook"></i></a>@endif
@@ -696,10 +706,18 @@
                 @if(!empty($tenant->ordering_enabled))
                 <div class="hdr-order"><span class="dot"></span> Sipariş Açık</div>
                 @endif
+                @if($ms->show_review ?? true)
                 <button type="button" class="hdr-review-btn" data-bs-toggle="modal" data-bs-target="#reviewModal">
                     <i class="bi bi-star-fill"></i>
                     {{ __('public.rate_now') }}
                 </button>
+                @endif
+                @if($hasReservation ?? false)
+                <a href="{{ route('public.reservation', $tenant->id) }}" class="hdr-review-btn" style="background:rgba(79,70,229,.12);border-color:rgba(79,70,229,.25);color:var(--accent)">
+                    <i class="bi bi-calendar-check"></i>
+                    {{ $locale === 'tr' ? 'Rezervasyon' : 'Reservation' }}
+                </a>
+                @endif
             </div>
         </div>
     </header>
@@ -736,6 +754,7 @@
     </div>
     @endif
 
+    @if($ms->show_search ?? true)
     <div class="toolbar">
         <div class="toolbar-inner">
             <button type="button" class="tb-cat-btn d-md-none" data-bs-toggle="offcanvas" data-bs-target="#catOffcanvas" aria-label="Kategoriler">
@@ -744,8 +763,9 @@
             <input type="text" class="tb-search form-control" id="menuSearch" placeholder="{{ __('public.search_placeholder') }}" autocomplete="off">
         </div>
     </div>
+    @endif
 
-    @if($categories->isNotEmpty())
+    @if(($ms->show_category_pills ?? true) && $categories->isNotEmpty())
     <div class="cat-pills">
         <button type="button" class="cat-pill active" data-cat-id=""> <span class="cat-pill-icon"><i class="bi bi-grid-3x3-gap"></i></span> {{ __('public.all') }} </button>
         @foreach($categories as $cat)
@@ -851,13 +871,16 @@
         @endif
     </main>
 
+    @if($ms->show_footer ?? true)
     <footer class="ftr">
         <div class="ftr-inner">
             <span class="ftr-logo"><i class="bi bi-qr-code"></i></span>
             <span><a href="{{ route('home', ['lang' => app()->getLocale()]) }}">Sipariş <span style="color:var(--accent)">Masanda</span></a></span>
         </div>
     </footer>
+    @endif
 
+    @if($ms->show_review ?? true)
     <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content border-0 shadow-lg review-modal-content">
@@ -900,10 +923,11 @@
             </div>
         </div>
     </div>
+    @endif
 
     </div><!-- .menu-app -->
 
-    @if(session('review_success') || session('review_error'))
+    @if(($ms->show_review ?? true) && (session('review_success') || session('review_error')))
     <div id="reviewFeedbackToast" class="review-feedback-toast review-feedback-{{ session('review_success') ? 'ok' : 'warn' }}" role="alert">
         <div class="review-feedback-inner">
             @if(session('review_success'))
@@ -925,7 +949,7 @@
             $catChildren[$parentId] = $subs->pluck('id')->values()->toArray();
         }
     @endphp
-    @if(session('review_success') || session('review_error'))
+    @if(($ms->show_review ?? true) && (session('review_success') || session('review_error')))
     <script>
     (function() {
         var toast = document.getElementById('reviewFeedbackToast');

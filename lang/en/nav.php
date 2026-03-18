@@ -17,6 +17,7 @@ return [
         'sliders'       => 'Slider',
         'events'        => 'Events',
         'reservation'   => 'Reservation',
+        'reservation_list' => 'Reservations',
         'ordering'      => 'Order Management',
         'menu_design'   => 'Menu Design',
         'premium_badge' => 'Premium',

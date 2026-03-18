@@ -70,6 +70,18 @@ class ReservationZoneController extends Controller
 
         $count = count($rows);
         $message = $count === 1 ? __('reservation.zone_saved') : __('reservation.zones_saved', ['count' => $count]);
+
+        if ($request->boolean('redirect_to_tables')) {
+            $lastZone = DB::table('reservation_zones')
+                ->where('tenant_id', $tenantId)
+                ->orderByDesc('id')
+                ->first();
+
+            return redirect()
+                ->route('reservation.tables.create', ['zone' => $lastZone?->id])
+                ->with('success', $message);
+        }
+
         return redirect()->route('reservation.zones.index')->with('success', $message);
     }
 

@@ -17,6 +17,7 @@ return [
         'sliders'       => 'Slider',
         'events'        => 'Etkinlikler',
         'reservation'   => 'Rezervasyon',
+        'reservation_list' => 'Rezervasyonlar',
         'ordering'      => 'Sipariş Yönetimi',
         'menu_design'   => 'Menü Tasarımı',
         'premium_badge' => 'Premium',

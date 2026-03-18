@@ -36,4 +36,22 @@ return [
     'font_section'     => 'Font Family',
     'refresh_preview'    => 'Refresh Preview',
     'live_preview_hint'  => 'Changes update in preview instantly',
+
+    'toggles_section' => 'Visibility Settings',
+    'toggles_hint'    => 'Choose which sections are visible on your menu.',
+
+    'toggle_show_review'             => 'Review Button',
+    'toggle_show_review_desc'        => 'Let customers leave star ratings and comments',
+    'toggle_show_lang_switcher'      => 'Language Switcher',
+    'toggle_show_lang_switcher_desc' => 'TR / EN language toggle buttons on the menu',
+    'toggle_show_search'             => 'Search Bar',
+    'toggle_show_search_desc'        => 'Allows searching products by name',
+    'toggle_show_category_pills'     => 'Category Filters',
+    'toggle_show_category_pills_desc'=> 'Quick switch buttons between categories',
+    'toggle_show_address'            => 'Address & Phone',
+    'toggle_show_address_desc'       => 'Restaurant address and phone in the header area',
+    'toggle_show_social'             => 'Social Media',
+    'toggle_show_social_desc'        => 'Instagram, Facebook, X, WhatsApp icons',
+    'toggle_show_footer'             => 'Footer',
+    'toggle_show_footer_desc'        => '"Sipariş Masanda" brand link',
 ];
