@@ -284,19 +284,19 @@
                     </div>
                 </div>
 
-                <a href="{{ route('features') }}" class="nav-link-item {{ request()->routeIs('features') ? 'active' : '' }}">
+                <a href="{{ $r('features') }}" class="nav-link-item {{ request()->routeIs('features', 'en.features') ? 'active' : '' }}">
                     <i class="bi bi-grid-3x3-gap me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Özellikler' : 'Features' }}
                 </a>
-                <a href="{{ route('pricing') }}" class="nav-link-item {{ request()->routeIs('pricing') ? 'active' : '' }}">
+                <a href="{{ $r('pricing') }}" class="nav-link-item {{ request()->routeIs('pricing', 'en.pricing') ? 'active' : '' }}">
                     <i class="bi bi-tag me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Fiyatlar' : 'Pricing' }}
                 </a>
-                <a href="{{ route('about') }}" class="nav-link-item {{ request()->routeIs('about') ? 'active' : '' }}">
+                <a href="{{ $r('about') }}" class="nav-link-item {{ request()->routeIs('about', 'en.about') ? 'active' : '' }}">
                     <i class="bi bi-building me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Hakkımızda' : 'About' }}
                 </a>
-                <a href="{{ route('contact') }}" class="nav-link-item {{ request()->routeIs('contact') ? 'active' : '' }}">
+                <a href="{{ $r('contact') }}" class="nav-link-item {{ request()->routeIs('contact', 'en.contact') ? 'active' : '' }}">
                     <i class="bi bi-envelope me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'İletişim' : 'Contact' }}
                 </a>
-                <a href="{{ route('blog') }}" class="nav-link-item {{ request()->routeIs('blog*') ? 'active' : '' }}">
+                <a href="{{ $r('blog') }}" class="nav-link-item {{ request()->routeIs('blog', 'blog.show', 'en.blog', 'en.blog.show') ? 'active' : '' }}">
                     <i class="bi bi-journal-text me-2 d-lg-none" style="font-size:.85rem;opacity:.45"></i>{{ $isTr ? 'Blog' : 'Blog' }}
                 </a>
                 <div class="d-none d-lg-flex align-items-center gap-2 ms-lg-2">
