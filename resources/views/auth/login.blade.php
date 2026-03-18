@@ -120,7 +120,7 @@
         }
         .hero-block h1 em {
             font-style: normal;
-            background: linear-gradient(90deg, #FF6B35, #FFB347);
+            background: linear-gradient(90deg, #818CF8, #c7d2fe);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
         .hero-block p { font-size: .92rem; color: #fff; line-height: 1.72; max-width: 360px; }
@@ -133,7 +133,7 @@
             background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.12);
             font-size: .78rem; color: rgba(255,255,255,.75); font-weight: 500;
         }
-        .pill i { color: #FF6B35; font-size: .8rem; }
+        .pill i { color: #818CF8; font-size: .8rem; }
 
         /* Left footer */
         .left-footer { font-size: .75rem; color: #fff; letter-spacing: .02em; }
