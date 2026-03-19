@@ -7,6 +7,18 @@
     $metaTitle = strip_tags($post->meta_title ?: $cleanTitle) . ($isTr ? ' | Sipariş Masanda Blog' : ' | Siparis Masanda Blog');
     $metaDesc = $post->meta_description ?: Str::limit(strip_tags($post->body), 160);
     $ogImage = $post->featured_image ? asset('uploads/'.$post->featured_image) : asset('og-cover.svg');
+
+    $schemaTitle      = $cleanTitle;
+    $schemaDesc       = $metaDesc;
+    $schemaAuthor     = $post->author_name ?? 'Sipariş Masanda';
+    $schemaBreadcrumb = $isTr ? 'Ana Sayfa' : 'Home';
+    $schemaPub        = \Carbon\Carbon::parse($post->published_at)->toIso8601String();
+    $schemaMod        = \Carbon\Carbon::parse($post->updated_at)->toIso8601String();
+    $schemaUrl        = locale_route('blog.show', $post->slug);
+    $schemaBlog       = locale_route('blog');
+    $schemaHome       = locale_route('home');
+    $schemaLogo       = asset('og-cover.svg');
+    $schemaCrumbTitle = Str::limit($cleanTitle, 50);
 @endphp
 
 @section('title', $metaTitle)
@@ -26,19 +38,6 @@
 @endsection
 
 @section('schema')
-@php
-    $schemaTitle      = $cleanTitle;
-    $schemaDesc       = $metaDesc;
-    $schemaAuthor     = $post->author_name ?? 'Sipariş Masanda';
-    $schemaBreadcrumb = $isTr ? 'Ana Sayfa' : 'Home';
-    $schemaPub        = \Carbon\Carbon::parse($post->published_at)->toIso8601String();
-    $schemaMod        = \Carbon\Carbon::parse($post->updated_at)->toIso8601String();
-    $schemaUrl        = locale_route('blog.show', $post->slug);
-    $schemaBlog       = locale_route('blog');
-    $schemaHome       = locale_route('home');
-    $schemaLogo       = asset('og-cover.svg');
-    $schemaCrumbTitle = Str::limit($cleanTitle, 50);
-@endphp
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
