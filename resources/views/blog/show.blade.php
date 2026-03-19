@@ -26,35 +26,48 @@
 @endsection
 
 @section('schema')
+@php
+    $schemaTitle      = $cleanTitle;
+    $schemaDesc       = $metaDesc;
+    $schemaAuthor     = $post->author_name ?? 'Sipariş Masanda';
+    $schemaBreadcrumb = $isTr ? 'Ana Sayfa' : 'Home';
+    $schemaPub        = \Carbon\Carbon::parse($post->published_at)->toIso8601String();
+    $schemaMod        = \Carbon\Carbon::parse($post->updated_at)->toIso8601String();
+    $schemaUrl        = locale_route('blog.show', $post->slug);
+    $schemaBlog       = locale_route('blog');
+    $schemaHome       = locale_route('home');
+    $schemaLogo       = asset('og-cover.svg');
+    $schemaCrumbTitle = Str::limit($cleanTitle, 50);
+@endphp
 <script type="application/ld+json">
 {
-    "@@context": "https://schema.org",
-    "@@type": "Article",
-    "headline": "{{ addslashes($cleanTitle) }}",
-    "description": "{{ addslashes($metaDesc) }}",
-    "image": "{{ $ogImage }}",
-    "datePublished": "{{ \Carbon\Carbon::parse($post->published_at)->toIso8601String() }}",
-    "dateModified": "{{ \Carbon\Carbon::parse($post->updated_at)->toIso8601String() }}",
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": {!! json_encode($schemaTitle) !!},
+    "description": {!! json_encode($schemaDesc) !!},
+    "image": {!! json_encode($ogImage) !!},
+    "datePublished": {!! json_encode($schemaPub) !!},
+    "dateModified": {!! json_encode($schemaMod) !!},
     "author": {
-        "@@type": "Person",
-        "name": "{{ addslashes($post->author_name ?? 'Sipariş Masanda') }}"
+        "@type": "Person",
+        "name": {!! json_encode($schemaAuthor) !!}
     },
     "publisher": {
-        "@@type": "Organization",
+        "@type": "Organization",
         "name": "Sipariş Masanda",
-        "logo": { "@@type": "ImageObject", "url": "{{ asset('og-cover.svg') }}" }
+        "logo": { "@type": "ImageObject", "url": {!! json_encode($schemaLogo) !!} }
     },
-    "mainEntityOfPage": { "@@type": "WebPage", "@@id": "{{ locale_route('blog.show', $post->slug) }}" }
+    "mainEntityOfPage": { "@type": "WebPage", "@id": {!! json_encode($schemaUrl) !!} }
 }
 </script>
 <script type="application/ld+json">
 {
-    "@@context": "https://schema.org",
-    "@@type": "BreadcrumbList",
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
     "itemListElement": [
-        {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'Ana Sayfa' : 'Home' }}", "item": "{{ locale_route('home') }}"},
-        {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Blog' : 'Blog' }}", "item": "{{ locale_route('blog') }}"},
-        {"@@type": "ListItem", "position": 3, "name": "{{ addslashes(Str::limit($cleanTitle, 50)) }}", "item": "{{ locale_route('blog.show', $post->slug) }}"}
+        {"@type": "ListItem", "position": 1, "name": {!! json_encode($schemaBreadcrumb) !!}, "item": {!! json_encode($schemaHome) !!}},
+        {"@type": "ListItem", "position": 2, "name": "Blog", "item": {!! json_encode($schemaBlog) !!}},
+        {"@type": "ListItem", "position": 3, "name": {!! json_encode($schemaCrumbTitle) !!}, "item": {!! json_encode($schemaUrl) !!}}
     ]
 }
 </script>
