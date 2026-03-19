@@ -40,33 +40,33 @@
 @section('schema')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "Article",
+    "@@context": "https://schema.org",
+    "@@type": "Article",
     "headline": {!! json_encode($schemaTitle) !!},
     "description": {!! json_encode($schemaDesc) !!},
     "image": {!! json_encode($ogImage) !!},
     "datePublished": {!! json_encode($schemaPub) !!},
     "dateModified": {!! json_encode($schemaMod) !!},
     "author": {
-        "@type": "Person",
+        "@@type": "Person",
         "name": {!! json_encode($schemaAuthor) !!}
     },
     "publisher": {
-        "@type": "Organization",
+        "@@type": "Organization",
         "name": "Sipariş Masanda",
-        "logo": { "@type": "ImageObject", "url": {!! json_encode($schemaLogo) !!} }
+        "logo": { "@@type": "ImageObject", "url": {!! json_encode($schemaLogo) !!} }
     },
-    "mainEntityOfPage": { "@type": "WebPage", "@id": {!! json_encode($schemaUrl) !!} }
+    "mainEntityOfPage": { "@@type": "WebPage", "@@id": {!! json_encode($schemaUrl) !!} }
 }
 </script>
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
+    "@@context": "https://schema.org",
+    "@@type": "BreadcrumbList",
     "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": {!! json_encode($schemaBreadcrumb) !!}, "item": {!! json_encode($schemaHome) !!}},
-        {"@type": "ListItem", "position": 2, "name": "Blog", "item": {!! json_encode($schemaBlog) !!}},
-        {"@type": "ListItem", "position": 3, "name": {!! json_encode($schemaCrumbTitle) !!}, "item": {!! json_encode($schemaUrl) !!}}
+        {"@@type": "ListItem", "position": 1, "name": {!! json_encode($schemaBreadcrumb) !!}, "item": {!! json_encode($schemaHome) !!}},
+        {"@@type": "ListItem", "position": 2, "name": "Blog", "item": {!! json_encode($schemaBlog) !!}},
+        {"@@type": "ListItem", "position": 3, "name": {!! json_encode($schemaCrumbTitle) !!}, "item": {!! json_encode($schemaUrl) !!}}
     ]
 }
 </script>
