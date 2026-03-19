@@ -54,4 +54,6 @@ return [
     'toggle_show_social_desc'        => 'Instagram, Facebook, X, WhatsApp ikonları',
     'toggle_show_footer'             => 'Alt Bilgi (Footer)',
     'toggle_show_footer_desc'        => '"Sipariş Masanda" marka bağlantısı',
+    'toggle_show_menu_label'         => 'Dijital Menü Yazısı',
+    'toggle_show_menu_label_desc'    => 'Başlıktaki "Dijital Menü" alt metnini gösterir',
 ];

@@ -24,6 +24,7 @@ class MenuSettingsController extends Controller
         'show_address'       => true,
         'show_social'        => true,
         'show_footer'        => true,
+        'show_menu_label'    => true,
     ];
 
     private const TOGGLE_FIELDS = [
@@ -34,6 +35,7 @@ class MenuSettingsController extends Controller
         'show_address',
         'show_social',
         'show_footer',
+        'show_menu_label',
     ];
 
     public function index()

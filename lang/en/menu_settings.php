@@ -54,4 +54,6 @@ return [
     'toggle_show_social_desc'        => 'Instagram, Facebook, X, WhatsApp icons',
     'toggle_show_footer'             => 'Footer',
     'toggle_show_footer_desc'        => '"Sipariş Masanda" brand link',
+    'toggle_show_menu_label'         => 'Digital Menu Label',
+    'toggle_show_menu_label_desc'    => 'Shows the "Digital Menu" subtitle in the header',
 ];

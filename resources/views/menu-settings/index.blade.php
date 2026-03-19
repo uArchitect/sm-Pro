@@ -304,6 +304,7 @@
                                 ['field'=>'show_address',       'icon'=>'bi-geo-alt-fill',     'color'=>'#ef4444', 'bg'=>'rgba(239,68,68,.12)'],
                                 ['field'=>'show_social',        'icon'=>'bi-share-fill',       'color'=>'#8b5cf6', 'bg'=>'rgba(139,92,246,.12)'],
                                 ['field'=>'show_footer',        'icon'=>'bi-layout-text-window','color'=>'#64748b','bg'=>'rgba(100,116,139,.12)'],
+                                ['field'=>'show_menu_label',    'icon'=>'bi-type',             'color'=>'#0ea5e9', 'bg'=>'rgba(14,165,233,.12)'],
                             ];
                         @endphp
                         @foreach($toggles as $t)
@@ -369,7 +370,7 @@ function buildPreviewUrl() {
     });
     var fontEl = document.getElementById('fontSelect');
     if (fontEl) params.set('_font_family', fontEl.value);
-    var toggleFields = ['show_review','show_lang_switcher','show_search','show_category_pills','show_address','show_social','show_footer'];
+    var toggleFields = ['show_review','show_lang_switcher','show_search','show_category_pills','show_address','show_social','show_footer','show_menu_label'];
     toggleFields.forEach(function(f) {
         var el = document.getElementById('toggle_' + f);
         if (el) params.set('_' + f, el.checked ? '1' : '0');

@@ -77,6 +77,7 @@
                 'show_address'       => $bool('show_address', $ms->show_address ?? true),
                 'show_social'        => $bool('show_social', $ms->show_social ?? true),
                 'show_footer'        => $bool('show_footer', $ms->show_footer ?? true),
+                'show_menu_label'    => $bool('show_menu_label', $ms->show_menu_label ?? true),
             ];
         }
         $pc = $ms->primary_color ?? '#4F46E5';
@@ -683,7 +684,9 @@
                 <div class="hdr-logo-fallback"><i class="bi bi-shop"></i></div>
             @endif
             <h1 class="hdr-name">{{ $tenant->restoran_adi }}</h1>
+            @if($ms->show_menu_label ?? true)
             <div class="hdr-sub">{{ __('public.menu_suffix') }}</div>
+            @endif
             @if(($ms->show_address ?? true) && (($tenant->restoran_adresi ?? null) || ($tenant->restoran_telefonu ?? null)))
             <div class="hdr-meta">
                 @if($tenant->restoran_adresi)
