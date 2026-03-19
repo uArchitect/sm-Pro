@@ -148,4 +148,58 @@
 .blog-body table { width:100%; border-collapse:collapse; margin:1rem 0; font-size:.92rem; }
 .blog-body th, .blog-body td { border:1px solid #e2e8f0; padding:.5rem .65rem; text-align:left; }
 .blog-body th { background:#eef2ff; color:#1e293b; }
+/* İçindekiler smooth scroll + navbar offset */
+html { scroll-behavior: smooth; }
+.blog-body h2, .blog-body h3, .blog-body h4 { scroll-margin-top: 90px; }
+@endsection
+
+@section('scripts')
+<script>
+(function () {
+    /* 1) Başlıklara otomatik id üret (eğer yoksa) */
+    function toSlug(text) {
+        return text.trim()
+            .toLowerCase()
+            .replace(/ş/g,'s').replace(/ğ/g,'g').replace(/ü/g,'u')
+            .replace(/ö/g,'o').replace(/ı/g,'i').replace(/ç/g,'c')
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-');
+    }
+
+    var body = document.querySelector('.blog-body');
+    if (!body) return;
+
+    var headings = body.querySelectorAll('h2, h3, h4');
+    var usedSlugs = {};
+
+    headings.forEach(function (h) {
+        if (!h.id) {
+            var base = toSlug(h.textContent);
+            var slug = base;
+            var i = 2;
+            while (usedSlugs[slug]) { slug = base + '-' + i++; }
+            usedSlugs[slug] = true;
+            h.id = slug;
+        } else {
+            usedSlugs[h.id] = true;
+        }
+    });
+
+    /* 2) Sayfadaki tüm #anchor linklerine smooth scroll + offset uygula */
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+            var id = decodeURIComponent(a.getAttribute('href').slice(1));
+            if (!id) return;
+            var target = document.getElementById(id);
+            if (!target) return;
+            e.preventDefault();
+            var navH = 80; /* fixed navbar yüksekliği (px) */
+            var top = target.getBoundingClientRect().top + window.scrollY - navH;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+            history.replaceState(null, '', '#' + id);
+        });
+    });
+})();
+</script>
 @endsection
