@@ -34,7 +34,7 @@
     "@@type": "ItemList",
     "name": "{{ $isTr ? 'Sipariş Masanda QR Menü Özellikleri' : 'Siparis Masanda QR Menu Features' }}",
     "description": "{{ $isTr ? 'Restoran ve kafeler için dijital QR menü sistemi özellikleri' : 'Digital QR menu system features for restaurants and cafes' }}",
-    "numberOfItems": 8,
+    "numberOfItems": 14,
     "itemListElement": [
         {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'QR Kod Oluşturma ve Baskı' : 'QR Code Generation & Print' }}"},
         {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Sınırsız Kategori ve Ürün Yönetimi' : 'Unlimited Category & Product Management' }}"},
@@ -43,7 +43,13 @@
         {"@@type": "ListItem", "position": 5, "name": "{{ $isTr ? 'Çoklu Kullanıcı ve Rol Yönetimi' : 'Multi-User & Role Management' }}"},
         {"@@type": "ListItem", "position": 6, "name": "{{ $isTr ? 'Sosyal Medya Entegrasyonu' : 'Social Media Integration' }}"},
         {"@@type": "ListItem", "position": 7, "name": "{{ $isTr ? 'Mobil Uyumlu Menü Tasarımı' : 'Mobile Friendly Menu Design' }}"},
-        {"@@type": "ListItem", "position": 8, "name": "{{ $isTr ? 'Menü Tasarımı (Layout & Renk)' : 'Menu Design (Layout & Color)' }}"}
+        {"@@type": "ListItem", "position": 8, "name": "{{ $isTr ? 'Menü Tasarımı (Layout & Renk)' : 'Menu Design (Layout & Color)' }}"},
+        {"@@type": "ListItem", "position": 9, "name": "{{ $isTr ? 'Slider ve Banner Yönetimi' : 'Slider & Banner Management' }}"},
+        {"@@type": "ListItem", "position": 10, "name": "{{ $isTr ? 'Etkinlik Yönetimi' : 'Event Management' }}"},
+        {"@@type": "ListItem", "position": 11, "name": "{{ $isTr ? 'Online Rezervasyon Sistemi' : 'Online Reservation System' }}"},
+        {"@@type": "ListItem", "position": 12, "name": "{{ $isTr ? 'QR Ziyaret İstatistikleri' : 'QR Visit Analytics' }}"},
+        {"@@type": "ListItem", "position": 13, "name": "{{ $isTr ? 'Destek Talebi Sistemi' : 'Support Ticket System' }}"},
+        {"@@type": "ListItem", "position": 14, "name": "{{ $isTr ? 'İşletme Profili Yönetimi' : 'Business Profile Management' }}"}
     ]
 }
 </script>
@@ -53,7 +59,7 @@
     "@@context": "https://schema.org",
     "@@type": "FAQPage",
     "mainEntity": [
-        {"@@type": "Question", "name": "{{ $isTr ? 'QR menüde hangi özellikler var?' : 'What features does the QR menu have?' }}", "acceptedAnswer": {"@@type": "Answer", "text": "{{ $isTr ? 'Sipariş Masanda ile QR kod oluşturma, sınırsız kategori ve ürün, fotoğraflı menü, müşteri değerlendirmeleri, çoklu kullanıcı, sosyal medya entegrasyonu ve mobil uyumlu tasarım sunulur.' : 'Siparis Masanda offers QR code generation, unlimited categories and products, photo menu, customer reviews, multi-user support, social media integration, and mobile-friendly design.' }}"}},
+        {"@@type": "Question", "name": "{{ $isTr ? 'QR menüde hangi özellikler var?' : 'What features does the QR menu have?' }}", "acceptedAnswer": {"@@type": "Answer", "text": "{{ $isTr ? 'Sipariş Masanda ile QR kod oluşturma, sınırsız kategori ve ürün, fotoğraflı menü, müşteri değerlendirmeleri, çoklu kullanıcı, sosyal medya entegrasyonu, mobil uyumlu tasarım, slider/banner yönetimi, etkinlik yönetimi, online rezervasyon sistemi, QR ziyaret istatistikleri, destek talebi sistemi ve işletme profili yönetimi sunulur.' : 'Siparis Masanda offers QR code generation, unlimited categories and products, photo menu, customer reviews, multi-user support, social media integration, mobile-friendly design, slider/banner management, event management, online reservation system, QR visit analytics, support ticket system, and business profile management.' }}"}},
         {"@@type": "Question", "name": "{{ $isTr ? 'Dijital menüye ürün fotoğrafı eklenebilir mi?' : 'Can I add product photos to the digital menu?' }}", "acceptedAnswer": {"@@type": "Answer", "text": "{{ $isTr ? 'Evet. Ürün ve kategori fotoğrafları ekleyebilir, otomatik boyutlandırma ile fotoğraflı menü oluşturabilirsiniz.' : 'Yes. You can add product and category photos and create a photo menu with automatic resizing.' }}"}},
         {"@@type": "Question", "name": "{{ $isTr ? 'Menü fiyatları anlık güncellenebilir mi?' : 'Can menu prices be updated instantly?' }}", "acceptedAnswer": {"@@type": "Answer", "text": "{{ $isTr ? 'Evet. Yönetim panelinden fiyat, açıklama ve sıralama anında güncellenir; değişiklikler hemen menüde görünür.' : 'Yes. You can update prices, descriptions and order from the management panel; changes appear on the menu immediately.' }}"}}
     ]
@@ -78,6 +84,7 @@
         .feat-card ul{list-style:none;padding:0;margin:.2rem 0 0; display:flex; flex-direction:column; gap:.35rem}
         .feat-card ul li{font-size:.84rem;color:#475569;padding:0;display:flex;align-items:flex-start;gap:.55rem}
         .feat-card ul li i{color:#4F46E5;font-size:.7rem;margin-top:.3rem;flex-shrink:0}
+        .feat-card .mt-auto{flex-grow:0}
 @endsection
 
 @section('content')
@@ -184,6 +191,105 @@
                                 <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Elegant düzen: Dergi tarzı büyük bölümler' : 'Elegant layout: Magazine-style sections' }}</li>
                                 <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Renk ve tema özelleştirmesi (ana renk, arka plan, başlık)' : 'Color and theme customization (primary, background, header)' }}</li>
                                 <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Canlı önizleme ile kaydetmeden önce test' : 'Live preview before saving' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- Slider / Banner Yönetimi - Premium --}}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(245,158,11,.12);color:#F59E0B"><i class="bi bi-images"></i></div>
+                            <h2>{{ $isTr ? 'Slider ve Banner Yönetimi' : 'Slider & Banner Management' }}</h2>
+                            <p>{{ $isTr ? 'Menü sayfanızın üstüne fotoğraflı slider ekleyin. Kampanya görsellerini, yeni ürünleri veya özel teklifleri kaydırmalı banner ile müşterilerinize anında gösterin.' : 'Add a photo slider to the top of your menu page. Show campaigns, new products, or special offers to your customers instantly with a scrollable banner.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Birden fazla görsel yükleme' : 'Upload multiple images' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Başlık ve açıklama ekleme' : 'Add title and description' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Sürükle-bırak sıralama' : 'Drag-and-drop ordering' }}</li>
+                            </ul>
+                            <div class="mt-auto pt-2">
+                                <span class="badge" style="background:rgba(245,158,11,.15);color:#B45309;font-size:.75rem;font-weight:600;border-radius:6px;padding:.25rem .6rem">
+                                    <i class="bi bi-star-fill me-1"></i>{{ $isTr ? 'Premium' : 'Premium' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Etkinlik Yönetimi - Premium --}}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(20,184,166,.12);color:#14B8A6"><i class="bi bi-calendar-event"></i></div>
+                            <h2>{{ $isTr ? 'Etkinlik Yönetimi' : 'Event Management' }}</h2>
+                            <p>{{ $isTr ? 'Restoranınızdaki özel geceleri, müzik etkinliklerini veya özel günleri dijital menünüzde duyurun. Tarih aralığı, açıklama ve fotoğraf ile zengin etkinlik kartları oluşturun.' : 'Announce special nights, music events, or special occasions at your restaurant on your digital menu. Create rich event cards with date range, description, and photo.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Başlangıç ve bitiş tarihi belirleme' : 'Set start and end dates' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Etkinlik fotoğrafı ekleme' : 'Add event photo' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Aktif/pasif durumu yönetimi' : 'Active/inactive status management' }}</li>
+                            </ul>
+                            <div class="mt-auto pt-2">
+                                <span class="badge" style="background:rgba(245,158,11,.15);color:#B45309;font-size:.75rem;font-weight:600;border-radius:6px;padding:.25rem .6rem">
+                                    <i class="bi bi-star-fill me-1"></i>{{ $isTr ? 'Premium' : 'Premium' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Online Rezervasyon Sistemi - Premium --}}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(99,102,241,.12);color:#6366F1"><i class="bi bi-calendar-check"></i></div>
+                            <h2>{{ $isTr ? 'Online Rezervasyon Sistemi' : 'Online Reservation System' }}</h2>
+                            <p>{{ $isTr ? 'Müşterileriniz QR menüden doğrudan masa rezervasyonu yapsın. Bölge ve masa tanımlayın; gelen rezervasyonları panelden onaylayın veya iptal edin.' : 'Let your customers make table reservations directly from the QR menu. Define zones and tables; approve or cancel incoming reservations from the panel.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Bölge ve masa tanımlama' : 'Zone and table definitions' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Müşteri adı, kişi sayısı, tarih ve saat' : 'Guest name, party size, date & time' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Bekliyor / Onaylandı / İptal durumu' : 'Pending / Confirmed / Cancelled status' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Yeni rezervasyon bildirimleri' : 'New reservation notifications' }}</li>
+                            </ul>
+                            <div class="mt-auto pt-2">
+                                <span class="badge" style="background:rgba(245,158,11,.15);color:#B45309;font-size:.75rem;font-weight:600;border-radius:6px;padding:.25rem .6rem">
+                                    <i class="bi bi-star-fill me-1"></i>{{ $isTr ? 'Premium' : 'Premium' }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- QR Ziyaret İstatistikleri - Ücretsiz --}}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(16,185,129,.12);color:#10b981"><i class="bi bi-bar-chart-line"></i></div>
+                            <h2>{{ $isTr ? 'QR Ziyaret İstatistikleri' : 'QR Visit Analytics' }}</h2>
+                            <p>{{ $isTr ? 'Menünüzün kaç kez tarandığını takip edin. Bugünkü ve toplam QR menü ziyaret sayılarını yönetim paneli kontrol panelinizden anlık olarak görün.' : 'Track how many times your menu has been scanned. View today\'s and total QR menu visit counts instantly from your management panel dashboard.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Günlük QR tarama sayısı' : 'Daily QR scan count' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Toplam ziyaret sayısı' : 'Total visit count' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Kontrol panelinde anlık görüntüleme' : 'Real-time display on dashboard' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- Destek Talebi Sistemi - Ücretsiz --}}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(239,68,68,.12);color:#EF4444"><i class="bi bi-headset"></i></div>
+                            <h2>{{ $isTr ? 'Destek Talebi Sistemi' : 'Support Ticket System' }}</h2>
+                            <p>{{ $isTr ? 'Yönetim panelinizden destek talebi oluşturun ve yanıtları takip edin. Soru, öneri veya teknik sorunlarınızı hızla bildirin; destek ekibi panel üzerinden yanıtlasın.' : 'Create support requests from your management panel and track replies. Report questions, suggestions, or technical issues quickly; the support team responds through the panel.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Talep oluşturma ve takip' : 'Create and track tickets' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Mesajlaşma ile hızlı destek' : 'Fast support via messaging' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- İşletme Profili Yönetimi - Ücretsiz --}}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(79,70,229,.12);color:#4F46E5"><i class="bi bi-shop"></i></div>
+                            <h2>{{ $isTr ? 'İşletme Profili Yönetimi' : 'Business Profile Management' }}</h2>
+                            <p>{{ $isTr ? 'Restoran adı, logo, adres ve iletişim bilgilerinizi tek bir panelden yönetin. İşletme profiliniz dijital menü sayfanızda otomatik olarak görüntülenir.' : 'Manage your restaurant name, logo, address, and contact information from a single panel. Your business profile is automatically displayed on your digital menu page.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Restoran adı ve logo' : 'Restaurant name and logo' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Adres ve iletişim bilgileri' : 'Address and contact details' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Çalışma saatleri ve açıklama' : 'Opening hours and description' }}</li>
                             </ul>
                         </div>
                     </div>

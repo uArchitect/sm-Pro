@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -l \"fiyatlar\\\\|ozellikler\\\\|pricing\\\\|features\" /c/Users/U/Desktop/sm-Pro/resources/views/*.php)"
+    ]
+  }
+}
