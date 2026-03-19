@@ -60,6 +60,7 @@
             background: radial-gradient(circle at top, #eef2ff 0%, #f8fafc 45%, #f8fafc 100%);
             min-height: 100vh;
             color: #0f172a;
+            margin: 0;
         }
         .product-card {
             border: 1px solid #e2e8f0;
@@ -69,6 +70,9 @@
             margin: 0 auto;
             overflow: hidden;
             background: #fff;
+            min-height: calc(100vh - 3rem);
+            display: flex;
+            flex-direction: column;
         }
         .product-header {
             background: linear-gradient(135deg, #312e81 0%, #4f46e5 55%, #6366f1 100%);
@@ -81,19 +85,18 @@
             padding: 1rem 1rem 0;
         }
         .product-image {
-            width: 100%;
-            max-width: 420px;
-            height: 240px;
+            width: min(82vw, 320px);
+            height: min(82vw, 320px);
             object-fit: cover;
-            border-radius: 18px;
+            border-radius: 16px;
             border: 1px solid #e2e8f0;
             box-shadow: 0 10px 26px rgba(0,0,0,.12);
             background: #eef2f7;
         }
         .product-image-fallback {
-            width: 74px;
-            height: 74px;
-            border-radius: 999px;
+            width: min(82vw, 320px);
+            height: min(82vw, 320px);
+            border-radius: 16px;
             border: 1px solid #c7d2fe;
             box-shadow: 0 6px 18px rgba(79,70,229,.18);
             background: linear-gradient(145deg, #eef2ff, #e0e7ff);
@@ -101,19 +104,7 @@
             align-items: center;
             justify-content: center;
             color: #4f46e5;
-            font-size: 1.5rem;
-        }
-        .category-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: .4rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 999px;
-            padding: .38rem .8rem;
-            background: #f8fafc;
-            color: #334155;
-            font-size: .78rem;
-            font-weight: 600;
+            font-size: 3rem;
         }
         .price-cta {
             border: none;
@@ -133,9 +124,17 @@
             border-radius: 14px;
             padding: .9rem .95rem;
         }
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .product-main {
+            margin-top: auto;
+        }
     </style>
 </head>
-<body class="d-flex flex-column align-items-center justify-content-start py-5 px-3">
+<body class="d-flex flex-column align-items-center py-4 px-3">
     @if(config('services.google.gtm_id'))
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ config('services.google.gtm_id') }}"
@@ -145,9 +144,6 @@
 
     <div class="product-card w-100">
         <div class="product-header">
-            <div class="text-white-50 small mb-1">
-                <i class="bi bi-building me-1"></i>{{ $tenant->restoran_adi }}
-            </div>
             <h4 class="text-white fw-bold mb-0">{{ $product->name }}</h4>
         </div>
         @if($product->image)
@@ -163,11 +159,7 @@
         @endif
 
         <div class="card-body px-4 pb-4 pt-3 bg-white">
-            <div class="text-center mb-3">
-                <span class="category-chip">
-                    <i class="bi bi-grid me-1"></i>{{ $product->category_name }}
-                </span>
-            </div>
+            <div class="product-main">
 
             @if($product->description)
             <div class="desc-wrap mb-3">
@@ -187,12 +179,13 @@
                     <i class="bi bi-arrow-left me-1"></i>{{ __('public.back_to_menu') }}
                 </a>
             </div>
+            </div>
         </div>
 
         <div class="card-footer bg-light text-center py-3 border-0">
             <p class="text-muted small mb-0">
                 <i class="bi bi-qr-code me-1"></i>
-                {{ $tenant->restoran_adi }} — {{ __('public.powered_by') }}
+                {{ __('public.powered_by') }}
             </p>
         </div>
     </div>
