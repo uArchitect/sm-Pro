@@ -169,14 +169,33 @@ html { scroll-behavior: smooth; }
 <script>
 (function () {
     /* 1) Başlıklara otomatik id üret (eğer yoksa) */
-    function toSlug(text) {
-        return text.trim()
+    function normalizeText(text) {
+        return (text || '')
+            .trim()
             .toLowerCase()
             .replace(/ş/g,'s').replace(/ğ/g,'g').replace(/ü/g,'u')
             .replace(/ö/g,'o').replace(/ı/g,'i').replace(/ç/g,'c')
             .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    function toSlug(text) {
+        return normalizeText(text)
             .replace(/\s+/g, '-')
-            .replace(/-+/g, '-');
+            .replace(/-+/g, '-')
+            .replace(/^-+|-+$/g, '');
+    }
+
+    function stemToken(token) {
+        return (token || '').replace(/(lar|ler)$/g, '');
+    }
+
+    function parseHashHref(href) {
+        if (!href) return '';
+        var hashIndex = href.indexOf('#');
+        if (hashIndex === -1) return '';
+        return href.slice(hashIndex + 1);
     }
 
     var body = document.querySelector('.blog-body');
@@ -184,10 +203,12 @@ html { scroll-behavior: smooth; }
 
     var headings = body.querySelectorAll('h2, h3, h4');
     var usedSlugs = {};
+    var headingIndex = [];
 
     headings.forEach(function (h) {
+        var textSlug = toSlug(h.textContent);
         if (!h.id) {
-            var base = toSlug(h.textContent);
+            var base = textSlug || 'baslik';
             var slug = base;
             var i = 2;
             while (usedSlugs[slug]) { slug = base + '-' + i++; }
@@ -196,32 +217,92 @@ html { scroll-behavior: smooth; }
         } else {
             usedSlugs[h.id] = true;
         }
+
+        headingIndex.push({
+            el: h,
+            id: h.id,
+            slug: textSlug,
+            norm: normalizeText(h.textContent).replace(/\s+/g, ''),
+        });
     });
+
+    function resolveHeadingByToken(rawToken) {
+        var decoded = decodeURIComponent((rawToken || '').trim());
+        if (!decoded) return null;
+
+        var exact = document.getElementById(decoded);
+        if (exact) return exact;
+
+        var slugToken = toSlug(decoded);
+        if (!slugToken) return null;
+
+        exact = document.getElementById(slugToken);
+        if (exact) return exact;
+
+        var normToken = slugToken.replace(/-/g, '');
+        var stem = stemToken(normToken);
+
+        var bySlug = headingIndex.find(function (h) {
+            return h.id === slugToken || h.slug === slugToken;
+        });
+        if (bySlug) return bySlug.el;
+
+        var byContains = headingIndex.find(function (h) {
+            return h.norm.indexOf(normToken) !== -1 || normToken.indexOf(h.norm) !== -1;
+        });
+        if (byContains) return byContains.el;
+
+        if (stem && stem.length >= 3) {
+            var byStem = headingIndex.find(function (h) {
+                return h.norm.indexOf(stem) !== -1;
+            });
+            if (byStem) return byStem.el;
+        }
+
+        return null;
+    }
+
+    function scrollToHeading(target) {
+        if (!target) return;
+        window.scrollTo({
+            top: target.getBoundingClientRect().top + window.scrollY - 80,
+            behavior: 'smooth'
+        });
+    }
 
     /* 2) Sayfa açıkken URL'de hash varsa offset ile scroll yap */
     if (window.location.hash) {
         setTimeout(function () {
-            var id = decodeURIComponent(window.location.hash.slice(1));
-            var target = document.getElementById(id) || document.getElementById(toSlug(id));
-            if (target) {
-                window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
-            }
+            var target = resolveHeadingByToken(window.location.hash.slice(1));
+            scrollToHeading(target);
         }, 100);
     }
 
     /* 3) Sayfadaki tüm #anchor linklerine smooth scroll + offset uygula */
-    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+    document.querySelectorAll('a[href*="#"]').forEach(function (a) {
         a.addEventListener('click', function (e) {
-            var id = decodeURIComponent(a.getAttribute('href').slice(1));
-            if (!id) return;
-            /* href'te Türkçe karakter olabilir → normalize ederek dene */
-            var target = document.getElementById(id) || document.getElementById(toSlug(id));
+            var href = a.getAttribute('href') || '';
+            var rawToken = parseHashHref(href);
+            if (!rawToken) return;
+
+            /* Sadece aynı sayfadaki hash linkleri ele al */
+            if (href.indexOf('http') === 0) {
+                try {
+                    var u = new URL(href, window.location.origin);
+                    if (u.pathname !== window.location.pathname || u.origin !== window.location.origin) {
+                        return;
+                    }
+                } catch (_) {
+                    return;
+                }
+            }
+
+            var target = resolveHeadingByToken(rawToken);
             if (!target) return;
+
             e.preventDefault();
-            var navH = 80; /* fixed navbar yüksekliği (px) */
-            var top = target.getBoundingClientRect().top + window.scrollY - navH;
-            window.scrollTo({ top: top, behavior: 'smooth' });
-            history.replaceState(null, '', '#' + id);
+            scrollToHeading(target);
+            history.replaceState(null, '', '#' + target.id);
         });
     });
 })();
