@@ -42,10 +42,17 @@ class DashboardController extends Controller
 
         $setup = [
             'has_category' => $stats['categories'] > 0,
-            'has_product' => $stats['products'] > 0,
+            'has_product'  => $stats['products'] > 0,
+            'has_logo'     => !empty($tenant->logo),
+            'has_social'   => !empty($tenant->instagram) || !empty($tenant->facebook)
+                           || !empty($tenant->twitter)   || !empty($tenant->whatsapp),
         ];
-        $setup['completed'] = $setup['has_category'] && $setup['has_product'];
-        $setup['progress'] = ($setup['has_category'] ? 1 : 0) + ($setup['has_product'] ? 1 : 0);
+        $setup['total']     = 4;
+        $setup['progress']  = ($setup['has_category'] ? 1 : 0)
+                            + ($setup['has_product']  ? 1 : 0)
+                            + ($setup['has_logo']     ? 1 : 0)
+                            + ($setup['has_social']   ? 1 : 0);
+        $setup['completed'] = $setup['progress'] === $setup['total'];
 
         return view('dashboard.index', compact('tenant', 'stats', 'setup'));
     }

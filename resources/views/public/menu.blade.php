@@ -906,7 +906,7 @@
                             @csrf
                             <label class="rv-label">{{ $locale === 'tr' ? 'Adınız' : 'Your name' }} <span class="opacity-50">({{ $locale === 'tr' ? 'opsiyonel' : 'optional' }})</span></label>
                             <input type="text" name="customer_name" class="rv-input form-control" maxlength="100" placeholder="{{ $locale === 'tr' ? 'Adınız...' : 'Your name...' }}">
-                            <label class="rv-label">{{ $locale === 'tr' ? 'Puanınız' : 'Your rating' }}</label>
+                            <label class="rv-label">{{ $locale === 'tr' ? 'Puanınız' : 'Your rating' }} <span style="color:#ef4444;font-size:.75rem;">*</span></label>
                             <div class="star-picker">
                                 @for($s = 1; $s <= 5; $s++)
                                 <button type="button" class="btn-star lit" data-rating="{{ $s }}" aria-label="{{ $s }} {{ $locale === 'tr' ? 'yıldız' : 'stars' }}">

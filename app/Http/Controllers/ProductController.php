@@ -362,6 +362,33 @@ class ProductController extends Controller
         ]);
     }
 
+    /** Ürünü kopyala (fotoğraf hariç) */
+    public function duplicate(int $id)
+    {
+        $tenantId = session('tenant_id');
+        $product  = DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->first();
+
+        if (!$product) {
+            abort(404);
+        }
+
+        $maxOrder = DB::table('products')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
+
+        DB::table('products')->insert([
+            'tenant_id'   => $tenantId,
+            'category_id' => $product->category_id,
+            'name'        => $product->name . ' ' . __('products.copy_suffix'),
+            'description' => $product->description,
+            'price'       => $product->price,
+            'image'       => null,
+            'sort_order'  => $maxOrder + 1,
+            'created_at'  => now(),
+            'updated_at'  => now(),
+        ]);
+
+        return redirect()->route('products.index')->with('success', __('products.duplicated'));
+    }
+
     /** AJAX: drag-drop reorder */
     public function reorder(Request $request)
     {

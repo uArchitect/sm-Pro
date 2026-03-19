@@ -37,4 +37,7 @@ return [
     'bulk_no_valid_category' => 'No products were added. Select a valid category for each row.',
     'page_help'              => 'All your menu products are listed here. Drag to reorder, click inline to edit name, price, or category.',
     'page_help_create'       => 'Add new products to your menu. Use single mode for detailed entry with photos, or bulk mode to add multiple products quickly.',
+    'duplicate'              => 'Duplicate',
+    'copy_suffix'            => '(Copy)',
+    'duplicated'             => 'Product duplicated. Photo must be uploaded separately.',
 ];

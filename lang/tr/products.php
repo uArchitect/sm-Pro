@@ -37,4 +37,7 @@ return [
     'bulk_no_valid_category' => 'Hiçbir ürün eklenemedi. Her satır için geçerli bir kategori seçin.',
     'page_help'              => 'Tüm menü ürünleriniz burada listelenir. Sürükleyerek sıralayın, satır üzerinde ad, fiyat veya kategori düzenleyin.',
     'page_help_create'       => 'Menünüze yeni ürünler ekleyin. Fotoğraflı detaylı giriş için tek mod, hızlı çoklu ekleme için toplu mod kullanın.',
+    'duplicate'              => 'Kopyala',
+    'copy_suffix'            => '(Kopya)',
+    'duplicated'             => 'Ürün kopyalandı. Fotoğraf ayrıca yüklenmelidir.',
 ];

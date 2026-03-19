@@ -720,5 +720,75 @@ document.querySelectorAll('.sb-link').forEach(el =>
 @endif
 </script>
 @stack('scripts')
+<script>
+/* ── Klavye Kısayolları ── */
+(function() {
+    var shortcuts = [
+        { key: 'g d', desc: 'Dashboard',         href: '{{ route("dashboard") }}' },
+        { key: 'g c', desc: 'Kategoriler',        href: '{{ route("categories.index") }}' },
+        { key: 'g p', desc: 'Ürünler',            href: '{{ route("products.index") }}' },
+        { key: 'g q', desc: 'QR Kod',             href: '{{ route("menu.qr") }}' },
+        { key: 'n c', desc: 'Yeni Kategori',      href: '{{ route("categories.create") }}' },
+        { key: 'n p', desc: 'Yeni Ürün',          href: '{{ route("products.create") }}' },
+    ];
+
+    var firstKey = null, firstTimer = null;
+    var helpVisible = false;
+
+    /* Kısayol yardım paneli */
+    var helpEl = document.createElement('div');
+    helpEl.id = 'kb-help';
+    helpEl.style.cssText = 'display:none;position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;background:#1e293b;color:#e2e8f0;border-radius:14px;padding:1rem 1.25rem;min-width:240px;box-shadow:0 8px 40px rgba(0,0,0,.35);font-size:.8rem;';
+    helpEl.innerHTML = '<div style="font-weight:700;margin-bottom:.65rem;color:#fff;display:flex;align-items:center;justify-content:space-between;">'
+        + '<span><i class="bi bi-keyboard me-1"></i> Kısayollar</span>'
+        + '<span style="font-size:.7rem;color:#64748b;cursor:pointer;" onclick="document.getElementById(\'kb-help\').style.display=\'none\'">ESC</span>'
+        + '</div>'
+        + shortcuts.map(function(s) {
+            return '<div style="display:flex;justify-content:space-between;gap:1rem;padding:.2rem 0;">'
+                + '<span style="color:#94a3b8">' + s.desc + '</span>'
+                + '<kbd style="background:#334155;border-radius:5px;padding:.1rem .45rem;font-family:monospace;color:#e2e8f0;font-size:.72rem">' + s.key.replace(' ', ' + ') + '</kbd>'
+                + '</div>';
+        }).join('')
+        + '<div style="margin-top:.65rem;padding-top:.65rem;border-top:1px solid #334155;display:flex;justify-content:space-between;gap:1rem;">'
+        + '<span style="color:#94a3b8">Bu yardım</span>'
+        + '<kbd style="background:#334155;border-radius:5px;padding:.1rem .45rem;font-family:monospace;color:#e2e8f0;font-size:.72rem">?</kbd>'
+        + '</div>';
+    document.body.appendChild(helpEl);
+
+    document.addEventListener('keydown', function(e) {
+        /* Input / textarea / select odaktaysa kısayolları devre dışı bırak */
+        if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+        var key = e.key.toLowerCase();
+
+        /* ? tuşu yardım panelini açar/kapar */
+        if (key === '?') {
+            helpVisible = !helpVisible;
+            helpEl.style.display = helpVisible ? 'block' : 'none';
+            return;
+        }
+        if (key === 'escape') {
+            helpEl.style.display = 'none';
+            helpVisible = false;
+            firstKey = null;
+            clearTimeout(firstTimer);
+            return;
+        }
+
+        /* İki tuşlu kısayollar (g+d, n+p vb.) */
+        if (firstKey) {
+            var combo = firstKey + ' ' + key;
+            clearTimeout(firstTimer);
+            firstKey = null;
+            var match = shortcuts.find(function(s){ return s.key === combo; });
+            if (match) window.location.href = match.href;
+        } else if (key === 'g' || key === 'n') {
+            firstKey = key;
+            firstTimer = setTimeout(function(){ firstKey = null; }, 1200);
+        }
+    });
+})();
+</script>
 </body>
 </html>

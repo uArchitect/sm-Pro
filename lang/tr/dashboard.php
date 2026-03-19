@@ -29,7 +29,13 @@ return [
     'setup_pending'   => 'Kurulum gerekli',
     'setup_step_category' => 'En az 1 kategori ekleyin',
     'setup_step_product'  => 'Bir kategoriye en az 1 ürün ekleyin',
+    'setup_step_logo'     => 'Restoran logosu yükleyin',
+    'setup_step_social'   => 'En az 1 sosyal medya hesabı ekleyin',
     'setup_go_category'   => 'Kategori Ekle',
     'setup_go_product'    => 'Ürün Ekle',
+    'setup_go_logo'       => 'Logo Ekle',
+    'setup_go_social'     => 'Sosyal Medya Ekle',
+    'preview_menu'        => 'Menüyü Önizle',
+    'preview_close'       => 'Kapat',
     'page_help'           => 'Bu panelde QR menü linkinizi, temel istatistikleri ve hızlı aksiyon butonlarını görürsünüz. Kategori ve ürünlerinizin durumunu buradan takip edebilirsiniz.',
 ];

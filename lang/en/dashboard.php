@@ -29,7 +29,13 @@ return [
     'setup_pending'   => 'Setup required',
     'setup_step_category' => 'Add at least 1 category',
     'setup_step_product'  => 'Add at least 1 product to a category',
+    'setup_step_logo'     => 'Upload your restaurant logo',
+    'setup_step_social'   => 'Add at least 1 social media account',
     'setup_go_category'   => 'Add Category',
     'setup_go_product'    => 'Add Product',
+    'setup_go_logo'       => 'Add Logo',
+    'setup_go_social'     => 'Add Social Media',
+    'preview_menu'        => 'Preview Menu',
+    'preview_close'       => 'Close',
     'page_help'           => 'This panel shows your QR menu link, key statistics, and quick action buttons. Monitor the status of your categories and products at a glance.',
 ];

@@ -97,11 +97,17 @@
                         </span>
                     </td>
                     <td class="text-end pe-4">
-                        <form method="POST" action="{{ route('products.destroy', $product->id) }}"
-                              onsubmit="return confirm({{ json_encode(__('products.delete_confirm', ['name' => $product->name])) }})">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                        </form>
+                        <div class="d-flex gap-1 justify-content-end">
+                            <form method="POST" action="{{ route('products.duplicate', $product->id) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-outline-secondary" title="{{ __('products.duplicate') }}"><i class="bi bi-copy"></i></button>
+                            </form>
+                            <form method="POST" action="{{ route('products.destroy', $product->id) }}"
+                                  onsubmit="return confirm({{ json_encode(__('products.delete_confirm', ['name' => $product->name])) }})">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @empty

@@ -39,12 +39,18 @@
         </div>
         <div class="d-flex gap-2 flex-shrink-0 flex-wrap">
             <a href="{{ route('menu.qr') }}" class="btn btn-accent btn-sm flex-grow-1 flex-sm-grow-0" style="white-space:nowrap">
-                <i class="bi bi-qr-code me-1"></i>{{ __('dashboard.qr_link') }}  
+                <i class="bi bi-qr-code me-1"></i>{{ __('dashboard.qr_link') }}
             </a>
+            <button type="button" onclick="openMenuPreview()" class="btn btn-sm"
+               style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;
+                      display:inline-flex;align-items:center;gap:.35rem;
+                      height:38px;border-radius:12px;padding:0 .75rem;font-size:.8rem;white-space:nowrap;">
+                <i class="bi bi-eye"></i><span class="d-none d-sm-inline">{{ __('dashboard.preview_menu') }}</span>
+            </button>
             <a href="{{ $menuUrl }}" target="_blank" class="btn btn-sm"
                style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.65);
                       display:inline-flex;align-items:center;justify-content:center;
-                      width:42px;height:38px;border-radius:12px; padding:0;">
+                      width:42px;height:38px;border-radius:12px;padding:0;">
                 <i class="bi bi-box-arrow-up-right"></i>
             </a>
         </div>
@@ -108,50 +114,58 @@
 
 {{-- Setup Guide --}}
 @if(session('just_registered') || !$setup['completed'])
-<div class="mb-4" style="
-    background:#fff;
-    border:1px solid #eaecf0;
-    border-radius:16px;
-    padding:1rem 1.1rem;
-    box-shadow:0 1px 4px rgba(16,24,40,.06);
-">
-    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+<div class="mb-4" style="background:#fff;border:1px solid #eaecf0;border-radius:16px;padding:1rem 1.1rem;box-shadow:0 1px 4px rgba(16,24,40,.06);">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
         <div class="d-flex align-items-center gap-2">
             <span style="width:32px;height:32px;border-radius:10px;background:rgba(99,102,241,.1);display:flex;align-items:center;justify-content:center;color:#6366f1;">
                 <i class="bi bi-flag"></i>
             </span>
             <div>
                 <div style="font-size:.9rem;font-weight:700;color:#111827;">{{ __('dashboard.setup_title') }}</div>
-                <div style="font-size:.76rem;color:#6b7280;">{{ __('dashboard.setup_sub', ['done' => $setup['progress'], 'total' => 2]) }}</div>
+                <div style="font-size:.76rem;color:#6b7280;">{{ __('dashboard.setup_sub', ['done' => $setup['progress'], 'total' => $setup['total']]) }}</div>
             </div>
         </div>
         @if($setup['completed'])
-            <span class="badge text-bg-success">{{ __('dashboard.setup_done') }}</span>
+            <span class="badge text-bg-success"><i class="bi bi-check-lg me-1"></i>{{ __('dashboard.setup_done') }}</span>
         @else
             <span class="badge text-bg-warning">{{ __('dashboard.setup_pending') }}</span>
         @endif
     </div>
 
-    <div class="d-flex flex-column gap-2">
-        <div class="d-flex align-items-center justify-content-between p-2 rounded" style="background:#f8fafc;border:1px solid #eef2f7;">
-            <div class="d-flex align-items-center gap-2">
-                <i class="bi {{ $setup['has_category'] ? 'bi-check-circle-fill text-success' : 'bi-circle text-secondary' }}"></i>
-                <span style="font-size:.84rem;color:#1f2937;">{{ __('dashboard.setup_step_category') }}</span>
-            </div>
-            @if(!$setup['has_category'])
-                <a href="{{ route('categories.create') }}" class="btn btn-sm btn-outline-secondary">{{ __('dashboard.setup_go_category') }}</a>
-            @endif
-        </div>
+    {{-- Progress bar --}}
+    <div style="height:5px;background:#eaecf0;border-radius:99px;margin-bottom:.85rem;overflow:hidden;">
+        <div style="height:100%;width:{{ ($setup['progress'] / $setup['total']) * 100 }}%;background:linear-gradient(90deg,#6366f1,#4f46e5);border-radius:99px;transition:width .4s;"></div>
+    </div>
 
-        <div class="d-flex align-items-center justify-content-between p-2 rounded" style="background:#f8fafc;border:1px solid #eef2f7;">
+    <div class="d-flex flex-column gap-2">
+        @php
+        $steps = [
+            ['done' => $setup['has_category'], 'label' => __('dashboard.setup_step_category'), 'btn' => __('dashboard.setup_go_category'), 'href' => route('categories.create')],
+            ['done' => $setup['has_product'],  'label' => __('dashboard.setup_step_product'),  'btn' => __('dashboard.setup_go_product'),  'href' => route('products.create')],
+            ['done' => $setup['has_logo'],     'label' => __('dashboard.setup_step_logo'),     'btn' => __('dashboard.setup_go_logo'),     'href' => route('company.edit')],
+            ['done' => $setup['has_social'],   'label' => __('dashboard.setup_step_social'),   'btn' => __('dashboard.setup_go_social'),   'href' => route('company.edit')],
+        ];
+        @endphp
+        @foreach($steps as $i => $step)
+        <div class="d-flex align-items-center justify-content-between p-2 rounded"
+             style="background:{{ $step['done'] ? 'rgba(16,185,129,.04)' : '#f8fafc' }};border:1px solid {{ $step['done'] ? 'rgba(16,185,129,.15)' : '#eef2f7' }};">
             <div class="d-flex align-items-center gap-2">
-                <i class="bi {{ $setup['has_product'] ? 'bi-check-circle-fill text-success' : 'bi-circle text-secondary' }}"></i>
-                <span style="font-size:.84rem;color:#1f2937;">{{ __('dashboard.setup_step_product') }}</span>
+                <span style="width:20px;height:20px;border-radius:50%;background:{{ $step['done'] ? 'rgba(16,185,129,.15)' : 'rgba(99,102,241,.08)' }};display:flex;align-items:center;justify-content:center;font-size:.7rem;color:{{ $step['done'] ? '#10b981' : '#94a3b8' }};flex-shrink:0;">
+                    @if($step['done'])
+                        <i class="bi bi-check-lg"></i>
+                    @else
+                        <span style="font-weight:700;">{{ $i + 1 }}</span>
+                    @endif
+                </span>
+                <span style="font-size:.84rem;color:{{ $step['done'] ? '#6b7280' : '#1f2937' }};{{ $step['done'] ? 'text-decoration:line-through;' : '' }}">{{ $step['label'] }}</span>
             </div>
-            @if(!$setup['has_product'])
-                <a href="{{ route('products.create') }}" class="btn btn-sm btn-outline-secondary">{{ __('dashboard.setup_go_product') }}</a>
+            @if(!$step['done'])
+                <a href="{{ $step['href'] }}" class="btn btn-sm btn-outline-secondary" style="font-size:.76rem;padding:.2rem .65rem;">{{ $step['btn'] }}</a>
+            @else
+                <i class="bi bi-check-circle-fill text-success" style="font-size:.9rem;"></i>
             @endif
         </div>
+        @endforeach
     </div>
 </div>
 @endif
@@ -217,4 +231,47 @@
         </div>
     </div>
 </div>
+{{-- Menü Önizleme Modalı --}}
+<div id="menuPreviewOverlay" onclick="closeMenuPreview()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1055;backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;">
+    <div onclick="event.stopPropagation()" style="background:#fff;border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.3);width:100%;max-width:420px;height:85vh;display:flex;flex-direction:column;overflow:hidden;">
+        <div style="padding:.75rem 1rem;border-bottom:1px solid #eaecf0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+            <div style="display:flex;align-items:center;gap:.6rem;">
+                <div style="width:10px;height:10px;border-radius:50%;background:#ef4444;"></div>
+                <div style="width:10px;height:10px;border-radius:50%;background:#f59e0b;"></div>
+                <div style="width:10px;height:10px;border-radius:50%;background:#10b981;"></div>
+                <span style="font-size:.78rem;color:#64748b;margin-left:.5rem;font-weight:500;">{{ __('dashboard.preview_menu') }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:.5rem;">
+                <a href="{{ $menuUrl }}" target="_blank" style="font-size:.78rem;color:#6366f1;text-decoration:none;display:flex;align-items:center;gap:.25rem;">
+                    <i class="bi bi-box-arrow-up-right" style="font-size:.7rem;"></i> {{ __('common.open') ?? 'Aç' }}
+                </a>
+                <button type="button" onclick="closeMenuPreview()" style="background:none;border:none;cursor:pointer;color:#94a3b8;font-size:1.1rem;padding:.2rem;line-height:1;">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+        </div>
+        <iframe id="menuPreviewFrame" src="" style="flex:1;border:none;width:100%;" loading="lazy"></iframe>
+    </div>
+</div>
+
+@push('scripts')
+<script>
+function openMenuPreview() {
+    var overlay = document.getElementById('menuPreviewOverlay');
+    var frame   = document.getElementById('menuPreviewFrame');
+    if (!frame.src || frame.src === window.location.href) {
+        frame.src = '{{ $menuUrl }}';
+    }
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+}
+function closeMenuPreview() {
+    document.getElementById('menuPreviewOverlay').style.display = 'none';
+    document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeMenuPreview();
+});
+</script>
+@endpush
 @endsection
