@@ -45,7 +45,7 @@ class ReviewController extends Controller
             abort(404);
         }
 
-        DB::table('reviews')->where('id', $id)->delete();
+        DB::table('reviews')->where('id', $id)->where('tenant_id', $tenantId)->delete();
 
         Log::info('Değerlendirme silindi.', ['tenant_id' => $tenantId, 'review_id' => $id]);
 

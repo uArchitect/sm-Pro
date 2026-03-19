@@ -20,7 +20,7 @@ class PremiumMiddleware
 
         $tenant = DB::table('tenants')->find($tenantId);
 
-        if (!$tenant || ($tenant->package ?? 'basic') !== 'premium') {
+        if (!$tenant || !in_array($tenant->package ?? 'basic', ['premium', 'enterprise'])) {
             return redirect()->route('premium.gate');
         }
 

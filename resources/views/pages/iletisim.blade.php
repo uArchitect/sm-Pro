@@ -41,7 +41,6 @@
         "email": "destek@siparismasanda.com",
         "telephone": "+90-507-892-84-90",
         "availableLanguage": ["Turkish", "English"],
-        "contactOption": "TollFree",
         "areaServed": "TR"
     },
     "sameAs": [

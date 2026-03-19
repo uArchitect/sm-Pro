@@ -344,8 +344,11 @@ class ProductController extends Controller
             throw $e;
         }
 
-        $updated  = DB::table('products')->find($id);
-        $category = DB::table('categories')->find($updated->category_id);
+        $updated = DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->first();
+        if (!$updated) {
+            return response()->json(['success' => false, 'message' => 'Product not found'], 404);
+        }
+        $category = DB::table('categories')->where('id', $updated->category_id)->where('tenant_id', $tenantId)->first();
 
         return response()->json([
             'success'           => true,
@@ -362,6 +365,8 @@ class ProductController extends Controller
     /** AJAX: drag-drop reorder */
     public function reorder(Request $request)
     {
+        $request->validate(['order' => 'required|array', 'order.*' => 'integer']);
+
         $tenantId = session('tenant_id');
         $order    = $request->input('order', []);
 

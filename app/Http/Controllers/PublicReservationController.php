@@ -38,6 +38,9 @@ class PublicReservationController extends Controller
         $tenant = DB::table('tenants')->where('id', $tenantId)->where('is_active', true)->first();
         if (!$tenant) abort(404);
 
+        $hasPremium = in_array($tenant->package ?? 'free', ['premium', 'enterprise']);
+        if (!$hasPremium) abort(404);
+
         $data = $request->validate([
             'table_id'         => 'required|integer',
             'customer_name'    => 'required|string|max:120',
@@ -59,14 +62,13 @@ class PublicReservationController extends Controller
         }
 
         $conflict = DB::table('reservations')
+            ->where('tenant_id', $tenantId)
             ->where('table_id', $data['table_id'])
             ->where('reservation_date', $data['reservation_date'])
             ->where('status', '!=', 'cancelled')
             ->where(function ($q) use ($data) {
-                $q->where(function ($q2) use ($data) {
-                    $q2->where('start_time', '<', $data['end_time'])
-                        ->where('end_time', '>', $data['start_time']);
-                });
+                $q->where('start_time', '<', $data['end_time'])
+                  ->where('end_time', '>', $data['start_time']);
             })
             ->exists();
 
@@ -74,29 +76,31 @@ class PublicReservationController extends Controller
             return back()->withErrors(['table_id' => __('reservation.time_conflict')])->withInput();
         }
 
-        $reservationId = DB::table('reservations')->insertGetId([
-            'tenant_id'        => $tenantId,
-            'table_id'         => $data['table_id'],
-            'customer_name'    => $data['customer_name'],
-            'customer_phone'   => $data['customer_phone'],
-            'customer_email'   => $data['customer_email'] ?? null,
-            'reservation_date' => $data['reservation_date'],
-            'start_time'       => $data['start_time'],
-            'end_time'         => $data['end_time'],
-            'status'           => 'pending',
-            'notes'            => $data['notes'] ?? null,
-            'created_at'       => now(),
-            'updated_at'       => now(),
-        ]);
+        DB::transaction(function () use ($tenantId, $data) {
+            $reservationId = DB::table('reservations')->insertGetId([
+                'tenant_id'        => $tenantId,
+                'table_id'         => $data['table_id'],
+                'customer_name'    => $data['customer_name'],
+                'customer_phone'   => $data['customer_phone'],
+                'customer_email'   => $data['customer_email'] ?? null,
+                'reservation_date' => $data['reservation_date'],
+                'start_time'       => $data['start_time'],
+                'end_time'         => $data['end_time'],
+                'status'           => 'pending',
+                'notes'            => $data['notes'] ?? null,
+                'created_at'       => now(),
+                'updated_at'       => now(),
+            ]);
 
-        DB::table('reservation_notifications')->insert([
-            'tenant_id'      => $tenantId,
-            'reservation_id' => $reservationId,
-            'type'           => 'new_reservation',
-            'is_read'        => false,
-            'created_at'     => now(),
-            'updated_at'     => now(),
-        ]);
+            DB::table('reservation_notifications')->insert([
+                'tenant_id'      => $tenantId,
+                'reservation_id' => $reservationId,
+                'type'           => 'new_reservation',
+                'is_read'        => false,
+                'created_at'     => now(),
+                'updated_at'     => now(),
+            ]);
+        });
 
         return back()->with('reservation_success', true);
     }

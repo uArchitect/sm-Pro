@@ -39,7 +39,10 @@ class MenuSettingsController extends Controller
     public function index()
     {
         $tenantId = session('tenant_id');
-        $tenant   = DB::table('tenants')->find($tenantId);
+        if (!$tenantId) abort(403);
+
+        $tenant = DB::table('tenants')->find($tenantId);
+        if (!$tenant) abort(404);
 
         $settings = DB::table('menu_settings')
             ->where('tenant_id', $tenantId)
@@ -55,6 +58,7 @@ class MenuSettingsController extends Controller
     public function update(Request $request)
     {
         $tenantId = session('tenant_id');
+        if (!$tenantId) abort(403);
 
         $data = $request->validate([
             'layout'            => 'required|in:accordion,tabs,grid,elegant',

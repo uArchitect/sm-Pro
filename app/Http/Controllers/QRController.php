@@ -110,7 +110,9 @@ class QRController extends Controller
         $sliders = collect();
         $activeEvent = null;
 
-        if (($tenant->package ?? 'basic') === 'premium') {
+        $isPremiumTenant = in_array($tenant->package ?? 'basic', ['premium', 'enterprise']);
+
+        if ($isPremiumTenant) {
             $sliders = DB::table('sliders')
                 ->where('tenant_id', $tenantId)
                 ->where('is_active', true)
@@ -133,7 +135,7 @@ class QRController extends Controller
 
         $menuSettings = null;
         $hasReservation = false;
-        if (($tenant->package ?? 'basic') === 'premium') {
+        if ($isPremiumTenant) {
             $menuSettings = DB::table('menu_settings')
                 ->where('tenant_id', $tenantId)
                 ->first();

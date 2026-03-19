@@ -529,7 +529,7 @@
             <i class="bi bi-box-seam"></i> {{ __('nav.nav.products') }}
         </a>
 
-        @php $isPremium = ($tenant->package ?? 'basic') === 'premium'; @endphp
+        @php $isPremium = in_array($tenant?->package ?? 'basic', ['premium', 'enterprise']); @endphp
         <div class="sb-section">{{ __('nav.nav.premium') }}</div>
         <a href="{{ $isPremium ? route('sliders.index') : route('premium.gate') }}" class="sb-link {{ request()->routeIs('sliders.*') ? 'active' : '' }}">
             <i class="bi bi-images"></i> {{ __('nav.nav.sliders') }}
@@ -551,9 +551,10 @@
             <i class="bi bi-palette"></i> {{ __('nav.nav.menu_design') }}
             @if(!$isPremium)<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif
         </a>
-        <a href="{{ $isPremium ? '#' : route('premium.gate') }}" class="sb-link">
+        <a href="{{ $isPremium ? '#' : route('premium.gate') }}" class="sb-link" @if($isPremium) onclick="return false;" style="opacity:.6;cursor:default;" @endif>
             <i class="bi bi-cart-check"></i> {{ __('nav.nav.ordering') }}
-            @if(!$isPremium)<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif
+            @if($isPremium)<span class="badge bg-secondary ms-auto" style="font-size:.55rem;padding:2px 5px;">Yakında</span>
+            @else<span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;padding:2px 6px;"><i class="bi bi-lock-fill"></i> {{ __('nav.nav.premium_badge') }}</span>@endif
         </a>
 
         <div class="sb-section">{{ __('nav.nav.qr_link') }}</div>
@@ -610,7 +611,7 @@
             @if($isPremium)
             <a href="{{ route('reservations.index') }}" class="topbar-chip topbar-notif-bell position-relative" title="{{ __('reservation.reservations_title') }}" style="text-decoration:none;color:var(--text-secondary)">
                 <i class="bi bi-bell"></i>
-                <span class="notif-badge" id="notifBadge" style="display:none;position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:.58rem;font-weight:800;min-width:16px;height:16px;border-radius:999px;display:none;align-items:center;justify-content:center;padding:0 4px;line-height:1;border:2px solid #fff">0</span>
+                <span class="notif-badge" id="notifBadge" style="display:none;position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:.58rem;font-weight:800;min-width:16px;height:16px;border-radius:999px;padding:0 4px;line-height:1;border:2px solid #fff;align-items:center;justify-content:center">0</span>
             </a>
             @endif
             <div class="topbar-chip topbar-date">

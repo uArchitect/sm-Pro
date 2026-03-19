@@ -156,7 +156,8 @@ document.addEventListener('DOMContentLoaded', function() {
     clearBtn.addEventListener('click', function() {
         var rows = container.querySelectorAll('.table-row');
         for (var i = rows.length - 1; i > 0; i--) rows[i].remove();
-        container.querySelector('.table-row input').value = '';
+        var firstInput = container.querySelector('.table-row input');
+        if (firstInput) firstInput.value = '';
         reIndex();
     });
 

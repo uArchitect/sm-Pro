@@ -146,7 +146,7 @@
                             ];
                         @endphp
                         @foreach($layouts as $val => $meta)
-                        <div class="layout-card {{ ($settings->layout ?? 'accordion') === $val ? 'selected' : '' }}" data-layout="{{ $val }}" onclick="selectLayout('{{ $val }}')">
+                        <div class="layout-card {{ ($settings->layout ?? 'accordion') === $val ? 'selected' : '' }}" data-layout="{{ $val }}" onclick="selectLayout('{{ $val }}')" tabindex="0" role="button" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectLayout('{{ $val }}')}">
                             <span class="lc-check"><i class="bi bi-check-lg"></i></span>
                             <div class="lc-preview">
                                 @if($val === 'accordion')

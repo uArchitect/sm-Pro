@@ -32,8 +32,13 @@ class SupportController extends Controller
             'message' => 'required|string|max:5000',
         ]);
 
+        $tenantId = session('tenant_id');
+        if (!$tenantId) {
+            abort(403);
+        }
+
         DB::table('support_tickets')->insert([
-            'tenant_id'  => session('tenant_id'),
+            'tenant_id'  => $tenantId,
             'user_id'    => Auth::id(),
             'subject'    => $request->subject,
             'message'    => $request->message,

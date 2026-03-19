@@ -86,6 +86,8 @@ class SliderController extends Controller
 
     public function reorder(Request $request)
     {
+        $request->validate(['order' => 'required|array', 'order.*' => 'integer']);
+
         $tenantId = session('tenant_id');
         $order = $request->input('order', []);
 

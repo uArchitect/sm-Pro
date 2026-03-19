@@ -33,7 +33,7 @@
     </script>
     @endif
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon-indigo.svg') }}">
     <title>{{ $menuTitle }}</title>
     <meta name="description" content="{{ $menuDescription }}">
@@ -50,11 +50,6 @@
     <meta name="twitter:title" content="{{ $menuTitle }}">
     <meta name="twitter:description" content="{{ $menuDescription }}">
     <meta name="twitter:image" content="{{ $menuShareImage }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family={{ urlencode($ms->font_family ?? 'Inter') }}:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     @php
         $ms = $menuSettings ?? (object)[
             'primary_color'=>'#4F46E5','secondary_color'=>'#6366F1',
@@ -88,6 +83,11 @@
         $sc = $ms->secondary_color ?? '#6366F1';
         $pcRgb = implode(',', [hexdec(substr($pc,1,2)), hexdec(substr($pc,3,2)), hexdec(substr($pc,5,2))]);
     @endphp
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family={{ urlencode($ms->font_family ?? 'Inter') }}:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         :root {
             --accent: {{ $pc }};
@@ -757,7 +757,7 @@
     @if($ms->show_search ?? true)
     <div class="toolbar">
         <div class="toolbar-inner">
-            <button type="button" class="tb-cat-btn d-md-none" data-bs-toggle="offcanvas" data-bs-target="#catOffcanvas" aria-label="Kategoriler">
+            <button type="button" class="tb-cat-btn d-md-none" data-bs-toggle="offcanvas" data-bs-target="#catOffcanvas" aria-label="{{ $locale === 'tr' ? 'Kategoriler' : 'Categories' }}">
                 <i class="bi bi-grid-3x3-gap-fill"></i>
             </button>
             <input type="text" class="tb-search form-control" id="menuSearch" placeholder="{{ __('public.search_placeholder') }}" autocomplete="off">
@@ -783,7 +783,7 @@
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="catOffcanvas">
         <div class="offcanvas-header border-bottom">
-            <h5 class="offcanvas-title"><i class="bi bi-grid-3x3-gap-fill text-warning me-1"></i> Kategoriler</h5>
+            <h5 class="offcanvas-title"><i class="bi bi-grid-3x3-gap-fill text-warning me-1"></i> {{ $locale === 'tr' ? 'Kategoriler' : 'Categories' }}</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
         <div class="offcanvas-body p-0">
@@ -791,7 +791,7 @@
             <button type="button" class="drawer-item active" data-cat-id="">
                 <div class="di-icon"><i class="bi bi-grid-3x3-gap"></i></div>
                 <div>
-                    <div class="di-name">Tüm Menü</div>
+                    <div class="di-name">{{ $locale === 'tr' ? 'Tüm Menü' : 'Full Menu' }}</div>
                 <div class="di-count" id="totalProductCount">{{ __('public.products_count', ['count' => $products->sum(fn($c) => $c->count())]) }}</div>
                 </div>
             </button>

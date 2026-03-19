@@ -57,10 +57,12 @@ class ReservationNotificationController extends Controller
     {
         $tenantId = session('tenant_id');
 
-        DB::table('reservations')
+        $deleted = DB::table('reservations')
             ->where('id', $id)
             ->where('tenant_id', $tenantId)
             ->delete();
+
+        if (!$deleted) abort(404);
 
         return back()->with('success', __('reservation.reservation_deleted'));
     }

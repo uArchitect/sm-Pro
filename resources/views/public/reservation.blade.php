@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', $locale) }}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon-indigo.svg') }}">
     <title>{{ $tenant->restoran_adi }} — {{ $locale === 'tr' ? 'Rezervasyon' : 'Reservation' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -74,7 +74,7 @@
             <div class="row g-3 mb-3">
                 <div class="col-12">
                     <label class="form-label">{{ $locale === 'tr' ? 'Bölge' : 'Zone' }} *</label>
-                    <select id="zoneSelect" class="form-select" required onchange="updateTables()">
+                    <select id="zoneSelect" name="_zone" class="form-select" required onchange="updateTables()">
                         <option value="">{{ $locale === 'tr' ? 'Bölge seçin' : 'Select zone' }}</option>
                         @foreach($zones as $z)
                         <option value="{{ $z->id }}" {{ old('_zone') == $z->id ? 'selected' : '' }}>{{ $z->name }}</option>
@@ -90,35 +90,35 @@
             </div>
             <div class="row g-3 mb-3">
                 <div class="col-12">
-                    <label class="form-label">{{ $locale === 'tr' ? 'Adınız Soyadınız' : 'Full Name' }} *</label>
-                    <input type="text" name="customer_name" class="form-control" required maxlength="120" value="{{ old('customer_name') }}" placeholder="{{ $locale === 'tr' ? 'Adınız...' : 'Your name...' }}">
+                    <label class="form-label" for="rv_name">{{ $locale === 'tr' ? 'Adınız Soyadınız' : 'Full Name' }} *</label>
+                    <input type="text" name="customer_name" id="rv_name" class="form-control" required maxlength="120" value="{{ old('customer_name') }}" placeholder="{{ $locale === 'tr' ? 'Adınız...' : 'Your name...' }}">
                 </div>
                 <div class="col-sm-6">
-                    <label class="form-label">{{ $locale === 'tr' ? 'Telefon' : 'Phone' }} *</label>
-                    <input type="tel" name="customer_phone" class="form-control" required maxlength="30" value="{{ old('customer_phone') }}" placeholder="05xx xxx xx xx">
+                    <label class="form-label" for="rv_phone">{{ $locale === 'tr' ? 'Telefon' : 'Phone' }} *</label>
+                    <input type="tel" name="customer_phone" id="rv_phone" class="form-control" required maxlength="30" value="{{ old('customer_phone') }}" placeholder="05xx xxx xx xx">
                 </div>
                 <div class="col-sm-6">
-                    <label class="form-label">{{ $locale === 'tr' ? 'E-posta' : 'Email' }}</label>
-                    <input type="email" name="customer_email" class="form-control" maxlength="120" value="{{ old('customer_email') }}" placeholder="{{ $locale === 'tr' ? 'İsteğe bağlı' : 'Optional' }}">
+                    <label class="form-label" for="rv_email">{{ $locale === 'tr' ? 'E-posta' : 'Email' }}</label>
+                    <input type="email" name="customer_email" id="rv_email" class="form-control" maxlength="120" value="{{ old('customer_email') }}" placeholder="{{ $locale === 'tr' ? 'İsteğe bağlı' : 'Optional' }}">
                 </div>
             </div>
             <div class="row g-3 mb-3">
                 <div class="col-sm-4">
-                    <label class="form-label">{{ $locale === 'tr' ? 'Tarih' : 'Date' }} *</label>
-                    <input type="date" name="reservation_date" class="form-control" required min="{{ date('Y-m-d') }}" value="{{ old('reservation_date', date('Y-m-d')) }}">
+                    <label class="form-label" for="rv_date">{{ $locale === 'tr' ? 'Tarih' : 'Date' }} *</label>
+                    <input type="date" name="reservation_date" id="rv_date" class="form-control" required min="{{ date('Y-m-d') }}" value="{{ old('reservation_date', date('Y-m-d')) }}">
                 </div>
                 <div class="col-sm-4">
-                    <label class="form-label">{{ $locale === 'tr' ? 'Başlangıç' : 'Start' }} *</label>
-                    <input type="time" name="start_time" class="form-control" required value="{{ old('start_time', '19:00') }}">
+                    <label class="form-label" for="rv_start">{{ $locale === 'tr' ? 'Başlangıç' : 'Start' }} *</label>
+                    <input type="time" name="start_time" id="rv_start" class="form-control" required value="{{ old('start_time', '19:00') }}">
                 </div>
                 <div class="col-sm-4">
-                    <label class="form-label">{{ $locale === 'tr' ? 'Bitiş' : 'End' }} *</label>
-                    <input type="time" name="end_time" class="form-control" required value="{{ old('end_time', '21:00') }}">
+                    <label class="form-label" for="rv_end">{{ $locale === 'tr' ? 'Bitiş' : 'End' }} *</label>
+                    <input type="time" name="end_time" id="rv_end" class="form-control" required value="{{ old('end_time', '21:00') }}">
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label">{{ $locale === 'tr' ? 'Not' : 'Notes' }}</label>
-                <textarea name="notes" class="form-control" rows="2" maxlength="500" placeholder="{{ $locale === 'tr' ? 'Özel istekleriniz...' : 'Special requests...' }}">{{ old('notes') }}</textarea>
+                <label class="form-label" for="rv_notes">{{ $locale === 'tr' ? 'Not' : 'Notes' }}</label>
+                <textarea name="notes" id="rv_notes" class="form-control" rows="2" maxlength="500" placeholder="{{ $locale === 'tr' ? 'Özel istekleriniz...' : 'Special requests...' }}">{{ old('notes') }}</textarea>
             </div>
             <button type="submit" class="rv-submit-btn">
                 <i class="bi bi-calendar-check me-1"></i>{{ $locale === 'tr' ? 'Rezervasyon Yap' : 'Make Reservation' }}
@@ -170,7 +170,8 @@ function updateTables() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    if (document.getElementById('zoneSelect').value) updateTables();
+    var zs = document.getElementById('zoneSelect');
+    if (zs && zs.value) updateTables();
 });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

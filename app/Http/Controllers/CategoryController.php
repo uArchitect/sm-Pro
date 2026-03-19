@@ -353,7 +353,10 @@ class CategoryController extends Controller
             throw $e;
         }
 
-        $updated = DB::table('categories')->find($id);
+        $updated = DB::table('categories')->where('id', $id)->where('tenant_id', $tenantId)->first();
+        if (!$updated) {
+            return response()->json(['success' => false, 'message' => 'Category not found'], 404);
+        }
 
         return response()->json([
             'success'   => true,
@@ -365,6 +368,8 @@ class CategoryController extends Controller
     /** AJAX: drag-drop reorder */
     public function reorder(Request $request)
     {
+        $request->validate(['order' => 'required|array', 'order.*' => 'integer']);
+
         $tenantId = session('tenant_id');
         $order    = $request->input('order', []);
 

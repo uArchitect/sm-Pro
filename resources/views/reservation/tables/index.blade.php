@@ -109,7 +109,7 @@ $(function() {
             info: '_START_–_END_ / _TOTAL_',
             infoEmpty: '0 / 0',
             infoFiltered: '',
-            zeroRecords: '<div class="text-center py-4 text-muted"><i class="bi bi-search fs-3 d-block mb-2 opacity-25"></i>{{ __("reservation.no_match_tables") }}</div>',
+            zeroRecords: '<div class="text-center py-4 text-muted"><i class="bi bi-search fs-3 d-block mb-2 opacity-25"></i>' + @json(__('reservation.no_match_tables')) + '</div>',
             paginate: { previous: '‹', next: '›' }
         },
         columnDefs: [

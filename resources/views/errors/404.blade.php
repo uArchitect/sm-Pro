@@ -5,7 +5,7 @@
     $isTr = $locale === 'tr';
 @endphp
 
-@section('title', $isTr ? 'Sayfa Bulunamadı (404) | Sipariş Masanda' : 'Page Not Found (404) | Siparis Masanda')
+@section('title', $isTr ? 'Sayfa Bulunamadı (404) | Sipariş Masanda' : 'Page Not Found (404) | Sipariş Masanda')
 @section('meta_description', $isTr
     ? 'Aradığınız sayfa bulunamadı. Ana sayfaya dönün veya dijital menü özelliklerini inceleyin.'
     : 'The page you are looking for was not found. Return to the homepage or explore our digital menu features.')
@@ -55,16 +55,16 @@
                         {{ $isTr ? 'Ana sayfaya dönerek veya aşağıdaki linkleri kullanarak devam edebilirsiniz.' : 'You can continue by returning to the homepage or using the links below.' }}
                     </p>
                     <div class="d-flex flex-wrap gap-2 justify-content-center">
-                        <a href="{{ url('/') }}" class="hero-btn-primary">
+                        <a href="{{ locale_route('home') }}" class="hero-btn-primary">
                             <i class="bi bi-house me-1"></i>{{ $isTr ? 'Ana Sayfa' : 'Home' }}
                         </a>
-                        <a href="{{ route('features') }}" class="hero-btn-outline">{{ $isTr ? 'Özellikler' : 'Features' }}</a>
-                        <a href="{{ route('pricing') }}" class="hero-btn-outline">{{ $isTr ? 'Fiyatlar' : 'Pricing' }}</a>
-                        <a href="{{ route('blog') }}" class="hero-btn-outline">Blog</a>
-                        <a href="{{ route('contact') }}" class="hero-btn-outline">{{ $isTr ? 'İletişim' : 'Contact' }}</a>
+                        <a href="{{ locale_route('features') }}" class="hero-btn-outline">{{ $isTr ? 'Özellikler' : 'Features' }}</a>
+                        <a href="{{ locale_route('pricing') }}" class="hero-btn-outline">{{ $isTr ? 'Fiyatlar' : 'Pricing' }}</a>
+                        <a href="{{ locale_route('blog') }}" class="hero-btn-outline">Blog</a>
+                        <a href="{{ locale_route('contact') }}" class="hero-btn-outline">{{ $isTr ? 'İletişim' : 'Contact' }}</a>
                     </div>
                     <p class="small mt-4 mb-0" style="color:#94a3b8">
-                        <a href="{{ route('sitemap') }}" style="color:#64748b;text-decoration:none">{{ $isTr ? 'Site haritası' : 'Sitemap' }}</a>
+                        <a href="{{ locale_route('sitemap') }}" style="color:#64748b;text-decoration:none">{{ $isTr ? 'Site haritası' : 'Sitemap' }}</a>
                     </p>
                 </div>
             </div>

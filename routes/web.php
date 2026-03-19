@@ -41,7 +41,7 @@ Route::get('/fiyatlar', fn () => view('pages.fiyatlar'))->name('pricing');
 Route::get('/ozellikler', fn () => view('pages.ozellikler'))->name('features');
 Route::get('/hakkimizda', fn () => view('pages.hakkimizda'))->name('about');
 Route::get('/iletisim', fn () => view('pages.iletisim'))->name('contact');
-Route::post('/iletisim/gonder', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.send');
+Route::post('/iletisim/gonder', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.send')->middleware('throttle:6,1');
 Route::get('/gizlilik-politikasi', fn () => view('pages.gizlilik-politikasi'))->name('privacy');
 Route::get('/kullanim-kosullari', fn () => view('pages.kullanim-kosullari'))->name('terms');
 
@@ -252,7 +252,7 @@ Route::prefix('en')->name('en.')->group(function () {
     Route::get('/pricing', fn () => view('pages.fiyatlar'))->name('pricing');
     Route::get('/about', fn () => view('pages.hakkimizda'))->name('about');
     Route::get('/contact', fn () => view('pages.iletisim'))->name('contact');
-    Route::post('/contact/send', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.send');
+    Route::post('/contact/send', [\App\Http\Controllers\ContactController::class, 'store'])->name('contact.send')->middleware('throttle:6,1');
     Route::get('/privacy', fn () => view('pages.gizlilik-politikasi'))->name('privacy');
     Route::get('/terms', fn () => view('pages.kullanim-kosullari'))->name('terms');
     Route::get('/blog', [BlogController::class, 'index'])->name('blog');
@@ -267,6 +267,6 @@ Route::prefix('en')->name('en.')->group(function () {
 // Public menu pages (no locale prefix — permanent QR URLs)
 Route::get('/menu/{tenantId}', [QRController::class, 'publicMenu'])->name('public.menu');
 Route::get('/menu/{tenantId}/product/{productId}', [QRController::class, 'publicProduct'])->name('public.product');
-Route::post('/menu/{tenantId}/review', [QRController::class, 'submitReview'])->name('public.review');
+Route::post('/menu/{tenantId}/review', [QRController::class, 'submitReview'])->name('public.review')->middleware('throttle:10,1');
 Route::get('/menu/{tenantId}/reservation', [PublicReservationController::class, 'form'])->name('public.reservation');
-Route::post('/menu/{tenantId}/reservation', [PublicReservationController::class, 'store'])->name('public.reservation.store');
+Route::post('/menu/{tenantId}/reservation', [PublicReservationController::class, 'store'])->name('public.reservation.store')->middleware('throttle:10,1');

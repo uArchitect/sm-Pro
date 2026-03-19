@@ -34,6 +34,9 @@ class TenantController extends Controller
         ]);
 
         $tenantId = session('tenant_id');
+        if (!$tenantId) {
+            abort(403);
+        }
 
         $data = [
             'firma_adi'         => $request->restoran_adi,
@@ -49,6 +52,9 @@ class TenantController extends Controller
         ];
 
         $tenant = DB::table('tenants')->find($tenantId);
+        if (!$tenant) {
+            abort(404);
+        }
 
         $newLogoPath = null;
         $oldLogoToDelete = null;
