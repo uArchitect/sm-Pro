@@ -197,17 +197,6 @@ tenants → users (owner/admin/personel)
 **BUG-14: Pricing Sayfasında Rezervasyon Özelliği Eksik**
 - Premium plan özellik listesinde "Rezervasyon Sistemi" yazmıyor ama bu özellik premium kapsamında. Fiyat sayfası eksik bilgi veriyor.
 
-### 🟡 Küçük (UX Sorunları)
-
-**BUG-15: Kategori Seçimi Olmadan Ürün Eklenebiliyor mu?**
-- Ürün oluştururken `category_id` zorunlu mu belirsiz. Validation incelenmeli.
-
-**BUG-16: Müşteri Değerlendirmesinde İsim Opsiyonel ama Label'da Belirtilmemiyor**
-- Kullanıcı arayüzünde hangi alanın zorunlu olduğu açık değil.
-
-**BUG-17: Dashboard'da Kurulum Rehberi Kalıcı Gösterilebilir**
-- Setup guide tamamlandıktan sonra kaybolması için sadece kategori ve ürün varlığı kontrol ediliyor. Logonun eksikliği veya sosyal medyanın eksikliği kontrol edilmiyor.
-
 ---
 
 ## 5. İyileştirilmesi Gerekenler
@@ -245,11 +234,7 @@ tenants → users (owner/admin/personel)
 ### UX İyileştirmeleri
 
 - [ ] **Onboarding Wizard**: Kayıt sonrası adım adım menü kurulum sihirbazı (kategori ekle → ürün ekle → logo yükle → QR indir)
-- [ ] **Menü Önizlemesi**: Dashboard'dan çıkmadan menünün nasıl göründüğünü görebilme (iframe veya popup)
-- [ ] **Bulk Import**: Excel/CSV ile toplu ürün yükleme (büyük menüler için kritik)
-- [ ] **Ürün Kopyalama**: Benzer ürünleri hızlı oluşturmak için "Kopyala" butonu
 - [ ] **Resim Kırpma**: Upload sırasında in-browser kırpma aracı (şu an sadece resize var)
-- [ ] **Klavye Kısayolları**: Yönetim panelinde hızlı gezinme
 - [ ] **Dark Mode**: Gece çalışan restoran çalışanları için
 - [ ] **E-posta Bildirimleri**: Rezervasyon geldi, değerlendirme geldi, destek yanıtlandı
 

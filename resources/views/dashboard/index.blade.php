@@ -180,12 +180,10 @@
             </div>
             <div class="sm-card-body">
                 <div class="d-flex flex-column gap-2 mb-3">
-                    @foreach([['dashboard.restaurant_name', $tenant->restoran_adi], ['dashboard.menu_id', '#'.$tenant->id]] as [$lbl, $val])
                     <div style="display:flex;align-items:center;justify-content:space-between;padding:.55rem .75rem;background:#f7f8fa;border-radius:9px;border:1px solid #eaecf0;">
-                        <span style="font-size:.75rem;font-weight:600;color:#98a2b3;text-transform:uppercase;letter-spacing:.04em;">{{ __($lbl) }}</span>
-                        <span style="font-size:.855rem;font-weight:600;color:#101828;">{{ $val }}</span>
+                        <span style="font-size:.75rem;font-weight:600;color:#98a2b3;text-transform:uppercase;letter-spacing:.04em;">{{ __('dashboard.restaurant_name') }}</span>
+                        <span style="font-size:.855rem;font-weight:600;color:#101828;">{{ $tenant->restoran_adi }}</span>
                     </div>
-                    @endforeach
                 </div>
                 @if($user->role === 'owner')
                 <a href="{{ route('company.edit') }}" class="btn btn-sm btn-outline-secondary">
