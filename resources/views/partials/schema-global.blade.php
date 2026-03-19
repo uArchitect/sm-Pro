@@ -105,7 +105,7 @@
         {
             "@@type": "Offer",
             "name": "Premium",
-            "price": "199",
+            "price": "649",
             "priceCurrency": "TRY",
             "availability": "https://schema.org/InStock",
             "description": "{{ $isTr ? 'Basic + slider, etkinlik yönetimi, öncelikli destek' : 'Basic + sliders, event management, priority support' }}"

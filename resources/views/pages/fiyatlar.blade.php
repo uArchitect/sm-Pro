@@ -59,7 +59,7 @@
             {
                 "@@type": "Offer",
                 "name": "Premium",
-                "price": "199",
+                "price": "649",
                 "priceCurrency": "TRY",
                 "description": "{{ $isTr ? 'Basic + slider, etkinlik yönetimi, öncelikli destek' : 'All Basic + sliders, event management, priority support' }}",
                 "availability": "https://schema.org/InStock"
@@ -164,7 +164,7 @@
                         <div><span class="price-badge" style="background:rgba(79,70,229,.15);color:#6366F1">{{ $isTr ? 'Popüler' : 'Popular' }}</span></div>
                         <div class="price-name">Premium</div>
                         <div class="price-amount">
-                            <span class="currency">₺</span>199
+                            <span class="currency">₺</span>649
                             <span class="period">/ {{ $isTr ? 'ay' : 'mo' }}</span>
                         </div>
                         <div class="price-desc">{{ $isTr ? 'İşletmenizi öne çıkaran premium dijital menü özellikleri.' : 'Premium digital menu features that make your business stand out.' }}</div>
