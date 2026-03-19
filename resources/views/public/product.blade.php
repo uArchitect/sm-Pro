@@ -72,38 +72,36 @@
         }
         .product-header {
             background: linear-gradient(135deg, #312e81 0%, #4f46e5 55%, #6366f1 100%);
-            padding: 1.25rem 1.25rem 4.5rem;
+            padding: 1.25rem 1.25rem 1.2rem;
             text-align: center;
         }
         .image-wrap {
-            margin-top: -3.25rem;
             display: flex;
             justify-content: center;
-            padding: 0 1rem;
+            padding: 1rem 1rem 0;
         }
         .product-image {
-            width: 88%;
-            max-width: 360px;
-            height: 230px;
+            width: 100%;
+            max-width: 420px;
+            height: 240px;
             object-fit: cover;
             border-radius: 18px;
-            border: 3px solid #fff;
-            box-shadow: 0 14px 30px rgba(0,0,0,.18);
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 26px rgba(0,0,0,.12);
             background: #eef2f7;
         }
         .product-image-fallback {
-            width: 88%;
-            max-width: 360px;
-            height: 230px;
-            border-radius: 18px;
-            border: 3px solid #fff;
-            box-shadow: 0 14px 30px rgba(0,0,0,.12);
-            background: linear-gradient(145deg, #e0e7ff, #eef2ff);
+            width: 74px;
+            height: 74px;
+            border-radius: 999px;
+            border: 1px solid #c7d2fe;
+            box-shadow: 0 6px 18px rgba(79,70,229,.18);
+            background: linear-gradient(145deg, #eef2ff, #e0e7ff);
             display: flex;
             align-items: center;
             justify-content: center;
             color: #4f46e5;
-            font-size: 2.4rem;
+            font-size: 1.5rem;
         }
         .category-chip {
             display: inline-flex;
@@ -152,15 +150,17 @@
             </div>
             <h4 class="text-white fw-bold mb-0">{{ $product->name }}</h4>
         </div>
+        @if($product->image)
         <div class="image-wrap">
-            @if($product->image)
             <img src="{{ asset('uploads/' . $product->image) }}" alt="{{ $product->name }}" class="product-image" loading="lazy">
-            @else
+        </div>
+        @else
+        <div class="d-flex justify-content-center pt-3">
             <div class="product-image-fallback" aria-hidden="true">
                 <i class="bi bi-image"></i>
             </div>
-            @endif
         </div>
+        @endif
 
         <div class="card-body px-4 pb-4 pt-3 bg-white">
             <div class="text-center mb-3">
