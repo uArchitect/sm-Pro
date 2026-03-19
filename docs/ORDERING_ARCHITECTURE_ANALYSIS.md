@@ -18,11 +18,12 @@ Sipariş kanalları:
 - **Takeaway (gel-al):** müşteri adrese girmeden şubeden teslim alır.
 - **Delivery (adrese teslim):** müşteri adres bilgisi ile sipariş verir.
 
-Sipariş kaynakları:
+Sipariş kaynakları (`source`) ile kanal (`channel`) ayrıdır:
 - **Public web checkout** (müşteri tarafı)
 - **Panel manuel sipariş** (telefonla arayan müşteri için personel tarafı, opsiyonel faz)
 
 Bu üç kanal tek bir `orders` modeli üzerinde birleşmeli.
+Not: `qr` bir kanal değil, siparişin menüye giriş kaynağıdır (entry point).
 
 ---
 
@@ -56,18 +57,18 @@ Temel alanlar:
 - `channel` enum: `dine_in | takeaway | delivery`
 - `status` enum: `pending | accepted | preparing | ready | out_for_delivery | completed | cancelled | rejected`
 - `currency`, `subtotal`, `discount_total`, `service_fee`, `delivery_fee`, `total`
-- `payment_method` enum: `cash | card_on_delivery | online`
+- `payment_method` enum: `cash | card_at_door | card_at_pickup | online`
 - `payment_status` enum: `unpaid | paid | refunded | failed`
 - `customer_name`, `customer_phone`
 - `note` (genel sipariş notu)
 - `placed_at`, `accepted_at`, `completed_at`, `cancelled_at`
 - `source` enum: `qr | web | panel | api`
-- `idempotency_key` (unique scoped by tenant)
+- `idempotency_key` (unique, `tenant_id + source + key` bazında)
 
 Kanal bazlı alanlar:
-- Dine-in: `table_label` veya `table_id` (opsiyonel, çünkü masa şart değil)
-- Delivery: `delivery_address_line`, `delivery_lat`, `delivery_lng`, `delivery_zone_id`
-- Takeaway: `pickup_eta_minutes`
+- Dine-in: `table_label` veya `table_id` (ikisi de opsiyonel; self-service senaryosu için boş kalabilir)
+- Delivery: `delivery_address_line` (zorunlu), `delivery_lat`, `delivery_lng`, `delivery_zone_id`
+- Takeaway: `pickup_eta_minutes` (opsiyonel)
 
 ### `order_items`
 - `id`, `order_id`, `product_id` (nullable olabilir, ürün sonradan silinirse referans kırılmasın)
@@ -92,17 +93,19 @@ Kanal bazlı alanlar:
 
 ## Durum Geçişleri (State Machine)
 
-Geçerli akış:
+Geçerli akış (kanal koşullu):
 - `pending -> accepted | rejected | cancelled`
-- `accepted -> preparing | cancelled`
+- `accepted -> preparing | ready | cancelled`
 - `preparing -> ready | cancelled`
-- `ready -> out_for_delivery | completed | cancelled`
+- `ready -> completed | cancelled` (dine_in/takeaway)
+- `ready -> out_for_delivery | cancelled` (delivery)
 - `out_for_delivery -> completed | cancelled`
 
 Kurallar:
 - `completed/rejected/cancelled` terminal durumlar.
 - Terminalden geri dönüş yok.
 - Her geçiş `order_status_events` kaydı üretir.
+- `rejected` sadece `pending` durumunda geçerli olmalı (kabul edilmemiş sipariş reddedilir).
 
 ---
 
@@ -111,14 +114,14 @@ Kurallar:
 1. Menüde ürün seçimi, qty, not, opsiyon.
 2. Kanal seçimi (`dine_in/takeaway/delivery`).
 3. Kanal bazlı minimum veri:
-   - dine_in: müşteri adı + telefon (+ opsiyonel masa kodu)
+   - dine_in: müşteri adı + telefon (+ opsiyonel masa kodu/etiketi)
    - takeaway: müşteri adı + telefon
    - delivery: müşteri adı + telefon + adres
 4. Server-side doğrulama:
    - tenant aktif mi
    - ürün satışta mı / stokta mı (varsa)
    - minimum tutar / bölge kuralı (delivery)
-5. Transaction içinde sipariş + kalemler.
+5. Transaction içinde sipariş + kalemler + status event (`pending`) oluştur.
 6. Notification event yayınla.
 7. Müşteriye order tracking ekranı ver.
 
@@ -157,6 +160,7 @@ Teknik:
 5. Abuse önleme:
    - IP/device throttling
    - captcha (şüpheli pattern için)
+6. Kanal-zorunlu alan matrisi backend'de central validator ile yönetilsin (controller içinde dağılmasın).
 
 ---
 
@@ -167,6 +171,7 @@ Teknik:
   - idempotency key
   - request signature (opsiyonel)
 - Fiyatlar clienttan güvenilmez; server ürün fiyatından hesap yapar.
+- Sipariş kalemleri için ürün bilgisi `snapshot` zorunlu tutulur (isim/fiyat sonradan değişse de kayıt tutarlı kalır).
 - `tenant_id` hiçbir zaman clienttan alınmaz; route + server context.
 - SQL sorgularında tenant filtresi standardize edilmelidir.
 
@@ -244,7 +249,7 @@ Bu nedenle rezervasyonu birebir kopyalamak yerine, yalnızca notification ve lis
 ## Önerilen İlk Teknik Backlog
 
 1. Migration tasarımı ve index planı
-2. Order domain service (`createOrder`, `transitionStatus`)
+2. Order domain service (`createOrder`, `transitionStatus`, `validateChannelPayload`)
 3. Public checkout controller + request validation
 4. Panel order list UI + status action endpoints
 5. Notification polling + unread count
