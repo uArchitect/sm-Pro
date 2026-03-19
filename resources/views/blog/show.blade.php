@@ -186,12 +186,24 @@ html { scroll-behavior: smooth; }
         }
     });
 
-    /* 2) Sayfadaki tüm #anchor linklerine smooth scroll + offset uygula */
+    /* 2) Sayfa açıkken URL'de hash varsa offset ile scroll yap */
+    if (window.location.hash) {
+        setTimeout(function () {
+            var id = decodeURIComponent(window.location.hash.slice(1));
+            var target = document.getElementById(id) || document.getElementById(toSlug(id));
+            if (target) {
+                window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+            }
+        }, 100);
+    }
+
+    /* 3) Sayfadaki tüm #anchor linklerine smooth scroll + offset uygula */
     document.querySelectorAll('a[href^="#"]').forEach(function (a) {
         a.addEventListener('click', function (e) {
             var id = decodeURIComponent(a.getAttribute('href').slice(1));
             if (!id) return;
-            var target = document.getElementById(id);
+            /* href'te Türkçe karakter olabilir → normalize ederek dene */
+            var target = document.getElementById(id) || document.getElementById(toSlug(id));
             if (!target) return;
             e.preventDefault();
             var navH = 80; /* fixed navbar yüksekliği (px) */
