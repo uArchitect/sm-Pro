@@ -363,6 +363,14 @@ if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
         oldPairRowsCreate.forEach(function(row) {
             createPairRowCreate(row && row.price ? row.price : '', row && row.weight_grams ? row.weight_grams : '');
         });
+        if (weightColCreate.classList.contains('is-hidden')) {
+            weightColCreate.classList.remove('is-hidden');
+        }
+        var firstRowWeight = pairRowsContainerCreate.querySelector('input[name*="[weight_grams]"]');
+        var simpleWeightInput = weightColCreate.querySelector('input[name="weight_grams"]');
+        if (firstRowWeight && simpleWeightInput && !simpleWeightInput.value) {
+            simpleWeightInput.value = firstRowWeight.value || '';
+        }
     }
     syncCreateWeightState();
 }

@@ -13,6 +13,18 @@
                 <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data" novalidate>
                     @csrf
                     @method('PUT')
+                    @php
+                        $uiWeightPairs = old('price_weight_pairs');
+                        if ($uiWeightPairs === null) {
+                            $uiWeightPairs = json_decode(data_get($product, 'weight_price_options') ?? '[]', true) ?: [];
+                        }
+                        $uiFirstPairWeight = null;
+                        if (is_array($uiWeightPairs) && !empty($uiWeightPairs[0]['weight_grams'])) {
+                            $uiFirstPairWeight = (int) $uiWeightPairs[0]['weight_grams'];
+                        }
+                        $uiWeightValue = old('weight_grams', data_get($product, 'weight_grams') ?? data_get($product, 'base_weight_grams') ?? $uiFirstPairWeight);
+                        $showWeightSection = !empty($uiWeightValue) || (is_array($uiWeightPairs) && count($uiWeightPairs) > 0);
+                    @endphp
 
                     <div class="mb-4">
                         <label class="form-label fw-semibold small">{{ __('products.photo_optional') }}</label>
@@ -68,7 +80,7 @@
                             <div class="pricing-pair-head">
                                 <div class="pricing-pair-title">{{ __('products.price_tl') }} & {{ __('products.weight_grams') }}</div>
                                 <button type="button" id="toggleWeightBtnEdit" class="btn btn-sm btn-outline-primary">
-                                    @if(old('weight_grams', data_get($product, 'weight_grams') ?? data_get($product, 'base_weight_grams')))
+                                    @if($showWeightSection)
                                         <i class="bi bi-x-circle me-1"></i>{{ __('products.remove_weight') }}
                                     @else
                                         <i class="bi bi-plus-circle me-1"></i>{{ __('products.add_weight') }}
@@ -86,10 +98,10 @@
                                     </div>
                                     @error('price')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                 </div>
-                                <div class="col-md-6 weight-col {{ (old('weight_grams', data_get($product, 'weight_grams') ?? data_get($product, 'base_weight_grams'))) ? '' : 'is-hidden' }}" id="weightColEdit">
+                                <div class="col-md-6 weight-col {{ $showWeightSection ? '' : 'is-hidden' }}" id="weightColEdit">
                                     <label class="form-label fw-semibold small">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
                                     <div class="input-group">
-                                        <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ old('weight_grams', data_get($product, 'weight_grams') ?? data_get($product, 'base_weight_grams')) }}" placeholder="500">
+                                        <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ $uiWeightValue }}" placeholder="500">
                                         <span class="input-group-text">g</span>
                                     </div>
                                     @error('weight_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
@@ -149,10 +161,7 @@ function removeImg() {
 }
 
 @php
-    $existingWeightPriceOptions = old('price_weight_pairs');
-    if ($existingWeightPriceOptions === null) {
-        $existingWeightPriceOptions = json_decode(data_get($product, 'weight_price_options') ?? '[]', true) ?: [];
-    }
+    $existingWeightPriceOptions = $uiWeightPairs;
 @endphp
 
 var toggleWeightBtnEdit = document.getElementById('toggleWeightBtnEdit');
