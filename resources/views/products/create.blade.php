@@ -300,12 +300,17 @@ if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
         var row = document.createElement('div');
         row.className = 'pair-row row g-2 align-items-end';
         row.innerHTML =
-            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_price') }}</label><div class="input-group"><span class="input-group-text">₺</span><input type="number" step="0.01" min="0" name="price_weight_pairs[' + pairIdxCreate + '][price]" class="form-control" value="' + (price || '') + '" placeholder="0.00"></div></div>' +
-            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_weight') }}</label><div class="input-group"><input type="number" step="1" min="1" name="price_weight_pairs[' + pairIdxCreate + '][weight_grams]" class="form-control" value="' + (grams || '') + '" placeholder="500"><span class="input-group-text">g</span></div></div>' +
+            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_price') }}</label><div class="input-group"><span class="input-group-text">₺</span><input type="number" step="0.01" min="0" name="price_weight_pairs[' + pairIdxCreate + '][price]" class="form-control" value="' + (price || '') + '" placeholder="0.00" autocomplete="off"></div></div>' +
+            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_weight') }}</label><div class="input-group"><input type="number" step="1" min="1" name="price_weight_pairs[' + pairIdxCreate + '][weight_grams]" class="form-control" value="' + (grams || '') + '" placeholder="500" autocomplete="off"><span class="input-group-text">g</span></div></div>' +
             '<div class="col-md-2"><button type="button" class="btn btn-sm btn-outline-danger w-100 remove-pair-row pair-remove" title="{{ __('products.remove_weight_price_option') }}" aria-label="{{ __('products.remove_weight_price_option') }}"><i class="bi bi-trash"></i></button></div>';
         pairIdxCreate++;
         pairRowsContainerCreate.appendChild(row);
+        var pInput = row.querySelector('input[name*="[price]"]');
+        var gInput = row.querySelector('input[name*="[weight_grams]"]');
+        if ((price === '' || price === null) && pInput) pInput.value = '';
+        if ((grams === '' || grams === null) && gInput) gInput.value = '';
         updateSimpleWeightLockCreate();
+        validateDuplicateWeightsCreate();
     }
 
     function syncCreateWeightState() {
@@ -343,6 +348,18 @@ if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
             priceInput.title = '';
         }
     }
+
+    function validateDuplicateWeightsCreate() {
+        if (!pairRowsContainerCreate) return;
+        var all = Array.from(pairRowsContainerCreate.querySelectorAll('input[name*="[weight_grams]"]'));
+        var seen = new Set();
+        all.forEach(function(inp) {
+            var v = (inp.value || '').trim();
+            var duplicate = v !== '' && seen.has(v);
+            inp.classList.toggle('is-invalid', duplicate);
+            if (v !== '') seen.add(v);
+        });
+    }
     toggleWeightBtnCreate.addEventListener('click', function() {
         weightColCreate.classList.toggle('is-hidden');
         if (weightColCreate.classList.contains('is-hidden')) {
@@ -374,6 +391,7 @@ if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
                 var firstPrice = pairRowsContainerCreate.querySelector('input[name*="[price]"]');
                 if (pInput && firstPrice && e.target === firstPrice) pInput.value = firstPrice.value;
             }
+            if (e.target.name && e.target.name.includes('[weight_grams]')) validateDuplicateWeightsCreate();
         });
     }
     if (Array.isArray(oldPairRowsCreate) && oldPairRowsCreate.length) {
@@ -394,6 +412,7 @@ if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
             simplePriceInput.value = firstRowPrice.value || '';
         }
     }
+    validateDuplicateWeightsCreate();
     syncCreateWeightState();
 }
 
