@@ -57,6 +57,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
+        $hasWeightPriceOptionsColumn = Schema::hasColumn('products', 'weight_price_options');
         $hasBaseWeightColumn = Schema::hasColumn('products', 'base_weight_grams');
         $hasExtraStepWeightColumn = Schema::hasColumn('products', 'extra_weight_step_grams');
         $hasExtraStepPriceColumn = Schema::hasColumn('products', 'extra_weight_step_price');
@@ -67,6 +68,9 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
             'weight_grams'=> 'nullable|integer|min:1|max:100000',
+            'price_weight_pairs' => 'nullable|array',
+            'price_weight_pairs.*.price' => 'nullable|numeric|min:0',
+            'price_weight_pairs.*.weight_grams' => 'nullable|integer|min:1|max:100000',
             'base_weight_grams'       => 'nullable|integer|min:1|max:100000',
             'extra_weight_step_grams' => 'nullable|integer|min:1|max:100000|required_with:extra_weight_step_price',
             'extra_weight_step_price' => 'nullable|numeric|min:0.01|max:100000|required_with:extra_weight_step_grams',
@@ -81,6 +85,23 @@ class ProductController extends Controller
         }
 
         $weightValue = $request->filled('weight_grams') ? (int) $request->weight_grams : null;
+        $weightPricePairs = collect($request->input('price_weight_pairs', []))
+            ->filter(function ($row) {
+                return is_array($row)
+                    && isset($row['price'], $row['weight_grams'])
+                    && $row['price'] !== ''
+                    && $row['weight_grams'] !== '';
+            })
+            ->map(function ($row) {
+                return [
+                    'price' => (float) $row['price'],
+                    'weight_grams' => (int) $row['weight_grams'],
+                ];
+            })
+            ->values();
+        if ($weightPricePairs->isNotEmpty()) {
+            $weightValue = (int) ($weightPricePairs->first()['weight_grams'] ?? $weightValue);
+        }
 
         $tenantId = session('tenant_id');
 
@@ -99,7 +120,7 @@ class ProductController extends Controller
                 }
             }
 
-            DB::transaction(function () use ($tenantId, $request, $imagePath, &$productId, $hasWeightColumn, $hasBaseWeightColumn, $hasExtraStepWeightColumn, $hasExtraStepPriceColumn) {
+            DB::transaction(function () use ($tenantId, $request, $imagePath, &$productId, $hasWeightColumn, $hasWeightPriceOptionsColumn, $hasBaseWeightColumn, $hasExtraStepWeightColumn, $hasExtraStepPriceColumn, $weightValue, $weightPricePairs) {
                 $maxOrder = DB::table('products')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
 
                 $insertData = [
@@ -107,7 +128,7 @@ class ProductController extends Controller
                     'category_id' => $request->category_id,
                     'name'        => $request->name,
                     'description' => $request->description,
-                    'price'       => $request->price,
+                    'price'       => $weightPricePairs->isNotEmpty() ? (float) $weightPricePairs->first()['price'] : $request->price,
                     'image'       => $imagePath,
                     'sort_order'  => $maxOrder + 1,
                     'created_at'  => now(),
@@ -116,6 +137,9 @@ class ProductController extends Controller
 
                 if ($hasWeightColumn) {
                     $insertData['weight_grams'] = $weightValue;
+                }
+                if ($hasWeightPriceOptionsColumn) {
+                    $insertData['weight_price_options'] = $weightPricePairs->isNotEmpty() ? json_encode($weightPricePairs->all(), JSON_UNESCAPED_UNICODE) : null;
                 }
                 if ($hasBaseWeightColumn) {
                     $insertData['base_weight_grams'] = $weightValue ?? ($request->filled('base_weight_grams') ? (int) $request->base_weight_grams : null);
@@ -259,6 +283,7 @@ class ProductController extends Controller
     public function update(Request $request, int $id)
     {
         $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
+        $hasWeightPriceOptionsColumn = Schema::hasColumn('products', 'weight_price_options');
         $hasBaseWeightColumn = Schema::hasColumn('products', 'base_weight_grams');
         $hasExtraStepWeightColumn = Schema::hasColumn('products', 'extra_weight_step_grams');
         $hasExtraStepPriceColumn = Schema::hasColumn('products', 'extra_weight_step_price');
@@ -269,6 +294,9 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
             'weight_grams'=> 'nullable|integer|min:1|max:100000',
+            'price_weight_pairs' => 'nullable|array',
+            'price_weight_pairs.*.price' => 'nullable|numeric|min:0',
+            'price_weight_pairs.*.weight_grams' => 'nullable|integer|min:1|max:100000',
             'base_weight_grams'       => 'nullable|integer|min:1|max:100000',
             'extra_weight_step_grams' => 'nullable|integer|min:1|max:100000|required_with:extra_weight_step_price',
             'extra_weight_step_price' => 'nullable|numeric|min:0.01|max:100000|required_with:extra_weight_step_grams',
@@ -283,6 +311,23 @@ class ProductController extends Controller
         }
 
         $weightValue = $request->filled('weight_grams') ? (int) $request->weight_grams : null;
+        $weightPricePairs = collect($request->input('price_weight_pairs', []))
+            ->filter(function ($row) {
+                return is_array($row)
+                    && isset($row['price'], $row['weight_grams'])
+                    && $row['price'] !== ''
+                    && $row['weight_grams'] !== '';
+            })
+            ->map(function ($row) {
+                return [
+                    'price' => (float) $row['price'],
+                    'weight_grams' => (int) $row['weight_grams'],
+                ];
+            })
+            ->values();
+        if ($weightPricePairs->isNotEmpty()) {
+            $weightValue = (int) ($weightPricePairs->first()['weight_grams'] ?? $weightValue);
+        }
 
         $tenantId = session('tenant_id');
         $product  = DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->first();
@@ -299,11 +344,14 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'name'        => $request->name,
             'description' => $request->description,
-            'price'       => $request->price,
+            'price'       => $weightPricePairs->isNotEmpty() ? (float) $weightPricePairs->first()['price'] : $request->price,
             'updated_at'  => now(),
         ];
         if ($hasWeightColumn) {
             $data['weight_grams'] = $weightValue;
+        }
+        if ($hasWeightPriceOptionsColumn) {
+            $data['weight_price_options'] = $weightPricePairs->isNotEmpty() ? json_encode($weightPricePairs->all(), JSON_UNESCAPED_UNICODE) : null;
         }
         if ($hasBaseWeightColumn) {
             $data['base_weight_grams'] = $weightValue ?? ($request->filled('base_weight_grams') ? (int) $request->base_weight_grams : null);

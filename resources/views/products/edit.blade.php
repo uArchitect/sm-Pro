@@ -89,6 +89,11 @@
                                 </div>
                             </div>
                             <div class="form-text mt-2">{{ __('products.weight_simple_hint') }}</div>
+                            <div id="pairRowsEdit" class="mt-2 d-none">
+                                <div class="small fw-semibold text-muted mb-1">{{ __('products.weight_price_options') }}</div>
+                                <div id="pairRowsContainerEdit"></div>
+                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="addPairRowEdit">{{ __('products.add_option_row') }}</button>
+                            </div>
                         </div>
                     </div>
 
@@ -140,19 +145,53 @@ var toggleWeightBtnEdit = document.getElementById('toggleWeightBtnEdit');
 var weightColEdit = document.getElementById('weightColEdit');
 var priceColEdit = document.getElementById('priceColEdit');
 if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
+    var pairRowsEdit = document.getElementById('pairRowsEdit');
+    var pairRowsContainerEdit = document.getElementById('pairRowsContainerEdit');
+    var addPairRowEdit = document.getElementById('addPairRowEdit');
+    var pairIdxEdit = 0;
+    var existingPairsEdit = @json(old('price_weight_pairs', json_decode(data_get($product, 'weight_price_options') ?? '[]', true) ?: []));
+
+    function createPairRowEdit(price, grams) {
+        if (!pairRowsContainerEdit) return;
+        var row = document.createElement('div');
+        row.className = 'pair-row row g-2 align-items-end';
+        row.innerHTML =
+            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_price') }}</label><div class="input-group"><span class="input-group-text">₺</span><input type="number" step="0.01" min="0" name="price_weight_pairs[' + pairIdxEdit + '][price]" class="form-control" value="' + (price || '') + '" placeholder="0.00"></div></div>' +
+            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_weight') }}</label><div class="input-group"><input type="number" step="1" min="1" name="price_weight_pairs[' + pairIdxEdit + '][weight_grams]" class="form-control" value="' + (grams || '') + '" placeholder="500"><span class="input-group-text">g</span></div></div>' +
+            '<div class="col-md-2"><button type="button" class="btn btn-sm btn-outline-danger w-100 remove-pair-row">{{ __('products.remove_weight_price_option') }}</button></div>';
+        pairIdxEdit++;
+        pairRowsContainerEdit.appendChild(row);
+    }
+
     function syncEditWeightState() {
         var visible = !weightColEdit.classList.contains('is-hidden');
         priceColEdit.className = visible ? 'col-md-6' : 'col-12';
         toggleWeightBtnEdit.textContent = visible ? @json(__('products.remove_weight')) : @json(__('products.add_weight'));
+        if (pairRowsEdit) pairRowsEdit.classList.toggle('d-none', !visible);
     }
     toggleWeightBtnEdit.addEventListener('click', function() {
         weightColEdit.classList.toggle('is-hidden');
         if (weightColEdit.classList.contains('is-hidden')) {
             var wInput = weightColEdit.querySelector('input[name="weight_grams"]');
             if (wInput) wInput.value = '';
+            if (pairRowsContainerEdit) pairRowsContainerEdit.innerHTML = '';
         }
         syncEditWeightState();
     });
+    if (addPairRowEdit) {
+        addPairRowEdit.addEventListener('click', function() { createPairRowEdit('', ''); });
+    }
+    if (pairRowsContainerEdit) {
+        pairRowsContainerEdit.addEventListener('click', function(e) {
+            var btn = e.target.closest('.remove-pair-row');
+            if (btn) btn.closest('.pair-row')?.remove();
+        });
+    }
+    if (Array.isArray(existingPairsEdit) && existingPairsEdit.length) {
+        existingPairsEdit.forEach(function(row) {
+            createPairRowEdit(row && row.price ? row.price : '', row && row.weight_grams ? row.weight_grams : '');
+        });
+    }
     syncEditWeightState();
 }
 
@@ -170,5 +209,6 @@ if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
 .pricing-pair { border:1px solid #e5e7eb; border-radius:10px; padding:.75rem; background:#fcfcff; }
 .pricing-pair-head { display:flex; justify-content:flex-end; margin-bottom:.35rem; }
 .weight-col.is-hidden { display:none; }
+.pair-row { border:1px dashed #dbe2ea; border-radius:8px; padding:.5rem; margin-top:.45rem; background:#fff; }
 </style>
 @endsection

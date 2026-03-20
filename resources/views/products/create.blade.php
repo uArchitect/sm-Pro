@@ -16,6 +16,7 @@
 .pricing-pair { border:1px solid #e5e7eb; border-radius:10px; padding:.75rem; background:#fcfcff; }
 .pricing-pair-head { display:flex; justify-content:flex-end; margin-bottom:.35rem; }
 .weight-col.is-hidden { display:none; }
+.pair-row { border:1px dashed #dbe2ea; border-radius:8px; padding:.5rem; margin-top:.45rem; background:#fff; }
 
 /* SearchableSelect — dropdown her zaman trigger'ın altında açılsın */
 #bulkProductRows td:first-child,
@@ -118,6 +119,11 @@
                                     </div>
                                 </div>
                                 <div class="form-text mt-2">{{ __('products.weight_simple_hint') }}</div>
+                                <div id="pairRowsCreate" class="mt-2 d-none">
+                                    <div class="small fw-semibold text-muted mb-1">{{ __('products.weight_price_options') }}</div>
+                                    <div id="pairRowsContainerCreate"></div>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="addPairRowCreate">{{ __('products.add_option_row') }}</button>
+                                </div>
                             </div>
                         </div>
                         <div class="d-flex gap-2 form-actions-wrap">
@@ -229,6 +235,7 @@ var selectCategoryHtml = '<option value="">' + selectCategoryPlaceholder + '</op
 var bulkPlaceholderName = {!! json_encode(__('products.name_placeholder'), $jsonFlags) !!};
 var bulkPlaceholderDesc = {!! json_encode(__('products.description_placeholder'), $jsonFlags) !!};
 var bulkRemoveTitle = {!! json_encode(__('products.bulk_remove_row'), $jsonFlags) !!};
+var oldPairRowsCreate = {!! json_encode(old('price_weight_pairs', []), $jsonFlags) !!};
 
 document.getElementById('bulkAddRow') && document.getElementById('bulkAddRow').addEventListener('click', function() {
     var tbody = document.getElementById('bulkProductRows');
@@ -277,19 +284,52 @@ var toggleWeightBtnCreate = document.getElementById('toggleWeightBtnCreate');
 var weightColCreate = document.getElementById('weightColCreate');
 var priceColCreate = document.getElementById('priceColCreate');
 if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
+    var pairRowsCreate = document.getElementById('pairRowsCreate');
+    var pairRowsContainerCreate = document.getElementById('pairRowsContainerCreate');
+    var addPairRowCreate = document.getElementById('addPairRowCreate');
+    var pairIdxCreate = 0;
+
+    function createPairRowCreate(price, grams) {
+        if (!pairRowsContainerCreate) return;
+        var row = document.createElement('div');
+        row.className = 'pair-row row g-2 align-items-end';
+        row.innerHTML =
+            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_price') }}</label><div class="input-group"><span class="input-group-text">₺</span><input type="number" step="0.01" min="0" name="price_weight_pairs[' + pairIdxCreate + '][price]" class="form-control" value="' + (price || '') + '" placeholder="0.00"></div></div>' +
+            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_weight') }}</label><div class="input-group"><input type="number" step="1" min="1" name="price_weight_pairs[' + pairIdxCreate + '][weight_grams]" class="form-control" value="' + (grams || '') + '" placeholder="500"><span class="input-group-text">g</span></div></div>' +
+            '<div class="col-md-2"><button type="button" class="btn btn-sm btn-outline-danger w-100 remove-pair-row">{{ __('products.remove_weight_price_option') }}</button></div>';
+        pairIdxCreate++;
+        pairRowsContainerCreate.appendChild(row);
+    }
+
     function syncCreateWeightState() {
         var visible = !weightColCreate.classList.contains('is-hidden');
         priceColCreate.className = visible ? 'col-md-6' : 'col-12';
         toggleWeightBtnCreate.textContent = visible ? {!! json_encode(__('products.remove_weight'), $jsonFlags) !!} : {!! json_encode(__('products.add_weight'), $jsonFlags) !!};
+        if (pairRowsCreate) pairRowsCreate.classList.toggle('d-none', !visible);
     }
     toggleWeightBtnCreate.addEventListener('click', function() {
         weightColCreate.classList.toggle('is-hidden');
         if (weightColCreate.classList.contains('is-hidden')) {
             var wInput = weightColCreate.querySelector('input[name="weight_grams"]');
             if (wInput) wInput.value = '';
+            if (pairRowsContainerCreate) pairRowsContainerCreate.innerHTML = '';
         }
         syncCreateWeightState();
     });
+    if (addPairRowCreate) {
+        addPairRowCreate.addEventListener('click', function() { createPairRowCreate('', ''); });
+    }
+    if (pairRowsContainerCreate) {
+        pairRowsContainerCreate.addEventListener('click', function(e) {
+            var btn = e.target.closest('.remove-pair-row');
+            if (btn) btn.closest('.pair-row')?.remove();
+        });
+    }
+    if (Array.isArray(oldPairRowsCreate) && oldPairRowsCreate.length) {
+        oldPairRowsCreate.forEach(function(row) {
+            createPairRowCreate(row && row.price ? row.price : '', row && row.weight_grams ? row.weight_grams : '');
+        });
+    }
     syncCreateWeightState();
 }
 
