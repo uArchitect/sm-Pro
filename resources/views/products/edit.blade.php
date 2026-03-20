@@ -65,8 +65,11 @@
 
                     <div class="mb-4">
                         <div class="pricing-pair">
+                            <div class="pricing-pair-head">
+                                <button type="button" id="toggleWeightBtnEdit" class="btn btn-sm btn-outline-secondary">{{ (old('weight_grams', data_get($product, 'weight_grams') ?? data_get($product, 'base_weight_grams'))) ? __('products.remove_weight') : __('products.add_weight') }}</button>
+                            </div>
                             <div class="row g-2 align-items-end">
-                                <div class="col-md-6">
+                                <div class="col-12" id="priceColEdit">
                                     <label class="form-label fw-semibold small">{{ __('products.price_tl') }}</label>
                                     <div class="input-group">
                                         <span class="input-group-text">₺</span>
@@ -76,10 +79,10 @@
                                     </div>
                                     @error('price')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 weight-col {{ (old('weight_grams', data_get($product, 'weight_grams') ?? data_get($product, 'base_weight_grams'))) ? '' : 'is-hidden' }}" id="weightColEdit">
                                     <label class="form-label fw-semibold small">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
                                     <div class="input-group">
-                                        <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ old('weight_grams', data_get($product, 'weight_grams')) }}" placeholder="500">
+                                        <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ old('weight_grams', data_get($product, 'weight_grams') ?? data_get($product, 'base_weight_grams')) }}" placeholder="500">
                                         <span class="input-group-text">g</span>
                                     </div>
                                     @error('weight_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
@@ -133,6 +136,26 @@ function removeImg() {
     document.getElementById('removeImageField').value = '1';
 }
 
+var toggleWeightBtnEdit = document.getElementById('toggleWeightBtnEdit');
+var weightColEdit = document.getElementById('weightColEdit');
+var priceColEdit = document.getElementById('priceColEdit');
+if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
+    function syncEditWeightState() {
+        var visible = !weightColEdit.classList.contains('is-hidden');
+        priceColEdit.className = visible ? 'col-md-6' : 'col-12';
+        toggleWeightBtnEdit.textContent = visible ? @json(__('products.remove_weight')) : @json(__('products.add_weight'));
+    }
+    toggleWeightBtnEdit.addEventListener('click', function() {
+        weightColEdit.classList.toggle('is-hidden');
+        if (weightColEdit.classList.contains('is-hidden')) {
+            var wInput = weightColEdit.querySelector('input[name="weight_grams"]');
+            if (wInput) wInput.value = '';
+        }
+        syncEditWeightState();
+    });
+    syncEditWeightState();
+}
+
 </script>
 @endpush
 
@@ -145,5 +168,7 @@ function removeImg() {
 .img-upload-zone:hover { border-color:#4F46E5; background:#fff8f5; }
 .img-preview { max-width:100%; max-height:180px; border-radius:8px; object-fit:contain; }
 .pricing-pair { border:1px solid #e5e7eb; border-radius:10px; padding:.75rem; background:#fcfcff; }
+.pricing-pair-head { display:flex; justify-content:flex-end; margin-bottom:.35rem; }
+.weight-col.is-hidden { display:none; }
 </style>
 @endsection

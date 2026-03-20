@@ -16,6 +16,7 @@ return [
     'weight_pricing_rule' => 'Weight Pricing Rule',
     'enable_weight_pricing_rule' => 'Use extra-weight pricing rule',
     'add_weight_after_price' => 'If this price is for a specific weight, add weight',
+    'add_weight' => 'Add weight',
     'remove_weight' => 'Remove weight',
     'weight_simple_hint' => 'If you add weight, the entered price is treated as that weight\'s price.',
     'base_weight_grams' => 'Base weight',

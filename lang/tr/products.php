@@ -16,6 +16,7 @@ return [
     'weight_pricing_rule' => 'Gramaj Fiyatlandırma Kuralı',
     'enable_weight_pricing_rule' => 'Ek gram fiyat kuralı kullan',
     'add_weight_after_price' => 'Bu fiyat belirli bir gramaj icinse gramaj ekle',
+    'add_weight' => 'Gramaj ekle',
     'remove_weight' => 'Gramaji kaldir',
     'weight_simple_hint' => 'Gramaj eklerseniz girdiginiz fiyat bu gramajin fiyati olur.',
     'base_weight_grams' => 'Standart gram',

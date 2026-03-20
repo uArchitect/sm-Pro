@@ -14,6 +14,8 @@
 .bulk-table input, .bulk-table textarea { font-size: .82rem; }
 .bulk-table textarea { resize: vertical; min-height: 38px; }
 .pricing-pair { border:1px solid #e5e7eb; border-radius:10px; padding:.75rem; background:#fcfcff; }
+.pricing-pair-head { display:flex; justify-content:flex-end; margin-bottom:.35rem; }
+.weight-col.is-hidden { display:none; }
 
 /* SearchableSelect — dropdown her zaman trigger'ın altında açılsın */
 #bulkProductRows td:first-child,
@@ -94,8 +96,11 @@
                         </div>
                         <div class="mb-4">
                             <div class="pricing-pair">
+                                <div class="pricing-pair-head">
+                                    <button type="button" id="toggleWeightBtnCreate" class="btn btn-sm btn-outline-secondary">{{ __('products.add_weight') }}</button>
+                                </div>
                                 <div class="row g-2 align-items-end">
-                                    <div class="col-md-6">
+                                    <div class="col-12" id="priceColCreate">
                                         <label class="form-label fw-semibold small">{{ __('products.price_tl') }}</label>
                                         <div class="input-group">
                                             <span class="input-group-text">₺</span>
@@ -103,7 +108,7 @@
                                         </div>
                                         @error('price')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 weight-col {{ old('weight_grams') ? '' : 'is-hidden' }}" id="weightColCreate">
                                         <label class="form-label fw-semibold small">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
                                         <div class="input-group">
                                             <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ old('weight_grams') }}" placeholder="500">
@@ -267,6 +272,26 @@ document.getElementById('bulkProductRows') && document.getElementById('bulkProdu
         if (document.getElementById('bulkProductRows').querySelectorAll('tr').length > 1) row.remove();
     }
 });
+
+var toggleWeightBtnCreate = document.getElementById('toggleWeightBtnCreate');
+var weightColCreate = document.getElementById('weightColCreate');
+var priceColCreate = document.getElementById('priceColCreate');
+if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
+    function syncCreateWeightState() {
+        var visible = !weightColCreate.classList.contains('is-hidden');
+        priceColCreate.className = visible ? 'col-md-6' : 'col-12';
+        toggleWeightBtnCreate.textContent = visible ? {!! json_encode(__('products.remove_weight'), $jsonFlags) !!} : {!! json_encode(__('products.add_weight'), $jsonFlags) !!};
+    }
+    toggleWeightBtnCreate.addEventListener('click', function() {
+        weightColCreate.classList.toggle('is-hidden');
+        if (weightColCreate.classList.contains('is-hidden')) {
+            var wInput = weightColCreate.querySelector('input[name="weight_grams"]');
+            if (wInput) wInput.value = '';
+        }
+        syncCreateWeightState();
+    });
+    syncCreateWeightState();
+}
 
 </script>
 @endpush

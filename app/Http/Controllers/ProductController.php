@@ -80,6 +80,8 @@ class ProductController extends Controller
             ]);
         }
 
+        $weightValue = $request->filled('weight_grams') ? (int) $request->weight_grams : null;
+
         $tenantId = session('tenant_id');
 
         if (!DB::table('categories')->where('id', $request->category_id)->where('tenant_id', $tenantId)->exists()) {
@@ -113,10 +115,10 @@ class ProductController extends Controller
                 ];
 
                 if ($hasWeightColumn) {
-                    $insertData['weight_grams'] = $request->filled('weight_grams') ? (int) $request->weight_grams : null;
+                    $insertData['weight_grams'] = $weightValue;
                 }
                 if ($hasBaseWeightColumn) {
-                    $insertData['base_weight_grams'] = $request->filled('base_weight_grams') ? (int) $request->base_weight_grams : null;
+                    $insertData['base_weight_grams'] = $weightValue ?? ($request->filled('base_weight_grams') ? (int) $request->base_weight_grams : null);
                 }
                 if ($hasExtraStepWeightColumn) {
                     $insertData['extra_weight_step_grams'] = $request->filled('extra_weight_step_grams') ? (int) $request->extra_weight_step_grams : null;
@@ -212,7 +214,7 @@ class ProductController extends Controller
                     $row['weight_grams'] = !empty($p['weight_grams']) ? (int) $p['weight_grams'] : null;
                 }
                 if ($hasBaseWeightColumn) {
-                    $row['base_weight_grams'] = !empty($p['base_weight_grams']) ? (int) $p['base_weight_grams'] : null;
+                    $row['base_weight_grams'] = !empty($p['weight_grams']) ? (int) $p['weight_grams'] : (!empty($p['base_weight_grams']) ? (int) $p['base_weight_grams'] : null);
                 }
                 if ($hasExtraStepWeightColumn) {
                     $row['extra_weight_step_grams'] = !empty($p['extra_weight_step_grams']) ? (int) $p['extra_weight_step_grams'] : null;
@@ -280,6 +282,8 @@ class ProductController extends Controller
             ]);
         }
 
+        $weightValue = $request->filled('weight_grams') ? (int) $request->weight_grams : null;
+
         $tenantId = session('tenant_id');
         $product  = DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->first();
 
@@ -299,10 +303,10 @@ class ProductController extends Controller
             'updated_at'  => now(),
         ];
         if ($hasWeightColumn) {
-            $data['weight_grams'] = $request->filled('weight_grams') ? (int) $request->weight_grams : null;
+            $data['weight_grams'] = $weightValue;
         }
         if ($hasBaseWeightColumn) {
-            $data['base_weight_grams'] = $request->filled('base_weight_grams') ? (int) $request->base_weight_grams : null;
+            $data['base_weight_grams'] = $weightValue ?? ($request->filled('base_weight_grams') ? (int) $request->base_weight_grams : null);
         }
         if ($hasExtraStepWeightColumn) {
             $data['extra_weight_step_grams'] = $request->filled('extra_weight_step_grams') ? (int) $request->extra_weight_step_grams : null;
@@ -400,9 +404,20 @@ class ProductController extends Controller
             $grams = trim((string) $request->weight_grams);
             if ($grams === '') {
                 $data['weight_grams'] = null;
+                if ($hasBaseWeightColumn) {
+                    $data['base_weight_grams'] = null;
+                }
             } else {
-                $data['weight_grams'] = max(1, min(100000, (int) $grams));
+                $normalized = max(1, min(100000, (int) $grams));
+                $data['weight_grams'] = $normalized;
+                if ($hasBaseWeightColumn) {
+                    $data['base_weight_grams'] = $normalized;
+                }
             }
+        }
+        if (!$hasWeightColumn && $hasBaseWeightColumn && $request->has('weight_grams')) {
+            $grams = trim((string) $request->weight_grams);
+            $data['base_weight_grams'] = $grams === '' ? null : max(1, min(100000, (int) $grams));
         }
         if ($hasBaseWeightColumn && $request->has('base_weight_grams')) {
             $base = trim((string) $request->base_weight_grams);
