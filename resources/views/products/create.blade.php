@@ -17,6 +17,8 @@
 .pricing-rule-title { font-size:.78rem; font-weight:700; color:#475569; margin-bottom:.55rem; }
 .pricing-rule-grid { display:grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap:.6rem; }
 .pricing-rule-grid .input-group-text { min-width: 42px; justify-content: center; }
+.rule-toggle-row { display:flex; align-items:center; justify-content:space-between; gap:.8rem; margin-bottom:.65rem; }
+.rule-fields.is-hidden { display:none; }
 @media (max-width: 768px) { .pricing-rule-grid { grid-template-columns: 1fr; } }
 
 /* SearchableSelect — dropdown her zaman trigger'ın altında açılsın */
@@ -106,8 +108,14 @@
                         </div>
                         <div class="mb-4">
                             <div class="pricing-rule-card">
-                                <div class="pricing-rule-title">{{ __('products.weight_pricing_rule') }} <span class="text-muted fw-normal">({{ __('common.optional') }})</span></div>
-                                <div class="pricing-rule-grid">
+                                <div class="rule-toggle-row">
+                                    <div class="pricing-rule-title mb-0">{{ __('products.weight_pricing_rule') }} <span class="text-muted fw-normal">({{ __('common.optional') }})</span></div>
+                                    <div class="form-check form-switch m-0">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="enableWeightRule" {{ old('base_weight_grams') || old('extra_weight_step_grams') || old('extra_weight_step_price') ? 'checked' : '' }}>
+                                        <label class="form-check-label small" for="enableWeightRule">{{ __('products.enable_weight_pricing_rule') }}</label>
+                                    </div>
+                                </div>
+                                <div class="pricing-rule-grid rule-fields {{ old('base_weight_grams') || old('extra_weight_step_grams') || old('extra_weight_step_price') ? '' : 'is-hidden' }}" id="weightRuleFields">
                                     <div>
                                         <label class="form-label fw-semibold small mb-1">{{ __('products.base_weight_grams') }}</label>
                                         <div class="input-group">
@@ -165,8 +173,8 @@
                             <th style="width:28%">{{ __('products.description') }} <span class="text-muted">({{ __('common.optional') }})</span></th>
                             <th style="width:100px">{{ __('products.price_tl') }}</th>
                             <th style="width:120px">{{ __('products.base_weight_grams') }} <span class="text-muted">({{ __('common.optional') }})</span></th>
-                            <th style="width:120px">+ {{ __('products.extra_weight_step_grams') }}</th>
-                            <th style="width:120px">+ {{ __('products.extra_weight_step_price') }}</th>
+                            <th style="width:120px">{{ __('products.extra_weight_step_grams') }}</th>
+                            <th style="width:120px">{{ __('products.extra_weight_step_price') }}</th>
                             <th style="width:44px"></th>
                         </tr>
                     </thead>
@@ -296,6 +304,24 @@ document.getElementById('bulkProductRows') && document.getElementById('bulkProdu
         if (document.getElementById('bulkProductRows').querySelectorAll('tr').length > 1) row.remove();
     }
 });
+
+var enableWeightRuleEl = document.getElementById('enableWeightRule');
+var weightRuleFieldsEl = document.getElementById('weightRuleFields');
+function toggleWeightRuleFields() {
+    if (!enableWeightRuleEl || !weightRuleFieldsEl) return;
+    var enabled = !!enableWeightRuleEl.checked;
+    weightRuleFieldsEl.classList.toggle('is-hidden', !enabled);
+    if (!enabled) {
+        ['base_weight_grams', 'extra_weight_step_grams', 'extra_weight_step_price'].forEach(function(name) {
+            var input = document.querySelector('[name="' + name + '"]');
+            if (input) input.value = '';
+        });
+    }
+}
+if (enableWeightRuleEl) {
+    enableWeightRuleEl.addEventListener('change', toggleWeightRuleFields);
+    toggleWeightRuleFields();
+}
 </script>
 @endpush
 

@@ -76,8 +76,19 @@
 
                     <div class="mb-4">
                         <div class="pricing-rule-card">
-                            <div class="pricing-rule-title">{{ __('products.weight_pricing_rule') }} <span class="text-muted fw-normal">({{ __('common.optional') }})</span></div>
-                            <div class="pricing-rule-grid">
+                            <div class="rule-toggle-row">
+                                <div class="pricing-rule-title mb-0">{{ __('products.weight_pricing_rule') }} <span class="text-muted fw-normal">({{ __('common.optional') }})</span></div>
+                                <div class="form-check form-switch m-0">
+                                    @php
+                                        $hasWeightRule = old('base_weight_grams', data_get($product, 'base_weight_grams'))
+                                            || old('extra_weight_step_grams', data_get($product, 'extra_weight_step_grams'))
+                                            || old('extra_weight_step_price', data_get($product, 'extra_weight_step_price'));
+                                    @endphp
+                                    <input class="form-check-input" type="checkbox" role="switch" id="enableWeightRuleEdit" {{ $hasWeightRule ? 'checked' : '' }}>
+                                    <label class="form-check-label small" for="enableWeightRuleEdit">{{ __('products.enable_weight_pricing_rule') }}</label>
+                                </div>
+                            </div>
+                            <div class="pricing-rule-grid rule-fields {{ $hasWeightRule ? '' : 'is-hidden' }}" id="weightRuleFieldsEdit">
                                 <div>
                                     <label class="form-label fw-semibold small mb-1">{{ __('products.base_weight_grams') }}</label>
                                     <div class="input-group">
@@ -152,6 +163,24 @@ function removeImg() {
     document.getElementById('removeBtn').classList.add('d-none');
     document.getElementById('removeImageField').value = '1';
 }
+
+var enableWeightRuleEditEl = document.getElementById('enableWeightRuleEdit');
+var weightRuleFieldsEditEl = document.getElementById('weightRuleFieldsEdit');
+function toggleWeightRuleFieldsEdit() {
+    if (!enableWeightRuleEditEl || !weightRuleFieldsEditEl) return;
+    var enabled = !!enableWeightRuleEditEl.checked;
+    weightRuleFieldsEditEl.classList.toggle('is-hidden', !enabled);
+    if (!enabled) {
+        ['base_weight_grams', 'extra_weight_step_grams', 'extra_weight_step_price'].forEach(function(name) {
+            var input = document.querySelector('[name="' + name + '"]');
+            if (input) input.value = '';
+        });
+    }
+}
+if (enableWeightRuleEditEl) {
+    enableWeightRuleEditEl.addEventListener('change', toggleWeightRuleFieldsEdit);
+    toggleWeightRuleFieldsEdit();
+}
 </script>
 @endpush
 
@@ -167,6 +196,8 @@ function removeImg() {
 .pricing-rule-title { font-size:.78rem; font-weight:700; color:#475569; margin-bottom:.55rem; }
 .pricing-rule-grid { display:grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap:.6rem; }
 .pricing-rule-grid .input-group-text { min-width: 42px; justify-content: center; }
+.rule-toggle-row { display:flex; align-items:center; justify-content:space-between; gap:.8rem; margin-bottom:.65rem; }
+.rule-fields.is-hidden { display:none; }
 @media (max-width: 768px) { .pricing-rule-grid { grid-template-columns: 1fr; } }
 </style>
 @endsection
