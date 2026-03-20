@@ -66,7 +66,14 @@
                     <div class="mb-4">
                         <div class="pricing-pair">
                             <div class="pricing-pair-head">
-                                <button type="button" id="toggleWeightBtnEdit" class="btn btn-sm btn-outline-secondary">{{ (old('weight_grams', data_get($product, 'weight_grams') ?? data_get($product, 'base_weight_grams'))) ? __('products.remove_weight') : __('products.add_weight') }}</button>
+                                <div class="pricing-pair-title">{{ __('products.price_tl') }} & {{ __('products.weight_grams') }}</div>
+                                <button type="button" id="toggleWeightBtnEdit" class="btn btn-sm btn-outline-primary">
+                                    @if(old('weight_grams', data_get($product, 'weight_grams') ?? data_get($product, 'base_weight_grams')))
+                                        <i class="bi bi-x-circle me-1"></i>{{ __('products.remove_weight') }}
+                                    @else
+                                        <i class="bi bi-plus-circle me-1"></i>{{ __('products.add_weight') }}
+                                    @endif
+                                </button>
                             </div>
                             <div class="row g-2 align-items-end">
                                 <div class="col-12" id="priceColEdit">
@@ -92,7 +99,7 @@
                             <div id="pairRowsEdit" class="mt-2 d-none">
                                 <div class="small fw-semibold text-muted mb-1">{{ __('products.weight_price_options') }}</div>
                                 <div id="pairRowsContainerEdit"></div>
-                                <button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="addPairRowEdit">{{ __('products.add_option_row') }}</button>
+                                <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="addPairRowEdit"><i class="bi bi-plus-lg me-1"></i>{{ __('products.add_option_row') }}</button>
                             </div>
                         </div>
                     </div>
@@ -141,6 +148,13 @@ function removeImg() {
     document.getElementById('removeImageField').value = '1';
 }
 
+@php
+    $existingWeightPriceOptions = old('price_weight_pairs');
+    if ($existingWeightPriceOptions === null) {
+        $existingWeightPriceOptions = json_decode(data_get($product, 'weight_price_options') ?? '[]', true) ?: [];
+    }
+@endphp
+
 var toggleWeightBtnEdit = document.getElementById('toggleWeightBtnEdit');
 var weightColEdit = document.getElementById('weightColEdit');
 var priceColEdit = document.getElementById('priceColEdit');
@@ -149,7 +163,7 @@ if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
     var pairRowsContainerEdit = document.getElementById('pairRowsContainerEdit');
     var addPairRowEdit = document.getElementById('addPairRowEdit');
     var pairIdxEdit = 0;
-    var existingPairsEdit = @json(old('price_weight_pairs', json_decode(data_get($product, 'weight_price_options') ?? '[]', true) ?: []));
+    var existingPairsEdit = @json($existingWeightPriceOptions);
 
     function createPairRowEdit(price, grams) {
         if (!pairRowsContainerEdit) return;
@@ -158,7 +172,7 @@ if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
         row.innerHTML =
             '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_price') }}</label><div class="input-group"><span class="input-group-text">₺</span><input type="number" step="0.01" min="0" name="price_weight_pairs[' + pairIdxEdit + '][price]" class="form-control" value="' + (price || '') + '" placeholder="0.00"></div></div>' +
             '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_weight') }}</label><div class="input-group"><input type="number" step="1" min="1" name="price_weight_pairs[' + pairIdxEdit + '][weight_grams]" class="form-control" value="' + (grams || '') + '" placeholder="500"><span class="input-group-text">g</span></div></div>' +
-            '<div class="col-md-2"><button type="button" class="btn btn-sm btn-outline-danger w-100 remove-pair-row">{{ __('products.remove_weight_price_option') }}</button></div>';
+            '<div class="col-md-2"><button type="button" class="btn btn-sm btn-outline-danger w-100 remove-pair-row pair-remove">{{ __('products.remove_weight_price_option') }}</button></div>';
         pairIdxEdit++;
         pairRowsContainerEdit.appendChild(row);
     }
@@ -166,7 +180,9 @@ if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
     function syncEditWeightState() {
         var visible = !weightColEdit.classList.contains('is-hidden');
         priceColEdit.className = visible ? 'col-md-6' : 'col-12';
-        toggleWeightBtnEdit.textContent = visible ? @json(__('products.remove_weight')) : @json(__('products.add_weight'));
+        toggleWeightBtnEdit.innerHTML = visible
+            ? '<i class="bi bi-x-circle me-1"></i>' + @json(__('products.remove_weight'))
+            : '<i class="bi bi-plus-circle me-1"></i>' + @json(__('products.add_weight'));
         if (pairRowsEdit) pairRowsEdit.classList.toggle('d-none', !visible);
     }
     toggleWeightBtnEdit.addEventListener('click', function() {
@@ -206,9 +222,11 @@ if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
 }
 .img-upload-zone:hover { border-color:#4F46E5; background:#fff8f5; }
 .img-preview { max-width:100%; max-height:180px; border-radius:8px; object-fit:contain; }
-.pricing-pair { border:1px solid #e5e7eb; border-radius:10px; padding:.75rem; background:#fcfcff; }
-.pricing-pair-head { display:flex; justify-content:flex-end; margin-bottom:.35rem; }
+.pricing-pair { border:1px solid #e5e7eb; border-radius:12px; padding:1rem; background:#fcfcff; box-shadow: inset 0 1px 0 rgba(255,255,255,.75); }
+.pricing-pair-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:.6rem; }
+.pricing-pair-title { font-size:.78rem; font-weight:700; color:#475569; letter-spacing:.01em; }
 .weight-col.is-hidden { display:none; }
-.pair-row { border:1px dashed #dbe2ea; border-radius:8px; padding:.5rem; margin-top:.45rem; background:#fff; }
+.pair-row { border:1px solid #e5e7eb; border-radius:10px; padding:.65rem; margin-top:.55rem; background:#fff; }
+.pair-remove { white-space: nowrap; }
 </style>
 @endsection

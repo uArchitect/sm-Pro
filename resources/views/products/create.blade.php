@@ -13,10 +13,12 @@
 .bulk-table th { font-weight: 700; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
 .bulk-table input, .bulk-table textarea { font-size: .82rem; }
 .bulk-table textarea { resize: vertical; min-height: 38px; }
-.pricing-pair { border:1px solid #e5e7eb; border-radius:10px; padding:.75rem; background:#fcfcff; }
-.pricing-pair-head { display:flex; justify-content:flex-end; margin-bottom:.35rem; }
+.pricing-pair { border:1px solid #e5e7eb; border-radius:12px; padding:1rem; background:#fcfcff; box-shadow: inset 0 1px 0 rgba(255,255,255,.75); }
+.pricing-pair-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:.6rem; }
+.pricing-pair-title { font-size:.78rem; font-weight:700; color:#475569; letter-spacing:.01em; }
 .weight-col.is-hidden { display:none; }
-.pair-row { border:1px dashed #dbe2ea; border-radius:8px; padding:.5rem; margin-top:.45rem; background:#fff; }
+.pair-row { border:1px solid #e5e7eb; border-radius:10px; padding:.65rem; margin-top:.55rem; background:#fff; }
+.pair-remove { white-space: nowrap; }
 
 /* SearchableSelect — dropdown her zaman trigger'ın altında açılsın */
 #bulkProductRows td:first-child,
@@ -98,7 +100,10 @@
                         <div class="mb-4">
                             <div class="pricing-pair">
                                 <div class="pricing-pair-head">
-                                    <button type="button" id="toggleWeightBtnCreate" class="btn btn-sm btn-outline-secondary">{{ __('products.add_weight') }}</button>
+                                    <div class="pricing-pair-title">{{ __('products.price_tl') }} & {{ __('products.weight_grams') }}</div>
+                                    <button type="button" id="toggleWeightBtnCreate" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-plus-circle me-1"></i>{{ __('products.add_weight') }}
+                                    </button>
                                 </div>
                                 <div class="row g-2 align-items-end">
                                     <div class="col-12" id="priceColCreate">
@@ -122,7 +127,7 @@
                                 <div id="pairRowsCreate" class="mt-2 d-none">
                                     <div class="small fw-semibold text-muted mb-1">{{ __('products.weight_price_options') }}</div>
                                     <div id="pairRowsContainerCreate"></div>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary mt-2" id="addPairRowCreate">{{ __('products.add_option_row') }}</button>
+                                    <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="addPairRowCreate"><i class="bi bi-plus-lg me-1"></i>{{ __('products.add_option_row') }}</button>
                                 </div>
                             </div>
                         </div>
@@ -296,7 +301,7 @@ if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
         row.innerHTML =
             '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_price') }}</label><div class="input-group"><span class="input-group-text">₺</span><input type="number" step="0.01" min="0" name="price_weight_pairs[' + pairIdxCreate + '][price]" class="form-control" value="' + (price || '') + '" placeholder="0.00"></div></div>' +
             '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_weight') }}</label><div class="input-group"><input type="number" step="1" min="1" name="price_weight_pairs[' + pairIdxCreate + '][weight_grams]" class="form-control" value="' + (grams || '') + '" placeholder="500"><span class="input-group-text">g</span></div></div>' +
-            '<div class="col-md-2"><button type="button" class="btn btn-sm btn-outline-danger w-100 remove-pair-row">{{ __('products.remove_weight_price_option') }}</button></div>';
+            '<div class="col-md-2"><button type="button" class="btn btn-sm btn-outline-danger w-100 remove-pair-row pair-remove">{{ __('products.remove_weight_price_option') }}</button></div>';
         pairIdxCreate++;
         pairRowsContainerCreate.appendChild(row);
     }
@@ -304,7 +309,9 @@ if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
     function syncCreateWeightState() {
         var visible = !weightColCreate.classList.contains('is-hidden');
         priceColCreate.className = visible ? 'col-md-6' : 'col-12';
-        toggleWeightBtnCreate.textContent = visible ? {!! json_encode(__('products.remove_weight'), $jsonFlags) !!} : {!! json_encode(__('products.add_weight'), $jsonFlags) !!};
+        toggleWeightBtnCreate.innerHTML = visible
+            ? '<i class="bi bi-x-circle me-1"></i>' + {!! json_encode(__('products.remove_weight'), $jsonFlags) !!}
+            : '<i class="bi bi-plus-circle me-1"></i>' + {!! json_encode(__('products.add_weight'), $jsonFlags) !!};
         if (pairRowsCreate) pairRowsCreate.classList.toggle('d-none', !visible);
     }
     toggleWeightBtnCreate.addEventListener('click', function() {
