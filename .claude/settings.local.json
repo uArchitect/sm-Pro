@@ -3,7 +3,9 @@
     "allow": [
       "Bash(grep -l \"fiyatlar\\\\|ozellikler\\\\|pricing\\\\|features\" /c/Users/U/Desktop/sm-Pro/resources/views/*.php)",
       "Bash(find /c/Users/U/Desktop/sm-Pro/resources/views -name premium-gate* -o -name *premium*)",
-      "Bash(wc -l /c/Users/U/Desktop/sm-Pro/app/Http/Controllers/*.php)"
+      "Bash(wc -l /c/Users/U/Desktop/sm-Pro/app/Http/Controllers/*.php)",
+      "Bash(xargs grep:*)",
+      "Bash(php artisan:*)"
     ]
   }
 }

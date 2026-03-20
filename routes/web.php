@@ -202,6 +202,7 @@ Route::middleware(['auth', 'tenant'])->group(function () {
 
     // QR kod (auth)
     Route::get('/menu/qr', [QRController::class, 'menuQr'])->name('menu.qr');
+    Route::post('/menu/short-link/regenerate', [QRController::class, 'regenerateShortLink'])->name('menu.short-link.regenerate');
     Route::get('/products/{id}/qr', [QRController::class, 'show'])->name('products.qr');
 });
 

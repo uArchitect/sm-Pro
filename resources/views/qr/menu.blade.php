@@ -68,6 +68,35 @@
             </div>
         </div>
 
+        {{-- Kısa Link --}}
+        <div class="sm-card" id="shortLinkCard">
+            <div class="sm-card-header">
+                <i class="bi bi-scissors text-success"></i> Kısa Link
+            </div>
+            <div class="sm-card-body">
+                <p class="text-muted small mb-2">Paylaşmak ve QR kodunuza alternatif olarak kullanmak için kısa link.</p>
+                <div id="shortLinkDisplay">
+                    @if($tenant->short_link)
+                    <div class="d-flex gap-2 align-items-center">
+                        <code id="shortLinkValue" class="flex-grow-1 bg-light rounded px-3 py-2 small text-break border" style="font-size:.8rem">{{ $tenant->short_link }}</code>
+                        <button onclick="copyShortLink()" class="btn btn-outline-success btn-sm flex-shrink-0" id="copyShortBtn">
+                            <i class="bi bi-clipboard"></i>
+                        </button>
+                    </div>
+                    @else
+                    <div class="text-muted small fst-italic">
+                        <i class="bi bi-hourglass-split me-1"></i>Kısa link henüz oluşturulmadı.
+                    </div>
+                    @endif
+                </div>
+                <div class="mt-3">
+                    <button onclick="regenerateShortLink()" class="btn btn-sm btn-outline-secondary" id="regenerateBtn">
+                        <i class="bi bi-arrow-clockwise me-1"></i>Yenile / Yeni Link Oluştur
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="sm-card">
             <div class="sm-card-header">
                 <i class="bi bi-building text-muted"></i> {{ __('qr.linked_restaurant') }}
@@ -114,6 +143,55 @@ function copyUrl() {
             btn.innerHTML = '<i class="bi bi-clipboard"></i>';
             btn.classList.replace('btn-success', 'btn-outline-primary');
         }, 2000);
+    });
+}
+
+function copyShortLink() {
+    const val = document.getElementById('shortLinkValue');
+    if (!val) return;
+    navigator.clipboard.writeText(val.textContent.trim()).then(() => {
+        const btn = document.getElementById('copyShortBtn');
+        btn.innerHTML = '<i class="bi bi-check2"></i>';
+        btn.classList.replace('btn-outline-success', 'btn-success');
+        setTimeout(() => {
+            btn.innerHTML = '<i class="bi bi-clipboard"></i>';
+            btn.classList.replace('btn-success', 'btn-outline-success');
+        }, 2000);
+    });
+}
+
+function regenerateShortLink() {
+    const btn = document.getElementById('regenerateBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status"></span>İşleniyor...';
+
+    fetch('{{ route("menu.short-link.regenerate") }}', {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+            'Accept': 'application/json',
+        },
+    })
+    .then(r => r.json())
+    .then(data => {
+        const display = document.getElementById('shortLinkDisplay');
+        if (data.success && data.short_link) {
+            display.innerHTML =
+                `<div class="d-flex gap-2 align-items-center">` +
+                `<code id="shortLinkValue" class="flex-grow-1 bg-light rounded px-3 py-2 small text-break border" style="font-size:.8rem">${data.short_link}</code>` +
+                `<button onclick="copyShortLink()" class="btn btn-outline-success btn-sm flex-shrink-0" id="copyShortBtn"><i class="bi bi-clipboard"></i></button>` +
+                `</div>`;
+        } else {
+            display.innerHTML = '<div class="text-danger small"><i class="bi bi-exclamation-triangle me-1"></i>Kısa link oluşturulamadı, lütfen tekrar deneyin.</div>';
+        }
+    })
+    .catch(() => {
+        document.getElementById('shortLinkDisplay').innerHTML =
+            '<div class="text-danger small"><i class="bi bi-exclamation-triangle me-1"></i>Bir hata oluştu.</div>';
+    })
+    .finally(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-arrow-clockwise me-1"></i>Yenile / Yeni Link Oluştur';
     });
 }
 

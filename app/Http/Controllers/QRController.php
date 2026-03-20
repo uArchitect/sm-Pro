@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use App\Services\ShortLinkService;
 
 class QRController extends Controller
 {
@@ -38,7 +39,36 @@ class QRController extends Controller
         $menuUrl = route('public.menu', ['tenantId' => $tenantId]);
         $qrCode  = QrCode::format('svg')->size(300)->margin(1)->generate($menuUrl);
 
+        // Kısa link yoksa ilk ziyarette otomatik oluştur
+        if (empty($tenant->short_link)) {
+            $short = app(ShortLinkService::class)->shorten($menuUrl);
+            if ($short) {
+                DB::table('tenants')->where('id', $tenantId)->update(['short_link' => $short]);
+                $tenant->short_link = $short;
+            }
+        }
+
         return view('qr.menu', compact('tenant', 'qrCode', 'menuUrl'));
+    }
+
+    public function regenerateShortLink(): \Illuminate\Http\JsonResponse
+    {
+        $tenantId = session('tenant_id');
+
+        // Mevcut short_link'i sil
+        DB::table('tenants')->where('id', $tenantId)->update(['short_link' => null]);
+
+        $menuUrl = route('public.menu', ['tenantId' => $tenantId]);
+        $short   = app(ShortLinkService::class)->shorten($menuUrl);
+
+        if ($short) {
+            DB::table('tenants')->where('id', $tenantId)->update(['short_link' => $short]);
+        }
+
+        return response()->json([
+            'success'    => (bool) $short,
+            'short_link' => $short,
+        ]);
     }
 
     public function publicProduct(int $tenantId, int $productId)
