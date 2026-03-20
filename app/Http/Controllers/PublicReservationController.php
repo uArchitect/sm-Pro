@@ -41,15 +41,22 @@ class PublicReservationController extends Controller
         $hasPremium = in_array($tenant->package ?? 'free', ['premium', 'enterprise']);
         if (!$hasPremium) abort(404);
 
+        $locale = app()->getLocale();
+
         $data = $request->validate([
             'table_id'         => 'required|integer',
+            'guest_count'      => 'required|integer|min:1|max:999',
             'customer_name'    => 'required|string|max:120',
-            'customer_phone'   => 'required|string|max:30',
+            'customer_phone'   => 'required|regex:/^[0-9\+\(\)\s\-]{7,20}$/',
             'customer_email'   => 'nullable|email|max:120',
             'reservation_date' => 'required|date|after_or_equal:today',
             'start_time'       => 'required|date_format:H:i',
             'end_time'         => 'required|date_format:H:i|after:start_time',
             'notes'            => 'nullable|string|max:500',
+        ], [
+            'customer_phone.regex' => $locale === 'tr'
+                ? 'Lütfen geçerli bir telefon numarası girin.'
+                : 'Please enter a valid phone number.',
         ]);
 
         $table = DB::table('reservation_tables')
@@ -61,25 +68,40 @@ class PublicReservationController extends Controller
             return back()->withErrors(['table_id' => __('reservation.table_not_available')])->withInput();
         }
 
-        $conflict = DB::table('reservations')
-            ->where('tenant_id', $tenantId)
-            ->where('table_id', $data['table_id'])
-            ->where('reservation_date', $data['reservation_date'])
-            ->where('status', '!=', 'cancelled')
-            ->where(function ($q) use ($data) {
-                $q->where('start_time', '<', $data['end_time'])
-                  ->where('end_time', '>', $data['start_time']);
-            })
-            ->exists();
-
-        if ($conflict) {
-            return back()->withErrors(['table_id' => __('reservation.time_conflict')])->withInput();
+        // Kapasite kontrolü: misafir sayısı masanın kapasitesini aşamaz
+        if ($data['guest_count'] > $table->capacity) {
+            $msg = app()->getLocale() === 'tr'
+                ? "Bu masa en fazla {$table->capacity} kişiliktir."
+                : "This table has a maximum capacity of {$table->capacity} persons.";
+            return back()->withErrors(['guest_count' => $msg])->withInput();
         }
 
-        DB::transaction(function () use ($tenantId, $data) {
+        $conflictFound = false;
+
+        DB::transaction(function () use ($tenantId, $data, &$conflictFound) {
+            // lockForUpdate: eş zamanlı iki isteğin aynı anda çakışma kontrolünden
+            // geçip çift rezervasyon oluşturmasını engeller (race condition fix).
+            $conflict = DB::table('reservations')
+                ->where('tenant_id', $tenantId)
+                ->where('table_id', $data['table_id'])
+                ->where('reservation_date', $data['reservation_date'])
+                ->where('status', '!=', 'cancelled')
+                ->where(function ($q) use ($data) {
+                    $q->where('start_time', '<', $data['end_time'])
+                      ->where('end_time', '>', $data['start_time']);
+                })
+                ->lockForUpdate()
+                ->exists();
+
+            if ($conflict) {
+                $conflictFound = true;
+                return;
+            }
+
             $reservationId = DB::table('reservations')->insertGetId([
                 'tenant_id'        => $tenantId,
                 'table_id'         => $data['table_id'],
+                'guest_count'      => $data['guest_count'],
                 'customer_name'    => $data['customer_name'],
                 'customer_phone'   => $data['customer_phone'],
                 'customer_email'   => $data['customer_email'] ?? null,
@@ -101,6 +123,10 @@ class PublicReservationController extends Controller
                 'updated_at'     => now(),
             ]);
         });
+
+        if ($conflictFound) {
+            return back()->withErrors(['table_id' => __('reservation.time_conflict')])->withInput();
+        }
 
         return back()->with('reservation_success', true);
     }

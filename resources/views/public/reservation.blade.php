@@ -88,6 +88,13 @@
                     </select>
                 </div>
             </div>
+            <div class="mb-3">
+                <label class="form-label" for="rv_guests">{{ $locale === 'tr' ? 'Kişi Sayısı' : 'Guest Count' }} *</label>
+                <input type="number" name="guest_count" id="rv_guests" class="form-control" required min="1" max="99" value="{{ old('guest_count', 2) }}">
+                @error('guest_count')
+                    <div class="text-danger mt-1" style="font-size:.78rem">{{ $message }}</div>
+                @enderror
+            </div>
             <div class="row g-3 mb-3">
                 <div class="col-12">
                     <label class="form-label" for="rv_name">{{ $locale === 'tr' ? 'Adınız Soyadınız' : 'Full Name' }} *</label>
