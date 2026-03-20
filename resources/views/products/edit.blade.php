@@ -185,11 +185,6 @@ if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
             '<div class="col-md-2"><button type="button" class="btn btn-sm btn-outline-danger w-100 remove-pair-row pair-remove" title="{{ __('products.remove_weight_price_option') }}" aria-label="{{ __('products.remove_weight_price_option') }}"><i class="bi bi-trash"></i></button></div>';
         pairIdxEdit++;
         pairRowsContainerEdit.appendChild(row);
-        var pInput = row.querySelector('input[name*="[price]"]');
-        var gInput = row.querySelector('input[name*="[weight_grams]"]');
-        if ((price === '' || price === null) && pInput) pInput.value = '';
-        if ((grams === '' || grams === null) && gInput) gInput.value = '';
-        updateSimpleWeightLock();
         validateDuplicateWeightsEdit();
     }
 
@@ -200,33 +195,6 @@ if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
             ? '<i class="bi bi-x-circle me-1"></i>' + @json(__('products.remove_weight'))
             : '<i class="bi bi-plus-circle me-1"></i>' + @json(__('products.add_weight'));
         if (pairRowsEdit) pairRowsEdit.classList.toggle('d-none', !visible);
-        updateSimpleWeightLock();
-    }
-
-    function updateSimpleWeightLock() {
-        var hasPairs = pairRowsContainerEdit && pairRowsContainerEdit.children.length > 0;
-        var wInput = weightColEdit.querySelector('input[name="weight_grams"]');
-        var priceInput = document.querySelector('input[name="price"]');
-        if (!wInput || !priceInput) return;
-        if (hasPairs) {
-            var firstPairWeight = pairRowsContainerEdit.querySelector('input[name*="[weight_grams]"]');
-            var firstPairPrice = pairRowsContainerEdit.querySelector('input[name*="[price]"]');
-            if (firstPairWeight && firstPairWeight.value) wInput.value = firstPairWeight.value;
-            if (firstPairPrice && firstPairPrice.value) priceInput.value = firstPairPrice.value;
-            wInput.readOnly = true;
-            wInput.style.background = '#f3f4f6';
-            wInput.title = @json(__('products.price_weight_controlled_by_pairs'));
-            priceInput.readOnly = true;
-            priceInput.style.background = '#f3f4f6';
-            priceInput.title = @json(__('products.price_weight_controlled_by_pairs'));
-        } else {
-            wInput.readOnly = false;
-            wInput.style.background = '';
-            wInput.title = '';
-            priceInput.readOnly = false;
-            priceInput.style.background = '';
-            priceInput.title = '';
-        }
     }
 
     function validateDuplicateWeightsEdit() {
@@ -240,6 +208,7 @@ if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
             if (v !== '') seen.add(v);
         });
     }
+
     toggleWeightBtnEdit.addEventListener('click', function() {
         weightColEdit.classList.toggle('is-hidden');
         if (weightColEdit.classList.contains('is-hidden')) {
@@ -249,42 +218,28 @@ if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
         }
         syncEditWeightState();
     });
+
     if (addPairRowEdit) {
         addPairRowEdit.addEventListener('click', function() {
-            var previousValues = {};
-            Array.from(pairRowsContainerEdit.querySelectorAll('input[name]')).forEach(function(inp) {
-                previousValues[inp.name] = inp.value;
-            });
             createPairRowEdit('', '');
-            Array.from(pairRowsContainerEdit.querySelectorAll('input[name]')).forEach(function(inp) {
-                if (Object.prototype.hasOwnProperty.call(previousValues, inp.name)) {
-                    inp.value = previousValues[inp.name];
-                }
-            });
         });
     }
+
     if (pairRowsContainerEdit) {
         pairRowsContainerEdit.addEventListener('click', function(e) {
             var btn = e.target.closest('.remove-pair-row');
             if (btn) {
                 btn.closest('.pair-row')?.remove();
-                updateSimpleWeightLock();
+                validateDuplicateWeightsEdit();
             }
         });
         pairRowsContainerEdit.addEventListener('input', function(e) {
             if (e.target.name && e.target.name.includes('[weight_grams]')) {
-                var wInput = weightColEdit.querySelector('input[name="weight_grams"]');
-                var firstRow = pairRowsContainerEdit.querySelector('input[name*="[weight_grams]"]');
-                if (wInput && firstRow && e.target === firstRow) wInput.value = firstRow.value;
+                validateDuplicateWeightsEdit();
             }
-            if (e.target.name && e.target.name.includes('[price]')) {
-                var pInput = document.querySelector('input[name="price"]');
-                var firstPrice = pairRowsContainerEdit.querySelector('input[name*="[price]"]');
-                if (pInput && firstPrice && e.target === firstPrice) pInput.value = firstPrice.value;
-            }
-            if (e.target.name && e.target.name.includes('[weight_grams]')) validateDuplicateWeightsEdit();
         });
     }
+
     if (Array.isArray(existingPairsEdit) && existingPairsEdit.length) {
         existingPairsEdit.forEach(function(row) {
             createPairRowEdit(row && row.price ? row.price : '', row && row.weight_grams ? row.weight_grams : '');
