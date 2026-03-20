@@ -21,16 +21,22 @@ class DeveloperController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        $tenants = $tenants->map(function ($t) {
-            $t->user_count     = DB::table('users')->where('tenant_id', $t->id)->count();
-            $t->category_count = DB::table('categories')->where('tenant_id', $t->id)->count();
-            $t->product_count  = DB::table('products')->where('tenant_id', $t->id)->count();
-            $t->review_count   = DB::table('reviews')->where('tenant_id', $t->id)->count();
-            $t->qr_visit_count = DB::table('qr_visits')->where('tenant_id', $t->id)->count();
-            $t->owner          = DB::table('users')
-                ->where('tenant_id', $t->id)
-                ->where('role', 'owner')
-                ->first();
+        $tenantIds = $tenants->pluck('id');
+
+        $userCounts     = DB::table('users')->whereIn('tenant_id', $tenantIds)->selectRaw('tenant_id, COUNT(*) as cnt')->groupBy('tenant_id')->pluck('cnt', 'tenant_id');
+        $categoryCounts = DB::table('categories')->whereIn('tenant_id', $tenantIds)->selectRaw('tenant_id, COUNT(*) as cnt')->groupBy('tenant_id')->pluck('cnt', 'tenant_id');
+        $productCounts  = DB::table('products')->whereIn('tenant_id', $tenantIds)->selectRaw('tenant_id, COUNT(*) as cnt')->groupBy('tenant_id')->pluck('cnt', 'tenant_id');
+        $reviewCounts   = DB::table('reviews')->whereIn('tenant_id', $tenantIds)->selectRaw('tenant_id, COUNT(*) as cnt')->groupBy('tenant_id')->pluck('cnt', 'tenant_id');
+        $qrVisitCounts  = DB::table('qr_visits')->whereIn('tenant_id', $tenantIds)->selectRaw('tenant_id, COUNT(*) as cnt')->groupBy('tenant_id')->pluck('cnt', 'tenant_id');
+        $owners         = DB::table('users')->whereIn('tenant_id', $tenantIds)->where('role', 'owner')->get()->keyBy('tenant_id');
+
+        $tenants = $tenants->map(function ($t) use ($userCounts, $categoryCounts, $productCounts, $reviewCounts, $qrVisitCounts, $owners) {
+            $t->user_count     = $userCounts->get($t->id, 0);
+            $t->category_count = $categoryCounts->get($t->id, 0);
+            $t->product_count  = $productCounts->get($t->id, 0);
+            $t->review_count   = $reviewCounts->get($t->id, 0);
+            $t->qr_visit_count = $qrVisitCounts->get($t->id, 0);
+            $t->owner          = $owners->get($t->id);
             return $t;
         });
 
