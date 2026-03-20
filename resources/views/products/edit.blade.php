@@ -75,48 +75,20 @@
                     </div>
 
                     <div class="mb-4">
-                        <div class="pricing-rule-card">
-                            <div class="rule-toggle-row">
-                                <div class="pricing-rule-title mb-0">{{ __('products.weight_pricing_rule') }} <span class="text-muted fw-normal">({{ __('common.optional') }})</span></div>
-                                <div class="form-check form-switch m-0">
-                                    @php
-                                        $hasWeightRule = old('base_weight_grams', data_get($product, 'base_weight_grams'))
-                                            || old('extra_weight_step_grams', data_get($product, 'extra_weight_step_grams'))
-                                            || old('extra_weight_step_price', data_get($product, 'extra_weight_step_price'));
-                                    @endphp
-                                    <input class="form-check-input" type="checkbox" role="switch" id="enableWeightRuleEdit" {{ $hasWeightRule ? 'checked' : '' }}>
-                                    <label class="form-check-label small" for="enableWeightRuleEdit">{{ __('products.enable_weight_pricing_rule') }}</label>
-                                </div>
+                        <div id="weightAskEdit" class="weight-ask {{ old('weight_grams', data_get($product, 'weight_grams')) ? 'is-visible' : '' }}">
+                            <button type="button" class="btn btn-link btn-sm p-0" id="showWeightBtnEdit">{{ __('products.add_weight_after_price') }}</button>
+                        </div>
+                        <div id="weightBoxEdit" class="weight-box mt-2 {{ old('weight_grams', data_get($product, 'weight_grams')) ? '' : 'is-hidden' }}">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <label class="form-label fw-semibold small mb-0">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
+                                <button type="button" class="btn btn-link btn-sm text-danger p-0" id="hideWeightBtnEdit">{{ __('products.remove_weight') }}</button>
                             </div>
-                            <div class="pricing-rule-grid rule-fields {{ $hasWeightRule ? '' : 'is-hidden' }}" id="weightRuleFieldsEdit">
-                                <div>
-                                    <label class="form-label fw-semibold small mb-1">{{ __('products.base_weight_grams') }}</label>
-                                    <div class="input-group">
-                                        <input type="number" name="base_weight_grams" step="1" min="1" class="form-control @error('base_weight_grams') is-invalid @enderror" value="{{ old('base_weight_grams', data_get($product, 'base_weight_grams')) }}" placeholder="500">
-                                        <span class="input-group-text">g</span>
-                                    </div>
-                                    @error('base_weight_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                                <div>
-                                    <label class="form-label fw-semibold small mb-1">{{ __('products.extra_weight_step_grams') }}</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">+</span>
-                                        <input type="number" name="extra_weight_step_grams" step="1" min="1" class="form-control @error('extra_weight_step_grams') is-invalid @enderror" value="{{ old('extra_weight_step_grams', data_get($product, 'extra_weight_step_grams')) }}" placeholder="50">
-                                        <span class="input-group-text">g</span>
-                                    </div>
-                                    @error('extra_weight_step_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
-                                <div>
-                                    <label class="form-label fw-semibold small mb-1">{{ __('products.extra_weight_step_price') }}</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">+</span>
-                                        <span class="input-group-text">₺</span>
-                                        <input type="number" name="extra_weight_step_price" step="0.01" min="0.01" class="form-control @error('extra_weight_step_price') is-invalid @enderror" value="{{ old('extra_weight_step_price', data_get($product, 'extra_weight_step_price')) }}" placeholder="50.00">
-                                    </div>
-                                    @error('extra_weight_step_price')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                </div>
+                            <div class="input-group" style="max-width:180px">
+                                <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ old('weight_grams', data_get($product, 'weight_grams')) }}" placeholder="500">
+                                <span class="input-group-text">g</span>
                             </div>
-                            <div class="form-text mt-2">{{ __('products.weight_pricing_rule_hint') }}</div>
+                            @error('weight_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                            <div class="form-text">{{ __('products.weight_simple_hint') }}</div>
                         </div>
                     </div>
 
@@ -164,22 +136,30 @@ function removeImg() {
     document.getElementById('removeImageField').value = '1';
 }
 
-var enableWeightRuleEditEl = document.getElementById('enableWeightRuleEdit');
-var weightRuleFieldsEditEl = document.getElementById('weightRuleFieldsEdit');
-function toggleWeightRuleFieldsEdit() {
-    if (!enableWeightRuleEditEl || !weightRuleFieldsEditEl) return;
-    var enabled = !!enableWeightRuleEditEl.checked;
-    weightRuleFieldsEditEl.classList.toggle('is-hidden', !enabled);
-    if (!enabled) {
-        ['base_weight_grams', 'extra_weight_step_grams', 'extra_weight_step_price'].forEach(function(name) {
-            var input = document.querySelector('[name="' + name + '"]');
-            if (input) input.value = '';
-        });
-    }
+var priceInputEditEl = document.querySelector('input[name="price"]');
+var weightAskEditEl = document.getElementById('weightAskEdit');
+var weightBoxEditEl = document.getElementById('weightBoxEdit');
+var showWeightBtnEditEl = document.getElementById('showWeightBtnEdit');
+var hideWeightBtnEditEl = document.getElementById('hideWeightBtnEdit');
+function showWeightPromptEdit() {
+    if (!priceInputEditEl || !weightAskEditEl) return;
+    if ((priceInputEditEl.value || '').trim() !== '') weightAskEditEl.classList.add('is-visible');
 }
-if (enableWeightRuleEditEl) {
-    enableWeightRuleEditEl.addEventListener('change', toggleWeightRuleFieldsEdit);
-    toggleWeightRuleFieldsEdit();
+if (priceInputEditEl) {
+    priceInputEditEl.addEventListener('blur', showWeightPromptEdit);
+    showWeightPromptEdit();
+}
+if (showWeightBtnEditEl && weightBoxEditEl) {
+    showWeightBtnEditEl.addEventListener('click', function() {
+        weightBoxEditEl.classList.remove('is-hidden');
+    });
+}
+if (hideWeightBtnEditEl && weightBoxEditEl) {
+    hideWeightBtnEditEl.addEventListener('click', function() {
+        weightBoxEditEl.classList.add('is-hidden');
+        var weightInput = document.querySelector('input[name="weight_grams"]');
+        if (weightInput) weightInput.value = '';
+    });
 }
 </script>
 @endpush
@@ -192,12 +172,9 @@ if (enableWeightRuleEditEl) {
 }
 .img-upload-zone:hover { border-color:#4F46E5; background:#fff8f5; }
 .img-preview { max-width:100%; max-height:180px; border-radius:8px; object-fit:contain; }
-.pricing-rule-card { border:1px solid #e5e7eb; border-radius:12px; padding: .9rem; background: #fcfcff; }
-.pricing-rule-title { font-size:.78rem; font-weight:700; color:#475569; margin-bottom:.55rem; }
-.pricing-rule-grid { display:grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap:.6rem; }
-.pricing-rule-grid .input-group-text { min-width: 42px; justify-content: center; }
-.rule-toggle-row { display:flex; align-items:center; justify-content:space-between; gap:.8rem; margin-bottom:.65rem; }
-.rule-fields.is-hidden { display:none; }
-@media (max-width: 768px) { .pricing-rule-grid { grid-template-columns: 1fr; } }
+.weight-ask { display:none; margin-top:.45rem; font-size:.78rem; }
+.weight-ask.is-visible { display:block; }
+.weight-box { border:1px solid #e5e7eb; border-radius:10px; padding:.75rem; background:#fcfcff; }
+.weight-box.is-hidden { display:none; }
 </style>
 @endsection

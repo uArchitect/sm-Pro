@@ -80,10 +80,10 @@
             @endif
             <div class="grid-card-price">
                 {{ number_format($product->price, 2, ',', '.') }} ₺
-                @if(!empty(data_get($product, 'base_weight_grams')) && !empty(data_get($product, 'extra_weight_step_grams')) && !empty(data_get($product, 'extra_weight_step_price')))
-                    <div style="font-size:.66rem;font-weight:600;opacity:.75">{{ number_format((float) data_get($product, 'base_weight_grams'), 0, ',', '.') }}g + {{ number_format((float) data_get($product, 'extra_weight_step_grams'), 0, ',', '.') }}g = +{{ number_format((float) data_get($product, 'extra_weight_step_price'), 2, ',', '.') }}₺</div>
-                @elseif(!empty(data_get($product, 'weight_grams')))
+                @if(!empty(data_get($product, 'weight_grams')))
                     <div style="font-size:.66rem;font-weight:600;opacity:.75">{{ number_format((float) data_get($product, 'weight_grams'), 0, ',', '.') }} g</div>
+                @elseif(!empty(data_get($product, 'base_weight_grams')))
+                    <div style="font-size:.66rem;font-weight:600;opacity:.75">{{ number_format((float) data_get($product, 'base_weight_grams'), 0, ',', '.') }} g</div>
                 @endif
             </div>
         </div>
@@ -114,10 +114,10 @@
                 @endif
                 <div class="grid-card-price">
                     {{ number_format($product->price, 2, ',', '.') }} ₺
-                    @if(!empty(data_get($product, 'base_weight_grams')) && !empty(data_get($product, 'extra_weight_step_grams')) && !empty(data_get($product, 'extra_weight_step_price')))
-                        <div style="font-size:.66rem;font-weight:600;opacity:.75">{{ number_format((float) data_get($product, 'base_weight_grams'), 0, ',', '.') }}g + {{ number_format((float) data_get($product, 'extra_weight_step_grams'), 0, ',', '.') }}g = +{{ number_format((float) data_get($product, 'extra_weight_step_price'), 2, ',', '.') }}₺</div>
-                    @elseif(!empty(data_get($product, 'weight_grams')))
+                    @if(!empty(data_get($product, 'weight_grams')))
                         <div style="font-size:.66rem;font-weight:600;opacity:.75">{{ number_format((float) data_get($product, 'weight_grams'), 0, ',', '.') }} g</div>
+                    @elseif(!empty(data_get($product, 'base_weight_grams')))
+                        <div style="font-size:.66rem;font-weight:600;opacity:.75">{{ number_format((float) data_get($product, 'base_weight_grams'), 0, ',', '.') }} g</div>
                     @endif
                 </div>
             </div>
