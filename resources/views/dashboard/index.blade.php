@@ -239,6 +239,35 @@
         </div>
     </div>
 </div>
+{{-- En Çok Görüntülenen Ürünler --}}
+@if($topProducts->isNotEmpty())
+<div class="row g-3 mt-0">
+    <div class="col-12">
+        <div class="sm-card">
+            <div class="sm-card-header">
+                <i class="bi bi-bar-chart-line" style="color:#A855F7;"></i>
+                En Çok Görüntülenen Ürünler
+            </div>
+            <div class="sm-card-body p-0">
+                @php $maxViews = $topProducts->first()->view_count; @endphp
+                @foreach($topProducts as $i => $prod)
+                <div style="display:flex;align-items:center;gap:.75rem;padding:.6rem 1rem;{{ !$loop->last ? 'border-bottom:1px solid #f1f5f9;' : '' }}">
+                    <span style="width:20px;height:20px;border-radius:50%;background:{{ $i === 0 ? 'linear-gradient(135deg,#A855F7,#7C3AED)' : 'rgba(99,102,241,.08)' }};display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:{{ $i === 0 ? '#fff' : '#6366f1' }};flex-shrink:0;">{{ $i + 1 }}</span>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:.82rem;font-weight:600;color:#111827;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $prod->name }}</div>
+                        <div style="height:4px;background:#f1f5f9;border-radius:2px;margin-top:.3rem;overflow:hidden;">
+                            <div style="height:100%;width:{{ round(($prod->view_count / $maxViews) * 100) }}%;background:{{ $i === 0 ? 'linear-gradient(90deg,#A855F7,#7C3AED)' : 'linear-gradient(90deg,#6366f1,#4f46e5)' }};border-radius:2px;transition:width .4s;"></div>
+                        </div>
+                    </div>
+                    <span style="font-size:.78rem;font-weight:700;color:{{ $i === 0 ? '#A855F7' : '#6366f1' }};flex-shrink:0;min-width:32px;text-align:right;">{{ $prod->view_count }}</span>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
 {{-- Menü Önizleme Modalı --}}
 <div id="menuPreviewOverlay" onclick="closeMenuPreview()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1055;backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:1rem;">
     <div onclick="event.stopPropagation()" style="background:#fff;border-radius:20px;box-shadow:0 24px 80px rgba(0,0,0,.3);width:100%;max-width:420px;height:85vh;display:flex;flex-direction:column;overflow:hidden;">

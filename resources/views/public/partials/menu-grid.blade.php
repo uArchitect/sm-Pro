@@ -62,12 +62,17 @@
         {{ $cat->name }}
     </div>
     @foreach($catProducts as $product)
-    <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="grid-card" data-grid-cat="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
-        @if($product->image)
-            <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="grid-card-img" loading="lazy">
-        @else
-            <div class="grid-card-placeholder"><i class="bi bi-box-seam"></i></div>
-        @endif
+    <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="grid-card {{ !($product->is_available ?? true) ? 'prod-sold-out' : '' }}" data-grid-cat="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
+        <div style="position:relative;">
+            @if($product->image)
+                <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="grid-card-img" loading="lazy">
+            @else
+                <div class="grid-card-placeholder"><i class="bi bi-box-seam"></i></div>
+            @endif
+            @if(!($product->is_available ?? true))
+            <span class="sold-out-badge">{{ $locale === 'tr' ? 'Tükendi' : 'Sold Out' }}</span>
+            @endif
+        </div>
         <div class="grid-card-body">
             <div class="grid-card-name">{{ $product->name }}</div>
             @if($product->description)
@@ -84,12 +89,17 @@
             <i class="bi bi-dash" style="color:var(--text3)"></i> {{ $sub->name }}
         </div>
         @foreach($subProducts as $product)
-        <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="grid-card" data-grid-cat="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
-            @if($product->image)
-                <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="grid-card-img" loading="lazy">
-            @else
-                <div class="grid-card-placeholder"><i class="bi bi-box-seam"></i></div>
-            @endif
+        <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="grid-card {{ !($product->is_available ?? true) ? 'prod-sold-out' : '' }}" data-grid-cat="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
+            <div style="position:relative;">
+                @if($product->image)
+                    <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="grid-card-img" loading="lazy">
+                @else
+                    <div class="grid-card-placeholder"><i class="bi bi-box-seam"></i></div>
+                @endif
+                @if(!($product->is_available ?? true))
+                <span class="sold-out-badge">{{ $locale === 'tr' ? 'Tükendi' : 'Sold Out' }}</span>
+                @endif
+            </div>
             <div class="grid-card-body">
                 <div class="grid-card-name">{{ $product->name }}</div>
                 @if($product->description)

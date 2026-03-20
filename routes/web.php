@@ -151,6 +151,7 @@ Route::middleware(['auth', 'tenant'])->group(function () {
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::post('/products/{id}/inline-update', [ProductController::class, 'inlineUpdate'])->name('products.inline-update');
     Route::post('/products/{id}/duplicate', [ProductController::class, 'duplicate'])->name('products.duplicate');
+    Route::post('/products/{id}/toggle-availability', [ProductController::class, 'toggleAvailability'])->name('products.toggle-availability');
     Route::post('/products/reorder', [ProductController::class, 'reorder'])->name('products.reorder');
 
     // Support (all roles)

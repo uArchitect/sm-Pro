@@ -30,6 +30,7 @@
 .sm-search:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(79,70,229,.12); outline:none; }
 .search-wrap { position:relative; }
 .search-wrap i { position:absolute; left:.7rem; top:50%; transform:translateY(-50%); color:#98a2b3; font-size:.8rem; pointer-events:none; }
+.views-badge { font-size:.68rem; color:#98a2b3; display:inline-flex; align-items:center; gap:.2rem; margin-top:.1rem; }
 </style>
 
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -83,6 +84,9 @@
                              onclick="startEdit(this)" data-field="description" data-id="{{ $product->id }}">
                             {{ $product->description ? Str::limit($product->description, 60) : __('products.add_desc') }}
                         </div>
+                        @if(($viewCounts[$product->id] ?? 0) > 0)
+                        <div class="views-badge"><i class="bi bi-eye"></i> {{ $viewCounts[$product->id] }}</div>
+                        @endif
                     </td>
                     <td>
                         <span class="cat-chip" onclick="startCatEdit(this)" data-field="category_id"
@@ -98,6 +102,13 @@
                     </td>
                     <td class="text-end pe-4">
                         <div class="d-flex gap-1 justify-content-end">
+                            <button type="button"
+                                class="btn btn-sm toggle-avail-btn {{ $product->is_available ? 'btn-outline-success' : 'btn-danger' }}"
+                                data-id="{{ $product->id }}"
+                                data-available="{{ $product->is_available ? '1' : '0' }}"
+                                title="{{ $product->is_available ? 'Stokta var — tıkla: tükendi işaretle' : 'Tükendi — tıkla: stoğa al' }}">
+                                <i class="bi {{ $product->is_available ? 'bi-check-circle' : 'bi-x-circle' }}"></i>
+                            </button>
                             <form method="POST" action="{{ route('products.duplicate', $product->id) }}">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-outline-secondary" title="{{ __('products.duplicate') }}"><i class="bi bi-copy"></i></button>
@@ -365,6 +376,34 @@ function showProdErrorToast(msg) {
 }
 
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+document.querySelectorAll('.toggle-avail-btn').forEach(btn => {
+    btn.addEventListener('click', async function() {
+        const id = this.dataset.id;
+        const fd = new FormData();
+        fd.append('_token', CSRF);
+        this.disabled = true;
+        try {
+            const res  = await fetch(`/products/${id}/toggle-availability`, { method: 'POST', body: fd });
+            const data = await res.json();
+            if (data.success) {
+                this.dataset.available = data.is_available ? '1' : '0';
+                if (data.is_available) {
+                    this.classList.replace('btn-danger', 'btn-outline-success');
+                    this.querySelector('i').className = 'bi bi-check-circle';
+                    this.title = 'Stokta var — tıkla: tükendi işaretle';
+                } else {
+                    this.classList.replace('btn-outline-success', 'btn-danger');
+                    this.querySelector('i').className = 'bi bi-x-circle';
+                    this.title = 'Tükendi — tıkla: stoğa al';
+                }
+                afterEdit();
+            }
+        } finally {
+            this.disabled = false;
+        }
+    });
+});
 </script>
 @endpush
 @endsection

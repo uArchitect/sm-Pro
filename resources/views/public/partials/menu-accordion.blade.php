@@ -24,12 +24,17 @@
             <p class="cat-empty-msg"><i class="bi bi-inbox me-2"></i>{{ $locale === 'tr' ? 'Henüz ürün eklenmemiş.' : 'No products added yet.' }}</p>
         @else
         @foreach($catProducts as $product)
-        <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
-            @if($product->image)
-                <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img" loading="lazy">
-            @else
-                <div class="prod-img-empty"><i class="bi bi-box-seam"></i></div>
-            @endif
+        <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod {{ !($product->is_available ?? true) ? 'prod-sold-out' : '' }}" data-cat-id="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
+            <div style="position:relative;flex-shrink:0;">
+                @if($product->image)
+                    <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img" loading="lazy">
+                @else
+                    <div class="prod-img-empty"><i class="bi bi-box-seam"></i></div>
+                @endif
+                @if(!($product->is_available ?? true))
+                <span class="sold-out-badge">{{ $locale === 'tr' ? 'Tükendi' : 'Sold Out' }}</span>
+                @endif
+            </div>
             <div class="prod-body">
                 <div class="prod-name">{{ $product->name }}</div>
                 @if($product->description)
@@ -51,12 +56,17 @@
                 {{ $sub->name }}
             </div>
             @foreach($subProducts as $product)
-            <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod" data-cat-id="{{ $sub->id }}" data-parent-cat="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
-                @if($product->image)
-                    <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img" loading="lazy">
-                @else
-                    <div class="prod-img-empty"><i class="bi bi-box-seam"></i></div>
-                @endif
+            <a href="{{ route('public.product', ['tenantId' => $tenant->id, 'productId' => $product->id, 'lang' => app()->getLocale()]) }}" class="prod {{ !($product->is_available ?? true) ? 'prod-sold-out' : '' }}" data-cat-id="{{ $sub->id }}" data-parent-cat="{{ $cat->id }}" data-name="{{ strtolower($product->name) }}" data-desc="{{ strtolower($product->description ?? '') }}">
+                <div style="position:relative;flex-shrink:0;">
+                    @if($product->image)
+                        <img src="{{ asset('uploads/'.$product->image) }}" alt="{{ $product->name }}" class="prod-img" loading="lazy">
+                    @else
+                        <div class="prod-img-empty"><i class="bi bi-box-seam"></i></div>
+                    @endif
+                    @if(!($product->is_available ?? true))
+                    <span class="sold-out-badge">{{ $locale === 'tr' ? 'Tükendi' : 'Sold Out' }}</span>
+                    @endif
+                </div>
                 <div class="prod-body">
                     <div class="prod-name">{{ $product->name }}</div>
                     @if($product->description)

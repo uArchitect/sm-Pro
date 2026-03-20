@@ -588,6 +588,20 @@
         .review-feedback-close:hover { opacity: 1; background: rgba(255,255,255,.2); }
         @@keyframes reviewFeedbackSlide { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 
+        /* ========== Tükendi (sold-out) ========== */
+        .prod-sold-out { opacity: 0.6; }
+        .prod-sold-out .prod-price,
+        .prod-sold-out .grid-card-price,
+        .prod-sold-out .elegant-product-price { text-decoration: line-through; color: var(--text3); }
+        .sold-out-badge {
+            position: absolute; top: 5px; left: 5px; z-index: 2;
+            background: #ef4444; color: #fff;
+            font-size: .6rem; font-weight: 700; letter-spacing: .04em;
+            padding: .15rem .45rem; border-radius: 4px;
+            pointer-events: none; white-space: nowrap;
+            text-transform: uppercase;
+        }
+
         @@media (max-width: 380px) {
             .ftr-inner { flex-wrap: wrap; font-size: .75rem; }
         }

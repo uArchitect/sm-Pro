@@ -28,7 +28,14 @@ class ProductController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('products.index', compact('products', 'categories'));
+        // View counts per product
+        $viewCounts = DB::table('product_views')
+            ->where('tenant_id', $tenantId)
+            ->select('product_id', DB::raw('COUNT(*) as view_count'))
+            ->groupBy('product_id')
+            ->pluck('view_count', 'product_id');
+
+        return view('products.index', compact('products', 'categories', 'viewCounts'));
     }
 
     public function create()
@@ -387,6 +394,25 @@ class ProductController extends Controller
         ]);
 
         return redirect()->route('products.index')->with('success', __('products.duplicated'));
+    }
+
+    /** AJAX: stok durumu toggle (is_available) */
+    public function toggleAvailability(int $id): \Illuminate\Http\JsonResponse
+    {
+        $tenantId = session('tenant_id');
+        $product  = DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->first();
+
+        if (!$product) {
+            return response()->json(['error' => 'Bulunamadı.'], 404);
+        }
+
+        $newValue = !$product->is_available;
+        DB::table('products')
+            ->where('id', $id)
+            ->where('tenant_id', $tenantId)
+            ->update(['is_available' => $newValue, 'updated_at' => now()]);
+
+        return response()->json(['success' => true, 'is_available' => $newValue]);
     }
 
     /** AJAX: drag-drop reorder */

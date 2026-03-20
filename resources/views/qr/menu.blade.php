@@ -46,6 +46,17 @@
     {{-- Kalıcı Link & Bilgi --}}
     <div class="col-lg-7 d-flex flex-column gap-4">
 
+        <div class="sm-card" style="border-left: 3px solid #4F46E5">
+            <div class="sm-card-body">
+                <h6 class="fw-bold mb-2" style="font-size:.85rem"><i class="bi bi-lightbulb-fill text-warning me-1"></i>{{ __('qr.usage_guide') }}</h6>
+                <ul class="mb-0 ps-3 small text-muted" style="line-height:1.9">
+                    @foreach(__('qr.usage_tips') as $tip)
+                    <li>{{ $tip }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+
         <div class="sm-card">
             <div class="sm-card-header">
                 <i class="bi bi-link-45deg text-primary"></i> {{ __('qr.permanent_link') }}
@@ -97,38 +108,6 @@
             </div>
         </div>
 
-        <div class="sm-card">
-            <div class="sm-card-header">
-                <i class="bi bi-building text-muted"></i> {{ __('qr.linked_restaurant') }}
-            </div>
-            <div class="sm-card-body">
-                <dl class="row mb-0 small">
-                    <dt class="col-5 text-muted fw-semibold">{{ __('qr.restaurant') }}</dt>
-                    <dd class="col-7 fw-bold">{{ $tenant->restoran_adi }}</dd>
-                    @if($tenant->restoran_adresi)
-                    <dt class="col-5 text-muted fw-semibold">{{ __('tenant.address') }}</dt>
-                    <dd class="col-7">{{ $tenant->restoran_adresi }}</dd>
-                    @endif
-                    @if($tenant->restoran_telefonu)
-                    <dt class="col-5 text-muted fw-semibold">{{ __('tenant.phone') }}</dt>
-                    <dd class="col-7">{{ $tenant->restoran_telefonu }}</dd>
-                    @endif
-                    <dt class="col-5 text-muted fw-semibold">{{ __('qr.menu_id') }}</dt>
-                    <dd class="col-7"><code>#{{ $tenant->id }}</code></dd>
-                </dl>
-            </div>
-        </div>
-
-        <div class="sm-card" style="border-left: 3px solid #4F46E5">
-            <div class="sm-card-body">
-                <h6 class="fw-bold mb-2" style="font-size:.85rem"><i class="bi bi-lightbulb-fill text-warning me-1"></i>{{ __('qr.usage_guide') }}</h6>
-                <ul class="mb-0 ps-3 small text-muted" style="line-height:1.9">
-                    @foreach(__('qr.usage_tips') as $tip)
-                    <li>{{ $tip }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        </div>
     </div>
 </div>
 

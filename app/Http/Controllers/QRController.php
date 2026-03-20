@@ -93,6 +93,8 @@ class QRController extends Controller
             abort(404);
         }
 
+        $this->trackProductView($tenantId, $productId);
+
         return view('public.product', compact('product', 'tenant'));
     }
 
@@ -217,6 +219,27 @@ class QRController extends Controller
 
         return redirect()->route('public.menu', $tenantId)
             ->with('review_success', true);
+    }
+
+    private function trackProductView(int $tenantId, int $productId): void
+    {
+        $ip = request()->ip();
+
+        $alreadyViewed = DB::table('product_views')
+            ->where('tenant_id', $tenantId)
+            ->where('product_id', $productId)
+            ->where('ip_address', $ip)
+            ->whereDate('viewed_at', today())
+            ->exists();
+
+        if (!$alreadyViewed) {
+            DB::table('product_views')->insert([
+                'tenant_id'  => $tenantId,
+                'product_id' => $productId,
+                'ip_address' => $ip,
+                'viewed_at'  => now(),
+            ]);
+        }
     }
 
     private function trackVisit(int $tenantId): void
