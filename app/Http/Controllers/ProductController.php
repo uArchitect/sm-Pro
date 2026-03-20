@@ -100,6 +100,12 @@ class ProductController extends Controller
             })
             ->values();
         if ($weightPricePairs->isNotEmpty()) {
+            $grams = $weightPricePairs->pluck('weight_grams');
+            if ($grams->unique()->count() !== $grams->count()) {
+                throw ValidationException::withMessages([
+                    'price_weight_pairs' => [__('products.duplicate_weight_grams')],
+                ]);
+            }
             $weightValue = (int) ($weightPricePairs->first()['weight_grams'] ?? $weightValue);
         }
 
@@ -330,6 +336,12 @@ class ProductController extends Controller
             })
             ->values();
         if ($weightPricePairs->isNotEmpty()) {
+            $grams = $weightPricePairs->pluck('weight_grams');
+            if ($grams->unique()->count() !== $grams->count()) {
+                throw ValidationException::withMessages([
+                    'price_weight_pairs' => [__('products.duplicate_weight_grams')],
+                ]);
+            }
             $weightValue = (int) ($weightPricePairs->first()['weight_grams'] ?? $weightValue);
         }
 
