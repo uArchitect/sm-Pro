@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -28,12 +29,15 @@ class ProductController extends Controller
             ->orderBy('name')
             ->get();
 
-        // View counts per product
-        $viewCounts = DB::table('product_views')
-            ->where('tenant_id', $tenantId)
-            ->select('product_id', DB::raw('COUNT(*) as view_count'))
-            ->groupBy('product_id')
-            ->pluck('view_count', 'product_id');
+        // View counts per product (tablo migration ile oluşturulur; öncesinde boş döner)
+        $viewCounts = collect();
+        if (Schema::hasTable('product_views')) {
+            $viewCounts = DB::table('product_views')
+                ->where('tenant_id', $tenantId)
+                ->select('product_id', DB::raw('COUNT(*) as view_count'))
+                ->groupBy('product_id')
+                ->pluck('view_count', 'product_id');
+        }
 
         return view('products.index', compact('products', 'categories', 'viewCounts'));
     }

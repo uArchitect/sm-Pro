@@ -54,9 +54,10 @@
                     <th style="width:36px"></th>
                     <th style="width:56px"></th>
                     <th>{{ __('products.name') }}</th>
+                    <th style="width:80px" class="text-center">Stok</th>
                     <th style="width:150px">{{ __('products.category') }}</th>
                     <th style="width:110px">{{ __('products.price') }}</th>
-                    <th class="text-end pe-4" style="width:80px"></th>
+                    <th class="text-end pe-4" style="width:60px"></th>
                 </tr>
             </thead>
             <tbody id="sortableProds">
@@ -88,6 +89,15 @@
                         <div class="views-badge"><i class="bi bi-eye"></i> {{ $viewCounts[$product->id] }}</div>
                         @endif
                     </td>
+                    <td class="text-center">
+                        <div class="form-check form-switch d-inline-block mb-0" style="padding-left:2.5em">
+                            <input class="form-check-input toggle-avail-switch" type="checkbox" role="switch"
+                                   data-id="{{ $product->id }}"
+                                   {{ ($product->is_available ?? 1) ? 'checked' : '' }}
+                                   title="{{ ($product->is_available ?? 1) ? 'Stokta var — tıkla: tükendi işaretle' : 'Tükendi — tıkla: stoğa al' }}"
+                                   style="cursor:pointer;width:2.2em;height:1.15em">
+                        </div>
+                    </td>
                     <td>
                         <span class="cat-chip" onclick="startCatEdit(this)" data-field="category_id"
                               data-id="{{ $product->id }}" data-value="{{ $product->category_id }}">
@@ -102,13 +112,6 @@
                     </td>
                     <td class="text-end pe-4">
                         <div class="d-flex gap-1 justify-content-end">
-                            <button type="button"
-                                class="btn btn-sm toggle-avail-btn {{ $product->is_available ? 'btn-outline-success' : 'btn-danger' }}"
-                                data-id="{{ $product->id }}"
-                                data-available="{{ $product->is_available ? '1' : '0' }}"
-                                title="{{ $product->is_available ? 'Stokta var — tıkla: tükendi işaretle' : 'Tükendi — tıkla: stoğa al' }}">
-                                <i class="bi {{ $product->is_available ? 'bi-check-circle' : 'bi-x-circle' }}"></i>
-                            </button>
                             <form method="POST" action="{{ route('products.duplicate', $product->id) }}">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-outline-secondary" title="{{ __('products.duplicate') }}"><i class="bi bi-copy"></i></button>
@@ -177,7 +180,7 @@ function initProductsDataTable() {
             paginate: { previous: '‹', next: '›' }
         },
         columnDefs: [
-            { targets: [0, 1, 5], searchable: false, orderable: false }
+            { targets: [0, 1, 3, 6], searchable: false, orderable: false }
         ]
     });
 }
@@ -377,8 +380,8 @@ function showProdErrorToast(msg) {
 
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-document.querySelectorAll('.toggle-avail-btn').forEach(btn => {
-    btn.addEventListener('click', async function() {
+document.querySelectorAll('.toggle-avail-switch').forEach(sw => {
+    sw.addEventListener('change', async function() {
         const id = this.dataset.id;
         const fd = new FormData();
         fd.append('_token', CSRF);
@@ -387,18 +390,14 @@ document.querySelectorAll('.toggle-avail-btn').forEach(btn => {
             const res  = await fetch(`/products/${id}/toggle-availability`, { method: 'POST', body: fd });
             const data = await res.json();
             if (data.success) {
-                this.dataset.available = data.is_available ? '1' : '0';
-                if (data.is_available) {
-                    this.classList.replace('btn-danger', 'btn-outline-success');
-                    this.querySelector('i').className = 'bi bi-check-circle';
-                    this.title = 'Stokta var — tıkla: tükendi işaretle';
-                } else {
-                    this.classList.replace('btn-outline-success', 'btn-danger');
-                    this.querySelector('i').className = 'bi bi-x-circle';
-                    this.title = 'Tükendi — tıkla: stoğa al';
-                }
+                this.checked = data.is_available;
+                this.title = data.is_available ? 'Stokta var — tıkla: tükendi işaretle' : 'Tükendi — tıkla: stoğa al';
                 afterEdit();
+            } else {
+                this.checked = !this.checked; // geri al
             }
+        } catch(e) {
+            this.checked = !this.checked; // hata durumunda geri al
         } finally {
             this.disabled = false;
         }
