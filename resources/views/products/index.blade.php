@@ -109,7 +109,11 @@
                               data-id="{{ $product->id }}" data-value="{{ $product->price }}">
                             {{ number_format($product->price, 2, ',', '.') }} ₺
                         </span>
-                        @if(!empty(data_get($product, 'weight_grams')))
+                        @if(!empty(data_get($product, 'base_weight_grams')) && !empty(data_get($product, 'extra_weight_step_grams')) && !empty(data_get($product, 'extra_weight_step_price')))
+                        <div style="font-size:.7rem;color:#98a2b3;margin-top:.15rem">
+                            {{ number_format((float) data_get($product, 'base_weight_grams'), 0, ',', '.') }} g + {{ number_format((float) data_get($product, 'extra_weight_step_grams'), 0, ',', '.') }} g = +{{ number_format((float) data_get($product, 'extra_weight_step_price'), 2, ',', '.') }} ₺
+                        </div>
+                        @elseif(!empty(data_get($product, 'weight_grams')))
                         <div style="font-size:.7rem;color:#98a2b3;margin-top:.15rem">
                             {{ number_format((float) data_get($product, 'weight_grams'), 0, ',', '.') }} g
                         </div>

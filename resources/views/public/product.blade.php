@@ -168,7 +168,13 @@
             </div>
             @endif
 
-            @if(!empty(data_get($product, 'weight_grams')))
+            @if(!empty(data_get($product, 'base_weight_grams')) && !empty(data_get($product, 'extra_weight_step_grams')) && !empty(data_get($product, 'extra_weight_step_price')))
+            <div class="text-center mb-3">
+                <span class="badge text-bg-light border" style="font-size:.78rem;font-weight:600;color:#475569">
+                    {{ number_format((float) data_get($product, 'base_weight_grams'), 0, ',', '.') }} g + {{ number_format((float) data_get($product, 'extra_weight_step_grams'), 0, ',', '.') }} g = +{{ number_format((float) data_get($product, 'extra_weight_step_price'), 2, ',', '.') }} ₺
+                </span>
+            </div>
+            @elseif(!empty(data_get($product, 'weight_grams')))
             <div class="text-center mb-3">
                 <span class="badge text-bg-light border" style="font-size:.78rem;font-weight:600;color:#475569">
                     {{ number_format((float) data_get($product, 'weight_grams'), 0, ',', '.') }} g

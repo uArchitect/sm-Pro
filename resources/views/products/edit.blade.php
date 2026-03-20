@@ -75,13 +75,37 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label fw-semibold small">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
-                        <div class="input-group" style="max-width:180px">
-                            <input type="number" name="weight_grams" step="1" min="1"
-                                   class="form-control @error('weight_grams') is-invalid @enderror"
-                                   value="{{ old('weight_grams', $product->weight_grams) }}" placeholder="500">
-                            <span class="input-group-text">g</span>
-                            @error('weight_grams')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <div class="pricing-rule-card">
+                            <div class="pricing-rule-title">{{ __('products.weight_pricing_rule') }} <span class="text-muted fw-normal">({{ __('common.optional') }})</span></div>
+                            <div class="pricing-rule-grid">
+                                <div>
+                                    <label class="form-label fw-semibold small mb-1">{{ __('products.base_weight_grams') }}</label>
+                                    <div class="input-group">
+                                        <input type="number" name="base_weight_grams" step="1" min="1" class="form-control @error('base_weight_grams') is-invalid @enderror" value="{{ old('base_weight_grams', data_get($product, 'base_weight_grams')) }}" placeholder="500">
+                                        <span class="input-group-text">g</span>
+                                    </div>
+                                    @error('base_weight_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                                </div>
+                                <div>
+                                    <label class="form-label fw-semibold small mb-1">{{ __('products.extra_weight_step_grams') }}</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+</span>
+                                        <input type="number" name="extra_weight_step_grams" step="1" min="1" class="form-control @error('extra_weight_step_grams') is-invalid @enderror" value="{{ old('extra_weight_step_grams', data_get($product, 'extra_weight_step_grams')) }}" placeholder="50">
+                                        <span class="input-group-text">g</span>
+                                    </div>
+                                    @error('extra_weight_step_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                                </div>
+                                <div>
+                                    <label class="form-label fw-semibold small mb-1">{{ __('products.extra_weight_step_price') }}</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">+</span>
+                                        <span class="input-group-text">₺</span>
+                                        <input type="number" name="extra_weight_step_price" step="0.01" min="0.01" class="form-control @error('extra_weight_step_price') is-invalid @enderror" value="{{ old('extra_weight_step_price', data_get($product, 'extra_weight_step_price')) }}" placeholder="50.00">
+                                    </div>
+                                    @error('extra_weight_step_price')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                                </div>
+                            </div>
+                            <div class="form-text mt-2">{{ __('products.weight_pricing_rule_hint') }}</div>
                         </div>
                     </div>
 
@@ -139,5 +163,10 @@ function removeImg() {
 }
 .img-upload-zone:hover { border-color:#4F46E5; background:#fff8f5; }
 .img-preview { max-width:100%; max-height:180px; border-radius:8px; object-fit:contain; }
+.pricing-rule-card { border:1px solid #e5e7eb; border-radius:12px; padding: .9rem; background: #fcfcff; }
+.pricing-rule-title { font-size:.78rem; font-weight:700; color:#475569; margin-bottom:.55rem; }
+.pricing-rule-grid { display:grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap:.6rem; }
+.pricing-rule-grid .input-group-text { min-width: 42px; justify-content: center; }
+@media (max-width: 768px) { .pricing-rule-grid { grid-template-columns: 1fr; } }
 </style>
 @endsection

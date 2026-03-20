@@ -57,6 +57,9 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
+        $hasBaseWeightColumn = Schema::hasColumn('products', 'base_weight_grams');
+        $hasExtraStepWeightColumn = Schema::hasColumn('products', 'extra_weight_step_grams');
+        $hasExtraStepPriceColumn = Schema::hasColumn('products', 'extra_weight_step_price');
 
         $request->validate([
             'category_id' => 'required|integer|exists:categories,id',
@@ -64,8 +67,18 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
             'weight_grams'=> 'nullable|integer|min:1|max:100000',
+            'base_weight_grams'       => 'nullable|integer|min:1|max:100000',
+            'extra_weight_step_grams' => 'nullable|integer|min:1|max:100000|required_with:extra_weight_step_price',
+            'extra_weight_step_price' => 'nullable|numeric|min:0.01|max:100000|required_with:extra_weight_step_grams',
             'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
         ]);
+
+        $hasDynamicRuleInput = $request->filled('extra_weight_step_grams') || $request->filled('extra_weight_step_price');
+        if ($hasDynamicRuleInput && !$request->filled('base_weight_grams')) {
+            throw ValidationException::withMessages([
+                'base_weight_grams' => [__('products.base_weight_required_with_rule')],
+            ]);
+        }
 
         $tenantId = session('tenant_id');
 
@@ -84,7 +97,7 @@ class ProductController extends Controller
                 }
             }
 
-            DB::transaction(function () use ($tenantId, $request, $imagePath, &$productId, $hasWeightColumn) {
+            DB::transaction(function () use ($tenantId, $request, $imagePath, &$productId, $hasWeightColumn, $hasBaseWeightColumn, $hasExtraStepWeightColumn, $hasExtraStepPriceColumn) {
                 $maxOrder = DB::table('products')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
 
                 $insertData = [
@@ -101,6 +114,15 @@ class ProductController extends Controller
 
                 if ($hasWeightColumn) {
                     $insertData['weight_grams'] = $request->filled('weight_grams') ? (int) $request->weight_grams : null;
+                }
+                if ($hasBaseWeightColumn) {
+                    $insertData['base_weight_grams'] = $request->filled('base_weight_grams') ? (int) $request->base_weight_grams : null;
+                }
+                if ($hasExtraStepWeightColumn) {
+                    $insertData['extra_weight_step_grams'] = $request->filled('extra_weight_step_grams') ? (int) $request->extra_weight_step_grams : null;
+                }
+                if ($hasExtraStepPriceColumn) {
+                    $insertData['extra_weight_step_price'] = $request->filled('extra_weight_step_price') ? (float) $request->extra_weight_step_price : null;
                 }
 
                 $productId = DB::table('products')->insertGetId($insertData);
@@ -121,6 +143,9 @@ class ProductController extends Controller
     public function storeBulk(Request $request)
     {
         $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
+        $hasBaseWeightColumn = Schema::hasColumn('products', 'base_weight_grams');
+        $hasExtraStepWeightColumn = Schema::hasColumn('products', 'extra_weight_step_grams');
+        $hasExtraStepPriceColumn = Schema::hasColumn('products', 'extra_weight_step_price');
 
         $request->validate([
             'products' => 'required|array|min:1',
@@ -129,12 +154,27 @@ class ProductController extends Controller
             'products.*.description' => 'nullable|string|max:5000',
             'products.*.price'       => 'nullable|numeric|min:0',
             'products.*.weight_grams'=> 'nullable|integer|min:1|max:100000',
+            'products.*.base_weight_grams'       => 'nullable|integer|min:1|max:100000',
+            'products.*.extra_weight_step_grams' => 'nullable|integer|min:1|max:100000|required_with:products.*.extra_weight_step_price',
+            'products.*.extra_weight_step_price' => 'nullable|numeric|min:0.01|max:100000|required_with:products.*.extra_weight_step_grams',
         ], [], [
             'products.*.category_id' => __('products.category'),
             'products.*.name'        => __('products.name'),
             'products.*.price'       => __('products.price_tl'),
             'products.*.weight_grams'=> __('products.weight_grams'),
+            'products.*.base_weight_grams'       => __('products.base_weight_grams'),
+            'products.*.extra_weight_step_grams' => __('products.extra_weight_step_grams'),
+            'products.*.extra_weight_step_price' => __('products.extra_weight_step_price'),
         ]);
+
+        foreach (($request->products ?? []) as $rowIdx => $row) {
+            $hasRule = !empty($row['extra_weight_step_grams']) || !empty($row['extra_weight_step_price']);
+            if ($hasRule && empty($row['base_weight_grams'])) {
+                throw ValidationException::withMessages([
+                    "products.{$rowIdx}.base_weight_grams" => [__('products.base_weight_required_with_rule')],
+                ]);
+            }
+        }
 
         $tenantId = session('tenant_id');
         $products = array_values(array_filter($request->products, function ($p) {
@@ -148,7 +188,7 @@ class ProductController extends Controller
         $categoryIds = DB::table('categories')->where('tenant_id', $tenantId)->pluck('id')->toArray();
 
         $inserted = 0;
-        DB::transaction(function () use ($tenantId, $products, $categoryIds, &$inserted, $hasWeightColumn) {
+        DB::transaction(function () use ($tenantId, $products, $categoryIds, &$inserted, $hasWeightColumn, $hasBaseWeightColumn, $hasExtraStepWeightColumn, $hasExtraStepPriceColumn) {
             $maxOrder = DB::table('products')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
             $now = now();
             $rows = [];
@@ -170,6 +210,15 @@ class ProductController extends Controller
                 ];
                 if ($hasWeightColumn) {
                     $row['weight_grams'] = !empty($p['weight_grams']) ? (int) $p['weight_grams'] : null;
+                }
+                if ($hasBaseWeightColumn) {
+                    $row['base_weight_grams'] = !empty($p['base_weight_grams']) ? (int) $p['base_weight_grams'] : null;
+                }
+                if ($hasExtraStepWeightColumn) {
+                    $row['extra_weight_step_grams'] = !empty($p['extra_weight_step_grams']) ? (int) $p['extra_weight_step_grams'] : null;
+                }
+                if ($hasExtraStepPriceColumn) {
+                    $row['extra_weight_step_price'] = !empty($p['extra_weight_step_price']) ? (float) $p['extra_weight_step_price'] : null;
                 }
                 $rows[] = $row;
             }
@@ -208,6 +257,9 @@ class ProductController extends Controller
     public function update(Request $request, int $id)
     {
         $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
+        $hasBaseWeightColumn = Schema::hasColumn('products', 'base_weight_grams');
+        $hasExtraStepWeightColumn = Schema::hasColumn('products', 'extra_weight_step_grams');
+        $hasExtraStepPriceColumn = Schema::hasColumn('products', 'extra_weight_step_price');
 
         $request->validate([
             'category_id' => 'required|integer|exists:categories,id',
@@ -215,8 +267,18 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
             'weight_grams'=> 'nullable|integer|min:1|max:100000',
+            'base_weight_grams'       => 'nullable|integer|min:1|max:100000',
+            'extra_weight_step_grams' => 'nullable|integer|min:1|max:100000|required_with:extra_weight_step_price',
+            'extra_weight_step_price' => 'nullable|numeric|min:0.01|max:100000|required_with:extra_weight_step_grams',
             'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
         ]);
+
+        $hasDynamicRuleInput = $request->filled('extra_weight_step_grams') || $request->filled('extra_weight_step_price');
+        if ($hasDynamicRuleInput && !$request->filled('base_weight_grams')) {
+            throw ValidationException::withMessages([
+                'base_weight_grams' => [__('products.base_weight_required_with_rule')],
+            ]);
+        }
 
         $tenantId = session('tenant_id');
         $product  = DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->first();
@@ -238,6 +300,15 @@ class ProductController extends Controller
         ];
         if ($hasWeightColumn) {
             $data['weight_grams'] = $request->filled('weight_grams') ? (int) $request->weight_grams : null;
+        }
+        if ($hasBaseWeightColumn) {
+            $data['base_weight_grams'] = $request->filled('base_weight_grams') ? (int) $request->base_weight_grams : null;
+        }
+        if ($hasExtraStepWeightColumn) {
+            $data['extra_weight_step_grams'] = $request->filled('extra_weight_step_grams') ? (int) $request->extra_weight_step_grams : null;
+        }
+        if ($hasExtraStepPriceColumn) {
+            $data['extra_weight_step_price'] = $request->filled('extra_weight_step_price') ? (float) $request->extra_weight_step_price : null;
         }
 
         $newImagePath = null;
@@ -303,6 +374,9 @@ class ProductController extends Controller
     {
         $tenantId = session('tenant_id');
         $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
+        $hasBaseWeightColumn = Schema::hasColumn('products', 'base_weight_grams');
+        $hasExtraStepWeightColumn = Schema::hasColumn('products', 'extra_weight_step_grams');
+        $hasExtraStepPriceColumn = Schema::hasColumn('products', 'extra_weight_step_price');
         $product  = DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->first();
 
         if (!$product) {
@@ -329,6 +403,18 @@ class ProductController extends Controller
             } else {
                 $data['weight_grams'] = max(1, min(100000, (int) $grams));
             }
+        }
+        if ($hasBaseWeightColumn && $request->has('base_weight_grams')) {
+            $base = trim((string) $request->base_weight_grams);
+            $data['base_weight_grams'] = $base === '' ? null : max(1, min(100000, (int) $base));
+        }
+        if ($hasExtraStepWeightColumn && $request->has('extra_weight_step_grams')) {
+            $step = trim((string) $request->extra_weight_step_grams);
+            $data['extra_weight_step_grams'] = $step === '' ? null : max(1, min(100000, (int) $step));
+        }
+        if ($hasExtraStepPriceColumn && $request->has('extra_weight_step_price')) {
+            $delta = trim((string) $request->extra_weight_step_price);
+            $data['extra_weight_step_price'] = $delta === '' ? null : max(0.01, min(100000, (float) $delta));
         }
         if ($request->filled('category_id')) {
             $catOk = DB::table('categories')
@@ -401,6 +487,9 @@ class ProductController extends Controller
             'price'             => number_format($updated->price, 2, ',', '.'),
             'raw_price'         => $updated->price,
             'weight_grams'      => $hasWeightColumn ? ($updated->weight_grams ?? null) : null,
+            'base_weight_grams' => $hasBaseWeightColumn ? ($updated->base_weight_grams ?? null) : null,
+            'extra_weight_step_grams' => $hasExtraStepWeightColumn ? ($updated->extra_weight_step_grams ?? null) : null,
+            'extra_weight_step_price' => $hasExtraStepPriceColumn ? ($updated->extra_weight_step_price ?? null) : null,
             'image_url'         => $updated->image ? asset('uploads/' . $updated->image) : null,
             'category_name'     => $category->name ?? '',
         ]);
@@ -411,6 +500,9 @@ class ProductController extends Controller
     {
         $tenantId = session('tenant_id');
         $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
+        $hasBaseWeightColumn = Schema::hasColumn('products', 'base_weight_grams');
+        $hasExtraStepWeightColumn = Schema::hasColumn('products', 'extra_weight_step_grams');
+        $hasExtraStepPriceColumn = Schema::hasColumn('products', 'extra_weight_step_price');
         $product  = DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->first();
 
         if (!$product) {
@@ -432,6 +524,15 @@ class ProductController extends Controller
         ];
         if ($hasWeightColumn) {
             $insertData['weight_grams'] = $product->weight_grams ?? null;
+        }
+        if ($hasBaseWeightColumn) {
+            $insertData['base_weight_grams'] = $product->base_weight_grams ?? null;
+        }
+        if ($hasExtraStepWeightColumn) {
+            $insertData['extra_weight_step_grams'] = $product->extra_weight_step_grams ?? null;
+        }
+        if ($hasExtraStepPriceColumn) {
+            $insertData['extra_weight_step_price'] = $product->extra_weight_step_price ?? null;
         }
         DB::table('products')->insert($insertData);
 

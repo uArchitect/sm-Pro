@@ -13,6 +13,11 @@
 .bulk-table th { font-weight: 700; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
 .bulk-table input, .bulk-table textarea { font-size: .82rem; }
 .bulk-table textarea { resize: vertical; min-height: 38px; }
+.pricing-rule-card { border:1px solid #e5e7eb; border-radius:12px; padding: .9rem; background: #fcfcff; }
+.pricing-rule-title { font-size:.78rem; font-weight:700; color:#475569; margin-bottom:.55rem; }
+.pricing-rule-grid { display:grid; grid-template-columns: repeat(3, minmax(120px, 1fr)); gap:.6rem; }
+.pricing-rule-grid .input-group-text { min-width: 42px; justify-content: center; }
+@media (max-width: 768px) { .pricing-rule-grid { grid-template-columns: 1fr; } }
 
 /* SearchableSelect — dropdown her zaman trigger'ın altında açılsın */
 #bulkProductRows td:first-child,
@@ -100,11 +105,37 @@
                             </div>
                         </div>
                         <div class="mb-4">
-                            <label class="form-label fw-semibold small">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
-                            <div class="input-group" style="max-width:180px">
-                                <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ old('weight_grams') }}" placeholder="500">
-                                <span class="input-group-text">g</span>
-                                @error('weight_grams')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            <div class="pricing-rule-card">
+                                <div class="pricing-rule-title">{{ __('products.weight_pricing_rule') }} <span class="text-muted fw-normal">({{ __('common.optional') }})</span></div>
+                                <div class="pricing-rule-grid">
+                                    <div>
+                                        <label class="form-label fw-semibold small mb-1">{{ __('products.base_weight_grams') }}</label>
+                                        <div class="input-group">
+                                            <input type="number" name="base_weight_grams" step="1" min="1" class="form-control @error('base_weight_grams') is-invalid @enderror" value="{{ old('base_weight_grams') }}" placeholder="500">
+                                            <span class="input-group-text">g</span>
+                                        </div>
+                                        @error('base_weight_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                                    </div>
+                                    <div>
+                                        <label class="form-label fw-semibold small mb-1">{{ __('products.extra_weight_step_grams') }}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">+</span>
+                                            <input type="number" name="extra_weight_step_grams" step="1" min="1" class="form-control @error('extra_weight_step_grams') is-invalid @enderror" value="{{ old('extra_weight_step_grams') }}" placeholder="50">
+                                            <span class="input-group-text">g</span>
+                                        </div>
+                                        @error('extra_weight_step_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                                    </div>
+                                    <div>
+                                        <label class="form-label fw-semibold small mb-1">{{ __('products.extra_weight_step_price') }}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">+</span>
+                                            <span class="input-group-text">₺</span>
+                                            <input type="number" name="extra_weight_step_price" step="0.01" min="0.01" class="form-control @error('extra_weight_step_price') is-invalid @enderror" value="{{ old('extra_weight_step_price') }}" placeholder="50.00">
+                                        </div>
+                                        @error('extra_weight_step_price')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                                    </div>
+                                </div>
+                                <div class="form-text mt-2">{{ __('products.weight_pricing_rule_hint') }}</div>
                             </div>
                         </div>
                         <div class="d-flex gap-2 form-actions-wrap">
@@ -133,12 +164,14 @@
                             <th>{{ __('products.name') }}</th>
                             <th style="width:28%">{{ __('products.description') }} <span class="text-muted">({{ __('common.optional') }})</span></th>
                             <th style="width:100px">{{ __('products.price_tl') }}</th>
-                            <th style="width:120px">{{ __('products.weight_grams') }} <span class="text-muted">({{ __('common.optional') }})</span></th>
+                            <th style="width:120px">{{ __('products.base_weight_grams') }} <span class="text-muted">({{ __('common.optional') }})</span></th>
+                            <th style="width:120px">+ {{ __('products.extra_weight_step_grams') }}</th>
+                            <th style="width:120px">+ {{ __('products.extra_weight_step_price') }}</th>
                             <th style="width:44px"></th>
                         </tr>
                     </thead>
                     <tbody id="bulkProductRows">
-                        @foreach(old('products', [['category_id' => '', 'name' => '', 'description' => '', 'price' => '', 'weight_grams' => '']]) as $idx => $p)
+                        @foreach(old('products', [['category_id' => '', 'name' => '', 'description' => '', 'price' => '', 'base_weight_grams' => '', 'extra_weight_step_grams' => '', 'extra_weight_step_price' => '']]) as $idx => $p)
                         <tr class="bulk-row">
                             <td>
                                 <select name="products[{{ $idx }}][category_id]" class="form-select form-select-sm" required>
@@ -151,7 +184,9 @@
                             <td><input type="text" name="products[{{ $idx }}][name]" class="form-control form-control-sm" placeholder="{{ __('products.name_placeholder') }}" value="{{ old('products.'.$idx.'.name', $p['name'] ?? '') }}"></td>
                             <td><textarea name="products[{{ $idx }}][description]" class="form-control form-control-sm" rows="1" placeholder="{{ __('products.description_placeholder') }}">{{ old('products.'.$idx.'.description', $p['description'] ?? '') }}</textarea></td>
                             <td><input type="number" name="products[{{ $idx }}][price]" class="form-control form-control-sm" step="0.01" min="0" placeholder="0" value="{{ old('products.'.$idx.'.price', $p['price'] ?? '') }}"></td>
-                            <td><input type="number" name="products[{{ $idx }}][weight_grams]" class="form-control form-control-sm" step="1" min="1" placeholder="500" value="{{ old('products.'.$idx.'.weight_grams', $p['weight_grams'] ?? '') }}"></td>
+                            <td><input type="number" name="products[{{ $idx }}][base_weight_grams]" class="form-control form-control-sm" step="1" min="1" placeholder="500" value="{{ old('products.'.$idx.'.base_weight_grams', $p['base_weight_grams'] ?? '') }}"></td>
+                            <td><input type="number" name="products[{{ $idx }}][extra_weight_step_grams]" class="form-control form-control-sm" step="1" min="1" placeholder="50" value="{{ old('products.'.$idx.'.extra_weight_step_grams', $p['extra_weight_step_grams'] ?? '') }}"></td>
+                            <td><input type="number" name="products[{{ $idx }}][extra_weight_step_price]" class="form-control form-control-sm" step="0.01" min="0.01" placeholder="50.00" value="{{ old('products.'.$idx.'.extra_weight_step_price', $p['extra_weight_step_price'] ?? '') }}"></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger bulk-remove" title="{{ __('products.bulk_remove_row') }}"><i class="bi bi-dash-lg"></i></button></td>
                         </tr>
                         @endforeach
@@ -225,7 +260,9 @@ document.getElementById('bulkAddRow') && document.getElementById('bulkAddRow').a
         '<td><input type="text" name="products['+bulkIdx+'][name]" class="form-control form-control-sm" placeholder="'+bulkPlaceholderName+'"></td>' +
         '<td><textarea name="products['+bulkIdx+'][description]" class="form-control form-control-sm" rows="1" placeholder="'+bulkPlaceholderDesc+'"></textarea></td>' +
         '<td><input type="number" name="products['+bulkIdx+'][price]" class="form-control form-control-sm" step="0.01" min="0" placeholder="0"></td>' +
-        '<td><input type="number" name="products['+bulkIdx+'][weight_grams]" class="form-control form-control-sm" step="1" min="1" placeholder="500"></td>' +
+        '<td><input type="number" name="products['+bulkIdx+'][base_weight_grams]" class="form-control form-control-sm" step="1" min="1" placeholder="500"></td>' +
+        '<td><input type="number" name="products['+bulkIdx+'][extra_weight_step_grams]" class="form-control form-control-sm" step="1" min="1" placeholder="50"></td>' +
+        '<td><input type="number" name="products['+bulkIdx+'][extra_weight_step_price]" class="form-control form-control-sm" step="0.01" min="0.01" placeholder="50.00"></td>' +
         '<td><button type="button" class="btn btn-sm btn-outline-danger bulk-remove" title="'+bulkRemoveTitle+'"><i class="bi bi-dash-lg"></i></button></td>';
     tbody.appendChild(tr);
     bulkIdx++;
