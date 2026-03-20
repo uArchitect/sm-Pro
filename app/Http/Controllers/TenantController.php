@@ -61,7 +61,11 @@ class TenantController extends Controller
 
         try {
             if ($request->hasFile('logo')) {
-                $newLogoPath = $request->file('logo')->store('logos', 'uploads');
+                $file = $request->file('logo');
+                if (strtolower($file->getClientOriginalExtension()) !== 'svg' && !@getimagesize($file->getRealPath())) {
+                    return back()->withErrors(['logo' => __('messages.invalid_image')])->withInput();
+                }
+                $newLogoPath = $file->store('logos', 'uploads');
                 if ($newLogoPath === false) {
                     return back()->withErrors(['logo' => __('messages.upload_failed')])->withInput();
                 }

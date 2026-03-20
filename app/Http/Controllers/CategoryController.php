@@ -66,7 +66,11 @@ class CategoryController extends Controller
 
         try {
             if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'uploads');
+                $file = $request->file('image');
+                if (strtolower($file->getClientOriginalExtension()) !== 'svg' && !@getimagesize($file->getRealPath())) {
+                    return back()->withErrors(['image' => __('messages.invalid_image')])->withInput();
+                }
+                $imagePath = $file->store("tenants/{$tenantId}/categories", 'uploads');
                 if ($imagePath === false) {
                     return back()->withErrors(['image' => __('messages.upload_failed')])->withInput();
                 }
@@ -205,7 +209,11 @@ class CategoryController extends Controller
 
         try {
             if ($request->hasFile('image')) {
-                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'uploads');
+                $file = $request->file('image');
+                if (strtolower($file->getClientOriginalExtension()) !== 'svg' && !@getimagesize($file->getRealPath())) {
+                    return back()->withErrors(['image' => __('messages.invalid_image')])->withInput();
+                }
+                $newImagePath = $file->store("tenants/{$tenantId}/categories", 'uploads');
                 if ($newImagePath === false) {
                     return back()->withErrors(['image' => __('messages.upload_failed')])->withInput();
                 }
@@ -327,7 +335,15 @@ class CategoryController extends Controller
                 $request->validate([
                     'image' => 'file|mimes:jpg,jpeg,png,gif,webp,svg',
                 ]);
-                $newImagePath = $request->file('image')->store("tenants/{$tenantId}/categories", 'uploads');
+                $file = $request->file('image');
+                if (strtolower($file->getClientOriginalExtension()) !== 'svg' && !@getimagesize($file->getRealPath())) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => __('messages.invalid_image'),
+                        'errors'  => ['image' => [__('messages.invalid_image')]],
+                    ], 422);
+                }
+                $newImagePath = $file->store("tenants/{$tenantId}/categories", 'uploads');
                 if ($newImagePath === false) {
                     return response()->json([
                         'success' => false,
