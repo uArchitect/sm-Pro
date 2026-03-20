@@ -31,6 +31,7 @@ return [
     'extra_weight_step_price' => 'Adım başı ek ücret',
     'weight_pricing_rule_hint' => 'Ornek: 500g dahil, her +50g icin +50 TL.',
     'base_weight_required_with_rule' => 'Ek gram kuralı girmek için standart gram da zorunludur.',
+    'duplicate_weight_grams' => 'Gram değerleri tekrar edemez; her seçenek farklı olmalıdır.',
     'name_price_required' => 'Ürün adı ve fiyat zorunludur.',
     'delete_confirm' => '":name" silinsin mi?',
     'new_product' => 'Yeni Ürün',

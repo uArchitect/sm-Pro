@@ -31,6 +31,7 @@ return [
     'extra_weight_step_price' => 'Extra fee per step',
     'weight_pricing_rule_hint' => 'Example: 500g included, +50 TL for each extra 50g.',
     'base_weight_required_with_rule' => 'Base weight is required when defining extra weight pricing rule.',
+    'duplicate_weight_grams' => 'Weight values must be unique; each option must have a different gram value.',
     'name_price_required' => 'Product name and price are required.',
     'delete_confirm' => 'Delete ":name"?',
     'new_product' => 'New Product',
