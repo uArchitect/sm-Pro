@@ -409,6 +409,9 @@ class ProductController extends Controller
         }
 
         DB::transaction(function () use ($tenantId, $id) {
+            if (Schema::hasTable('product_views')) {
+                DB::table('product_views')->where('product_id', $id)->delete();
+            }
             DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->delete();
         });
 

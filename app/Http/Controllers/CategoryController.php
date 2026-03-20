@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
@@ -270,6 +271,15 @@ class CategoryController extends Controller
             ->all();
 
         DB::transaction(function () use ($tenantId, $categoryIds) {
+            $productIds = DB::table('products')
+                ->where('tenant_id', $tenantId)
+                ->whereIn('category_id', $categoryIds)
+                ->pluck('id');
+
+            if ($productIds->isNotEmpty() && Schema::hasTable('product_views')) {
+                DB::table('product_views')->whereIn('product_id', $productIds)->delete();
+            }
+
             DB::table('products')
                 ->where('tenant_id', $tenantId)
                 ->whereIn('category_id', $categoryIds)
