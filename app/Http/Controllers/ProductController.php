@@ -106,7 +106,12 @@ class ProductController extends Controller
                     'price_weight_pairs' => [__('products.duplicate_weight_grams')],
                 ]);
             }
-            $weightValue = (int) ($weightPricePairs->first()['weight_grams'] ?? $weightValue);
+            // Simple weight input takes precedence; fall back to first pair only when empty
+            if ($weightValue === null) {
+                $weightValue = isset($weightPricePairs->first()['weight_grams'])
+                    ? (int) $weightPricePairs->first()['weight_grams']
+                    : null;
+            }
         }
 
         $tenantId = session('tenant_id');
@@ -342,7 +347,12 @@ class ProductController extends Controller
                     'price_weight_pairs' => [__('products.duplicate_weight_grams')],
                 ]);
             }
-            $weightValue = (int) ($weightPricePairs->first()['weight_grams'] ?? $weightValue);
+            // Simple weight input takes precedence; fall back to first pair only when empty
+            if ($weightValue === null) {
+                $weightValue = isset($weightPricePairs->first()['weight_grams'])
+                    ? (int) $weightPricePairs->first()['weight_grams']
+                    : null;
+            }
         }
 
         $tenantId = session('tenant_id');
