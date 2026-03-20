@@ -54,7 +54,7 @@
                 "name": "Basic",
                 "price": "0",
                 "priceCurrency": "TRY",
-                "description": "{{ $isTr ? 'Sınırsız kategori ve ürün, QR kod, fotoğraflı menü, müşteri değerlendirmeleri, ürün müsaitlik yönetimi, ürün görüntülenme istatistikleri' : 'Unlimited categories & products, QR code, photo menu, customer reviews, product availability management, product view analytics' }}",
+                "description": "{{ $isTr ? 'Sınırsız kategori ve ürün, QR kod, fotoğraflı menü, müşteri değerlendirmeleri, ürün müsaitlik yönetimi, ürün görüntülenme istatistikleri, gramaj bazlı fiyat gösterimi' : 'Unlimited categories & products, QR code, photo menu, customer reviews, product availability management, product view analytics, weight-based price display' }}",
                 "availability": "https://schema.org/InStock"
             },
             {
@@ -149,6 +149,7 @@
                             <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Sosyal medya entegrasyonu' : 'Social media integration' }}</li>
                             <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Ürün müsaitlik durumu yönetimi' : 'Product availability management' }}</li>
                             <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Ürün görüntülenme istatistikleri' : 'Product view analytics' }}</li>
+                            <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Gramaj bazlı fiyat gösterimi' : 'Weight-based price display' }}</li>
                             <li class="disabled"><i class="bi bi-x-circle-fill"></i> {{ $isTr ? 'Slider görselleri' : 'Slider images' }}</li>
                             <li class="disabled"><i class="bi bi-x-circle-fill"></i> {{ $isTr ? 'Etkinlik duyuruları' : 'Event announcements' }}</li>
                         </ul>

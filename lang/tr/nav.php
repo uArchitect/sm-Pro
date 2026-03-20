@@ -3,8 +3,8 @@
 return [
     'nav' => [
         'dashboard'     => 'Dashboard',
-        'company'       => 'Restoran',
-        'company_info'  => 'Restoran Bilgileri',
+        'company'       => 'İşletme',
+        'company_info'  => 'İşletme Bilgileri',
         'staff'         => 'Personel',
         'reviews'       => 'Değerlendirmeler',
         'digital_menu'  => 'Dijital Menü',

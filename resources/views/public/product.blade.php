@@ -168,6 +168,14 @@
             </div>
             @endif
 
+            @if(!empty(data_get($product, 'weight_grams')))
+            <div class="text-center mb-3">
+                <span class="badge text-bg-light border" style="font-size:.78rem;font-weight:600;color:#475569">
+                    {{ number_format((float) data_get($product, 'weight_grams'), 0, ',', '.') }} g
+                </span>
+            </div>
+            @endif
+
             <div class="mb-3">
                 <button type="button" class="price-cta">
                     {{ number_format($product->price, 2, ',', '.') }} ₺

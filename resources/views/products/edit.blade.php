@@ -74,6 +74,17 @@
                         </div>
                     </div>
 
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold small">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
+                        <div class="input-group" style="max-width:180px">
+                            <input type="number" name="weight_grams" step="1" min="1"
+                                   class="form-control @error('weight_grams') is-invalid @enderror"
+                                   value="{{ old('weight_grams', $product->weight_grams) }}" placeholder="500">
+                            <span class="input-group-text">g</span>
+                            @error('weight_grams')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+                    </div>
+
                     <div class="d-flex gap-2 form-actions-wrap">
                         <button type="submit" class="btn btn-accent">
                             <i class="bi bi-check-lg me-1"></i>{{ __('products.update') }}

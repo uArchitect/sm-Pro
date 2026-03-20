@@ -99,6 +99,14 @@
                                 @error('price')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                         </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold small">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
+                            <div class="input-group" style="max-width:180px">
+                                <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ old('weight_grams') }}" placeholder="500">
+                                <span class="input-group-text">g</span>
+                                @error('weight_grams')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                        </div>
                         <div class="d-flex gap-2 form-actions-wrap">
                             <button type="submit" class="btn btn-accent" {{ $categories->isEmpty() ? 'disabled' : '' }}><i class="bi bi-check-lg me-1"></i>{{ __('common.save') }}</button>
                             <a href="{{ route('products.index') }}" class="btn btn-outline-secondary">{{ __('common.cancel') }}</a>
@@ -125,11 +133,12 @@
                             <th>{{ __('products.name') }}</th>
                             <th style="width:28%">{{ __('products.description') }} <span class="text-muted">({{ __('common.optional') }})</span></th>
                             <th style="width:100px">{{ __('products.price_tl') }}</th>
+                            <th style="width:120px">{{ __('products.weight_grams') }} <span class="text-muted">({{ __('common.optional') }})</span></th>
                             <th style="width:44px"></th>
                         </tr>
                     </thead>
                     <tbody id="bulkProductRows">
-                        @foreach(old('products', [['category_id' => '', 'name' => '', 'description' => '', 'price' => '']]) as $idx => $p)
+                        @foreach(old('products', [['category_id' => '', 'name' => '', 'description' => '', 'price' => '', 'weight_grams' => '']]) as $idx => $p)
                         <tr class="bulk-row">
                             <td>
                                 <select name="products[{{ $idx }}][category_id]" class="form-select form-select-sm" required>
@@ -142,6 +151,7 @@
                             <td><input type="text" name="products[{{ $idx }}][name]" class="form-control form-control-sm" placeholder="{{ __('products.name_placeholder') }}" value="{{ old('products.'.$idx.'.name', $p['name'] ?? '') }}"></td>
                             <td><textarea name="products[{{ $idx }}][description]" class="form-control form-control-sm" rows="1" placeholder="{{ __('products.description_placeholder') }}">{{ old('products.'.$idx.'.description', $p['description'] ?? '') }}</textarea></td>
                             <td><input type="number" name="products[{{ $idx }}][price]" class="form-control form-control-sm" step="0.01" min="0" placeholder="0" value="{{ old('products.'.$idx.'.price', $p['price'] ?? '') }}"></td>
+                            <td><input type="number" name="products[{{ $idx }}][weight_grams]" class="form-control form-control-sm" step="1" min="1" placeholder="500" value="{{ old('products.'.$idx.'.weight_grams', $p['weight_grams'] ?? '') }}"></td>
                             <td><button type="button" class="btn btn-sm btn-outline-danger bulk-remove" title="{{ __('products.bulk_remove_row') }}"><i class="bi bi-dash-lg"></i></button></td>
                         </tr>
                         @endforeach
@@ -215,6 +225,7 @@ document.getElementById('bulkAddRow') && document.getElementById('bulkAddRow').a
         '<td><input type="text" name="products['+bulkIdx+'][name]" class="form-control form-control-sm" placeholder="'+bulkPlaceholderName+'"></td>' +
         '<td><textarea name="products['+bulkIdx+'][description]" class="form-control form-control-sm" rows="1" placeholder="'+bulkPlaceholderDesc+'"></textarea></td>' +
         '<td><input type="number" name="products['+bulkIdx+'][price]" class="form-control form-control-sm" step="0.01" min="0" placeholder="0"></td>' +
+        '<td><input type="number" name="products['+bulkIdx+'][weight_grams]" class="form-control form-control-sm" step="1" min="1" placeholder="500"></td>' +
         '<td><button type="button" class="btn btn-sm btn-outline-danger bulk-remove" title="'+bulkRemoveTitle+'"><i class="bi bi-dash-lg"></i></button></td>';
     tbody.appendChild(tr);
     bulkIdx++;

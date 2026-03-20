@@ -34,7 +34,7 @@
     "@@type": "ItemList",
     "name": "{{ $isTr ? 'Sipariş Masanda QR Menü Özellikleri' : 'Siparis Masanda QR Menu Features' }}",
     "description": "{{ $isTr ? 'Restoran ve kafeler için dijital QR menü sistemi özellikleri' : 'Digital QR menu system features for restaurants and cafes' }}",
-    "numberOfItems": 16,
+    "numberOfItems": 17,
     "itemListElement": [
         {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'QR Kod Oluşturma ve Baskı' : 'QR Code Generation & Print' }}"},
         {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Sınırsız Kategori ve Ürün Yönetimi' : 'Unlimited Category & Product Management' }}"},
@@ -51,7 +51,8 @@
         {"@@type": "ListItem", "position": 13, "name": "{{ $isTr ? 'Destek Talebi Sistemi' : 'Support Ticket System' }}"},
         {"@@type": "ListItem", "position": 14, "name": "{{ $isTr ? 'İşletme Profili Yönetimi' : 'Business Profile Management' }}"},
         {"@@type": "ListItem", "position": 15, "name": "{{ $isTr ? 'Ürün Müsaitlik Durumu Yönetimi' : 'Product Availability Management' }}"},
-        {"@@type": "ListItem", "position": 16, "name": "{{ $isTr ? 'Ürün Görüntülenme İstatistikleri' : 'Product View Analytics' }}"}
+        {"@@type": "ListItem", "position": 16, "name": "{{ $isTr ? 'Ürün Görüntülenme İstatistikleri' : 'Product View Analytics' }}"},
+        {"@@type": "ListItem", "position": 17, "name": "{{ $isTr ? 'Gramaj Bazlı Fiyat Gösterimi' : 'Weight-Based Price Display' }}"}
     ]
 }
 </script>
@@ -62,6 +63,7 @@
     "@@type": "FAQPage",
     "mainEntity": [
         {"@@type": "Question", "name": "{{ $isTr ? 'QR menüde hangi özellikler var?' : 'What features does the QR menu have?' }}", "acceptedAnswer": {"@@type": "Answer", "text": "{{ $isTr ? 'Sipariş Masanda ile QR kod oluşturma, sınırsız kategori ve ürün, fotoğraflı menü, müşteri değerlendirmeleri, çoklu kullanıcı, sosyal medya entegrasyonu, mobil uyumlu tasarım, slider/banner yönetimi, etkinlik yönetimi, online rezervasyon sistemi, QR ziyaret istatistikleri, destek talebi sistemi ve işletme profili yönetimi sunulur.' : 'Siparis Masanda offers QR code generation, unlimited categories and products, photo menu, customer reviews, multi-user support, social media integration, mobile-friendly design, slider/banner management, event management, online reservation system, QR visit analytics, support ticket system, and business profile management.' }}"}},
+        {"@@type": "Question", "name": "{{ $isTr ? 'Gramaj bazlı ürün fiyatı gösterebilir miyim?' : 'Can I display weight-based product pricing?' }}", "acceptedAnswer": {"@@type": "Answer", "text": "{{ $isTr ? 'Evet. Ürün eklerken gramaj alanını opsiyonel olarak doldurabilir, fiyatı gramaj bilgisiyle birlikte menüde gösterebilirsiniz.' : 'Yes. While creating a product, you can optionally fill in the weight field and display the price together with weight information in the menu.' }}"}},
         {"@@type": "Question", "name": "{{ $isTr ? 'Dijital menüye ürün fotoğrafı eklenebilir mi?' : 'Can I add product photos to the digital menu?' }}", "acceptedAnswer": {"@@type": "Answer", "text": "{{ $isTr ? 'Evet. Ürün ve kategori fotoğrafları ekleyebilir, otomatik boyutlandırma ile fotoğraflı menü oluşturabilirsiniz.' : 'Yes. You can add product and category photos and create a photo menu with automatic resizing.' }}"}},
         {"@@type": "Question", "name": "{{ $isTr ? 'Menü fiyatları anlık güncellenebilir mi?' : 'Can menu prices be updated instantly?' }}", "acceptedAnswer": {"@@type": "Answer", "text": "{{ $isTr ? 'Evet. Yönetim panelinden fiyat, açıklama ve sıralama anında güncellenir; değişiklikler hemen menüde görünür.' : 'Yes. You can update prices, descriptions and order from the management panel; changes appear on the menu immediately.' }}"}}
     ]
@@ -320,6 +322,20 @@
                                 <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Ürün bazlı görüntülenme sayısı' : 'Per-product view count' }}</li>
                                 <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'En çok ilgi gören ürünleri keşfet' : 'Discover most-viewed products' }}</li>
                                 <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Menü optimizasyonu için veri odaklı karar' : 'Data-driven decisions for menu optimization' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- Gramaj Bazlı Fiyat Gösterimi - Ücretsiz --}}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(14,165,233,.12);color:#0EA5E9"><i class="bi bi-speedometer2"></i></div>
+                            <h2>{{ $isTr ? 'Gramaj Bazlı Fiyat Gösterimi' : 'Weight-Based Price Display' }}</h2>
+                            <p>{{ $isTr ? 'Ürünlere opsiyonel gramaj bilgisi ekleyin ve fiyatı gramajla birlikte gösterin. Özellikle içecek, tatlı, kuruyemiş ve paket ürünlerde müşteri kararını kolaylaştırır.' : 'Add optional weight information to products and display price together with weight. It helps customer decisions especially for drinks, desserts, nuts, and packaged products.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Gramaj alanı opsiyonel' : 'Optional weight field' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Menü kartlarında gramaj + fiyat gösterimi' : 'Weight + price display on menu cards' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Ürün detayında net gramaj bilgisi' : 'Clear weight info on product detail' }}</li>
                             </ul>
                         </div>
                     </div>

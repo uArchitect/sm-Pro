@@ -109,6 +109,11 @@
                               data-id="{{ $product->id }}" data-value="{{ $product->price }}">
                             {{ number_format($product->price, 2, ',', '.') }} ₺
                         </span>
+                        @if(!empty(data_get($product, 'weight_grams')))
+                        <div style="font-size:.7rem;color:#98a2b3;margin-top:.15rem">
+                            {{ number_format((float) data_get($product, 'weight_grams'), 0, ',', '.') }} g
+                        </div>
+                        @endif
                     </td>
                     <td class="text-end pe-4">
                         <div class="d-flex gap-1 justify-content-end">

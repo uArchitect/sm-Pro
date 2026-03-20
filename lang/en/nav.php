@@ -4,7 +4,7 @@ return [
     'nav' => [
         'dashboard'     => 'Dashboard',
         'company'       => 'Company',
-        'company_info'  => 'Company Info',
+        'company_info'  => 'Business Info',
         'staff'         => 'Staff',
         'reviews'       => 'Reviews',
         'digital_menu'  => 'Digital Menu',

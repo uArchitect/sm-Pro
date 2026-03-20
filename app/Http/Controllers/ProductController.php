@@ -56,11 +56,14 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
+
         $request->validate([
             'category_id' => 'required|integer|exists:categories,id',
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
+            'weight_grams'=> 'nullable|integer|min:1|max:100000',
             'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
         ]);
 
@@ -81,10 +84,10 @@ class ProductController extends Controller
                 }
             }
 
-            DB::transaction(function () use ($tenantId, $request, $imagePath, &$productId) {
+            DB::transaction(function () use ($tenantId, $request, $imagePath, &$productId, $hasWeightColumn) {
                 $maxOrder = DB::table('products')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
 
-                $productId = DB::table('products')->insertGetId([
+                $insertData = [
                     'tenant_id'   => $tenantId,
                     'category_id' => $request->category_id,
                     'name'        => $request->name,
@@ -94,7 +97,13 @@ class ProductController extends Controller
                     'sort_order'  => $maxOrder + 1,
                     'created_at'  => now(),
                     'updated_at'  => now(),
-                ]);
+                ];
+
+                if ($hasWeightColumn) {
+                    $insertData['weight_grams'] = $request->filled('weight_grams') ? (int) $request->weight_grams : null;
+                }
+
+                $productId = DB::table('products')->insertGetId($insertData);
             });
         } catch (\Throwable $e) {
             if ($imagePath) {
@@ -111,16 +120,20 @@ class ProductController extends Controller
 
     public function storeBulk(Request $request)
     {
+        $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
+
         $request->validate([
             'products' => 'required|array|min:1',
             'products.*.category_id' => 'nullable|integer',
             'products.*.name'        => 'nullable|string|max:255',
             'products.*.description' => 'nullable|string|max:5000',
             'products.*.price'       => 'nullable|numeric|min:0',
+            'products.*.weight_grams'=> 'nullable|integer|min:1|max:100000',
         ], [], [
             'products.*.category_id' => __('products.category'),
             'products.*.name'        => __('products.name'),
             'products.*.price'       => __('products.price_tl'),
+            'products.*.weight_grams'=> __('products.weight_grams'),
         ]);
 
         $tenantId = session('tenant_id');
@@ -135,7 +148,7 @@ class ProductController extends Controller
         $categoryIds = DB::table('categories')->where('tenant_id', $tenantId)->pluck('id')->toArray();
 
         $inserted = 0;
-        DB::transaction(function () use ($tenantId, $products, $categoryIds, &$inserted) {
+        DB::transaction(function () use ($tenantId, $products, $categoryIds, &$inserted, $hasWeightColumn) {
             $maxOrder = DB::table('products')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
             $now = now();
             $rows = [];
@@ -144,7 +157,7 @@ class ProductController extends Controller
                 if (!in_array($catId, $categoryIds, true)) {
                     continue;
                 }
-                $rows[] = [
+                $row = [
                     'tenant_id'   => $tenantId,
                     'category_id' => $catId,
                     'name'        => trim($p['name']),
@@ -155,6 +168,10 @@ class ProductController extends Controller
                     'created_at'  => $now,
                     'updated_at'  => $now,
                 ];
+                if ($hasWeightColumn) {
+                    $row['weight_grams'] = !empty($p['weight_grams']) ? (int) $p['weight_grams'] : null;
+                }
+                $rows[] = $row;
             }
             if (!empty($rows)) {
                 DB::table('products')->insert($rows);
@@ -190,11 +207,14 @@ class ProductController extends Controller
 
     public function update(Request $request, int $id)
     {
+        $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
+
         $request->validate([
             'category_id' => 'required|integer|exists:categories,id',
             'name'        => 'required|string|max:255',
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
+            'weight_grams'=> 'nullable|integer|min:1|max:100000',
             'image'       => 'nullable|file|mimes:jpg,jpeg,png,gif,webp,svg|max:2048',
         ]);
 
@@ -216,6 +236,9 @@ class ProductController extends Controller
             'price'       => $request->price,
             'updated_at'  => now(),
         ];
+        if ($hasWeightColumn) {
+            $data['weight_grams'] = $request->filled('weight_grams') ? (int) $request->weight_grams : null;
+        }
 
         $newImagePath = null;
         $oldImageToDelete = null;
@@ -279,6 +302,7 @@ class ProductController extends Controller
     public function inlineUpdate(Request $request, int $id)
     {
         $tenantId = session('tenant_id');
+        $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
         $product  = DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->first();
 
         if (!$product) {
@@ -297,6 +321,14 @@ class ProductController extends Controller
         }
         if ($request->filled('price')) {
             $data['price'] = max(0, (float) $request->price);
+        }
+        if ($hasWeightColumn && $request->has('weight_grams')) {
+            $grams = trim((string) $request->weight_grams);
+            if ($grams === '') {
+                $data['weight_grams'] = null;
+            } else {
+                $data['weight_grams'] = max(1, min(100000, (int) $grams));
+            }
         }
         if ($request->filled('category_id')) {
             $catOk = DB::table('categories')
@@ -368,6 +400,7 @@ class ProductController extends Controller
             'description_short' => $updated->description ? Str::limit($updated->description, 60) : null,
             'price'             => number_format($updated->price, 2, ',', '.'),
             'raw_price'         => $updated->price,
+            'weight_grams'      => $hasWeightColumn ? ($updated->weight_grams ?? null) : null,
             'image_url'         => $updated->image ? asset('uploads/' . $updated->image) : null,
             'category_name'     => $category->name ?? '',
         ]);
@@ -377,6 +410,7 @@ class ProductController extends Controller
     public function duplicate(int $id)
     {
         $tenantId = session('tenant_id');
+        $hasWeightColumn = Schema::hasColumn('products', 'weight_grams');
         $product  = DB::table('products')->where('id', $id)->where('tenant_id', $tenantId)->first();
 
         if (!$product) {
@@ -385,7 +419,7 @@ class ProductController extends Controller
 
         $maxOrder = DB::table('products')->where('tenant_id', $tenantId)->max('sort_order') ?? 0;
 
-        DB::table('products')->insert([
+        $insertData = [
             'tenant_id'   => $tenantId,
             'category_id' => $product->category_id,
             'name'        => $product->name . ' ' . __('products.copy_suffix'),
@@ -395,7 +429,11 @@ class ProductController extends Controller
             'sort_order'  => $maxOrder + 1,
             'created_at'  => now(),
             'updated_at'  => now(),
-        ]);
+        ];
+        if ($hasWeightColumn) {
+            $insertData['weight_grams'] = $product->weight_grams ?? null;
+        }
+        DB::table('products')->insert($insertData);
 
         return redirect()->route('products.index')->with('success', __('products.duplicated'));
     }

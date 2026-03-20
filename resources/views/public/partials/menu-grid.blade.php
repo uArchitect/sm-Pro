@@ -78,7 +78,12 @@
             @if($product->description)
             <div class="grid-card-desc">{{ $product->description }}</div>
             @endif
-            <div class="grid-card-price">{{ number_format($product->price, 2, ',', '.') }} ₺</div>
+            <div class="grid-card-price">
+                {{ number_format($product->price, 2, ',', '.') }} ₺
+                @if(!empty(data_get($product, 'weight_grams')))
+                    <div style="font-size:.66rem;font-weight:600;opacity:.75">{{ number_format((float) data_get($product, 'weight_grams'), 0, ',', '.') }} g</div>
+                @endif
+            </div>
         </div>
     </a>
     @endforeach
@@ -105,7 +110,12 @@
                 @if($product->description)
                 <div class="grid-card-desc">{{ $product->description }}</div>
                 @endif
-                <div class="grid-card-price">{{ number_format($product->price, 2, ',', '.') }} ₺</div>
+                <div class="grid-card-price">
+                    {{ number_format($product->price, 2, ',', '.') }} ₺
+                    @if(!empty(data_get($product, 'weight_grams')))
+                        <div style="font-size:.66rem;font-weight:600;opacity:.75">{{ number_format((float) data_get($product, 'weight_grams'), 0, ',', '.') }} g</div>
+                    @endif
+                </div>
             </div>
         </a>
         @endforeach
