@@ -13,10 +13,7 @@
 .bulk-table th { font-weight: 700; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em; color: var(--text-muted); }
 .bulk-table input, .bulk-table textarea { font-size: .82rem; }
 .bulk-table textarea { resize: vertical; min-height: 38px; }
-.weight-ask { display:none; margin-top:.45rem; font-size:.78rem; }
-.weight-ask.is-visible { display:block; }
-.weight-box { border:1px solid #e5e7eb; border-radius:10px; padding:.75rem; background:#fcfcff; }
-.weight-box.is-hidden { display:none; }
+.pricing-pair { border:1px solid #e5e7eb; border-radius:10px; padding:.75rem; background:#fcfcff; }
 
 /* SearchableSelect — dropdown her zaman trigger'ın altında açılsın */
 #bulkProductRows td:first-child,
@@ -96,28 +93,26 @@
                             @error('description')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
                         <div class="mb-4">
-                            <label class="form-label fw-semibold small">{{ __('products.price_tl') }}</label>
-                            <div class="input-group" style="max-width:140px">
-                                <span class="input-group-text">₺</span>
-                                <input type="number" name="price" step="0.01" min="0" class="form-control @error('price') is-invalid @enderror" value="{{ old('price') }}" placeholder="0.00" required>
-                                @error('price')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <div id="weightAsk" class="weight-ask {{ old('weight_grams') ? 'is-visible' : '' }}">
-                                <button type="button" class="btn btn-link btn-sm p-0" id="showWeightBtn">{{ __('products.add_weight_after_price') }}</button>
-                            </div>
-                            <div id="weightBox" class="weight-box mt-2 {{ old('weight_grams') ? '' : 'is-hidden' }}">
-                                <div class="d-flex align-items-center justify-content-between mb-2">
-                                    <label class="form-label fw-semibold small mb-0">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
-                                    <button type="button" class="btn btn-link btn-sm text-danger p-0" id="hideWeightBtn">{{ __('products.remove_weight') }}</button>
+                            <div class="pricing-pair">
+                                <div class="row g-2 align-items-end">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold small">{{ __('products.price_tl') }}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">₺</span>
+                                            <input type="number" name="price" step="0.01" min="0" class="form-control @error('price') is-invalid @enderror" value="{{ old('price') }}" placeholder="0.00" required>
+                                        </div>
+                                        @error('price')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-semibold small">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
+                                        <div class="input-group">
+                                            <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ old('weight_grams') }}" placeholder="500">
+                                            <span class="input-group-text">g</span>
+                                        </div>
+                                        @error('weight_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                                    </div>
                                 </div>
-                                <div class="input-group" style="max-width:180px">
-                                    <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ old('weight_grams') }}" placeholder="500">
-                                    <span class="input-group-text">g</span>
-                                </div>
-                                @error('weight_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                                <div class="form-text">{{ __('products.weight_simple_hint') }}</div>
+                                <div class="form-text mt-2">{{ __('products.weight_simple_hint') }}</div>
                             </div>
                         </div>
                         <div class="d-flex gap-2 form-actions-wrap">
@@ -273,31 +268,6 @@ document.getElementById('bulkProductRows') && document.getElementById('bulkProdu
     }
 });
 
-var priceInputEl = document.querySelector('input[name="price"]');
-var weightAskEl = document.getElementById('weightAsk');
-var weightBoxEl = document.getElementById('weightBox');
-var showWeightBtnEl = document.getElementById('showWeightBtn');
-var hideWeightBtnEl = document.getElementById('hideWeightBtn');
-function showWeightPrompt() {
-    if (!priceInputEl || !weightAskEl) return;
-    if ((priceInputEl.value || '').trim() !== '') weightAskEl.classList.add('is-visible');
-}
-if (priceInputEl) {
-    priceInputEl.addEventListener('blur', showWeightPrompt);
-    showWeightPrompt();
-}
-if (showWeightBtnEl && weightBoxEl) {
-    showWeightBtnEl.addEventListener('click', function() {
-        weightBoxEl.classList.remove('is-hidden');
-    });
-}
-if (hideWeightBtnEl && weightBoxEl) {
-    hideWeightBtnEl.addEventListener('click', function() {
-        weightBoxEl.classList.add('is-hidden');
-        var weightInput = document.querySelector('input[name="weight_grams"]');
-        if (weightInput) weightInput.value = '';
-    });
-}
 </script>
 @endpush
 

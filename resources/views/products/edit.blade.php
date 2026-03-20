@@ -64,31 +64,28 @@
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label fw-semibold small">{{ __('products.price_tl') }}</label>
-                        <div class="input-group">
-                            <span class="input-group-text">₺</span>
-                            <input type="number" name="price" step="0.01" min="0"
-                                   class="form-control @error('price') is-invalid @enderror"
-                                   value="{{ old('price', $product->price) }}" required>
-                            @error('price')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <div id="weightAskEdit" class="weight-ask {{ old('weight_grams', data_get($product, 'weight_grams')) ? 'is-visible' : '' }}">
-                            <button type="button" class="btn btn-link btn-sm p-0" id="showWeightBtnEdit">{{ __('products.add_weight_after_price') }}</button>
-                        </div>
-                        <div id="weightBoxEdit" class="weight-box mt-2 {{ old('weight_grams', data_get($product, 'weight_grams')) ? '' : 'is-hidden' }}">
-                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                <label class="form-label fw-semibold small mb-0">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
-                                <button type="button" class="btn btn-link btn-sm text-danger p-0" id="hideWeightBtnEdit">{{ __('products.remove_weight') }}</button>
+                        <div class="pricing-pair">
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">{{ __('products.price_tl') }}</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₺</span>
+                                        <input type="number" name="price" step="0.01" min="0"
+                                               class="form-control @error('price') is-invalid @enderror"
+                                               value="{{ old('price', $product->price) }}" required>
+                                    </div>
+                                    @error('price')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small">{{ __('products.weight_grams') }} <span class="text-muted">{{ __('common.optional') }}</span></label>
+                                    <div class="input-group">
+                                        <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ old('weight_grams', data_get($product, 'weight_grams')) }}" placeholder="500">
+                                        <span class="input-group-text">g</span>
+                                    </div>
+                                    @error('weight_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                                </div>
                             </div>
-                            <div class="input-group" style="max-width:180px">
-                                <input type="number" name="weight_grams" step="1" min="1" class="form-control @error('weight_grams') is-invalid @enderror" value="{{ old('weight_grams', data_get($product, 'weight_grams')) }}" placeholder="500">
-                                <span class="input-group-text">g</span>
-                            </div>
-                            @error('weight_grams')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
-                            <div class="form-text">{{ __('products.weight_simple_hint') }}</div>
+                            <div class="form-text mt-2">{{ __('products.weight_simple_hint') }}</div>
                         </div>
                     </div>
 
@@ -136,31 +133,6 @@ function removeImg() {
     document.getElementById('removeImageField').value = '1';
 }
 
-var priceInputEditEl = document.querySelector('input[name="price"]');
-var weightAskEditEl = document.getElementById('weightAskEdit');
-var weightBoxEditEl = document.getElementById('weightBoxEdit');
-var showWeightBtnEditEl = document.getElementById('showWeightBtnEdit');
-var hideWeightBtnEditEl = document.getElementById('hideWeightBtnEdit');
-function showWeightPromptEdit() {
-    if (!priceInputEditEl || !weightAskEditEl) return;
-    if ((priceInputEditEl.value || '').trim() !== '') weightAskEditEl.classList.add('is-visible');
-}
-if (priceInputEditEl) {
-    priceInputEditEl.addEventListener('blur', showWeightPromptEdit);
-    showWeightPromptEdit();
-}
-if (showWeightBtnEditEl && weightBoxEditEl) {
-    showWeightBtnEditEl.addEventListener('click', function() {
-        weightBoxEditEl.classList.remove('is-hidden');
-    });
-}
-if (hideWeightBtnEditEl && weightBoxEditEl) {
-    hideWeightBtnEditEl.addEventListener('click', function() {
-        weightBoxEditEl.classList.add('is-hidden');
-        var weightInput = document.querySelector('input[name="weight_grams"]');
-        if (weightInput) weightInput.value = '';
-    });
-}
 </script>
 @endpush
 
@@ -172,9 +144,6 @@ if (hideWeightBtnEditEl && weightBoxEditEl) {
 }
 .img-upload-zone:hover { border-color:#4F46E5; background:#fff8f5; }
 .img-preview { max-width:100%; max-height:180px; border-radius:8px; object-fit:contain; }
-.weight-ask { display:none; margin-top:.45rem; font-size:.78rem; }
-.weight-ask.is-visible { display:block; }
-.weight-box { border:1px solid #e5e7eb; border-radius:10px; padding:.75rem; background:#fcfcff; }
-.weight-box.is-hidden { display:none; }
+.pricing-pair { border:1px solid #e5e7eb; border-radius:10px; padding:.75rem; background:#fcfcff; }
 </style>
 @endsection
