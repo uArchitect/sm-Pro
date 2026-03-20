@@ -85,7 +85,7 @@
                 <i class="bi bi-scissors text-success"></i> Kısa Link
             </div>
             <div class="sm-card-body">
-                <p class="text-muted small mb-2">Paylaşmak ve QR kodunuza alternatif olarak kullanmak için kısa link.</p>
+                <p class="text-muted small mb-2">Sosyal medya hesaplarınıza, Instagram biyografinize veya WhatsApp'a ekleyebileceğiniz kısa link.</p>
                 <div id="shortLinkDisplay">
                     @if($tenant->short_link)
                     <div class="d-flex gap-2 align-items-center">

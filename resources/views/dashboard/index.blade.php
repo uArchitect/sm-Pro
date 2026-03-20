@@ -36,16 +36,6 @@
             <code style="color:rgba(255,255,255,.88);font-size:.76rem;word-break:break-all;display:block;
                 background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
                 padding:.45rem .65rem;border-radius:12px;">{{ $menuUrl }}</code>
-            @if(!empty($tenant->short_link))
-            <div style="margin-top:.35rem;display:flex;align-items:center;gap:.5rem;">
-                <span style="font-size:.68rem;color:rgba(255,255,255,.5);white-space:nowrap;flex-shrink:0;">Kısa:</span>
-                <code style="color:#4ade80;font-size:.76rem;background:rgba(255,255,255,.06);border:1px solid rgba(74,222,128,.2);padding:.3rem .6rem;border-radius:10px;flex-grow:1;word-break:break-all;">{{ $tenant->short_link }}</code>
-                <button onclick="copyDashboardShortLink('{{ $tenant->short_link }}')" id="dashCopyShortBtn"
-                    style="background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.25);color:#4ade80;border-radius:8px;padding:.3rem .55rem;font-size:.72rem;cursor:pointer;flex-shrink:0;line-height:1;">
-                    <i class="bi bi-clipboard" id="dashCopyShortIcon"></i>
-                </button>
-            </div>
-            @endif
         </div>
         <div class="d-flex gap-2 flex-shrink-0 flex-wrap">
             <a href="{{ route('menu.qr') }}" class="btn btn-accent btn-sm flex-grow-1 flex-sm-grow-0" style="white-space:nowrap">
@@ -293,18 +283,7 @@
 
 @push('scripts')
 <script>
-function copyDashboardShortLink(url) {
-    navigator.clipboard.writeText(url).then(() => {
-        const icon = document.getElementById('dashCopyShortIcon');
-        const btn  = document.getElementById('dashCopyShortBtn');
-        icon.className = 'bi bi-check2';
-        btn.style.color = '#86efac';
-        setTimeout(() => {
-            icon.className = 'bi bi-clipboard';
-            btn.style.color = '#4ade80';
-        }, 2000);
-    });
-}
+
 function openMenuPreview() {
     var overlay = document.getElementById('menuPreviewOverlay');
     var frame   = document.getElementById('menuPreviewFrame');
