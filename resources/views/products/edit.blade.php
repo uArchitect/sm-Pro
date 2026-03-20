@@ -10,7 +10,7 @@
                 <i class="bi bi-pencil" style="color:#6366f1"></i>{{ __('products.edit_product') }}
             </div>
             <div class="sm-card-body">
-                <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data" novalidate>
+                <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data" novalidate autocomplete="off">
                     @csrf
                     @method('PUT')
                     @php
@@ -180,8 +180,8 @@ if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
         var row = document.createElement('div');
         row.className = 'pair-row row g-2 align-items-end';
         row.innerHTML =
-            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_price') }}</label><div class="input-group"><span class="input-group-text">₺</span><input type="number" step="0.01" min="0" name="price_weight_pairs[' + pairIdxEdit + '][price]" class="form-control" value="' + (price || '') + '" placeholder="0.00" autocomplete="off"></div></div>' +
-            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_weight') }}</label><div class="input-group"><input type="number" step="1" min="1" name="price_weight_pairs[' + pairIdxEdit + '][weight_grams]" class="form-control" value="' + (grams || '') + '" placeholder="500" autocomplete="off"><span class="input-group-text">g</span></div></div>' +
+            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_price') }}</label><div class="input-group"><span class="input-group-text">₺</span><input type="number" step="0.01" min="0" name="price_weight_pairs[' + pairIdxEdit + '][price]" class="form-control" value="' + (price || '') + '" placeholder="0.00" autocomplete="new-password" data-lpignore="true"></div></div>' +
+            '<div class="col-md-5"><label class="form-label fw-semibold small mb-1">{{ __('products.option_weight') }}</label><div class="input-group"><input type="number" step="1" min="1" name="price_weight_pairs[' + pairIdxEdit + '][weight_grams]" class="form-control" value="' + (grams || '') + '" placeholder="500" autocomplete="new-password" data-lpignore="true"><span class="input-group-text">g</span></div></div>' +
             '<div class="col-md-2"><button type="button" class="btn btn-sm btn-outline-danger w-100 remove-pair-row pair-remove" title="{{ __('products.remove_weight_price_option') }}" aria-label="{{ __('products.remove_weight_price_option') }}"><i class="bi bi-trash"></i></button></div>';
         pairIdxEdit++;
         pairRowsContainerEdit.appendChild(row);
@@ -250,7 +250,18 @@ if (toggleWeightBtnEdit && weightColEdit && priceColEdit) {
         syncEditWeightState();
     });
     if (addPairRowEdit) {
-        addPairRowEdit.addEventListener('click', function() { createPairRowEdit('', ''); });
+        addPairRowEdit.addEventListener('click', function() {
+            var previousValues = {};
+            Array.from(pairRowsContainerEdit.querySelectorAll('input[name]')).forEach(function(inp) {
+                previousValues[inp.name] = inp.value;
+            });
+            createPairRowEdit('', '');
+            Array.from(pairRowsContainerEdit.querySelectorAll('input[name]')).forEach(function(inp) {
+                if (Object.prototype.hasOwnProperty.call(previousValues, inp.name)) {
+                    inp.value = previousValues[inp.name];
+                }
+            });
+        });
     }
     if (pairRowsContainerEdit) {
         pairRowsContainerEdit.addEventListener('click', function(e) {
