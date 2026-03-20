@@ -596,6 +596,12 @@
         </div>
 
         <div class="topbar-right">
+            @if($isPremium)
+            <a href="{{ route('reservations.index') }}" class="topbar-chip topbar-notif-bell position-relative" title="{{ __('reservation.reservations_title') }}" style="text-decoration:none;color:var(--text-secondary)">
+                <i class="bi bi-bell"></i>
+                <span class="notif-badge" id="notifBadge" style="display:none;position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:.58rem;font-weight:800;min-width:16px;height:16px;border-radius:999px;padding:0 4px;line-height:1;border:2px solid #fff;align-items:center;justify-content:center">0</span>
+            </a>
+            @endif
             <form method="POST" action="{{ route('locale.switch') }}" class="d-inline" id="localeForm">
                 @csrf
                 <input type="hidden" name="redirect" value="{{ request()->getRequestUri() }}">
@@ -608,12 +614,6 @@
                     </select>
                 </label>
             </form>
-            @if($isPremium)
-            <a href="{{ route('reservations.index') }}" class="topbar-chip topbar-notif-bell position-relative" title="{{ __('reservation.reservations_title') }}" style="text-decoration:none;color:var(--text-secondary)">
-                <i class="bi bi-bell"></i>
-                <span class="notif-badge" id="notifBadge" style="display:none;position:absolute;top:-4px;right:-4px;background:#ef4444;color:#fff;font-size:.58rem;font-weight:800;min-width:16px;height:16px;border-radius:999px;padding:0 4px;line-height:1;border:2px solid #fff;align-items:center;justify-content:center">0</span>
-            </a>
-            @endif
             <div class="topbar-chip topbar-date">
                 <i class="bi bi-calendar3"></i>
                 {{ now()->locale(app()->getLocale())->isoFormat('D MMM YYYY') }}

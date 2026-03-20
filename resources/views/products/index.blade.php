@@ -121,6 +121,9 @@
                     </td>
                     <td class="text-end pe-4">
                         <div class="d-flex gap-1 justify-content-end">
+                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-outline-primary" title="{{ __('products.edit_product') }}">
+                                <i class="bi bi-pencil"></i>
+                            </a>
                             <form method="POST" action="{{ route('products.duplicate', $product->id) }}">
                                 @csrf
                                 <button type="submit" class="btn btn-sm btn-outline-secondary" title="{{ __('products.duplicate') }}"><i class="bi bi-copy"></i></button>
