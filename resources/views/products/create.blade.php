@@ -126,6 +126,7 @@
                                 <div class="form-text mt-2">{{ __('products.weight_simple_hint') }}</div>
                                 <div id="pairRowsCreate" class="mt-2 d-none">
                                     <div class="small fw-semibold text-muted mb-1">{{ __('products.weight_price_options') }}</div>
+                                    <div class="form-text mb-1">{{ __('products.price_weight_controlled_by_pairs') }}</div>
                                     <div id="pairRowsContainerCreate"></div>
                                     <button type="button" class="btn btn-sm btn-outline-primary mt-2" id="addPairRowCreate"><i class="bi bi-plus-lg me-1"></i>{{ __('products.add_option_row') }}</button>
                                 </div>
@@ -320,15 +321,26 @@ if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
     function updateSimpleWeightLockCreate() {
         var hasPairs = pairRowsContainerCreate && pairRowsContainerCreate.children.length > 0;
         var wInput = weightColCreate.querySelector('input[name="weight_grams"]');
-        if (!wInput) return;
+        var priceInput = document.querySelector('input[name="price"]');
+        if (!wInput || !priceInput) return;
         if (hasPairs) {
             var firstPairWeight = pairRowsContainerCreate.querySelector('input[name*="[weight_grams]"]');
+            var firstPairPrice = pairRowsContainerCreate.querySelector('input[name*="[price]"]');
             if (firstPairWeight && firstPairWeight.value) wInput.value = firstPairWeight.value;
+            if (firstPairPrice && firstPairPrice.value) priceInput.value = firstPairPrice.value;
             wInput.readOnly = true;
             wInput.style.background = '#f3f4f6';
+            wInput.title = {!! json_encode(__('products.price_weight_controlled_by_pairs'), $jsonFlags) !!};
+            priceInput.readOnly = true;
+            priceInput.style.background = '#f3f4f6';
+            priceInput.title = {!! json_encode(__('products.price_weight_controlled_by_pairs'), $jsonFlags) !!};
         } else {
             wInput.readOnly = false;
             wInput.style.background = '';
+            wInput.title = '';
+            priceInput.readOnly = false;
+            priceInput.style.background = '';
+            priceInput.title = '';
         }
     }
     toggleWeightBtnCreate.addEventListener('click', function() {
@@ -357,6 +369,11 @@ if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
                 var firstRow = pairRowsContainerCreate.querySelector('input[name*="[weight_grams]"]');
                 if (wInput && firstRow && e.target === firstRow) wInput.value = firstRow.value;
             }
+            if (e.target.name && e.target.name.includes('[price]')) {
+                var pInput = document.querySelector('input[name="price"]');
+                var firstPrice = pairRowsContainerCreate.querySelector('input[name*="[price]"]');
+                if (pInput && firstPrice && e.target === firstPrice) pInput.value = firstPrice.value;
+            }
         });
     }
     if (Array.isArray(oldPairRowsCreate) && oldPairRowsCreate.length) {
@@ -367,9 +384,14 @@ if (toggleWeightBtnCreate && weightColCreate && priceColCreate) {
             weightColCreate.classList.remove('is-hidden');
         }
         var firstRowWeight = pairRowsContainerCreate.querySelector('input[name*="[weight_grams]"]');
+        var firstRowPrice = pairRowsContainerCreate.querySelector('input[name*="[price]"]');
         var simpleWeightInput = weightColCreate.querySelector('input[name="weight_grams"]');
+        var simplePriceInput = document.querySelector('input[name="price"]');
         if (firstRowWeight && simpleWeightInput && !simpleWeightInput.value) {
             simpleWeightInput.value = firstRowWeight.value || '';
+        }
+        if (firstRowPrice && simplePriceInput && !simplePriceInput.value) {
+            simplePriceInput.value = firstRowPrice.value || '';
         }
     }
     syncCreateWeightState();

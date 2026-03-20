@@ -25,6 +25,7 @@ return [
     'option_price' => 'Price',
     'option_weight' => 'Weight',
     'weight_price_options_hint' => 'Example: 100 TL - 90g, 150 TL - 120g. First row is used as main price.',
+    'price_weight_controlled_by_pairs' => 'When multiple options are used, top price and weight are auto-filled from the first row.',
     'weight_simple_hint' => 'If you add weight, the entered price is treated as that weight\'s price.',
     'base_weight_grams' => 'Base weight',
     'extra_weight_step_grams' => 'Extra weight step',

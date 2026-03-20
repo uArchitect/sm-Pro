@@ -25,6 +25,7 @@ return [
     'option_price' => 'Fiyat',
     'option_weight' => 'Gramaj',
     'weight_price_options_hint' => 'Ornek: 100 TL - 90g, 150 TL - 120g. Ilk satir ana fiyat olarak kullanilir.',
+    'price_weight_controlled_by_pairs' => 'Birden fazla secenek oldugunda ustteki fiyat ve gramaj otomatik olarak ilk satirdan alinir.',
     'weight_simple_hint' => 'Gramaj eklerseniz girdiginiz fiyat bu gramajin fiyati olur.',
     'base_weight_grams' => 'Standart gram',
     'extra_weight_step_grams' => 'Ek gram adımı',
