@@ -17,4 +17,5 @@ return [
     'tenant_not_available' => 'Bu restoran şu anda hizmet vermiyor.',
     'unauthorized'     => 'Bu işlem için yetkiniz yok.',
     'upload_failed'    => 'Dosya yüklenemedi. Lütfen tekrar deneyin.',
+    'invalid_image'    => 'Yüklenen dosya geçerli bir görsel değil.',
 ];

@@ -17,4 +17,5 @@ return [
     'tenant_not_available' => 'This restaurant is currently unavailable.',
     'unauthorized'     => 'You do not have permission for this action.',
     'upload_failed'    => 'File upload failed. Please try again.',
+    'invalid_image'    => 'The uploaded file is not a valid image.',
 ];
