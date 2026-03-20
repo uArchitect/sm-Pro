@@ -9,7 +9,7 @@ class ShortLinkService
     public function shorten(string $url): ?string
     {
         try {
-            $response = Http::timeout(5)->get('https://is.gd/create.php', [
+            $response = Http::connectTimeout(1)->timeout(2)->get('https://is.gd/create.php', [
                 'format' => 'simple',
                 'url'    => $url,
             ]);

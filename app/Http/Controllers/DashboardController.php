@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class DashboardController extends Controller
 {
@@ -54,14 +55,17 @@ class DashboardController extends Controller
                             + ($setup['has_social']   ? 1 : 0);
         $setup['completed'] = $setup['progress'] === $setup['total'];
 
-        $topProducts = DB::table('product_views')
-            ->join('products', 'product_views.product_id', '=', 'products.id')
-            ->where('product_views.tenant_id', $tenantId)
-            ->select('products.id', 'products.name', DB::raw('COUNT(*) as view_count'))
-            ->groupBy('products.id', 'products.name')
-            ->orderByDesc('view_count')
-            ->limit(5)
-            ->get();
+        $topProducts = collect();
+        if (Schema::hasTable('product_views')) {
+            $topProducts = DB::table('product_views')
+                ->join('products', 'product_views.product_id', '=', 'products.id')
+                ->where('product_views.tenant_id', $tenantId)
+                ->select('products.id', 'products.name', DB::raw('COUNT(*) as view_count'))
+                ->groupBy('products.id', 'products.name')
+                ->orderByDesc('view_count')
+                ->limit(5)
+                ->get();
+        }
 
         return view('dashboard.index', compact('tenant', 'stats', 'setup', 'topProducts'));
     }
