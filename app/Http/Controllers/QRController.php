@@ -55,9 +55,6 @@ class QRController extends Controller
     {
         $tenantId = session('tenant_id');
 
-        // Mevcut short_link'i sil
-        DB::table('tenants')->where('id', $tenantId)->update(['short_link' => null]);
-
         $menuUrl = route('public.menu', ['tenantId' => $tenantId]);
         $short   = app(ShortLinkService::class)->shorten($menuUrl);
 
