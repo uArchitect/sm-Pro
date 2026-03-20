@@ -46,6 +46,7 @@
         "url": "{{ locale_route('pricing') }}",
         "priceCurrency": "TRY",
         "lowPrice": "0",
+        "highPrice": "649",
         "offerCount": "2",
         "offers": [
             {
@@ -53,7 +54,7 @@
                 "name": "Basic",
                 "price": "0",
                 "priceCurrency": "TRY",
-                "description": "{{ $isTr ? 'Sınırsız kategori ve ürün, QR kod, fotoğraflı menü, müşteri değerlendirmeleri' : 'Unlimited categories & products, QR code, photo menu, customer reviews' }}",
+                "description": "{{ $isTr ? 'Sınırsız kategori ve ürün, QR kod, fotoğraflı menü, müşteri değerlendirmeleri, ürün müsaitlik yönetimi, ürün görüntülenme istatistikleri' : 'Unlimited categories & products, QR code, photo menu, customer reviews, product availability management, product view analytics' }}",
                 "availability": "https://schema.org/InStock"
             },
             {
@@ -146,6 +147,8 @@
                             <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Mobil uyumlu menü tasarımı' : 'Mobile-friendly menu design' }}</li>
                             <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Çoklu kullanıcı desteği' : 'Multi-user support' }}</li>
                             <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Sosyal medya entegrasyonu' : 'Social media integration' }}</li>
+                            <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Ürün müsaitlik durumu yönetimi' : 'Product availability management' }}</li>
+                            <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Ürün görüntülenme istatistikleri' : 'Product view analytics' }}</li>
                             <li class="disabled"><i class="bi bi-x-circle-fill"></i> {{ $isTr ? 'Slider görselleri' : 'Slider images' }}</li>
                             <li class="disabled"><i class="bi bi-x-circle-fill"></i> {{ $isTr ? 'Etkinlik duyuruları' : 'Event announcements' }}</li>
                         </ul>

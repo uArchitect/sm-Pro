@@ -5,7 +5,8 @@
       "Bash(find /c/Users/U/Desktop/sm-Pro/resources/views -name premium-gate* -o -name *premium*)",
       "Bash(wc -l /c/Users/U/Desktop/sm-Pro/app/Http/Controllers/*.php)",
       "Bash(xargs grep:*)",
-      "Bash(php artisan:*)"
+      "Bash(php artisan:*)",
+      "Bash(grep -r \"application/ld+json\\\\|@type\\\\|schema\\\\.org\" c:UsersUDesktopsm-Proresourcesviews --include=*.blade.php -l)"
     ]
   }
 }

@@ -34,7 +34,7 @@
     "@@type": "ItemList",
     "name": "{{ $isTr ? 'Sipariş Masanda QR Menü Özellikleri' : 'Siparis Masanda QR Menu Features' }}",
     "description": "{{ $isTr ? 'Restoran ve kafeler için dijital QR menü sistemi özellikleri' : 'Digital QR menu system features for restaurants and cafes' }}",
-    "numberOfItems": 14,
+    "numberOfItems": 16,
     "itemListElement": [
         {"@@type": "ListItem", "position": 1, "name": "{{ $isTr ? 'QR Kod Oluşturma ve Baskı' : 'QR Code Generation & Print' }}"},
         {"@@type": "ListItem", "position": 2, "name": "{{ $isTr ? 'Sınırsız Kategori ve Ürün Yönetimi' : 'Unlimited Category & Product Management' }}"},
@@ -49,7 +49,9 @@
         {"@@type": "ListItem", "position": 11, "name": "{{ $isTr ? 'Online Rezervasyon Sistemi' : 'Online Reservation System' }}"},
         {"@@type": "ListItem", "position": 12, "name": "{{ $isTr ? 'QR Ziyaret İstatistikleri' : 'QR Visit Analytics' }}"},
         {"@@type": "ListItem", "position": 13, "name": "{{ $isTr ? 'Destek Talebi Sistemi' : 'Support Ticket System' }}"},
-        {"@@type": "ListItem", "position": 14, "name": "{{ $isTr ? 'İşletme Profili Yönetimi' : 'Business Profile Management' }}"}
+        {"@@type": "ListItem", "position": 14, "name": "{{ $isTr ? 'İşletme Profili Yönetimi' : 'Business Profile Management' }}"},
+        {"@@type": "ListItem", "position": 15, "name": "{{ $isTr ? 'Ürün Müsaitlik Durumu Yönetimi' : 'Product Availability Management' }}"},
+        {"@@type": "ListItem", "position": 16, "name": "{{ $isTr ? 'Ürün Görüntülenme İstatistikleri' : 'Product View Analytics' }}"}
     ]
 }
 </script>
@@ -290,6 +292,34 @@
                                 <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Restoran adı ve logo' : 'Restaurant name and logo' }}</li>
                                 <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Adres ve iletişim bilgileri' : 'Address and contact details' }}</li>
                                 <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Çalışma saatleri ve açıklama' : 'Opening hours and description' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- Ürün Müsaitlik Durumu - Ücretsiz --}}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(16,185,129,.12);color:#10b981"><i class="bi bi-toggle-on"></i></div>
+                            <h2>{{ $isTr ? 'Ürün Müsaitlik Durumu Yönetimi' : 'Product Availability Management' }}</h2>
+                            <p>{{ $isTr ? 'Ürünlerinizi anında müsait veya tükendi olarak işaretleyin. Stok durumu dijital menüde müşterilere gerçek zamanlı olarak yansır; sipariş karışıklığı yaşanmaz.' : 'Instantly mark products as available or sold out. Availability status is reflected to customers on the digital menu in real time, preventing order confusion.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Tek tıkla müsait/tükendi toggle' : 'One-click available/sold-out toggle' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Müşteri menüsünde anlık güncelleme' : 'Instant update on customer menu' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Uygulama veya yenileme gerektirmez' : 'No app or page reload required' }}</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- Ürün Görüntülenme İstatistikleri - Ücretsiz --}}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="feat-card">
+                            <div class="feat-block-icon" style="background:rgba(99,102,241,.12);color:#6366f1"><i class="bi bi-eye"></i></div>
+                            <h2>{{ $isTr ? 'Ürün Görüntülenme İstatistikleri' : 'Product View Analytics' }}</h2>
+                            <p>{{ $isTr ? 'Her ürünün kaç kez görüntülendiğini takip edin. Hangi ürünlerin müşteri ilgisini çektiğini anlayın ve menünüzü bu verilere göre optimize edin.' : 'Track how many times each product has been viewed. Understand which products attract customer interest and optimize your menu based on this data.' }}</p>
+                            <ul>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Ürün bazlı görüntülenme sayısı' : 'Per-product view count' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'En çok ilgi gören ürünleri keşfet' : 'Discover most-viewed products' }}</li>
+                                <li><i class="bi bi-check-circle-fill"></i> {{ $isTr ? 'Menü optimizasyonu için veri odaklı karar' : 'Data-driven decisions for menu optimization' }}</li>
                             </ul>
                         </div>
                     </div>
